@@ -1,10 +1,10 @@
-# Fig 1: lambda_perp(E).  Run from build/.
+# Fig 1: lambda_perp(E).  Run from the repository root.
 #   diagonal ghost : per-component estimator, all energies, from
-#                    ../results_diag_percomp/transverse_gpu.csv (E <= 0.03, N = 2e5) and
-#                    ../results_diag_percomp_hi/transverse_gpu.csv (E >= 0.05, N = 1e5)
-#   vector ghost   : ../results_vec_percomp/transverse_gpu.csv (E <= 0.03, N = 2e5) plus the
+#                    transverse_diag_percomp.csv (E <= 0.03, N = 2e5) and
+#                    transverse_diag_percomp_hi.csv (E >= 0.05, N = 1e5)
+#   vector ghost   : transverse_vec_percomp.csv (E <= 0.03, N = 2e5) plus the
 #                    earlier production scan at E >= 0.05 (values below)
-#   re-run         : ../transverse_E*.npz if present (open symbols), else skipped
+#   re-run         : transverse_E*.npz if present (open symbols), else skipped
 import csv, glob, os
 import numpy as np, matplotlib
 matplotlib.use('Agg'); import matplotlib.pyplot as plt
@@ -18,20 +18,20 @@ def read_csv(path):
     o = np.argsort(E); return E[o], lam[o]
 
 
-Ev_new, vec_new = read_csv('../results_vec_percomp/transverse_gpu.csv')
-Ed_lo, dg_lo = read_csv('../results_diag_percomp/transverse_gpu.csv')
-Ed_hi, dg_hi = read_csv('../results_diag_percomp_hi/transverse_gpu.csv')
+Ev_new, vec_new = read_csv('transverse_vec_percomp.csv')
+Ed_lo, dg_lo = read_csv('transverse_diag_percomp.csv')
+Ed_hi, dg_hi = read_csv('transverse_diag_percomp_hi.csv')
 if not np.any(np.isclose(Ed_lo, 0.03)):      # the E = 0.03 run (N = 1e5) preceded the overnight CSV
     Ed_lo = np.r_[Ed_lo, 0.03]; dg_lo = np.r_[dg_lo, 4.364e-6]
 Ed = np.r_[Ed_lo, Ed_hi]; dg = np.r_[dg_lo, dg_hi]
 E_hi = np.array([0.05, 0.07, 0.1, 0.15, 0.2, 0.3, 0.5, 1.0])
 vec_hi = np.array([4.53e-5, 1.17e-4, 4.31e-4, 1.94e-3, 5.22e-3, 1.65e-2, 3.03e-2, 8.79e-2])
 Ev = np.r_[Ev_new, E_hi]; vec = np.r_[vec_new, vec_hi]
-files = glob.glob('../transverse_E*.npz')
+files = glob.glob('transverse_E*.npz')
 rr = {float(np.load(f)['E']): (float(np.load(f)['lam_v']), float(np.load(f)['lam_d'])) for f in files}
 Er = np.array(sorted(rr)); rv = np.array([rr[e][0] for e in Er]); rd = np.array([rr[e][1] for e in Er])
 if not files:
-    print('note: no ../transverse_E*.npz found; re-run (open) symbols omitted')
+    print('note: no transverse_E*.npz found; re-run (open) symbols omitted')
 
 Ee = np.logspace(-2.4, 0.1, 100)
 fig, ax = plt.subplots(figsize=(4.6, 3.6))

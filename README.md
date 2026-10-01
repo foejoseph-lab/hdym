@@ -31,15 +31,16 @@ and a pure-numpy reference backend exists for checking.  No other dependencies.
 | `hdym_nu0.py` | channel entry rate ν₀ at E = 1 against 8π²/Z | Fig. 2 |
 | `hdym_escape_map.py` | escape-time landscape on 2-d sections of initial conditions | Fig. 3a,b |
 | `hdym_uncertainty.py` | uncertainty exponent α of the escape landscape | Fig. 3c |
-| `build/make_fig1.py`, `build/make_figs.py` | regenerate the figures from the data files below | |
+| `make_fig1.py`, `make_figs.py` | regenerate the figures from the data files below | |
+| `main.tex`, `fig_*.pdf` | the paper source and figures | |
 
 ## Data
 
 | folder / file | contents |
 |---|---|
-| `results_vec_percomp/transverse_gpu.csv` | physical ghost, E = 0.008, 0.015, 0.02, 0.03, N = 2×10⁵ |
-| `results_diag_percomp/transverse_gpu.csv` | diagonal ghost, E = 0.008, 0.015, 0.02, N = 2×10⁵ (per-component estimator) |
-| `results_diag_percomp_hi/transverse_gpu.csv` | diagonal ghost, E = 0.05 … 1, N = 10⁵ (per-component estimator) |
+| `transverse_vec_percomp.csv` | physical ghost, E = 0.008, 0.015, 0.02, 0.03, N = 2×10⁵ |
+| `transverse_diag_percomp.csv` | diagonal ghost, E = 0.008, 0.015, 0.02, N = 2×10⁵ (per-component estimator) |
+| `transverse_diag_percomp_hi.csv` | diagonal ghost, E = 0.05 … 1, N = 10⁵ (per-component estimator) |
 | `transverse_E*.npz` | independent numpy re-run at E = 0.215, 0.3, 0.43, 0.6, 1 (open symbols in Fig. 1) |
 | `nu0_E1.npz` | channel visits (depth, entry action) at E = 1 |
 | `map256.npz`, `ghost256.npz`, `unc_*.npz` | escape maps and uncertainty-exponent data at E = 0.3, ε = 0.01 |
@@ -62,8 +63,9 @@ python hdym_gpu.py --E 0.05 0.07 0.1 0.15 0.2 0.3 0.5 1.0 --N 100000 --ghost dia
 ```
 
 On an RTX 4080 SUPER these take roughly 0.5 h, 4 h, 4 h and 10 min respectively.  Each run
-writes `transverse_gpu.csv` plus per-energy `history_E*.npy` (checkpoint history) and
-`lam_i_E*.npy` (per-trajectory finite-time exponents).
+writes `<out>/transverse_gpu.csv` plus per-energy `history_E*.npy` (checkpoint history) and
+`lam_i_E*.npy` (per-trajectory finite-time exponents); the three CSVs in this repository are
+those files renamed.
 
 Spectrum, channel statistics and ν₀ (CPU, pure Yang–Mills, no ghost):
 
@@ -82,7 +84,8 @@ python hdym_uncertainty.py --E 0.3 --eps 0.01 --section ym    --M 20000 --backen
 python hdym_uncertainty.py --E 0.3 --eps 0.01 --section ghost --M 20000 --backend cupy --delta-min 1e-14 --delta-max 1e-4 --n-delta 11
 ```
 
-Figures: `cd build && python make_fig1.py && python make_figs.py && latexmk -pdf main.tex`.
+Figures and paper, from the repository root: `python make_fig1.py && python make_figs.py && latexmk -pdf main.tex`.
+(`make_figs.py` expects the Fig. 2–3 data files `nu0_E1.npz`, `map256.npz`, `ghost256.npz`, `unc_ym.npz`, `unc_ghost.npz` beside it.)
 
 ## A note on the diagonal-ghost estimator
 
