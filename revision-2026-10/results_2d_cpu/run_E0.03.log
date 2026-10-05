@@ -1,0 +1,9 @@
+C backend compiled with gcc, with OpenMP
+mu1 = 0.1: Z2 = 189.73, nu0 = 4pi/Z2 = 0.0662, C2 = 4pi^2/(15 sqrt2 Z2) = 9.8087e-03
+--- E = 0.03: predicted lambda_diag = 8.1549e-06 (regulator factor 0.929)
+    E=0.03 T=    30000 lam_xy=+7.534e-06 se=1.9e-07 drift=inf trend=0.0e+00 tol=3.8e-07 | lam_x=+7.61e-06 lam_y=+7.46e-06 lam_z=+3.30e-07 (973s, 0.317 ms/step)
+    E=0.03 T=    40000 lam_xy=+7.860e-06 se=1.8e-07 drift=3.3e-07 trend=0.0e+00 tol=3.9e-07 | lam_x=+7.94e-06 lam_y=+7.78e-06 lam_z=+3.86e-07 (1287s, 0.316 ms/step)
+    E=0.03 T=    50000 lam_xy=+7.935e-06 se=1.4e-07 drift=7.5e-08 trend=0.0e+00 tol=4.0e-07 | lam_x=+8.00e-06 lam_y=+7.87e-06 lam_z=+3.71e-07 (1571s, 0.310 ms/step)
+    E=0.03 T=    60000 lam_xy=+7.962e-06 se=1.4e-07 drift=2.7e-08 trend=1.4e-07 tol=4.0e-07 | lam_x=+8.06e-06 lam_y=+7.86e-06 lam_z=+1.52e-07 (1853s, 0.305 ms/step)
+E=     0.03 mu1=0.1 diag lam_xy=+7.962e-06+-1.4e-07 (extrap +8.098e-06) pred=8.155e-06 RATIO=0.976 | lam_z=+1.52e-07+-1.3e-07 (z/xy=0.019) T=   60000 converged positive   tach=0.0000 ymerr=1.8e-07 (1853s, 0.305 ms/step)
+wrote /tmp/claude-0/-home-claude/c25c9cc1-6468-58e3-a96c-f41965a361b7/scratchpad/res_E0.03/transverse_2d_mu0.1.csv
