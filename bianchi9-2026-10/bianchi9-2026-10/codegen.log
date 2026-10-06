@@ -1,0 +1,12 @@
+[  15.1s] pieces rebuilt
+   pieces vs stored b4: 2.84490233296169e-14
+[  37.7s] pieces: 1739 subexpressions (6s)
+[  37.8s] gr: 43 subexpressions (0s)
+[  38.2s] grj: 73 subexpressions (0s)
+[  38.3s] con: 85 subexpressions (0s)
+[  38.3s] conGR: 8 subexpressions (0s)
+[  38.3s] dconGR: 0 subexpressions (0s)
+[  38.3s] wrote bianchi9_rhs.py (85 kB)
+   rhs check vs lambdify: 1.687538997430238e-14
+   jac (fd) self-consistency: 1.2285775892986075e-10
+   grj check vs finite difference: 3.456670903634134e-11

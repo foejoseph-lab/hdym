@@ -1,0 +1,58 @@
+[   0.4s] check 1 (torsion-free, antisymmetric connection): OK
+[   3.4s] Riemann done
+[   3.9s] check 2 (Ricci symmetric): OK
+[   7.9s] scalars done
+[   8.1s] check 3 (round S^3: R = 3/(2*A0**2), C^2 = 0; isotropic C^2 = 0): OK
+[   8.4s] Misner substitution done
+[  13.8s] jet form done
+[  16.0s] check 4 (Gauss-Bonnet density is a total derivative): OK
+[  16.0s] check 5 (C^2 term free of alpha'' and N''): OK
+[  16.3s] GR piece reduced to first order:
+ ⎛  2  12⋅bp₀  8⋅√3⋅bm₀       2  12⋅bp₀  4⋅√3⋅bm₀     2  12⋅bp₀       2  6⋅bp₀ ↪
+-⎝N₀ ⋅ℯ      ⋅ℯ         - 2⋅N₀ ⋅ℯ      ⋅ℯ         + N₀ ⋅ℯ       - 2⋅N₀ ⋅ℯ      ↪
+────────────────────────────────────────────────────────────────────────────── ↪
+                                                                               ↪
+
+↪   6⋅√3⋅bm₀       2  6⋅bp₀  2⋅√3⋅bm₀     2  4⋅√3⋅bm₀         2  2⋅al₀  8⋅bp₀  ↪
+↪ ⋅ℯ         - 2⋅N₀ ⋅ℯ     ⋅ℯ         + N₀ ⋅ℯ         + 12⋅al₁ ⋅ℯ     ⋅ℯ     ⋅ ↪
+↪ ──────────────────────────────────────────────────────────────────────────── ↪
+↪                                                 4⋅N₀                         ↪
+
+↪  4⋅√3⋅bm₀         2  2⋅al₀  8⋅bp₀  4⋅√3⋅bm₀         2  2⋅al₀  8⋅bp₀  4⋅√3⋅bm ↪
+↪ ℯ         - 12⋅bm₁ ⋅ℯ     ⋅ℯ     ⋅ℯ         - 12⋅bp₁ ⋅ℯ     ⋅ℯ     ⋅ℯ        ↪
+↪ ──────────────────────────────────────────────────────────────────────────── ↪
+↪                                                                              ↪
+
+↪ ₀⎞  al₀  -8⋅bp₀  -4⋅√3⋅bm₀ 
+↪  ⎠⋅ℯ   ⋅ℯ      ⋅ℯ          
+↪ ───────────────────────────
+↪                            
+[  16.4s] check 6 (Hessian rank 2):  H =
+⎡    3⋅al₀             ⎤
+⎢-6⋅ℯ                  ⎥
+⎢──────────      0     ⎥
+⎢   2   3              ⎥
+⎢  M ⋅N₀               ⎥
+⎢                      ⎥
+⎢                3⋅al₀ ⎥
+⎢            -6⋅ℯ      ⎥
+⎢    0       ──────────⎥
+⎢               2   3  ⎥
+⎣              M ⋅N₀   ⎦
+[  18.5s] Euler-Lagrange expressions done
+   E_alpha     contains derivative orders  al:[0, 1, 2]  bp:[0, 1, 2, 3]  bm:[0, 1, 2, 3]
+   E_bp        contains derivative orders  al:[0, 1, 2, 3]  bp:[0, 1, 2, 3, 4]  bm:[0, 1, 2]
+   E_bm        contains derivative orders  al:[0, 1, 2, 3]  bp:[0, 1, 2]  bm:[0, 1, 2, 3, 4]
+   constraint  contains derivative orders  al:[0, 1, 2]  bp:[0, 1, 2, 3]  bm:[0, 1, 2, 3]
+   alpha'' coefficient: 6*(M**2 + bm1**2 + bp1**2)*exp(3*al0)/M**2
+   beta-4 coefficient matrix / c1^3: -6*(M**2 + bm1**2)*exp(3*al0)/(M**2*(M**2 + bm1**2 + bp1**2)) | 1296*bm1*bp1*(M**2 + bm1**2 + bp1**2)**2*exp(12*al0)/M**8
+[  31.4s] solved for alpha'' and beta-4
+   dCon/dt = 1.12e-04  (off-shell scale 6.78e+16)
+   dCon/dt = 5.16e-06  (off-shell scale 5.66e+07)
+   dCon/dt = -1.23e-08  (off-shell scale 1.51e+02)
+   dCon/dt = -1.14e-05  (off-shell scale 1.17e+09)
+[  34.2s] check 7 (constraint conserved, 4 random on-shell points): OK
+   GR:  alpha'' = -(36*al1**2*exp(2*al0)*exp(8*bp0)*exp(4*sqrt(3)*bm0) + 36*bm1**2*exp(2*al0)*exp(8*bp0)*exp(4*sqrt(3)*bm0) + 36*bp1**2*exp(2*al0)*exp(8*bp0)*exp(4*sqrt(3)*bm0) - exp(12*bp0)*exp(8*sqrt(3)*bm0) + 2*exp(12*bp0)*exp(4*sqrt(3)*bm0) - exp(12*bp0) + 2*exp(6*bp0)*exp(6*sqrt(3)*bm0) + 2*exp(6*bp0)*exp(2*sqrt(3)*bm0) - exp(4*sqrt(3)*bm0))*exp(-2*al0)*exp(-8*bp0)*exp(-4*sqrt(3)*bm0)/24
+   GR:  bp''    = -(18*al1*bp1*exp(2*al0)*exp(8*bp0)*exp(4*sqrt(3)*bm0) + exp(12*bp0)*exp(8*sqrt(3)*bm0) - 2*exp(12*bp0)*exp(4*sqrt(3)*bm0) + exp(12*bp0) + exp(6*bp0)*exp(6*sqrt(3)*bm0) + exp(6*bp0)*exp(2*sqrt(3)*bm0) - 2*exp(4*sqrt(3)*bm0))*exp(-2*al0)*exp(-8*bp0)*exp(-4*sqrt(3)*bm0)/6
+[  35.6s] check 8 (Einstein manifold invariant: full flow = GR flow on GR data, 7 pts): OK
+[  35.6s] wrote bianchi9_system.pkl

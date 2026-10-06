@@ -1,0 +1,9 @@
+[  0.0s] bianchi9_rhs imported
+   initial H/M = 0.019, |delta0| = 0.0e+00, constraint = -4.4e-16
+   tau=  1.00 alpha= -0.673 H/M=0.075 steps=3 G=-4.26 Gpar=-0.40 (24s)
+[ 27.5s] done: tau = 1.46, alpha -0.05 -> -0.90, H/M 0.022 -> 0.150
+   max rel |delta| on manifold: 1.64e-11   (invariance)
+   max |constraint|         : 2.31e-14   (conservation)
+   bounces (turning points of |beta|): 1
+   log-growth over d alpha = -0.85:  transverse +0.20   on-manifold +0.43
+   wrote sweep_M50.npz
