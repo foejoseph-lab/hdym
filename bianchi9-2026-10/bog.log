@@ -1,0 +1,6 @@
+[  3.3s] background: tau_end = 1.055, bounce at tau = 0.428, alpha_b = -0.364, H_b = 1.985
+   M=    28  H_b/M=0.0709   r_Bog = 5.748e-02 (second 3.336e-02)   |C| peak at tau=1.055 (bounce 0.428), |C|max=5.468e-01, phase rate at bounce 2w=19.5   (63s)
+   M=    40  H_b/M=0.0496   r_Bog = 2.225e-02 (second 1.379e-02)   |C| peak at tau=1.055 (bounce 0.428), |C|max=3.233e-01, phase rate at bounce 2w=27.3   (123s)
+   M=    56  H_b/M=0.0355   r_Bog = 1.027e-02 (second 6.557e-03)   |C| peak at tau=1.055 (bounce 0.428), |C|max=1.874e-01, phase rate at bounce 2w=37.9   (183s)
+   M=    80  H_b/M=0.0248   r_Bog = 4.263e-03 (second 3.137e-03)   |C| peak at tau=1.055 (bounce 0.428), |C|max=1.083e-01, phase rate at bounce 2w=53.8   (244s)
+   wrote bog.npz

@@ -1,0 +1,5 @@
+M=   1  H_b/M=1.986  bounce alpha=-0.365  run to alpha=-0.92 (H/M=8.00)  ref-dev max 2.8e-07  | seed growth: pre-bounce(-0.2) 2.07e+00  post(-0.5) 1.10e+02  (-0.8) 7.20e+02  (-1.1) 1.56e+03  end 1.56e+03  | geometry back-reaction end 1.3e-06   (3s)
+M=   2  H_b/M=0.992  bounce alpha=-0.364  run to alpha=-1.15 (H/M=8.00)  ref-dev max 2.9e-07  | seed growth: pre-bounce(-0.2) 1.91e+00  post(-0.5) 2.59e+01  (-0.8) 1.62e+02  (-1.1) 1.06e+03  end 1.45e+03  | geometry back-reaction end 2.7e-06   (6s)
+M=   3  H_b/M=0.663  bounce alpha=-0.365  run to alpha=-1.29 (H/M=8.00)  ref-dev max 3.0e-07  | seed growth: pre-bounce(-0.2) 1.60e+00  post(-0.5) 1.05e+01  (-0.8) 6.22e+01  (-1.1) 4.07e+02  end 1.27e+03  | geometry back-reaction end 4.0e-06   (10s)
+M=   5  H_b/M=0.397  bounce alpha=-0.363  run to alpha=-1.46 (H/M=8.00)  ref-dev max 2.7e-07  | seed growth: pre-bounce(-0.2) 1.32e+00  post(-0.5) 3.29e+00  (-0.8) 1.84e+01  (-1.1) 1.23e+02  end 1.07e+03  | geometry back-reaction end 6.2e-06   (15s)
+   wrote seed.npz

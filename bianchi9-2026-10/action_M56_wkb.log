@@ -1,0 +1,8 @@
+   M = 56.0, initial H/M = 0.0171; ghost frozen frequencies / M = 0.99683, 0.99670; Krein signs [1. 1.]; Re lambda = [1.45659419 1.42025101]
+   ghost modes in the constraint surface? |dH.e|/|dH||e| = 3.4e-04
+   tau= 0.50 alpha= -0.410 H/M=0.0372  log s: max +0.000 mean +0.000 min -0.000  Re lam_ghost/M=+5.5e-02 symp err 4.0e-10 (169s)
+   tau= 1.00 alpha= -0.673 H/M=0.0667  log s: max +0.002 mean +0.000 min -0.002  Re lam_ghost/M=+8.7e-02 symp err 8.3e-10 (178s)
+[179.2s] done: alpha -0.019 -> -0.700, H/M 0.0181 -> 0.0724, bounce at alpha = -0.359 (H_b/M = 0.0353)
+   invariance 2.9e-12   constraint 1.5e-14   symplecticity 1.0e-09
+   ghost transfer across the run:  log s_max = +0.0035   mean log s = +0.0005   log s_min = -0.0029
+   wrote action_M56_wkb.npz

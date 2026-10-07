@@ -36,6 +36,7 @@ p.add_argument('--HM-max', type=float, default=1e9)
 p.add_argument('--rtol', type=float, default=1e-10)
 p.add_argument('--dtau', type=float, default=0.02)
 p.add_argument('--out', default=None)
+p.add_argument('--wkb', action='store_true', help='first adiabatic correction to the ghost frame')
 args = p.parse_args()
 Mv = args.M
 t0 = time.time()
@@ -63,13 +64,41 @@ def F(tau, Y):
 def unscale(Ph):
     return (Sc[:, None] * Ph) * Sinv[None, :]
 
-def ghost_frame(y):
-    """symplectically normalised ghost eigenvectors E (10x2 complex), frequencies, and all eigenvalues"""
+def eig_frame(y):
+    """eigen-decomposition of the proper-time Jacobian; ghost pair = Im lambda > 0, largest |Im|"""
     J = m.jac(y, Mv); lam, V = np.linalg.eig(J)
-    Om = g.omega(y, Mv)
     pos = np.where(lam.imag > 0)[0]
     pos = pos[np.argsort(-np.abs(lam[pos].imag))][:2]
+    return lam, V, pos
+
+def ghost_projector(y):
+    lam, V, pos = eig_frame(y)
+    W = np.linalg.inv(V)
+    return V[:, pos] @ W[pos, :]
+
+def ghost_frame(y, wkb=False, h=1e-4):
+    """symplectically normalised ghost eigenvectors E (10x2 complex), frequencies, all eigenvalues.
+    wkb=True: first adiabatic correction.  A frozen eigenvector e of J(t) solves v' = J v only up
+    to the residual e_dot; the corrected vector e~ = e + delta with (J - lambda) delta = e_dot,
+    delta = sum_{k not in pair} v_k (w_k . e_dot)/(lambda_k - lambda_pair), removes the O(H/M)
+    frame error (the leading term of the spurious +-r band).  e_dot is taken from the projector
+    onto the two-dimensional ghost pair (smooth; the individual polarisations are degenerate to
+    1e-4 M and cannot be differentiated), by central difference along the flow y +- h f(y)."""
+    lam, V, pos = eig_frame(y)
+    Om = g.omega(y, Mv)
     E = V[:, pos]
+    if wkb:
+        f = m.rhs(y, Mv)
+        Pp = ghost_projector(y + h * f); Pm = ghost_projector(y - h * f)
+        Edot = ((Pp - Pm) / (2 * h)) @ E                   # time derivative of the pair subspace, applied to E
+        W = np.linalg.inv(V)
+        a = W @ Edot                                       # components of e_dot in the eigenbasis
+        lam_pair = lam[pos].mean()
+        delta = np.zeros_like(E)
+        for k in range(10):
+            if k in pos: continue
+            delta += np.outer(V[:, k], a[k, :]) / (lam[k] - lam_pair)
+        E = E + delta
     G = 1j * E.conj().T @ Om @ E                           # Hermitian
     w, U = np.linalg.eigh(G)
     sgn = np.sign(w)
@@ -81,7 +110,7 @@ def amplitudes(E, sgn, Om, V):
     return (sgn[:, None]) * (1j * E.conj().T @ Om @ V)
 
 y0 = gr_initial(args.alpha0, args.theta, args.beta0)
-E0, sgn0, lam0, _, Om0 = ghost_frame(y0)
+E0, sgn0, lam0, _, Om0 = ghost_frame(y0, args.wkb)
 print(f"   M = {Mv}, initial H/M = {abs(y0[1])/Mv:.4f}; ghost frozen frequencies / M = "
       f"{lam0.imag[0]/Mv:.5f}, {lam0.imag[1]/Mv:.5f}; Krein signs {sgn0}; Re lambda = {lam0.real}")
 # real basis of the ghost plane: columns Re e1, Im e1, Re e2, Im e2
@@ -108,7 +137,7 @@ while True:
                     events=stop, max_step=args.dtau)
     Y = sol.y[:, -1]; tau = sol.t[-1]
     y = Y[:10]; Phi = unscale(Y[10:].reshape(10, 10))
-    E, sgn, lamg, lam, Om = ghost_frame(y)
+    E, sgn, lamg, lam, Om = ghost_frame(y, args.wkb)
     C = amplitudes(E, sgn, Om, Phi @ B0)                    # 2x4: image of the initial ghost basis
     R = np.vstack([C.real, C.imag])
     T = R @ np.linalg.inv(R0)                               # 4x4 real transfer matrix on (Re c, Im c)
@@ -131,6 +160,6 @@ print(f"[{time.time()-t0:5.1f}s] done: alpha {rec['alpha'][0]:.3f} -> {rec['alph
       f"bounce at alpha = {rec['alpha'][ib]:.3f} (H_b/M = {rec['HM'][ib]:.4f})")
 print(f"   invariance {rec['delta'].max():.1e}   constraint {np.abs(rec['con']).max():.1e}   symplecticity {np.abs(rec['symp']).max():.1e}")
 print(f"   ghost transfer across the run:  log s_max = {rec['smax'][-1]:+.4f}   mean log s = {rec['slogmean'][-1]:+.4f}   log s_min = {rec['smin'][-1]:+.4f}")
-out = args.out or f"action_M{Mv:g}.npz"
+out = args.out or f"action_M{Mv:g}{'_wkb' if args.wkb else ''}.npz"
 np.savez(out, M=Mv, **rec)
 print(f"   wrote {out}")

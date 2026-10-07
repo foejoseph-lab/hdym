@@ -1,0 +1,26 @@
+[   3.2s] Weyl tensor done (traceless)
+[   4.9s] second covariant derivative done
+[  87.8s] scalars done
+   check 1 isotropic: C^2 = 0  C Box C = 0
+[ 183.3s] jet form done
+   check 2 (C Box C + |nabla C|^2 is a total derivative): OK
+   derivative orders in L:  al [0, 1, 2, 3]  bp [1, 2, 3, 4]  N [0, 1, 2, 3]
+   E_al: orders al [0, 1, 2, 3, 4] bp [1, 2, 3, 4, 5] bm [1, 2, 3, 4, 5]
+   E_bp: orders al [0, 1, 2, 3, 4, 5] bp [1, 2, 3, 4, 5, 6] bm [1, 2, 3, 4]
+   E_bm: orders al [0, 1, 2, 3, 4, 5] bp [1, 2, 3, 4] bm [1, 2, 3, 4, 5, 6]
+[ 230.4s] Euler-Lagrange done
+   alpha equation order 4, beta equation order 6
+   c1 (alpha^(4) coefficient): -6*(bm1**2 + bp1**2)*exp(3*al0)/(M1**2*M2**2)
+   phase space dimension 16
+[ 242.6s] numerical rhs ready
+Traceback (most recent call last):
+  File "/home/claude/bianchi9-2026-10/bianchi9_six.py", line 206, in <module>
+    yk = kasner(50.0, args.theta); fk = rhs(yk, m1, m2); yk2 = kasner(50.0*(1+1e-7), args.theta)
+                                        ~~~^^^^^^^^^^^^
+  File "/home/claude/bianchi9-2026-10/bianchi9_six.py", line 181, in rhs
+    b6 = np.linalg.solve(Am, rv)
+  File "/usr/local/lib/python3.13/dist-packages/numpy/linalg/_linalg.py", line 463, in solve
+    r = gufunc(a, b, signature=signature)
+  File "/usr/local/lib/python3.13/dist-packages/numpy/linalg/_linalg.py", line 144, in _raise_linalgerror_singular
+    raise LinAlgError("Singular matrix")
+numpy.linalg.LinAlgError: Singular matrix

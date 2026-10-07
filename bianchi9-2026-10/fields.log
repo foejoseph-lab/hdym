@@ -1,0 +1,11 @@
+[  2.4s] background: bounce at tau = 0.427, alpha_b = -0.364, H_b = 1.985, tau_end = 1.055
+   Dirac reduction: hermiticity of H_D 4.4e-16;  eigenvalues at tau=0 (m=1): [-1.33972 -1.33972  1.33972  1.33972];  sqrt(m^2 + A^2) with A = (1/8) sum a/bc = 1.09486
+[  2.7s] Dirac operator built
+
+   m      m/H_b     scalar n(alpha=-0.5)  n(end)      Dirac n(alpha=-0.5)  n(end)     [ghost r^2 at -0.5, frozen-frame upper bounds: 0.049 -> <1e-5, 0.035 -> <3e-7]
+      20   0.0993     2.029e-05             1.338e-04   5.133e-05            4.881e-05      (4s)
+      28   0.0709     2.450e-06             1.991e-05   8.886e-06            5.314e-06      (5s)
+      40   0.0496     2.433e-07             3.013e-06   1.946e-06            1.644e-06      (6s)
+      56   0.0355     3.326e-08             4.574e-07   1.557e-07            3.161e-07      (7s)
+      80   0.0248     3.594e-09             5.883e-08   1.070e-07            4.735e-08      (9s)
+   wrote fields.npz

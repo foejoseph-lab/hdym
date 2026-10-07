@@ -1,0 +1,15 @@
+[  1.6s] Bianchi I Lagrangian: 17 terms
+   GR Bianchi I:  alpha'' = -3*(al1**2 + bm1**2 + bp1**2)/2    bp'' = -3*al1*bp1
+[  4.6s] rhs built
+   Kasner check: constraint 4.3e-19;  rhs vs d/dt of Kasner family: 3.3e-03
+   frozen eigenvalues at M t = 100: [-2.0006e-02+0.j     -1.0003e-02+0.j     -4.9985e-03-0.9999j
+ -4.9985e-03+0.9999j -4.9966e-03-0.9998j -4.9966e-03+0.9998j
+ -1.3346e-06+0.j      0.0000e+00+0.j      0.0000e+00+0.j
+  1.2632e-09+0.j    ]
+[  4.9s] symplectic form built
+   ghost frozen frequency / M at M t = 100: 0.99985, Re = -0.0050 (3H/2 = 0.0050)
+   M t =  39.5808  H/M =   0.0084  log s: max +0.0000 mean +0.0000 min -0.0000   ghost Re lam - 3H/2 = -2.523e-02  Im/M = 0.9991   con 2e-18 delta 4e-19 (81s)
+   M t =  15.6664  H/M =   0.0213  log s: max +0.0000 mean +0.0000 min -0.0000   ghost Re lam - 3H/2 = -6.319e-02  Im/M = 0.9941   con 0e+00 delta 4e-18 (118s)
+   M t =   6.2009  H/M =   0.0538  log s: max +0.0010 mean +0.0001 min -0.0009   ghost Re lam - 3H/2 = -1.506e-01  Im/M = 0.9631   con 6e-17 delta 6e-17 (142s)
+   M t =   2.4544  H/M =   0.1358  log s: max +0.1207 mean +0.0331 min -0.0645   ghost Re lam - 3H/2 = -2.447e-01  Im/M = 0.8351   con -2e-16 delta 2e-15 (179s)
+   M t =   0.9715  H/M =   0.3431  log s: max +1.0310 mean +0.8499 min +0.7400   ghost Re lam - 3H/2 = -1.892e-01  Im/M = 0.9087   con 3e-15 delta 5e-15 (403s)
