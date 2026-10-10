@@ -46,7 +46,7 @@ results/
   twist_sym.log
 ```
 
-Not yet committed: `code/run_island.sh` (the production runs), the `results/island_E*_eps*.log`
+Not yet committed: the `results/island_E*_eps*.log`
 outputs of `hdym_island.py` (E = 1, 0.3; ε = 1e-10, 0.01; two planar), the output of
 `scan.py` / `interior.py`, and a `cert_check.py --twist` run.
 
