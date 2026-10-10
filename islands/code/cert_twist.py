@@ -1,7 +1,7 @@
 """
 cert_twist.py -- TRUSTED layer, continued: directional second/third variations along the
 certified orbit and the Birkhoff twist of the return map, in exact rational interval
-arithmetic.  Imports the interval primitives from cert_check.py.
+arithmetic.  Imports the interval primitives from cert_lemmas.py.
 
 Lemmas (function names):
   VAR2/VAR3  Taylor recurrences for the directional variational equations
@@ -16,22 +16,14 @@ Lemmas (function names):
              frame; Kuznetsov's normal-form coefficient; tau = Im(conj(lambda) c1).
              Non-resonance lambda^q != 1 (q = 1,2,3) is enforced by the divisions.
 """
-import json, sys, os
+import json
 from fractions import Fraction as Fr
-# The interval primitives are taken from the RUNNING cert_check module, which cert_check.main
-# passes in explicitly via bind().  (A plain `import cert_check` could create a second copy of the
-# module whose rounding grid is unset; bind() makes the choice explicit under any runner.)
-cc = None
-def bind(module):
-    global cc, I, add, sub, mul, neg, scal, div_int, hull, inside, width, ipow, isqrt
-    global vadd, vsub, mvec, mmul, madd, mscal, eye, _conv, CheckFailed
-    cc = module
-    if cc.GRID is None:
-        raise RuntimeError("cert_twist.bind: the rounding grid of the given cert_check module is not set")
-    I, add, sub, mul, neg, scal, div_int, hull, inside, width, ipow, isqrt = \
-        cc.I, cc.add, cc.sub, cc.mul, cc.neg, cc.scal, cc.div_int, cc.hull, cc.inside, cc.width, cc.ipow, cc.isqrt
-    vadd, vsub, mvec, mmul, madd, mscal, eye, _conv, CheckFailed = \
-        cc.vadd, cc.vsub, cc.mvec, cc.mmul, cc.madd, cc.mscal, cc.eye, cc._conv, cc.CheckFailed
+# The interval primitives come from cert_lemmas, the one module that holds the rounding grid.
+# (Before 2026-10-10 they were taken from the running cert_check module through bind(), because
+# cert_check run as __main__ and `import cert_check` are two module objects with two grids.)
+import cert_lemmas as cc
+from cert_lemmas import (I, add, sub, mul, neg, scal, div_int, hull, inside, width, ipow, isqrt,
+                         vadd, vsub, mvec, mmul, madd, mscal, eye, _conv, CheckFailed)
 
 # ------------------------------------------------------------- directional series (VAR2 / VAR3)
 PAIRS = [(0, 0), (0, 1), (1, 1), (0, 2), (1, 2)]          # (x,x) (x,2) (2,2) (x,py) (2,py)
@@ -81,17 +73,19 @@ def _Av_coeff(Ak, vser, n):
         out = vadd(out, mvec(Ak[k], [vser[i][n - k] for i in range(4)]))
     return out
 
-def dir_series(ser, p, m0, b_full0):
+def dir_series(ser, p, m0, b_full0, b_zero0=None, c0=None):
     """Taylor coefficient series (component-major: v[i][k]) up to order p of
          m_a (3 directions),  b_zero_ab (b(0)=0),  b_full_ab (b(0)=b_full0),  c_abc (c(0)=0, forced by m and b_full).
+    b_zero0, c0 override the zero initial values (used for the Lagrange remainder, where the
+    expansion point is an intermediate time xi and the values there are enclosures).
     Pairwise product series are cached so each coefficient costs O(n).  Lemma VAR2/VAR3."""
     x, y = ser[0], ser[1]
     Ak = A_series(ser, p)
     def init(v0): return [[v0[i]] for i in range(4)]
     m = [init(v) for v in m0]
-    bz = [init([I(0)] * 4) for _ in PAIRS]
+    bz = [init(v) for v in b_zero0] if b_zero0 is not None else [init([I(0)] * 4) for _ in PAIRS]
     bf = [init(v) for v in b_full0]
-    c = [init([I(0)] * 4) for _ in TRIPS]
+    c = [init(v) for v in c0] if c0 is not None else [init([I(0)] * 4) for _ in TRIPS]
     # cached product series for (m_a, m_b): P00, P01s = u0 v1 + u1 v0, P11
     mm = {pr: ([], [], []) for pr in PAIRS}
     # cached product series for (m_i, b_full_k) needed by c
@@ -145,12 +139,19 @@ def lemma_dir_step(B, Z, hI, p, m_k, b_k):
     """One step of the directional systems.  Returns (Delta_b[5], Delta_c[4]) where
        Delta_b = b(h) with b(0) = 0  (forcing from m),       and
        Delta_c = c(h) with c(0) = 0  (forcing from m and the FULL b(t), b(0) = b_k).
-    Enclosures: Taylor to order p on the box series + Lagrange remainder on the Z series (LAG)."""
+    Enclosures: Taylor to order p on the box series + Lagrange remainder (LAG).  The remainder
+    is the (p+1)-th coefficient of the augmented polynomial ODE about an intermediate time xi,
+    so it is evaluated at enclosures over [0, h] of z (Z, from PIC), m, b_zero, b_full and c
+    (Picard, _dir_rough).  Requires z(t) in Z on [0, h], which lemma_step has verified.
+    Status (2026-10-10): before, the remainder used the step's initial values m_k, b_k, 0, 0
+    in place of their values at xi (the gap the review of 10 Oct found in MVT, here for the
+    directional systems)."""
     serB = cc.taylor_coeffs(B, p)
     serZ = cc.taylor_coeffs(Z, p + 1)
     hp1 = ipow(hI, p + 1)
     _, bzB, _, cB = dir_series(serB, p, m_k, b_k)          # Taylor part on the box
-    _, bzZ, _, cZ = dir_series(serZ, p + 1, m_k, b_k)      # Lagrange remainder on Z
+    m_r, bz_r, bf_r, c_r = _dir_rough(Z, hI[1], m_k, b_k)    # enclosures over [0, h]
+    _, bzZ, _, cZ = dir_series(serZ, p + 1, m_r, bf_r, bz_r, c_r)   # Lagrange remainder
     Db = [vadd(_horner_vec(bzB[k], hI, p), [mul(hp1, bzZ[k][i][p + 1]) for i in range(4)]) for k in range(5)]
     Dc = [vadd(_horner_vec(cB[k], hI, p), [mul(hp1, cZ[k][i][p + 1]) for i in range(4)]) for k in range(4)]
     return Db, Dc
@@ -170,15 +171,15 @@ class DirState:
         self.beta = [vadd(mvec(T, be), mvec(Ainv_next, d)) for be, d in zip(self.beta, Db)]
         self.gamma = [vadd(mvec(T, ga), mvec(Ainv_next, d)) for ga, d in zip(self.gamma, Dc)]
 
-def lemma_dir_time_interval(Z, delta, Jt, m0, b, c):
-    """Enclose m, b, c for t in [T_lo, T_hi]: m(t) in Jt m0 (Jt from lemma_rough_time_interval);
-       b(t), c(t) by Picard with the forcing evaluated on the enclosures."""
+def _dir_picard_tools(Z, delta):
+    """A(Z), the forcing terms A2, A3 evaluated on Z, and the Picard enclosure (Lemma PIC for a
+    linear inhomogeneous system: if v0 + [0,delta](A(Z) vt + F) subset vt and the forcing stays
+    in F on [0, delta], then v(t) in vt there)."""
     D = (Fr(0), delta)
     x, y = Z[0], Z[1]
     AZ = [[I(0), I(0), I(1), I(0)], [I(0), I(0), I(0), I(1)],
           [neg(mul(y, y)), scal(Fr(-2), mul(x, y)), I(0), I(0)],
           [scal(Fr(-2), mul(x, y)), neg(mul(x, x)), I(0), I(0)]]
-    mt = [mvec(Jt, v) for v in m0]
     def A2v(u, v):
         t01 = add(mul(u[0], v[1]), mul(u[1], v[0]))
         return [I(0), I(0), scal(Fr(-2), add(mul(y, t01), mul(x, mul(u[1], v[1])))),
@@ -193,13 +194,32 @@ def lemma_dir_time_interval(Z, delta, Jt, m0, b, c):
             vn = vadd(v0, [mul(D, a) for a in vadd(mvec(AZ, vt), force)])
             if all(inside(vn[i], vt[i]) for i in range(4)): return vn
             vt = [vt[i] if inside(vn[i], vt[i]) else add(hull(vt[i], vn[i]), (-(width(vn[i]) / 10 + cc.GRID), width(vn[i]) / 10 + cc.GRID)) for i in range(4)]
-        raise CheckFailed("Picard for directional variations over the final interval did not close")
+        raise CheckFailed("Picard for the directional variations did not close")
+    def c_force(mt, bt, k):
+        i1, i2, i3 = TRIPS[k]
+        return vadd(vadd(A2v(mt[i1], bt[PAIR_IDX[(i2, i3)]]), A2v(mt[i2], bt[PAIR_IDX[(i1, i3)]])),
+                    vadd(A2v(mt[i3], bt[PAIR_IDX[(i1, i2)]]), A3v(mt[i1], mt[i2], mt[i3])))
+    return A2v, picard, c_force
+
+def _dir_rough(Z, delta, m_k, b_k):
+    """Enclosures over one step [0, delta] of m (= X(t) m_k, PICV), b_zero (b(0) = 0),
+    b_full (b(0) = b_k) and c (c(0) = 0, forced by m and b_full).  Requires z(t) in Z."""
+    A2v, picard, c_force = _dir_picard_tools(Z, delta)
+    Xt = cc.lemma_var_rough(Z, delta, eye(4), 0)
+    mt = [mvec(Xt, v) for v in m_k]
+    zero = [I(0)] * 4
+    bz = [picard(zero, A2v(mt[a], mt[bq])) for (a, bq) in PAIRS]
+    bf = [picard(b_k[k], A2v(mt[a], mt[bq])) for k, (a, bq) in enumerate(PAIRS)]
+    ct = [picard(zero, c_force(mt, bf, k)) for k in range(len(TRIPS))]
+    return mt, bz, bf, ct
+
+def lemma_dir_time_interval(Z, delta, Jt, m0, b, c):
+    """Enclose m, b, c for t in [T_lo, T_hi]: m(t) in Jt m0 (Jt from lemma_rough_time_interval);
+       b(t), c(t) by Picard with the forcing evaluated on the enclosures."""
+    A2v, picard, c_force = _dir_picard_tools(Z, delta)
+    mt = [mvec(Jt, v) for v in m0]
     bt = [picard(b[k], A2v(mt[a], mt[bq])) for k, (a, bq) in enumerate(PAIRS)]
-    ct = []
-    for k, (i1, i2, i3) in enumerate(TRIPS):
-        force = vadd(vadd(A2v(mt[i1], bt[PAIR_IDX[(i2, i3)]]), A2v(mt[i2], bt[PAIR_IDX[(i1, i3)]])),
-                     vadd(A2v(mt[i3], bt[PAIR_IDX[(i1, i2)]]), A3v(mt[i1], mt[i2], mt[i3])))
-        ct.append(picard(c[k], force))
+    ct = [picard(c[k], c_force(mt, bt, k)) for k in range(len(TRIPS))]
     return mt, bt, ct
 
 # ------------------------------------------------------------- expression trees (TWIST formula)

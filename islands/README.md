@@ -29,7 +29,9 @@ code/
   scan.py              fine Floquet scan: python scan.py E_min E_max N             (float)
   interior.py          base and ghost Lyapunov exponents inside the island         (float)
   cap_dr_orbit.py      UNTRUSTED certificate generator (mpmath intervals, Lohner/Taylor)
-  cert_check.py        TRUSTED checker: pure Python Fractions, one function per lemma
+  cert_lemmas.py       TRUSTED lemma layer: pure Python Fractions, one function per lemma;
+                       holds the rounding grid                       (split out 2026-10-10)
+  cert_check.py        TRUSTED driver: parses the certificate, calls the lemmas, prints verdicts
   cert_twist.py        TRUSTED layer for the twist (VAR2/VAR3, FRAME2, TWIST); used by
                        cert_check.py --twist twist_formula.json            (added 2026-10-10)
   twist_symbolic.py    exact sympy formula for the Birkhoff twist + float evaluation
@@ -40,7 +42,9 @@ code/
                        (imports hdym_escape_map.py, hdym_precision.py from ym/)
 results/
   cert16.json          certificate, md5 690878da67b071b6ce277aea0fb02e98
-  cert16_check_output.txt   checker output (PROVED)
+  cert16_check_output.txt   checker output (PROVED).  Status (2026-10-10): produced by the
+                       checker before the MVT / centre-in-box fixes (see Status / open);
+                       the recheck with the fixed checker is not yet committed
   cert.json            p = 24 certificate (generator default), md5 b2dc3efca31bd6b848048b34cc8527bc;
                        no checker output committed
   twist_sym.log
@@ -54,17 +58,19 @@ outputs of `hdym_island.py` (E = 1, 0.3; ε = 1e-10, 0.01; two planar), the outp
 
 ```
 python3 code/cap_dr_orbit.py 16 1000 1e-11 results/cert16.json   # ~5 min; untrusted
-python3 code/cert_check.py results/cert16.json --ghost            # ~35 min; this is the proof
+python3 code/cert_check.py results/cert16.json --ghost > results/cert16_check_output.txt   # ~35 min; this is the proof
 ```
 
 The checker verifies, step by step, with outward-rounded dyadic rationals: a Picard rough
 enclosure per step (lemma PIC), the Lagrange remainder of the Taylor step (LAG), the
-mean-value Jacobian (MVT), a Neumann-series inverse (NEU), set inclusion in the Lohner frame
+mean-value Jacobian (MVT, with the variational matrix enclosed over the step by PICV), a
+Neumann-series inverse (NEU), set inclusion in the Lohner frame
 (step), the accumulated Jacobian in a moving frame (FRAME), Krawczyk's inclusion (KRA), and
 the trace/symplectic stability lemmas (T, SYMP). Lemma names are the function names. The
 generator may be wrong in any way; a bad certificate fails to check. What is trusted: the
-checker (`cert_check.py`, 486 lines, plus `cert_twist.py`, 318 lines, for the twist; unreviewed as
-of 10 Oct), Python integer arithmetic, and `math.isqrt`.
+checker (`cert_lemmas.py`, 370 lines, and the driver `cert_check.py`, 167 lines, plus
+`cert_twist.py`, 338 lines, for the twist; see Status / open for the review), Python integer
+arithmetic, and `math.isqrt`.
 
 Design target: Lean. The lemma shapes were chosen so each is an elementary statement about
 polynomial ODE enclosures or rational linear algebra; Moser's twist theorem would remain an
@@ -79,8 +85,24 @@ import.
       (`cert_check.py results/cert16.json --ghost --twist code/twist_formula.json`, ≈48 min): reported
       τ ∈ [−3.05×10⁵, −1.23×10⁵], nonzero. The output of that run is not in the repository yet; to
       close this, rerun with the output redirected to `results/cert16_twist_output.txt` and commit it.*
+      *Status (2026-10-10, later): the τ interval above came from the checker before the fixes
+      under "Independent review"; it needs the rerun with the fixed checker.*
 - [ ] Second certificate at E = 0.3 (ghost Floquet-STABLE on the orbit).
 - [ ] Independent review of `cert_check.py`.
+      *Status (2026-10-10): a review was started on 10 Oct and stopped before its written report;
+      from its working files, two gaps in the step lemmas and one robustness issue, all fixed the
+      same day: (1) MVT's Lagrange remainder of the variational matrix X(h) used X(ξ) = I; now
+      multiplied by a Picard enclosure of X on [0, h] (lemma PICV); the same gap in the twist
+      layer's VAR2/VAR3 step remainder is fixed the same way (`_dir_rough`); (2) the box B of a
+      step did not have to contain the centre c (r is untrusted and need not contain 0), which
+      LAG and MVT require; now B is the hull with c; (3) soundness checks written as `assert`
+      (dropped by `python -O`) now raise CheckFailed. The reviewer's corrected step passed all
+      1000 + 1000 steps of chains P and B of `cert16.json` (base flow only; its logs, not
+      committed, are in Joseph's `review_scratch_2026-10-10.zip`). The full recheck (--ghost,
+      and --twist) with the fixed checker is pending. The review's per-lemma verdicts were lost;
+      the review of the remaining lemmas and of `cert_twist.py` is still open.
+      Regenerating `cert16.json` with `cap_dr_orbit.py 16 1000 1e-11` on 10 Oct gave the same
+      file (same md5).*
 - [ ] ε-crossover scan at E = 0.3: `hdym_island.py --eps 1e-9 … 1e-6`.
 - [ ] 3-dof: the DR orbit's z-direction Floquet trace (−1.53, float) is not certified; the
       island is sealed in 2-dof and leaks by Arnold diffusion in 3-dof (seen: 2.7 % at r = 2e-4).
