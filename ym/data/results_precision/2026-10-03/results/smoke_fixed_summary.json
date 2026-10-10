@@ -1,0 +1,235 @@
+{
+ "E": 0.3,
+ "eps": 0.01,
+ "section": "ym",
+ "mode": "fixed",
+ "schedule": "shared",
+ "dt": 0.005,
+ "width": 0.7400828044922853,
+ "lam_ym": 0.2812314657070684,
+ "t_sep": [
+  10.0,
+  30.0
+ ],
+ "per_bits": [
+  {
+   "bits": 38,
+   "floor_over_width": [
+    7.732619604895226e-11,
+    7.108889874103026e-11
+   ],
+   "floor_resolved": [
+    true,
+    true
+   ],
+   "predicted_over_width": 4.6346602197980636e-11,
+   "alpha": [
+    0.023595448888823537,
+    0.03590722467979593
+   ],
+   "alpha_se": [
+    0.006406263096139515,
+    0.007889865669717666
+   ],
+   "frozen_max": 0.005,
+   "median_t_esc": 94.4925
+  },
+  {
+   "bits": 34,
+   "floor_over_width": [
+    1.2722652085331633e-09,
+    1.1547974073894172e-09
+   ],
+   "floor_resolved": [
+    true,
+    true
+   ],
+   "predicted_over_width": 7.415456351676902e-10,
+   "alpha": [
+    0.01846132511501157,
+    0.029893607732060883
+   ],
+   "alpha_se": [
+    0.003213712103812228,
+    0.004215703946904047
+   ],
+   "frozen_max": 0.005,
+   "median_t_esc": 92.60375
+  },
+  {
+   "bits": 30,
+   "floor_over_width": [
+    1.797480677314074e-08,
+    NaN
+   ],
+   "floor_resolved": [
+    true,
+    false
+   ],
+   "predicted_over_width": 1.1864730162683043e-08,
+   "alpha": [
+    0.022511433478509684,
+    0.026135834032385025
+   ],
+   "alpha_se": [
+    0.006821246330923467,
+    0.006169129068686253
+   ],
+   "frozen_max": 0.005,
+   "median_t_esc": 92.565
+  },
+  {
+   "bits": 26,
+   "floor_over_width": [
+    3.264697567226019e-07,
+    NaN
+   ],
+   "floor_resolved": [
+    true,
+    false
+   ],
+   "predicted_over_width": 1.8983568260292868e-07,
+   "alpha": [
+    0.018919426736241484,
+    0.0156948267077537
+   ],
+   "alpha_se": [
+    0.0032416714489369725,
+    0.007505960059754314
+   ],
+   "frozen_max": 0.005,
+   "median_t_esc": 95.745
+  },
+  {
+   "bits": 22,
+   "floor_over_width": [
+    4.966870068328077e-06,
+    NaN
+   ],
+   "floor_resolved": [
+    true,
+    false
+   ],
+   "predicted_over_width": 3.037370921646859e-06,
+   "alpha": [
+    NaN,
+    NaN
+   ],
+   "alpha_se": [
+    NaN,
+    NaN
+   ],
+   "frozen_max": 0.005,
+   "median_t_esc": 94.97874999999999
+  },
+  {
+   "bits": 18,
+   "floor_over_width": [
+    NaN,
+    NaN
+   ],
+   "floor_resolved": [
+    false,
+    false
+   ],
+   "predicted_over_width": 4.859793474634974e-05,
+   "alpha": [
+    1.089732383369737e-18,
+    0.0066061387766087835
+   ],
+   "alpha_se": [
+    4.489357529685255e-18,
+    0.00569090808147159
+   ],
+   "frozen_max": 0.0,
+   "median_t_esc": 98.55
+  },
+  {
+   "bits": 14,
+   "floor_over_width": [
+    NaN,
+    NaN
+   ],
+   "floor_resolved": [
+    false,
+    false
+   ],
+   "predicted_over_width": 0.0007775669559415959,
+   "alpha": [
+    NaN,
+    -0.0169603534585786
+   ],
+   "alpha_se": [
+    NaN,
+    0.08464048555764732
+   ],
+   "frozen_max": 0.0,
+   "median_t_esc": 99.2025
+  },
+  {
+   "bits": 10,
+   "floor_over_width": [
+    NaN,
+    NaN
+   ],
+   "floor_resolved": [
+    false,
+    false
+   ],
+   "predicted_over_width": 0.012441071295065534,
+   "alpha": [
+    -0.02707376669634669,
+    -0.06464374103482952
+   ],
+   "alpha_se": [
+    0.016328644083787834,
+    0.006694850164268298
+   ],
+   "frozen_max": 0.095,
+   "median_t_esc": 64.59
+  },
+  {
+   "bits": 6,
+   "floor_over_width": [
+    NaN,
+    NaN
+   ],
+   "floor_resolved": [
+    false,
+    false
+   ],
+   "predicted_over_width": 0.19905714072104855,
+   "alpha": [
+    NaN,
+    NaN
+   ],
+   "alpha_se": [
+    NaN,
+    NaN
+   ],
+   "frozen_max": 1.0,
+   "median_t_esc": NaN
+  }
+ ],
+ "fits": [
+  {
+   "t_sep": 10.0,
+   "n": 5,
+   "c_fixed": 1.322398726423592,
+   "extrap52_fixed": 4.6648636251571316e-15,
+   "scatter_fixed": 0.020118422784030525,
+   "C_vs_prediction": 1.6490772140768615,
+   "slope_free": -0.30061944025956533,
+   "slope_expected": -0.3010299956639812,
+   "extrap52_free": 4.762896791772728e-15
+  },
+  {
+   "t_sep": 30.0,
+   "n": 2,
+   "c_fixed": 1.2942336372442655,
+   "extrap52_fixed": 4.3719366740031634e-15,
+   "scatter_fixed": 0.003292015515762081,
+   "C_vs_prediction": 1.5455245275777478
+  }
+ ]
+}
