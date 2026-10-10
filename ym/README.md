@@ -44,7 +44,25 @@ Section, figure and table names refer to `paper/main.tex`.
 | `make_fig1.py`, `make_figs.py`, `make_fig_Q.py` | regenerate fig:lambda, fig:maps, fig:nu0 and fig:Q from `data/` into `paper/` | |
 | `make_fig_landscape.py` | (D, J) landscape figure | not in the paper |
 
-`paper/fig_floquet.pdf` (fig:floquet) has no generating script in the repository yet.
+`paper/fig_floquet.pdf` (fig:floquet): its data come from `early/floquet.py` (committed output
+`data/early/floquet.npz`); the plotting script is not in the repository yet.
+
+### `early/` — the first-draft scripts (restored)
+
+Plain-numpy scripts from before the GPU code, removed from the repository on 2026-10-01 (as
+`other_code.7z`) and restored here unchanged except for two import paths. Several numbers in the
+paper still rest on them. Each writes its output to the working directory.
+
+| file | what it does | output |
+|---|---|---|
+| `transverse.py` | linearised ghost on pure-YM trajectories: λ⊥ for the vector ghost and the diagonal ghost, tachyonic fraction; `python transverse.py E T N`. Its diagonal ghost is renormalised with the **vector norm**, not per component | `transverse_E*.npz` (committed in `data/`) |
+| `lyap_full.py` | Benettin maximal Lyapunov exponent of the full 12-d system at E = 0.3, ε = 0.01, with escape times | `lyap_E0.3_eps*.npz` |
+| `escape.py` | escape times at other ε (e.g. 10⁻⁴) and the blow-up mechanism; needs `lyap_full.py` beside it | `escape_eps*.npz` |
+| `floquet.py` | Floquet growth of the ghost on the diagonal periodic orbit x = y, z = 0; unstable tongues | `floquet.npz` (committed in `data/early/`) |
+| `spectrum.py` | spectrum of K_xx = y² + z² at E = 1, conditioned on channel occupancy | `spectrum_E1_full.npz` |
+| `spec.py` | spectrum of Hess V along pure-YM trajectories at E = 1 (uses `../hdym_core.py`) | `spec.npz` |
+| `channels.py` | channel-visit statistics at E = 1, independent recount for fig:nu0 | `nu0_E1_rederived.npz` |
+| `integrals.py` | search for polynomial first integrals of the 12-d system, with a separable control | printed only |
 
 ## Data (`data/`)
 
@@ -54,7 +72,7 @@ Section, figure and table names refer to `paper/main.tex`.
 | `transverse_diag_percomp.csv` | diagonal ghost, E = 0.008, 0.015, 0.02, N = 2×10⁵ (per-component estimator) |
 | `transverse_diag_percomp_hi.csv` | diagonal ghost, E = 0.05 … 1, N = 10⁵ (per-component estimator) |
 | `results_percomp.7z` | the run folders behind the three CSVs (`lam_i_E*.npy`, `history_E*.npy`, `transverse_gpu.csv`), including the diagonal E = 0.03 run (N = 10⁵), which has no row in the CSV. Unpack to `data/results_percomp/` (ignored by git) for `make_fig_Q.py`: `7z x results_percomp.7z -oresults_percomp`, or with `py7zr` |
-| `transverse_E*.npz` | independent numpy re-run at E = 0.215, 0.3, 0.43, 0.6, 1 (open symbols in fig:lambda) |
+| `transverse_E*.npz` | independent numpy re-run at E = 0.215, 0.3, 0.43, 0.6, 1 (open symbols in fig:lambda), written by `early/transverse.py` (`lam_d` = vector-norm diagonal estimator) |
 | `nu0_E1.npz` | channel visits (depth, entry action) at E = 1 |
 | `map256.npz`, `ghost256.npz`, `unc_ym.npz`, `unc_ghost.npz` | escape maps and uncertainty-exponent data at E = 0.3, ε = 0.01 |
 | `nu0_2d_mu*.npz`, `spec_2d_mu*.npz` | two-field entry flux and spectrum at μ₁ = 0.1, 0.03 |
