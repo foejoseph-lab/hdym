@@ -1,7 +1,10 @@
-# bianchi9-2026-10 — Weyl ghost in Bianchi IX minisuperspace of quadratic gravity
+# bianchi9 — Weyl ghost in Bianchi IX minisuperspace of quadratic gravity
 
-Started 2026-10-05. Same question as the Lee–Wick Yang–Mills paper (root of this
-repository), asked of the physical Weyl ghost: in the diagonal Bianchi IX
+*Layout:* scripts and their generated inputs (`bianchi9_system.pkl`, `bianchi9_rhs.py`,
+`bianchi9_symp_gen.py`, `kasner_linear.pkl`) are in this folder; the committed run outputs
+(`*.log`, `*.npz`, `*.png`) named below are in `results/`. Scripts write to the working directory.
+
+Started 2026-10-05. Same question as the Lee–Wick Yang–Mills paper (`paper/` and `ym/` in this repository), asked of the physical Weyl ghost: in the diagonal Bianchi IX
 minisuperspace of
 
     S = ∫ d⁴x √−g [ R/2 − C_{abcd}C^{abcd}/(4M²) ]        (M̄_P = 1, no R² term yet)
@@ -30,7 +33,7 @@ collapse, is the Einstein branch a repeller for the ghost — and if so, when, a
    gravity: the quadratic theory has its own monotonic asymptotics. The Weyl ghost does not
    ride the mixmaster; it ends it.
 
-Contrast with the Yang–Mills Lee–Wick case (root of this repository), where channel visits
+Contrast with the Yang–Mills Lee–Wick case (`paper/` and `ym/` in this repository), where channel visits
 kick the ghost with a power law at every energy: there the coupling is linear and sharpest at
 channel entry; here it is even and quietest at the bounce. Parity and derivative order of the
 coupling about the turning point decide which case a model falls in.

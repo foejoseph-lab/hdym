@@ -1,97 +1,123 @@
-# hdym — the Lee–Wick ghost of Yang–Mills mechanics
+# ym/ — Lee–Wick Yang–Mills mechanics: code and data for the paper
 
-Code and data for *The Lee–Wick ghost of Yang–Mills mechanics is malicious at every energy:
-a parameter-free E^{9/4} instability law and an area-filling escape landscape* (J. Foe, 2026).
-
-The system is the spatially homogeneous, colour-diagonal sector of SU(2) Lee–Wick Yang–Mills
-on a three-torus: 12-dimensional Hamiltonian, units g = M = 1, state (p, w, P, W) with
-q = p − w, V = ½(x²y² + y²z² + z²x²),
+Everything behind `paper/main.tex`. The system is the spatially homogeneous, colour-diagonal
+sector of SU(2) Lee–Wick Yang–Mills on a three-torus: 12-dimensional Hamiltonian, units
+g = M = 1, state (p, w, P, W) with q = p − w, V = ½(x²y² + y²z² + z²x²),
 H = ½|P|² − ½|W|² + V(q) + w·∇V(q) − ½|w|².  The ghost-free manifold w = W = 0 is invariant and
 carries pure Yang–Mills mechanics; the paper measures and derives its transverse Lyapunov
-exponent λ⊥(E).
+exponent λ⊥(E), extends the derivation to the two-field model, and linearises the full
+homogeneous theory about the diagonal background (the off-diagonal sector).
 
-The code and the derivations were developed in interactive sessions with Claude (Anthropic);
-the numerical experiments and judgement calls are the author's.
+All scripts are in this one folder so that imports between them resolve without setting
+`PYTHONPATH`. Committed results are in `data/`. Working notes for the revision are in `notes/`
+(`NOTE_2d.md`, `NOTE_rung1.md`; dated, chronological).
 
 ## Requirements
 
-Python ≥ 3.10, numpy, scipy, matplotlib.  The production runs use CuPy with an NVIDIA GPU
-(`--backend cupy`); the same C kernel compiles with gcc for a multicore CPU (`--backend c`),
-and a pure-numpy reference backend exists for checking.  No other dependencies.
+Python ≥ 3.10, numpy, scipy, matplotlib; sympy for the derivation scripts (`hdym_derive.py`,
+`hdym_analytic.py`, `hdym_rung1.py`). The production runs use CuPy with an NVIDIA GPU
+(`--backend cupy`); the same C kernels compile with gcc for a multicore CPU (`--backend c`,
+built in a temporary directory), and a pure-numpy reference backend exists for checking.
 
 ## Scripts
 
+Section, figure and table names refer to `paper/main.tex`.
+
 | file | what it does | paper |
 |---|---|---|
-| `hdym_core.py` | equations of motion, Yoshida-4 symplectic integrator with per-trajectory channel sub-stepping, CPU Lyapunov estimators, adaptive DOP853 confirmation of blow-up | Sec. 2–3 |
-| `hdym_derive.py` | symbolic (sympy) reduction from the 3+1 theory to the 12-d system: Gauss law, off-diagonal equations, symmetric criticality, auxiliary-field Hamiltonian | Ref. [14] |
-| `hdym_gpu.py` | transverse Lyapunov exponent λ⊥(E) with the whole integrator inside one kernel; `--ghost vec` (physical ghost) or `--ghost diag` (three independent scalar oscillators, per-component estimator) | Fig. 1, Table 1 |
-| `hdym_spectrum.py` | multitaper spectrum of Hess V along pure-YM trajectories at E = 1; the u⁻⁶ tail and the tail constant A | Sec. 5.1 |
-| `hdym_channel_check.py` | the channel-passage checks: adiabatic invariant J, parabolic x(t), chirp at 2|x|, P(J) ∝ J | Sec. 5.2 |
-| `hdym_nu0.py` | channel entry rate ν₀ at E = 1 against 8π²/Z | Fig. 2 |
-| `hdym_escape_map.py` | escape-time landscape on 2-d sections of initial conditions | Fig. 3a,b |
-| `hdym_uncertainty.py` | uncertainty exponent α of the escape landscape | Fig. 3c |
-| `make_fig1.py`, `make_figs.py` | regenerate the figures from the data files below | |
-| `main.tex`, `fig_*.pdf` | the paper source and figures | |
+| `hdym_core.py` | equations of motion, Yoshida-4 symplectic integrator with per-trajectory channel sub-stepping, CPU Lyapunov estimators, adaptive DOP853 confirmation of blow-up | The model; Numerical methods |
+| `hdym_derive.py` | symbolic (sympy) reduction from the 3+1 theory to the 12-d system: Gauss law, off-diagonal equations, symmetric criticality, auxiliary-field Hamiltonian | ref. note:derive |
+| `hdym_gpu.py` | transverse Lyapunov exponent λ⊥(E), whole integrator in one kernel; `--ghost vec` (physical ghost) or `--ghost diag` (three independent scalar oscillators, per-component estimator) | fig:lambda, tab:low |
+| `hdym_gpu_landscape.py` | `hdym_gpu.py` plus the (D, J) histogram output, results bit-identical | (landscape figure, not in the paper) |
+| `hdym_spectrum.py` | multitaper spectrum of Hess V along pure-YM trajectories at E = 1; the u⁻⁶ tail and the tail constant A | Spectral formula and the u⁻⁶ tail |
+| `hdym_channel_check.py` | channel-passage checks: adiabatic invariant J, parabolic x(t), chirp at 2\|x\|, P(J) ∝ J | Channel statistics |
+| `hdym_nu0.py` | channel entry rate ν₀ at E = 1 against 8π²/Z | ν₀ from the density of states, fig:nu0 |
+| `hdym_analytic.py` | sympy derivations, every constant checked: general-n law, 4/(9n−4) share, Z₂ elliptic form, c_j = 0 law 0.0210 E^{5/4} | Derivation; Off-diagonal sector |
+| `hdym_2d.py`, `hdym2d_nu0.py`, `hdym2d_spectrum.py` | two-field model: kernel, entry flux, spectrum (see `notes/NOTE_2d.md`) | Test on the two-field model, tab:twofield |
+| `hdym_rung1.py` → `rung1_system.pkl` | linearisation of the full homogeneous theory about the diagonal background | Off-diagonal sector |
+| `hdym_rung1_lyap.py` | CPU Lyapunov spectra of the off-diagonal blocks (reads `rung1_system.pkl` from the working directory) | Off-diagonal sector |
+| `hdym_rung1_gpu.py` | kernel for the off-diagonal ghost exponents: `--cj`, growth-location split, (D, J) landscape (see `notes/NOTE_rung1.md`) | Off-diagonal sector, tab:offdiag |
+| `hdym_spectrum_xy.py` | spectrum of the xy Hessian entry at E = 1 | Off-diagonal sector |
+| `hdym_escape_map.py` | escape-time landscape on 2-d sections of initial conditions | fig:maps (a, b) |
+| `hdym_uncertainty.py` | uncertainty exponent α of the escape landscape | fig:maps (c) |
+| `hdym_precision.py`, `hdym_diffpair.py`, `hdym_ball.py` | checks that the landscape's fine structure at δ ~ 10⁻¹⁴ is the flow and not roundoff: mantissa-precision sweep; pair integration in "difference numbers" (no roundoff floor); certified pair escape times in ball arithmetic; `hdym_precision.py` is also imported by `islands/code/hdym_island.py` | The escape-time landscape |
+| `make_fig1.py`, `make_figs.py`, `make_fig_Q.py` | regenerate fig:lambda, fig:maps, fig:nu0 and fig:Q from `data/` into `paper/` | |
+| `make_fig_landscape.py` | (D, J) landscape figure | not in the paper |
 
-## Data
+`paper/fig_floquet.pdf` (fig:floquet) has no generating script in the repository yet.
 
-| folder / file | contents |
+## Data (`data/`)
+
+| file / folder | contents |
 |---|---|
 | `transverse_vec_percomp.csv` | physical ghost, E = 0.008, 0.015, 0.02, 0.03, N = 2×10⁵ |
 | `transverse_diag_percomp.csv` | diagonal ghost, E = 0.008, 0.015, 0.02, N = 2×10⁵ (per-component estimator) |
 | `transverse_diag_percomp_hi.csv` | diagonal ghost, E = 0.05 … 1, N = 10⁵ (per-component estimator) |
-| `transverse_E*.npz` | independent numpy re-run at E = 0.215, 0.3, 0.43, 0.6, 1 (open symbols in Fig. 1) |
+| `results_percomp.7z` | the run folders behind the three CSVs (`lam_i_E*.npy`, `history_E*.npy`, `transverse_gpu.csv`), including the diagonal E = 0.03 run (N = 10⁵), which has no row in the CSV. Unpack to `data/results_percomp/` (ignored by git) for `make_fig_Q.py`: `7z x results_percomp.7z -oresults_percomp`, or with `py7zr` |
+| `transverse_E*.npz` | independent numpy re-run at E = 0.215, 0.3, 0.43, 0.6, 1 (open symbols in fig:lambda) |
 | `nu0_E1.npz` | channel visits (depth, entry action) at E = 1 |
-| `map256.npz`, `ghost256.npz`, `unc_*.npz` | escape maps and uncertainty-exponent data at E = 0.3, ε = 0.01 |
+| `map256.npz`, `ghost256.npz`, `unc_ym.npz`, `unc_ghost.npz` | escape maps and uncertainty-exponent data at E = 0.3, ε = 0.01 |
+| `nu0_2d_mu*.npz`, `spec_2d_mu*.npz` | two-field entry flux and spectrum at μ₁ = 0.1, 0.03 |
+| `results_2d/` | two-field GPU per-trajectory exponents (`lam_i_E*_mu*.npy`) |
+| `results_2d_cpu/` | two-field CPU runs, N = 8192, with their CSVs and histories |
+| `results_rung1/` | off-diagonal GPU per-trajectory exponents (c_j = 1 and 0) |
+| `rung1_lyap_E*.npy`, `rung1_ym_E*.npy` | off-diagonal CPU Lyapunov spectra (ghost blocks, YM blocks) |
+| `spec_xy_E1.npz` | xy-entry spectrum at E = 1 |
+| `results_precision/` | extended-precision difference-pair run at E = 0.3, ε = 0.01 |
 
 ## Reproducing the main result
 
-The four low-energy diagonal-ghost points of Table 1 (the parameter-free comparison with
-0.0120 E^{9/4}):
+Commands write into `--out` relative to the working directory. The four low-energy
+diagonal-ghost points of tab:low (the parameter-free comparison with 0.0120 E^{9/4}):
 
 ```
-python hdym_gpu.py --E 0.03 --N 100000 --ghost diag --backend cupy --t-burn-ym 200 --target-abs 3e-7 --t-block 5000 --tmax 300000 --out results_diag_percomp
-python hdym_gpu.py --E 0.02 0.015 0.008 --N 200000 --ghost diag --backend cupy --t-burn-ym 200 --target-abs 3e-8 --t-block 20000 --tmax 1500000 --out results_diag_percomp
+python ym/hdym_gpu.py --E 0.03 --N 100000 --ghost diag --backend cupy --t-burn-ym 200 --target-abs 3e-7 --t-block 5000 --tmax 300000 --out results_diag_percomp
+python ym/hdym_gpu.py --E 0.02 0.015 0.008 --N 200000 --ghost diag --backend cupy --t-burn-ym 200 --target-abs 3e-8 --t-block 20000 --tmax 1500000 --out results_diag_percomp
 ```
 
 The physical ghost at the same energies, and the diagonal ghost at higher energies:
 
 ```
-python hdym_gpu.py --E 0.03 0.02 0.015 0.008 --N 200000 --ghost vec --backend cupy --t-burn-ym 200 --target-abs 3e-8 --t-block 20000 --tmax 1500000 --out results_vec_percomp
-python hdym_gpu.py --E 0.05 0.07 0.1 0.15 0.2 0.3 0.5 1.0 --N 100000 --ghost diag --backend cupy --t-burn-ym 200 --target-abs 3e-7 --out results_diag_percomp_hi
+python ym/hdym_gpu.py --E 0.03 0.02 0.015 0.008 --N 200000 --ghost vec --backend cupy --t-burn-ym 200 --target-abs 3e-8 --t-block 20000 --tmax 1500000 --out results_vec_percomp
+python ym/hdym_gpu.py --E 0.05 0.07 0.1 0.15 0.2 0.3 0.5 1.0 --N 100000 --ghost diag --backend cupy --t-burn-ym 200 --target-abs 3e-7 --out results_diag_percomp_hi
 ```
 
-On an RTX 4080 SUPER these take roughly 0.5 h, 4 h, 4 h and 10 min respectively.  Each run
-writes `<out>/transverse_gpu.csv` plus per-energy `history_E*.npy` (checkpoint history) and
-`lam_i_E*.npy` (per-trajectory finite-time exponents); the three CSVs in this repository are
-those files renamed.
+On an RTX 4080 SUPER these take roughly 0.5 h, 4 h, 4 h and 10 min respectively. Each run
+writes `<out>/transverse_gpu.csv` plus per-energy `history_E*.npy` and `lam_i_E*.npy`; the three
+CSVs in `data/` are those files renamed.
 
 Spectrum, channel statistics and ν₀ (CPU, pure Yang–Mills, no ghost):
 
 ```
-python hdym_spectrum.py --N 2048 --T 20000 --t-burn 500 --workers 12
-python hdym_channel_check.py --N 2048 --T 4000 --A-in 3
-python hdym_nu0.py
+python ym/hdym_spectrum.py --N 2048 --T 20000 --t-burn 500 --workers 12
+python ym/hdym_channel_check.py --N 2048 --T 4000 --A-in 3
+python ym/hdym_nu0.py
 ```
 
 Escape landscape and uncertainty exponent at E = 0.3, ε = 0.01:
 
 ```
-python hdym_escape_map.py --E 0.3 --eps 0.01 --section ym    --n 256 --backend c
-python hdym_escape_map.py --E 0.3 --eps 0.01 --section ghost --n 256 --backend c
-python hdym_uncertainty.py --E 0.3 --eps 0.01 --section ym    --M 20000 --backend cupy --delta-min 1e-14 --delta-max 1e-4 --n-delta 11
-python hdym_uncertainty.py --E 0.3 --eps 0.01 --section ghost --M 20000 --backend cupy --delta-min 1e-14 --delta-max 1e-4 --n-delta 11
+python ym/hdym_escape_map.py --E 0.3 --eps 0.01 --section ym    --n 256 --backend c
+python ym/hdym_escape_map.py --E 0.3 --eps 0.01 --section ghost --n 256 --backend c
+python ym/hdym_uncertainty.py --E 0.3 --eps 0.01 --section ym    --M 20000 --backend cupy --delta-min 1e-14 --delta-max 1e-4 --n-delta 11
+python ym/hdym_uncertainty.py --E 0.3 --eps 0.01 --section ghost --M 20000 --backend cupy --delta-min 1e-14 --delta-max 1e-4 --n-delta 11
 ```
 
-Figures and paper, from the repository root: `python make_fig1.py && python make_figs.py && latexmk -pdf main.tex`.
-(`make_figs.py` expects the Fig. 2–3 data files `nu0_E1.npz`, `map256.npz`, `ghost256.npz`, `unc_ym.npz`, `unc_ghost.npz` beside it.)
+Two-field and off-diagonal runs: commands and GPU summary lines are in `notes/NOTE_2d.md` and
+`notes/NOTE_rung1.md`.
+
+## Figures and paper
+
+```
+python ym/make_fig1.py && python ym/make_figs.py && python ym/make_fig_Q.py   # from any directory
+cd paper && latexmk -pdf main.tex
+```
 
 ## A note on the diagonal-ghost estimator
 
 With the off-diagonal Hessian entries dropped the three ghost components are independent
-scalar oscillators.  Renormalising the norm of the three-vector returns the *largest* of three
+scalar oscillators. Renormalising the norm of the three-vector returns the *largest* of three
 finite-time exponents and overestimates the single-mode rate by a factor 1.5–1.7 at
-E ≤ 0.03 (1.1 at E = 1).  `hdym_gpu.py --ghost diag` renormalises each component separately and
+E ≤ 0.03 (1.1 at E = 1). `hdym_gpu.py --ghost diag` renormalises each component separately and
 averages the three log-growths; the vector ghost (`--ghost vec`) uses the six-vector norm, which
-is correct for the coupled system.  See the footnote in Sec. 3 of the paper.
+is correct for the coupled system. See the footnote in the Numerical methods section of the paper.
