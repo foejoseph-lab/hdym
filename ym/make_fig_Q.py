@@ -2,15 +2,20 @@
 For growth that arrives in discrete events Q is the typical log-gain per event and is independent
 of T; this reading requires lambda*T >> 1 (otherwise sigma is dominated by bounded O(1) wobble that
 scales as 1/T, not diffusively), so only runs with lambda*T >= 1.5 e-folds are plotted.  Errors are
-bootstrap over trajectories.  Run from the repository root with the result folders as laid out below.
+bootstrap over trajectories.  Run from anywhere; reads ym/data/ (results_percomp.7z must be unpacked to ym/data/results_percomp/),
+writes paper/fig_Q.pdf.
 """
 import glob, numpy as np, matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 plt.rcParams.update({'font.size': 9})
+import os as _os
+_HERE = _os.path.dirname(_os.path.abspath(__file__))
+DATA = _os.path.join(_HERE, 'data')                          # ym/data
+PAPER = _os.path.join(_HERE, '..', 'paper')                  # figures go next to paper/main.tex
 rng = np.random.default_rng(0)
-PC = 'results_percomp'      # unpacked results_percomp.7z (folders results_diag_percomp, results_diag_percomp_hi)
-R1 = 'results_rung1'        # off-diagonal runs (lam_i_E*.npy, lam_i_E*_cj0.npy)
+PC = _os.path.join(DATA, 'results_percomp')   # unpacked results_percomp.7z (folders results_diag_percomp, results_diag_percomp_hi)
+R1 = _os.path.join(DATA, 'results_rung1')     # off-diagonal runs (lam_i_E*.npy, lam_i_E*_cj0.npy)
 LAMT_MIN = 1.5
 
 def Q(lam, T, nb=300):
@@ -45,5 +50,5 @@ Es = np.array([0.01, 0.4]); ax.loglog(Es, 1.9 * Es ** -0.5, 'k:', lw=0.8, label=
 ax.set_xscale('log'); ax.set_yscale('log')
 ax.set_xlabel('$E$'); ax.set_ylabel(r'$Q=\sigma^2T/\lambda$  (log-gain per growth event)')
 ax.legend(fontsize=7, loc='upper right'); ax.set_ylim(0.5, 40); ax.set_xlim(0.007, 1.5)
-plt.tight_layout(); plt.savefig('fig_Q.pdf'); plt.savefig('fig_Q.png', dpi=150)
+plt.tight_layout(); plt.savefig(_os.path.join(PAPER, 'fig_Q.pdf')); plt.savefig(_os.path.join(PAPER, 'fig_Q.png'), dpi=150)
 for lab, (p, _) in S.items(): print(lab, [(float(e), round(float(q), 2), round(float(s), 2)) for e, q, s in p])

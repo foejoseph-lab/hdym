@@ -40,9 +40,9 @@ Usage
 """
 import argparse, json, os, sys, time
 import numpy as np
-# the production modules live at the repository root; this file lives in islands/code/
+# the production modules (hdym_escape_map, hdym_precision) live in ym/; this file lives in islands/code/
 _here = os.path.dirname(os.path.abspath(__file__))
-for _p in (_here, os.path.join(_here, '..'), os.path.join(_here, '..', '..')):
+for _p in (_here, os.path.join(_here, '..', '..', 'ym')):
     if _p not in sys.path: sys.path.insert(0, _p)
 import hdym_escape_map as em
 import hdym_precision as hp

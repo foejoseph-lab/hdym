@@ -1,4 +1,4 @@
-# Fig 1: lambda_perp(E).  Run from the repository root.
+# Fig 1: lambda_perp(E).  Run from anywhere; reads ym/data/, writes paper/fig_lambda.pdf.
 #   diagonal ghost : per-component estimator, all energies, from
 #                    transverse_diag_percomp.csv (E <= 0.03, N = 2e5) and
 #                    transverse_diag_percomp_hi.csv (E >= 0.05, N = 1e5)
@@ -9,6 +9,10 @@ import csv, glob, os
 import numpy as np, matplotlib
 matplotlib.use('Agg'); import matplotlib.pyplot as plt
 plt.rcParams.update({'font.size': 9})
+import os as _os
+_HERE = _os.path.dirname(_os.path.abspath(__file__))
+DATA = _os.path.join(_HERE, 'data')                          # ym/data
+PAPER = _os.path.join(_HERE, '..', 'paper')                  # figures go next to paper/main.tex
 
 
 def read_csv(path):
@@ -18,16 +22,16 @@ def read_csv(path):
     o = np.argsort(E); return E[o], lam[o]
 
 
-Ev_new, vec_new = read_csv('transverse_vec_percomp.csv')
-Ed_lo, dg_lo = read_csv('transverse_diag_percomp.csv')
-Ed_hi, dg_hi = read_csv('transverse_diag_percomp_hi.csv')
+Ev_new, vec_new = read_csv(_os.path.join(DATA, 'transverse_vec_percomp.csv'))
+Ed_lo, dg_lo = read_csv(_os.path.join(DATA, 'transverse_diag_percomp.csv'))
+Ed_hi, dg_hi = read_csv(_os.path.join(DATA, 'transverse_diag_percomp_hi.csv'))
 if not np.any(np.isclose(Ed_lo, 0.03)):      # the E = 0.03 run (N = 1e5) preceded the overnight CSV
     Ed_lo = np.r_[Ed_lo, 0.03]; dg_lo = np.r_[dg_lo, 4.364e-6]
 Ed = np.r_[Ed_lo, Ed_hi]; dg = np.r_[dg_lo, dg_hi]
 E_hi = np.array([0.05, 0.07, 0.1, 0.15, 0.2, 0.3, 0.5, 1.0])
 vec_hi = np.array([4.53e-5, 1.17e-4, 4.31e-4, 1.94e-3, 5.22e-3, 1.65e-2, 3.03e-2, 8.79e-2])
 Ev = np.r_[Ev_new, E_hi]; vec = np.r_[vec_new, vec_hi]
-files = glob.glob('transverse_E*.npz')
+files = glob.glob(_os.path.join(DATA, 'transverse_E*.npz'))
 rr = {float(np.load(f)['E']): (float(np.load(f)['lam_v']), float(np.load(f)['lam_d'])) for f in files}
 Er = np.array(sorted(rr)); rv = np.array([rr[e][0] for e in Er]); rd = np.array([rr[e][1] for e in Er])
 if not files:
@@ -44,7 +48,7 @@ ax.loglog(Ee, 0.0120 * Ee**2.25, '--', lw=1.2, color='k', label=r'derived $(32\p
 ax.loglog(Ee, 0.38 * Ee**0.25, ':', color='gray', lw=1, label=r'$\lambda_{\rm YM}=0.38E^{1/4}$')
 ax.set_xlabel(r'$E$  (units of $M^4/g^2$)'); ax.set_ylabel(r'$\lambda_\perp$  (units of $M$)')
 ax.legend(fontsize=6.5, loc='upper left'); ax.set_ylim(1e-7, 2)
-plt.tight_layout(); plt.savefig('fig_lambda.pdf'); print('fig_lambda.pdf written')
+plt.tight_layout(); plt.savefig(_os.path.join(PAPER, 'fig_lambda.pdf')); print('paper/fig_lambda.pdf written')
 for e, d in zip(Ed, dg):
     v = vec[np.argmin(np.abs(Ev - e))]
     print(f'E={e:<6g} vec={v:.3e} diag={d:.3e} vec/diag={v/d:5.2f} diag/pred={d/(0.012*e**2.25):.3f}')

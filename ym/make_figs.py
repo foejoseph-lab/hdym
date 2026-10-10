@@ -2,29 +2,33 @@ import numpy as np, matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 plt.rcParams.update({'font.size': 9})
+import os as _os
+_HERE = _os.path.dirname(_os.path.abspath(__file__))
+DATA = _os.path.join(_HERE, 'data')                          # ym/data
+PAPER = _os.path.join(_HERE, '..', 'paper')                  # figures go next to paper/main.tex
 tr = np.trapezoid
 
 # Fig 1 is made by make_fig1.py
 
 # Fig 3: maps + uncertainty
 fig, ax = plt.subplots(1, 3, figsize=(9.6, 3.1))
-for k, (f, lab, xl, yl) in enumerate([('map256.npz', '(a) YM section', '$u$', '$v$'),
-                                      ('ghost256.npz', '(b) ghost section', r'$\theta$', r'$\phi$')]):
+for k, (f, lab, xl, yl) in enumerate([(_os.path.join(DATA, 'map256.npz'), '(a) YM section', '$u$', '$v$'),
+                                      (_os.path.join(DATA, 'ghost256.npz'), '(b) ghost section', r'$\theta$', r'$\phi$')]):
     d = np.load(f, allow_pickle=True); t = d['t_esc']; x1, x2 = d['ax1'], d['ax2']
     im = ax[k].imshow(np.log10(t), origin='lower', cmap='magma', extent=[x1[0], x1[-1], x2[0], x2[-1]],
                       aspect='auto', interpolation='nearest')
     ax[k].set_title(lab); ax[k].set_xlabel(xl); ax[k].set_ylabel(yl)
     plt.colorbar(im, ax=ax[k], label=r'$\log_{10} t_{\rm esc}$')
 for name, mk in (('ym', 'o'), ('ghost', 's')):
-    d = np.load('unc_%s.npz' % name, allow_pickle=True); dl = d['deltas'] / float(d['width'])
+    d = np.load(_os.path.join(DATA, 'unc_%s.npz' % name), allow_pickle=True); dl = d['deltas'] / float(d['width'])
     j = 1; a, se = d['alphas'][j]
     ax[2].loglog(dl, d['F'][j], mk + '-', ms=3, label=r'%s: $\alpha=%.3f\pm%.3f$' % (name, a, se))
 ax[2].set_xlabel(r'$\delta$ / section width'); ax[2].set_ylabel(r'$f(\delta)$, $|\Delta t_{\rm esc}|>10$')
 ax[2].set_title('(c) uncertainty exponent'); ax[2].legend(fontsize=7); ax[2].set_ylim(0.1, 1.1)
-plt.tight_layout(); plt.savefig('fig_maps.pdf'); plt.savefig('fig_maps.png', dpi=150)
+plt.tight_layout(); plt.savefig(_os.path.join(PAPER, 'fig_maps.pdf')); plt.savefig(_os.path.join(PAPER, 'fig_maps.png'), dpi=150)
 
 # Fig 2: nu0
-d = np.load('nu0_E1.npz'); D = d['D']; J = d['J']; T = float(d['Ttot'])
+d = np.load(_os.path.join(DATA, 'nu0_E1.npz')); D = d['D']; J = d['J']; T = float(d['Ttot'])
 Ds = np.geomspace(3.5, 70, 25); r = np.array([np.sum(D > x) / T for x in Ds])
 fig, ax = plt.subplots(1, 2, figsize=(7.2, 3.0))
 ax[0].loglog(Ds, r, 'o', ms=3, label='measured')
@@ -32,5 +36,5 @@ ax[0].loglog(Ds, 3 * 0.1417 / (2 * Ds**2), 'k--', label=r'$3\nu_0/2D^2$, $\nu_0=
 ax[0].set_xlabel(r'depth $D$'); ax[0].set_ylabel(r'rate of visits with $D_{\max}>D$'); ax[0].legend(fontsize=7); ax[0].set_title('(a)')
 g = J > 0
 ax[1].hist(D[g] * J[g], bins=60, range=(0.5, 1.5)); ax[1].set_xlabel(r'$D_{\max}\, J$'); ax[1].set_title('(b) adiabatic relation')
-plt.tight_layout(); plt.savefig('fig_nu0.pdf'); plt.savefig('fig_nu0.png', dpi=150)
+plt.tight_layout(); plt.savefig(_os.path.join(PAPER, 'fig_nu0.pdf')); plt.savefig(_os.path.join(PAPER, 'fig_nu0.png'), dpi=150)
 print('figures written')
