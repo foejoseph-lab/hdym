@@ -1,0 +1,22 @@
+  Phi[0] built: 9 monomials
+  Phi[1] built: 9 monomials
+  Phi[2] built: 9 monomials
+  Phi[3] built: 9 monomials
+  F1,F2,F3 at Z built
+  return time series built
+symbolic return map built
+c1 = g02*conjugate(g02)/(2*lambda**2 - 2*conjugate(lambda)) + g11*g20*(2*lambda + conjugate(lambda) - 3)/((2*lambda**2 - 2*lambda)*(conjugate(lambda) - 1)) + g11*conjugate(g11)/(1 - conjugate(lambda)) + g21/2
+tau = Im(conj(lambda) * c1)   [Kuznetsov (4.21), area-preserving case: Re(conj(lambda) c1) = 0]
+
+variational integration done (3s); |Phi(z*) - z*| = 2.16e-13
+tr M = 0.07815380126553462  (HI = -0.9609230993672326 )
+DP (from symbolic reduction) =
+ [[-0.80570703  0.76529935]
+ [-0.1316071  -1.11613917]] 
+det = 1.0000000000005624  HI = -0.960923099377454
+
+linear coefficient of zeta: (-0.9609230993774539-0.2768154567277449j)  |lambda| = 1.000000000000281  (zetabar coeff, should be ~0: 1.1102230246251565e-16 )
+
+c1 = (-59240.35870731008+205643.96862155315j)
+Re(conj(lambda) c1) = -2.074e-08   (must be ~0 for an area-preserving map)
+TWIST  tau = Im(conj(lambda) c1) = -2.140067e+05      (twist_estimate.py slope: ~ -2.5e5)

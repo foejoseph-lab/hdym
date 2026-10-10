@@ -1,0 +1,15 @@
+certificate: p=16, K=200, box widths x0 2.0e-11  px0 2.0e-11  T 2.0e-10
+chain P (center) ...
+  F(center) = ['[1.673e-12, 1.673e-12]', '[-6.539e-13, -6.539e-13]', '[4.091e-12, 4.091e-12]']
+chain B (box) ...
+
+Krawczyk:
+  x0 : K=[3.1464012276983686, 3.146401227698371]  ratio 0.000
+  px0: K=[0.0017931934188136977, 0.0017931934188141494]  ratio 0.000
+  T  : K=[31.053330268585064, 31.053330268585068]  ratio 0.000
+  K strictly inside X : True
+
+base monodromy: tr M in [0.07806870390725909, 0.07823889587633746]  -> HI = (tr-2)/2 in [-0.9609656480463704, -0.9608805520618313]  ELLIPTIC (stable)
+ghost monodromy: tr in [5.346986405150874, 5.347137869427777], disc in [6.716, 6.724]  -> UNSTABLE (real multiplier off the unit circle)
+
+RESULT: PROVED: unique periodic orbit in X
