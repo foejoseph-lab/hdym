@@ -244,6 +244,7 @@ def lemma_step(step, nxt, h, p, m_list):
     for i in range(4):
         if not inside(w[i], nxt["r"][i]):
             raise CheckFailed(f"set update: component {i}: w=({float(w[i][0])!r}, {float(w[i][1])!r}) not inside r'=({float(nxt['r'][i][0])!r}, {float(nxt['r'][i][1])!r})")
+    lemma_step.extras = dict(B=B, Z=Z, Ainv=Ainv, hI=hI)       # for the directional variations (cert_twist)
     return Ts
 
 def lemma_rough_time_interval(B, delta, Z, J, m):
@@ -334,7 +335,7 @@ def parse_chain(ch):
     return out
 
 # ============================================================== main
-def run_chain(ch, p, m_list, label, verbose, initial_box):
+def run_chain(ch, p, m_list, label, verbose, initial_box, dirstate=None):
     h, steps = ch["h"], ch["steps"]
     # steps[0] must contain the initial data
     B0 = set_box(steps[0]["c"], steps[0]["A"], steps[0]["r"])
@@ -355,6 +356,12 @@ def run_chain(ch, p, m_list, label, verbose, initial_box):
     n = len(steps) - 1
     for k in range(n):
         Ts = lemma_step(steps[k], steps[k + 1], h, p, m_list)
+        if dirstate is not None:                      # VAR2/VAR3 + FRAME2 (cert_twist)
+            import cert_twist as ctw
+            ex = lemma_step.extras
+            m_k, b_k, _ = dirstate.vectors(steps[k]["A"], Rs[0])
+            Db, Dc = ctw.lemma_dir_step(ex["B"], ex["Z"], ex["hI"], p, m_k, b_k)
+            dirstate.advance(Ts[0], ex["Ainv"], Db, Dc)
         Rs = [mmul(T, R) for T, R in zip(Ts, Rs)]
         if verbose and ((k + 1) % max(1, n // 10) == 0):
             w = max(width(b) for b in set_box(steps[k + 1]["c"], steps[k + 1]["A"], steps[k + 1]["r"]))
@@ -363,12 +370,16 @@ def run_chain(ch, p, m_list, label, verbose, initial_box):
     final = steps[-1]
     framesN = [final["A"]] + (final["G"] if "G" in final else [final["A"]] * (len(m_list) - 1))
     Jacc = [mmul(Fm, R) for Fm, R in zip(framesN, Rs)]
+    if dirstate is not None:
+        run_chain.dir_final = dirstate.vectors(final["A"], Rs[0])
     return set_box(final["c"], final["A"], final["r"]), Jacc, h * n
 
 def main():
     path = sys.argv[1]
     ghost = "--ghost" in sys.argv
     verbose = "--verbose" in sys.argv
+    twist_path = None
+    if "--twist" in sys.argv: twist_path = sys.argv[sys.argv.index("--twist") + 1]
     cert = json.load(open(path))
     set_grid(int(cert.get("K", 200)))
     p = int(cert["p"])
@@ -399,7 +410,14 @@ def main():
     py0 = isqrt(sub(scal(Fr(2), E), mul(X[1], X[1])))
     z0b = [X[0], I(0), X[1], py0]
     print("chain B (box) ...")
-    zTlo, Jaccs, Tlo = run_chain(chB, p, m_list, "B", verbose, z0b)
+    dirstate = None
+    if twist_path:
+        import cert_twist as ctw
+        ctw.bind(sys.modules[__name__])                              # share THIS module's interval grid
+        c1v = neg(_div(X[1], py0))                                  # dpy/dpx at the fixed point
+        m0 = [[I(1), I(0), I(0), I(0)], [I(0), I(0), I(1), c1v], [I(0), I(0), I(0), I(1)]]   # e_x, e_2, e_py
+        dirstate = ctw.DirState(m0)
+    zTlo, Jaccs, Tlo = run_chain(chB, p, m_list, "B", verbose, z0b, dirstate)
     if not Tlo == X[2][0]:
         raise CheckFailed(f"chain B total time {float(Tlo)} != T_lo {float(X[2][0])}")
     delta = X[2][1] - X[2][0]
@@ -427,6 +445,28 @@ def main():
         Jg, _ = lemma_rough_time_interval(zTlo, delta, Zf, Jaccs[1], 1)
         verdict_g, trG, disc = lemma_symplectic_4x4(Jg)
         print(f"ghost monodromy: tr in [{float(trG[0])!r}, {float(trG[1])!r}], disc in [{float(disc[0]):.4g}, {float(disc[1]):.4g}]  -> {verdict_g}")
+    if twist_path:
+        import cert_twist as ctw
+        m_fin, b_fin, c_fin = run_chain.dir_final
+        mt, bt, ctt = ctw.lemma_dir_time_interval(Zf, delta, Jfinal, dirstate.m0, b_fin, c_fin)
+        env = {'x_s': X[0], 'px_s': X[1], 'py_s': py0, 'E': E}
+        names_m = ['Mx', 'M2', 'Mpy']; names_b = ['Bxx', 'Bx2', 'B22', 'Bxpy', 'B2py']; names_c = ['Cxxx', 'Cxx2', 'Cx22', 'C222']
+        for nm, v in zip(names_m, mt):
+            for i in range(4): env[f'{nm}_{i}'] = v[i]
+        for nm, v in zip(names_b, bt):
+            for i in range(4): env[f'{nm}_{i}'] = v[i]
+        for nm, v in zip(names_c, ctt):
+            for i in range(4): env[f'{nm}_{i}'] = v[i]
+        print("\ndirectional variations at T: max widths  m %.1e  b %.1e  c %.1e" % (
+            max(float(width(a)) for v in mt for a in v), max(float(width(a)) for v in bt for a in v),
+            max(float(width(a)) for v in ctt for a in v)))
+        formula = ctw.load_formula(twist_path)
+        tau, lam, ct, re_part, zb = ctw.lemma_twist(formula, env)
+        print(f"return map: cos theta in [{float(ct[0])!r}, {float(ct[1])!r}]  (non-resonant to order 4: checked)")
+        print(f"            lambda = ({float(lam[0][0]):.6f}..{float(lam[0][1]):.6f}) + i({float(lam[1][0]):.6f}..{float(lam[1][1]):.6f});  zetabar coeff width {float(max(width(zb[0]), width(zb[1]))):.1e}")
+        print(f"            Re(conj(lambda) c1) in [{float(re_part[0]):.3e}, {float(re_part[1]):.3e}]  (0 for area-preserving)")
+        print(f"BIRKHOFF TWIST tau in [{float(tau[0])!r}, {float(tau[1])!r}]  ->  "
+              f"{'NONZERO (Moser twist hypothesis certified)' if tau[1] < 0 or tau[0] > 0 else 'UNDECIDED (enclosure contains 0)'}")
     print("\nRESULT:", "PROVED: unique periodic orbit in X" if ok else "NOT PROVED (Krawczyk inclusion failed)")
 
 def _div(a, b):
