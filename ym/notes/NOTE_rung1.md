@@ -152,7 +152,8 @@ visits with log-gain ~19 at E = 0.01, <0.2% negative trajectories — an instabi
 visit, not a kick per passage. Candidate: the frozen coefficients of the Gauss-charge term change
 sign in channels (the frozen scan at E = 0.1 found a real eigenvalue 0.54 at x = 3.8, z = 0.12;
 its time average over the fast z oscillation vanishes by the virial relation, so the effect is
-not a static tachyon; the derivation is open). Paper text: block D of `additions.tex` is complete.
+not a static tachyon; the derivation is open). Paper text: block D of `additions.tex` is complete (since merged into `paper/main.tex`;
+`additions.tex` itself is in the tag `draft-2026-10-01`).
 
 ## 4. GPU runs
 

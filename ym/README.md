@@ -76,7 +76,7 @@ paper still rest on them. Each writes its output to the working directory.
 | `nu0_E1.npz` | channel visits (depth, entry action) at E = 1 |
 | `map256.npz`, `ghost256.npz`, `unc_ym.npz`, `unc_ghost.npz` | escape maps and uncertainty-exponent data at E = 0.3, ε = 0.01 |
 | `nu0_2d_mu*.npz`, `spec_2d_mu*.npz` | two-field entry flux and spectrum at μ₁ = 0.1, 0.03 |
-| `results_2d/` | two-field GPU runs: summaries `transverse_2d_mu*.csv`, per-trajectory exponents `lam_i_E*_mu*.npy`, `history_*.npy` |
+| `results_2d/` | two-field GPU runs: summaries `transverse_2d_mu*.csv` (`hdym_2d.py` appends to `<out>/transverse_2d.csv`; one file per μ₁ here), per-trajectory exponents `lam_i_E*_mu*.npy`, `history_*.npy` |
 | `results_2d_cpu/` | two-field CPU runs, N = 8192, with their CSVs and histories |
 | `results_rung1/` | off-diagonal GPU runs: summary `rung1_offdiag.csv`, per-trajectory exponents (c_j = 1 and 0), `history_*.npy` |
 | `rung1_lyap_E*.npy`, `rung1_ym_E*.npy` | off-diagonal CPU Lyapunov spectra (ghost blocks, YM blocks) |
