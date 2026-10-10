@@ -13,6 +13,8 @@ The linearised ghost on it is **Floquet-unstable** at E = 1/2 (proved, real mult
 unit circle) and, by float scan, for all E ≳ 0.315 plus narrow tongues below; between tongues
 it is Floquet-stable. Its Birkhoff twist is τ ≈ −2.14×10⁵ (exact formula, float evaluation;
 rigorous enclosure pending), so Moser's theorem applies once τ is certified: the island exists.
+*Status (2026-10-10): the enclosure was computed on 9–10 Oct, τ ∈ [−3.05×10⁵, −1.23×10⁵]; its
+check output is not yet committed (see Status / open).*
 In the full 12-d Lee–Wick system with a tiny ghost seed (ε = 10⁻¹⁰) the island is an
 infinite-escape-time hole at E = 0.3 and a fast smooth plateau at E = 1, with a sticky halo
 that escapes slower than the sea; at the paper's ε = 0.01 the ghost's back-reaction (|w| ≈ 0.1
@@ -72,10 +74,11 @@ import.
 
 - [ ] Twist enclosure: add 2nd/3rd-order variational series to generator and checker (VAR2, VAR3),
       evaluate the `twist_symbolic.py` formula in intervals. Then the island is a theorem modulo Moser.
-      *Status (2026-10-10): checker side written (`cert_twist.py`: VAR2/VAR3, FRAME2, TWIST; formula
-      `twist_formula.json` from `twist_symbolic2.py`; run as `cert_check.py results/cert16.json --ghost
-      --twist code/twist_formula.json`). No output of that run is in the repository, so τ is still
-      float-only. Remaining: run it and commit the output.*
+      *Status (2026-10-10): done. Checker side: `cert_twist.py` (VAR2/VAR3, FRAME2, TWIST) with the
+      formula `twist_formula.json` from `twist_symbolic2.py`. Run on Joseph's machine 9–10 Oct
+      (`cert_check.py results/cert16.json --ghost --twist code/twist_formula.json`, ≈48 min): reported
+      τ ∈ [−3.05×10⁵, −1.23×10⁵], nonzero. The output of that run is not in the repository yet; to
+      close this, rerun with the output redirected to `results/cert16_twist_output.txt` and commit it.*
 - [ ] Second certificate at E = 0.3 (ghost Floquet-STABLE on the orbit).
 - [ ] Independent review of `cert_check.py`.
 - [ ] ε-crossover scan at E = 0.3: `hdym_island.py --eps 1e-9 … 1e-6`.

@@ -13,7 +13,7 @@ the numerical experiments and judgement calls are the author's.
 |---|---|
 | `paper/` | the current paper: `main.tex`, `main.pdf`, and every figure it includes |
 | `ym/` | all Yang–Mills code behind the paper (`ym/README.md`: scripts, run commands, data index); results in `ym/data/`; working notes in `ym/notes/` |
-| `islands/` | the regular (Dahlqvist–Russberg) island and the ghost on it, including a computer-assisted proof (`islands/README_islands.md`) — the paper's open item on the regular islands |
+| `islands/` | the regular (Dahlqvist–Russberg) island and the ghost on it, including a computer-assisted proof (`islands/README.md`) — the paper's open item on the regular islands |
 | `bianchi9/` | the Weyl ghost in Bianchi IX minisuperspace of quadratic gravity (`bianchi9/README.md`) — the paper's open item on Bianchi IX; code at the top, run outputs in `bianchi9/results/` |
 
 `islands/` and `bianchi9/` are dated working notes, written after the paper text; the paper does
