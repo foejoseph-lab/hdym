@@ -19,6 +19,11 @@ the numerical experiments and judgement calls are the author's.
 `islands/` and `bianchi9/` are dated working notes, written after the paper text; the paper does
 not yet incorporate them.
 
+Conventions that keep this consistent: each result is described in one place (its folder's README
+or note) and other files point there rather than restating it; when a later run settles or replaces
+something, the earlier text keeps its wording and gets a dated `Status (YYYY-MM-DD):` line saying
+what holds now; files a document relies on but that are not committed are listed as such.
+
 ## History
 
 The 2026-10-01 draft (old title "… is malicious at every energy: a parameter-free E^{9/4}

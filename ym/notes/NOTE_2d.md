@@ -3,6 +3,9 @@
 *2026-10-01. Companion to `hdym_2d.py`, `hdym2d_nu0.py`, `hdym2d_spectrum.py`. Section 5 is a
 result about the 3-d paper and should go into `main.tex` before arXiv.*
 
+> **Status (2026-10-10):** §5 is in `paper/main.tex` (Channel statistics: A = (7/2)A_res, share 2/7). The GPU
+> runs of §6 are done; results in §4.
+
 ## 1. The model and why it needs a regulator
 
 The z = 0 plane of SU(2) Yang–Mills mechanics, A^a_i = diag(x, y, 0), is invariant
@@ -220,6 +223,9 @@ method gives the constant too, if wanted.
    spectrum (`spec_2d_mu0.1.npz`); the 2-d analogue of the 0.28 test.
 5. (Optional, cheap) `--mu1 0` at E = 0.03, long run, no convergence target: watch λ_diag(T)
    fall as 1/ln T. One figure's worth of footnote.
+
+> **Status (2026-10-10):** items 1–4 done, results in §4 (GPU table and the bullets under it). Item 5 has no
+> output in the repository; the paper states the 1/ln T decay from the density-of-states argument.
 
 ## 7. Files
 

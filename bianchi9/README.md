@@ -43,7 +43,8 @@ coupling about the turning point decide which case a model falls in.
 `fields_n.png` (healthy scalar and Dirac particle numbers for comparison).
 
 **Status.** Working notes, 5–6 Oct 2026, in chronological order below, including two
-intermediate claims that were later withdrawn (marked where they occur). Single wall,
+intermediate claims that were later withdrawn (marked where they occur: the 06-Oct "clean points"
+and c values, and the 06-Oct Kasner "not an instability" conclusion). Single wall,
 single trajectory family, five Kasner angles; the two-ghost (sixth-order) case is set up but
 unfinished. Everything reproduces on two machines; run commands are in each script's docstring.
 
@@ -107,6 +108,10 @@ anything is written: the exponential law needs a cleaner action and ≥ 3 more d
 dynamic range, and the onset needs the Kasner-epoch linear analysis (frozen-coefficient
 spectrum of the transverse 4×4 block as a function of shear/M).
 
+> **Status (2026-10-10):** both halves done later: the bounce kick (Bogoliubov quadrature and the Taub
+> estimate, e^{−(π/2)M/H_b}; the extra decades of dynamic range were not needed and the sweep was
+> cancelled) and the Kasner-epoch analysis ("Kasner-epoch onset").
+
 Caveats: single trajectory, single wall, crude action, the on-manifold tangent (mixmaster
 Lyapunov) is tracked but not yet used for anything.
 
@@ -160,6 +165,8 @@ single-wall bounce is the Taub solution, β̈ ∝ sech²(4vt), Fourier transform
 so r should be exponential in M/v with a computable c and a power-law prefactor that explains
 the drift. The three numbers above are what that formula has to hit.
 
+> **Status (2026-10-10):** done in the next section, which also withdraws the three "clean points".
+
 ## Bogoliubov quadrature and the correction of the 06 Oct table (2026-10-06, late)
 
 `bianchi9_bogoliubov.py`: first-order adiabatic perturbation theory along the exact GR
@@ -185,6 +192,10 @@ instability is a Kasner-epoch phenomenon at H ~ M set by shear, not by walls; th
 beside the point for the ghost. The planned three-decade r(H_b/M) sweep is cancelled.
 
 ## Kasner (Bianchi I) linear stability: the "onset" is not an instability (2026-10-06, late)
+
+> **Status (2026-10-10):** **superseded.** This section's conclusion (Kasner relatively attracting; Einstein
+> branch not a repeller) is replaced by "Kasner-epoch onset" and the closure below: for H > 0.2M the
+> Einstein branch is a repeller by a power law, δβ ∝ 1/t. Kept as written for the record.
 
 `bianchi9_kasner.py`: Bianchi I limit of `L` (the e^{3α} terms), Kasner is an exact solution
 (Ricci-flat ⇒ Bach-flat), scale invariance makes the linearised problem depend only on Mt and
@@ -213,6 +224,9 @@ expanding direction the ghost falls off more slowly than GR perturbations); the 
 tangent-matrix integration through Mt ~ 1 with a physical (not frame-based) transverse split is
 still to be done; the Radau run of `bianchi9_kasner.py` crawls below Mt ≈ 1 and its
 frozen-frame observable is meaningless there (mode crossing).
+
+> **Status (2026-10-10):** **superseded** by "Kasner-epoch onset" and the closure (see the note at the top of this
+> section). The bounce half (e^{−(π/2)M/H_b}) still stands.
 
 **Standing conclusion of the two days (to be reviewed independently before anything is written):
 in R/2 − C²/4M² gravity the Einstein branch is not a classical repeller for the Weyl ghost on
@@ -402,8 +416,13 @@ for the prefactor (cheap now with Radau), the n_ghost vs n_scalar comparison on 
 * Direct tangent-matrix integration through Mt ~ 1 (Radau; scaled variables) with the
   transverse / on-manifold split done against physical directions (dH·v = 0, modulo the
   time-translation mode); Kasner-angle sweep; confirm "no exponent below 1" is angle-independent.
+  *Status (2026-10-10): the "no exponent below 1" claim is superseded (power-law repeller, closure);
+  the physical-direction integration itself is still open.*
 * Independent review of the two-day conclusion by a model that has not seen the work.
 * Port the rhs to C (same pieces) for ensembles over bounce parameters (u, wall type).
 * Literature check before anything is written: Cotsakis–Demaret–De Rop–Querella
   (1993) and Barrow–Cotsakis on mixmaster in fourth-order gravity — compare their
   minisuperspace Lagrangian with `L` in the pkl.
+  *Status (2026-10-10): literature read (closure: Querella; Cotsakis–Demaret–De Rop–Querella;
+  Barrow–Cotsakis); the comparison of their Lagrangian with `L` is not recorded. The other items in
+  this list are open.*

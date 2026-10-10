@@ -61,7 +61,8 @@ mean-value Jacobian (MVT), a Neumann-series inverse (NEU), set inclusion in the 
 (step), the accumulated Jacobian in a moving frame (FRAME), Krawczyk's inclusion (KRA), and
 the trace/symplectic stability lemmas (T, SYMP). Lemma names are the function names. The
 generator may be wrong in any way; a bad certificate fails to check. What is trusted: the
-checker (≈400 lines, unreviewed as of 9 Oct), Python integer arithmetic, and `math.isqrt`.
+checker (`cert_check.py`, 486 lines, plus `cert_twist.py`, 318 lines, for the twist; unreviewed as
+of 10 Oct), Python integer arithmetic, and `math.isqrt`.
 
 Design target: Lean. The lemma shapes were chosen so each is an elementary statement about
 polynomial ODE enclosures or rational linear algebra; Moser's twist theorem would remain an
@@ -71,6 +72,10 @@ import.
 
 - [ ] Twist enclosure: add 2nd/3rd-order variational series to generator and checker (VAR2, VAR3),
       evaluate the `twist_symbolic.py` formula in intervals. Then the island is a theorem modulo Moser.
+      *Status (2026-10-10): checker side written (`cert_twist.py`: VAR2/VAR3, FRAME2, TWIST; formula
+      `twist_formula.json` from `twist_symbolic2.py`; run as `cert_check.py results/cert16.json --ghost
+      --twist code/twist_formula.json`). No output of that run is in the repository, so τ is still
+      float-only. Remaining: run it and commit the output.*
 - [ ] Second certificate at E = 0.3 (ghost Floquet-STABLE on the orbit).
 - [ ] Independent review of `cert_check.py`.
 - [ ] ε-crossover scan at E = 0.3: `hdym_island.py --eps 1e-9 … 1e-6`.

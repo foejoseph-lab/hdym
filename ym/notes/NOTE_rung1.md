@@ -99,6 +99,9 @@ Hessian block, for which the paper's machinery predicts the resonant single-mode
 ½·0.0120 E^{9/4} (only J_z² drives w₁₂ through z²) times a mixing factor ≲ 2 from −xy:
 roughly 0.006–0.013 E^{9/4}, i.e. 4–9×10⁻⁴ at E = 0.3 and 3–8×10⁻⁵ at E = 0.1.
 
+> **Status (2026-10-10):** this c_j = 0 estimate is superseded by the run and the derived law in §3b
+> (measured 5.07×10⁻³ at E = 0.3, 1.47×10⁻³ at E = 0.1; law 0.0210 E^{5/4}).
+
 Predictions for g₁ at E = 0.01 from the 0.03 point were 1.15×10⁻⁴ (slope 3/4), 6.7×10⁻⁵ (5/4),
 2.2×10⁻⁵ (9/4); measured 1.33×10⁻⁴, slope 0.62 — shallower than 3/4 and still falling
 (1.04 → 1.55 → 0.71 → 0.62). g₂ has slopes 1.02, 1.35, 0.82, 0.58. A slope tending to 1/2 would
@@ -106,12 +109,17 @@ mean a rate first order in the O(E^{1/2}) coupling, i.e. a Krein-type (opposite-
 instability rather than a second-order noise-driven one; this is to be settled by the c_j = 0
 run and the growth-location split, not by fitting four points.
 
+> **Status (2026-10-10):** both done, §3b (c_j = 0) and §3c (split at E = 0.1).
+
 **Growth location.** The kernel now also splits the log-growth of the leading vector by
 max|q| ≶ 3E^{1/4} (channel mouth). At E = 1, N = 512: 16% of the growth in the 26% of time
 spent in channels, i.e. the off-diagonal ghost grows mostly in the interior, unlike the
 diagonal single-mode ghost, whose growth is entirely at depth ~E^{-1/4}. At low E this split
 is the cleanest fingerprint of the mechanism: a channel-tail mechanism puts ~100% of the
 growth in the channels; a zero-frequency interior mechanism puts it where the time is.
+
+> **Status (2026-10-10):** at E = 0.1 the split puts 79% of the growth in the channels (§3c); the
+> "interior" reading holds at E = 1 only.
 
 ## 3b. c_j = 0 results and the derived E^{5/4} law (2026-10-02 evening)
 
@@ -157,6 +165,11 @@ not a static tachyon; the derivation is open). Paper text: block D of `additions
 
 ## 4. GPU runs
 
+> **Status (2026-10-10):** all runs below are done: c_j = 1 at E = 1, 0.3, 0.1, 0.03, 0.01 (§3 table); the two
+> runs listed next (§3b, §3c). With c_j = 0, g₁ rose (1.54×10⁻³ at E = 0.1) instead of falling, so the
+> Gauss-charge term detunes the channel resonance rather than driving the growth (§3b). Summary rows are
+> in `ym/data/results_rung1/rung1_offdiag.csv`.
+
 Done (c_j = 1): E = 1, 0.3, 0.1, 0.03; E = 0.01 running. Next, in order:
 
 ```
@@ -181,3 +194,8 @@ split of the growth (the earlier runs predate it). Output rows append to
 - If E^{5/4}: the abstract's λ_⊥ ∝ E^{9/4} must be qualified as the diagonal-sector law, and
   the physically relevant transverse exponent of the homogeneous ghost-free manifold is the
   off-diagonal one. That would be a bigger paper, not a smaller one.
+
+> **Status (2026-10-10):** both done in `paper/main.tex`: the scope paragraph and the section "The off-diagonal
+> ghost sector" state the J = 0 / neutrality result, and the abstract gives E^{9/4} as the diagonal-sector
+> law with the off-diagonal exponents faster. Their low-E law is neither E^{9/4} nor E^{5/4} and is not
+> derived (§3).
