@@ -1,0 +1,27 @@
+C ball/difference-number kernel
+  delta/w=1.0e-02  f(>10) in [0.6075, 0.8550] (centres 0.8073, uncertified 0.2475)  lost 0.247  bound(a) t=10: 3.8e-26 at esc: 3.0e-14  (52s)
+  delta/w=1.0e-04  f(>10) in [0.5125, 0.7525] (centres 0.6743, uncertified 0.2400)  lost 0.240  bound(a) t=10: 3.9e-26 at esc: 4.5e-14  (102s)
+  delta/w=1.0e-06  f(>10) in [0.4000, 0.6325] (centres 0.5212, uncertified 0.2325)  lost 0.233  bound(a) t=10: 4.0e-26 at esc: 3.5e-14  (147s)
+  delta/w=1.0e-08  f(>10) in [0.2925, 0.5075] (centres 0.3726, uncertified 0.2150)  lost 0.215  bound(a) t=10: 4.1e-26 at esc: 7.2e-14  (188s)
+  delta/w=1.0e-10  f(>10) in [0.1875, 0.4025] (centres 0.2389, uncertified 0.2150)  lost 0.215  bound(a) t=10: 4.1e-26 at esc: 1.8e-13  (227s)
+  delta/w=1.0e-12  f(>10) in [0.0900, 0.2950] (centres 0.1132, uncertified 0.2050)  lost 0.205  bound(a) t=10: 3.9e-26 at esc: 4.8e-14  (263s)
+  delta/w=1.0e-14  f(>10) in [0.0225, 0.2100] (centres 0.0277, uncertified 0.1875)  lost 0.188  bound(a) t=10: 3.8e-26 at esc: 1.0e-14  (297s)
+  delta/w=1.0e-16  f(>10) in [0.0000, 0.1800] (centres 0.0000, uncertified 0.1800)  lost 0.180  bound(a) t=10: 3.8e-26 at esc: 1.0e-13  (331s)
+  delta/w=1.0e-18  f(>10) in [0.0000, 0.1625] (centres 0.0000, uncertified 0.1625)  lost 0.163  bound(a) t=10: 3.8e-26 at esc: 9.9e-14  (364s)
+  delta/w=1.0e-20  f(>10) in [0.0000, 0.1400] (centres 0.0000, uncertified 0.1400)  lost 0.140  bound(a) t=10: 3.9e-26 at esc: 5.3e-14  (396s)
+  delta/w=1.0e-22  f(>10) in [0.0000, 0.1475] (centres 0.0000, uncertified 0.1475)  lost 0.147  bound(a) t=10: 3.9e-26 at esc: 6.8e-14  (428s)
+  delta/w=1.0e-24  f(>10) in [0.0000, 0.1325] (centres 0.0000, uncertified 0.1325)  lost 0.133  bound(a) t=10: 3.9e-26 at esc: 2.0e-14  (458s)
+  delta/w=1.0e-26  f(>10) in [0.0000, 0.1525] (centres 0.0000, uncertified 0.1525)  lost 0.152  bound(a) t=10: 4.1e-26 at esc: 1.6e-13  (491s)
+  delta/w=1.0e-28  f(>10) in [0.0000, 0.1325] (centres 0.0000, uncertified 0.1325)  lost 0.133  bound(a) t=10: 4.0e-26 at esc: 5.1e-14  (523s)
+  delta/w=1.0e-30  f(>10) in [0.0000, 0.1350] (centres 0.0000, uncertified 0.1350)  lost 0.135  bound(a) t=10: 3.9e-26 at esc: 3.2e-14  (555s)
+  delta/w=1.0e-32  f(>10) in [0.0000, 0.0900] (centres 0.0000, uncertified 0.0900)  lost 0.090  bound(a) t=10: 3.9e-26 at esc: 4.2e-14  (585s)
+  delta/w=1.0e-34  f(>10) in [0.0000, 0.1425] (centres 0.0000, uncertified 0.1425)  lost 0.142  bound(a) t=10: 3.9e-26 at esc: 6.3e-14  (618s)
+  delta/w=1.0e-36  f(>10) in [0.0000, 0.1250] (centres 0.0000, uncertified 0.1250)  lost 0.125  bound(a) t=10: 3.8e-26 at esc: 9.6e-14  (648s)
+  delta/w=1.0e-38  f(>10) in [0.0000, 0.1425] (centres 0.0000, uncertified 0.1425)  lost 0.142  bound(a) t=10: 3.8e-26 at esc: 3.3e-14  (679s)
+  delta/w=1.0e-40  f(>10) in [0.0000, 0.1325] (centres 0.0000, uncertified 0.1325)  lost 0.133  bound(a) t=10: 3.8e-26 at esc: 2.9e-14  (711s)
+
+rigorous bracket on the uncertainty exponent (fit to f_lo and f_hi separately):
+  |dt|>2: alpha from f_lo 0.096+-0.013, from f_hi 0.023+-0.004; max uncertified fraction 0.2475
+  |dt|>5: alpha from f_lo 0.083+-0.015, from f_hi 0.023+-0.003; max uncertified fraction 0.2475
+  |dt|>10: alpha from f_lo 0.110+-0.019, from f_hi 0.022+-0.003; max uncertified fraction 0.2475
+wrote ./ball_sweep.png

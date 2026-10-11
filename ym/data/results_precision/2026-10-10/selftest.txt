@@ -1,0 +1,15 @@
+selftest 0: polynomial bounds in step_remainder (sympy)
+   force P  : code - exact = 0  ok
+   force W  : code - exact = 0  ok
+   K1 W row : code - exact = 0  ok
+   K1 P row : code - exact = 0  ok
+   K2 W row : code - exact = 0  ok
+   K2 P row : code - exact = 8*Q0 + 8*Q1 + 8*Q2  ok
+selftest 1: double-word add/mul error <= 2^-101 |result| (vs exact rationals)
+   worst error / (2^-101 |result|) = 0.029  (must be < 1)
+selftest 2: an independent 60-digit orbit of the same map lies inside the certified ellipsoid (3 trajectories to t = 40)
+C ball/difference-number kernel
+   traj 0: max |true - centre| = 2.04e-26, bound 9.86e-22, worst ratio 0.000  (2s)
+   traj 1: max |true - centre| = 2.16e-27, bound 1.23e-22, worst ratio 0.000  (2s)
+   traj 2: max |true - centre| = 1.11e-26, bound 2.80e-22, worst ratio 0.000  (2s)
+selftest passed

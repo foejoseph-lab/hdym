@@ -27,7 +27,21 @@ drifts and kicks), consistent with the flow to O(dt^4) up to ~1e-16 in the
 coefficients.  Roundoff is fully accounted for; the time-discretisation error
 relative to the continuous Hamiltonian flow is NOT (that needs Taylor-model
 enclosures, e.g. CAPD).  So: "the escape-time function of this symplectic map
-has these pair differences", rigorously, at any delta the radii allow.
+has these pair differences", rigorously, at any delta the radii allow -- with the
+exceptions below.
+
+Status of the rigour (2026-10-10).  The step remainder now comes from a computed a priori
+bound (step_remainder: forward magnitude propagation through the stages, computed Lipschitz
+and second-derivative bounds); it replaces the asserted intermediate-state bound
+X = 1.5 X + 1 and the asserted stage-growth factor 1.1.  Two constants in the ellipsoid
+update (ell_update) are still asserted, not derived, and are open:
+  (a) +1e-13 |Y|_F in beta, said to cover the floating-point error of the tangent columns
+      Y = J L (7n stages in double; for large sub-step counts n it is not obviously enough);
+  (b) the 1 + 1e-12 inflation of L' after the floating-point Householder QR: a rounding
+      perturbation of size ~u |M| is compared with the thinnest semi-axis, which is only
+      bounded below by ~sqrt(|Y| beta), so for a thin ellipsoid 1e-12 is not obviously enough.
+Both need either a derived bound or an a posteriori containment check; until then the
+certified brackets rest on them.
 
 Escape intervals.  At each step: 'possibly escaped' if some |c| + r > R,
 'certainly escaped' if some |c| - r > R.  The true exit step lies in
@@ -331,15 +345,71 @@ DEVFN double ebound(const double* L, double* E)
     }
     return m;
 }
-/* Taylor remainder of one step, |Phi(x+e) - Phi(x) - J e| per component, for |e| <= r0 and
-   all intermediate states bounded by X.  A kick adds h_k F(p, w), F cubic; for a monomial
-   c a b c' with increments <= eps the remainder is <= |c| (3 X eps^2 + eps^3).  Increments of
-   q = p - w are <= 2 r; the coefficient sum per force component is <= 8; sum |h_k| = 4.41 dt
-   over the step; the error inside one step grows by < 1.1 (|J - 1| = O(dt) per stage).       */
-DEVFN double taylor_rem(double X, double r0, double dt)
+/* A priori bounds for the remainder of one step (replaces, 2026-10-10, the asserted bound
+   X = 1.5 X + 1 on intermediate states and the asserted stage-growth factor 1.1).
+   Start set S0 = conv( {x~} u {x + e : |e_k| <= E_k} ),  x the double-word centre, x~ its hi part,
+   |x_k - x~_k| <= 2U|x~_k|.  Forward magnitude propagation through the 7n stages of the step
+   (the same stage constants fl(YC*h), fl(YD*h), h = fl(dt/n) as yoshida_b) gives componentwise
+   bounds bq >= |q|, bw >= |w|, bP >= |P|, bW >= |W| holding at every stage for every start point
+   in S0 (all updates add non-negative terms, so each bound also covers every earlier stage).
+   The step is an explicit composition, so this one forward pass is the whole a priori
+   enclosure: no fixed point (Picard) iteration is needed.  Each stage result is multiplied by
+   INFL = 1 + 2^-46 (covers <= 64 roundings, each of relative size <= 2^-53, in a stage's few
+   monotone sums and products of non-negative doubles) plus ETA (underflow).
+   From the same pass, in the max-norm on R^12:
+     G  = prod_stages l_i,  drift l = 1 + |c h|,  kick l = 1 + |d h| K1,  K1 >= max row sum of DF
+     S2 = sum_kicks |d h| K2,  K2 >= max_c sum_{i,j} |d_i d_j F_c|  (second derivatives of the force)
+   with F the kick force as a function of (p, w): F_P = -(grad V(q) + Hess V(q) w),
+   F_W = Hess V(q) w + w, q = p - w.  The polynomial bounds below are the abs-coefficient
+   bounds in (q, w); they are re-derived with sympy in selftest 0.  Then, for the step map Phi,
+     |D Phi(u) - D Phi(v)| <= M2 |u - v|,  M2 = G^2 S2       (chain rule; drifts are linear)
+   and with |e| <= r0, |x - x~| <= sh:
+     |Phi(x + e) - Phi(x) - D Phi(x~) e| <= M2 r0 (sh + r0/2)
+   (integrate D Phi(x + s e) - D Phi(x~) over s in [0,1]; |x + s e - x~| <= sh + s r0).       */
+DEVFN double step_remainder(const double* xt, const double* Ek, double dt, int n, double r0, double sh)
 {
-    double e = 2.0 * 1.1 * r0;
-    return 1.1 * 4.41 * dt * 8.0 * (3.0 * X * e * e + e * e * e);
+    double bq[3], bw[3], bP[3], bW[3], G = 1.0, S2 = 0.0;
+    double h = dt / n, cs[4], ds[3];
+    int k, u, st;
+    cs[0] = YC0 * h; cs[1] = YC1 * h; cs[2] = YC2 * h; cs[3] = YC3 * h;
+    ds[0] = YD0 * h; ds[1] = YD1 * h; ds[2] = YD2 * h;
+    for (k = 0; k < 3; k++) {
+        double pe = Ek[k] + 2.0 * U2 * fabs(xt[k]), we = Ek[3 + k] + 2.0 * U2 * fabs(xt[3 + k]);
+        bq[k] = (fabs(xt[k] - xt[3 + k]) * (1.0 + U2) + pe + we) * INFL + ETA;
+        bw[k] = (fabs(xt[3 + k]) + we) * INFL + ETA;
+        bP[k] = (fabs(xt[6 + k]) * (1.0 + 2.0 * U2) + Ek[6 + k]) * INFL + ETA;
+        bW[k] = (fabs(xt[9 + k]) * (1.0 + 2.0 * U2) + Ek[9 + k]) * INFL + ETA;
+    }
+    for (u = 0; u < n; u++) for (st = 0; st < 7; st++) {
+        if (!(st & 1)) {                                   /* drift by c = cs[st/2] */
+            double a = fabs(cs[st / 2]);
+            for (k = 0; k < 3; k++) {
+                bq[k] = (bq[k] + a * (bP[k] + bW[k])) * INFL + ETA;
+                bw[k] = (bw[k] + a * bW[k]) * INFL + ETA;
+            }
+            G = G * (1.0 + a) * INFL;
+        } else {                                           /* kick by d = ds[st/2] */
+            double a = fabs(ds[st / 2]), FP[3], FW[3], K1 = 0.0, K2;
+            for (k = 0; k < 3; k++) {
+                int l = (k + 1) % 3, m = (k + 2) % 3;
+                double Q0 = bq[k], Q1 = bq[l], Q2 = bq[m], W0 = bw[k], W1 = bw[l], W2 = bw[m];
+                double s12 = Q1 * Q1 + Q2 * Q2, cr = 2.0 * Q0 * (Q1 * W1 + Q2 * W2);
+                FP[k] = (Q0 * s12 + cr + s12 * W0) * INFL;
+                FW[k] = (cr + s12 * W0 + W0) * INFL;
+                double r = (2.0 * Q0 * (Q1 + Q2) + 4.0 * Q0 * (W1 + W2) + s12
+                            + 4.0 * (Q1 + Q2) * W0 + 4.0 * (Q1 * W1 + Q2 * W2) + 1.0) * INFL;   /* W row; P row = this - 1 */
+                if (r > K1) K1 = r;
+            }
+            K2 = 16.0 * (bq[0] + bq[1] + bq[2] + bw[0] + bw[1] + bw[2]) * INFL;          /* W row >= P row */
+            for (k = 0; k < 3; k++) {
+                bP[k] = (bP[k] + a * FP[k]) * INFL + ETA;
+                bW[k] = (bW[k] + a * FW[k]) * INFL + ETA;
+            }
+            G = G * (1.0 + a * K1) * INFL;
+            S2 = (S2 + a * K2) * INFL;
+        }
+    }
+    return (G * G * S2) * r0 * (sh + 0.5 * r0) * INFL * INFL * INFL + ETA;
 }
 
 /* status of one member: centre c_k, error bound E_k  ->  bit0 possible, bit1 certain, bit2 lost */
@@ -369,7 +439,7 @@ DEVFN void bpair(const double* S, double* out, int N, int i, double dt, long lon
                  double omd, const long long* chk, int nchk)
 {
     bd p[3], w[3], P[3], W[3];
-    double Q[2][144], Ev[2][12], x[2][12], c[2][12], E[2][12], def[2][12], emax[2] = {0, 0};
+    double Q[2][144], Ev[2][12], Eb[2][12], x[2][12], c[2][12], E[2][12], def[2][12], emax[2] = {0, 0};
     int k, j = 0, n, m, mode = 2;               /* 2: v = a, v+d = b;  0: only a in v;  1: only b in v */
     long long s;
     for (k = 0; k < 3; k++) {
@@ -379,6 +449,7 @@ DEVFN void bpair(const double* S, double* out, int N, int i, double dt, long lon
         W[k] = mkb(mkd(S[(9 + k) * N + i], 0), 0.0, mkd(S[(21 + k) * N + i], 0), 0.0);
     }
     for (m = 0; m < 2; m++) for (k = 0; k < 144; k++) Q[m][k] = 0.0;   /* exact initial data */
+    for (m = 0; m < 2; m++) for (k = 0; k < 12; k++) Eb[m][k] = 0.0;
     for (k = 0; k < 5 + 2 * nchk; k++) out[k * N + i] = -1.0;
     for (s = 1; s <= nmax; s++) {
         bd* g[4] = {p, w, P, W};
@@ -388,12 +459,9 @@ DEVFN void bpair(const double* S, double* out, int N, int i, double dt, long lon
             n = na > nb ? na : nb;
         } else n = nsub_b(p, w, dt, omd, 0);
         /* base points of the pseudo-orbits at the start of the step */
-        double X = 0.0;
         for (m = 0; m < 4; m++) for (k = 0; k < 3; k++) {
             double va = g[m][k].v.h, vb = ddadd(g[m][k].v, g[m][k].d).h;
             x[0][3 * m + k] = va; x[1][3 * m + k] = (mode == 2) ? vb : va;
-            if (fabs(va) > X) X = fabs(va);
-            if (fabs(vb) > X) X = fabs(vb);
             g[m][k].rv = 0.0; g[m][k].rd = 0.0;   /* one-step balls: defects */
         }
         { int u; double h = dt / n; for (u = 0; u < n; u++) yoshida_b(p, w, P, W, h); }
@@ -402,10 +470,7 @@ DEVFN void bpair(const double* S, double* out, int N, int i, double dt, long lon
             def[0][3 * m + k] = g[m][k].rv;
             def[1][3 * m + k] = (mode == 2) ? g[m][k].rv + g[m][k].rd : g[m][k].rv;
             c[0][3 * m + k] = cv; c[1][3 * m + k] = (mode == 2) ? cb : cv;
-            if (fabs(cv) > X) X = fabs(cv);
-            if (fabs(cb) > X) X = fabs(cb);
         }
-        X = 1.5 * X + 1.0;
         int st[2] = {0, 0}, mem;
         for (mem = 0; mem < 2; mem++) {
             if (!alive[mem]) continue;
@@ -413,13 +478,12 @@ DEVFN void bpair(const double* S, double* out, int N, int i, double dt, long lon
             int fr = (mode == 2) ? mem : (mode == 0 ? 0 : 1);
             double shift = 0.0;                  /* base point = hi part, |true - hi| <= 2^-52 |hi| */
             for (k = 0; k < 12; k++) shift = fmax(shift, 2.0 * U2 * fabs(x[f][k]));
-            /* tangent is evaluated at the hi part x~ of the base point: [J(x) - J(x~)] e is
-               bounded by the cross term of the quadratic remainder, linear in e            */
-            double rem = taylor_rem(X, emax[fr], dt)
-                       + 1.1 * 4.41 * dt * 8.0 * 6.0 * X * (2.2 * emax[fr]) * (2.2 * shift);
+            /* remainder of the linearisation at the hi part x~ (tangent is evaluated there),
+               over the error set of the start of the step: step_remainder                  */
+            double rem = step_remainder(x[f], Eb[fr], dt, n, emax[fr], shift);
             ell_update(Q[fr], x[f], dt, n, def[f], rem, 1);
             emax[fr] = ebound(Q[fr], E[fr]);
-            for (k = 0; k < 12; k++) Ev[fr][k] = E[fr][k];
+            for (k = 0; k < 12; k++) { Ev[fr][k] = E[fr][k]; Eb[fr][k] = E[fr][k]; }
             for (k = 0; k < 12; k++) E[fr][k] += 2.0 * U2 * fabs(c[f][k]) * INFL;   /* centre = hi part */
             st[mem] = estatus(c[f], E[fr], R);
         }
@@ -445,6 +509,7 @@ DEVFN void bpair(const double* S, double* out, int N, int i, double dt, long lon
                     def[1][3 * m + k] = DDU * ddabs(cc);
                 }
                 ell_update(Q[1], x[1], dt, 1, def[1], 0.0, 0);   /* fold in the switch rounding */
+                emax[1] = ebound(Q[1], Eb[1]);
                 mode = 1;
             } else if (bdone) {
                 for (m = 0; m < 4; m++) for (k = 0; k < 3; k++) g[m][k].d = mkd(0, 0);
@@ -657,8 +722,59 @@ def _mp_orbit(x0, tmax, dt=0.005, omd=0.25, dps=60):
     return p + w + P + W
 
 
+def _selftest_bounds():
+    """The polynomial bounds hard-coded in step_remainder are the abs-coefficient bounds of the
+    kick force, of its Jacobian row sums and of its second-derivative row sums (re-derived)."""
+    import sympy as sp
+    p = sp.symbols('p0:3'); w = sp.symbols('w0:3'); q = [p[k] - w[k] for k in range(3)]
+    qs = sp.symbols('q0:3')
+    Vq = (qs[0]**2*qs[1]**2 + qs[1]**2*qs[2]**2 + qs[2]**2*qs[0]**2) / 2
+    sub = {qs[k]: q[k] for k in range(3)}
+    g = [sp.diff(Vq, v).subs(sub, simultaneous=True) for v in qs]
+    H = sp.hessian(Vq, qs).subs(sub, simultaneous=True)
+    hv = [sum(H[k, j] * w[j] for j in range(3)) for k in range(3)]
+    FP = [-(g[k] + hv[k]) for k in range(3)]
+    FW = [hv[k] + w[k] for k in range(3)]
+    ins = list(p) + list(w)
+    Q = sp.symbols('Q0:3', nonnegative=True); W = sp.symbols('W0:3', nonnegative=True)
+    qq = sp.symbols('qq0:3')
+
+    def absbound(expr):
+        e = sp.expand(expr.subs({p[k]: qq[k] + w[k] for k in range(3)}, simultaneous=True))
+        out = 0
+        for mon, c in sp.Poly(e, *qq, *w).terms():
+            t = abs(c)
+            for v, n in zip(list(Q) + list(W), mon):
+                t *= v ** n
+            out += t
+        return sp.expand(out)
+    Q0, Q1, Q2 = Q; W0, W1, W2 = W                     # component k = 0 (x); y, z cyclic
+    s12, cr = Q1**2 + Q2**2, 2 * Q0 * (Q1 * W1 + Q2 * W2)
+    code = {'FP': Q0 * s12 + cr + s12 * W0, 'FW': cr + s12 * W0 + W0,
+            'K1W': 2*Q0*(Q1 + Q2) + 4*Q0*(W1 + W2) + s12 + 4*(Q1 + Q2)*W0 + 4*(Q1*W1 + Q2*W2) + 1,
+            'K2': 16 * (Q0 + Q1 + Q2 + W0 + W1 + W2)}
+    exact = {'FP': absbound(FP[0]), 'FW': absbound(FW[0]),
+             'K1P': sum(absbound(sp.diff(FP[0], v)) for v in ins),
+             'K1W': sum(absbound(sp.diff(FW[0], v)) for v in ins),
+             'K2P': sum(absbound(sp.diff(FP[0], u, v)) for u in ins for v in ins),
+             'K2W': sum(absbound(sp.diff(FW[0], u, v)) for u in ins for v in ins)}
+    perm = {**{p[k]: p[(k + 1) % 3] for k in range(3)}, **{w[k]: w[(k + 1) % 3] for k in range(3)}}
+    ok = all(sp.expand(F[0].subs(perm, simultaneous=True) - F[1]) == 0 for F in (FP, FW))
+    checks = [('force P', exact['FP'], code['FP']), ('force W', exact['FW'], code['FW']),
+              ('K1 W row', exact['K1W'], code['K1W']), ('K1 P row', exact['K1P'], code['K1W'] - 1),
+              ('K2 W row', exact['K2W'], code['K2']), ('K2 P row', exact['K2P'], code['K2'])]
+    for name, ex, cd in checks:
+        diff = sp.expand(cd - ex)                       # must have only non-negative coefficients
+        good = diff == 0 or all(c >= 0 for c in sp.Poly(diff, *Q, *W).coeffs())
+        print(f"   {name:9s}: code - exact = {diff}  {'ok' if good else 'TOO SMALL'}")
+        ok = ok and good
+    assert ok, "a hard-coded bound in step_remainder is not an upper bound"
+
+
 def selftest(n_traj=3, tmax=40.0):
     from fractions import Fraction as Fr
+    print("selftest 0: polynomial bounds in step_remainder (sympy)")
+    _selftest_bounds()
     print("selftest 1: double-word add/mul error <= 2^-101 |result| (vs exact rationals)")
     add, mul = _py_dd()
     rng = np.random.default_rng(1)
