@@ -1,0 +1,10 @@
+C ball/difference-number kernel
+  delta/w=1.0e-06  f(>10) in [0.4375, 0.7812] (centres 0.6667, uncertified 0.3438)  lost 0.344  bound(a) t=10: 3.7e-26 at esc: 2.7e-13  frame radii/|Y| tan 1e-14 QR 4e-04  (16s)
+  delta/w=1.0e-08  f(>10) in [0.3750, 0.5625] (centres 0.4615, uncertified 0.1875)  lost 0.188  bound(a) t=10: 4.6e-26 at esc: 1.1e-14  frame radii/|Y| tan 2e-14 QR 3e-05  (30s)
+  delta/w=1.0e-10  f(>10) in [0.1875, 0.5000] (centres 0.2727, uncertified 0.3125)  lost 0.312  bound(a) t=10: 3.6e-26 at esc: 1.4e-13  frame radii/|Y| tan 9e-15 QR 8e-04  (44s)
+
+rigorous bracket on the uncertainty exponent (fit to f_lo and f_hi separately):
+  |dt|>2: alpha from f_lo 0.031+-0.026, from f_hi 0.022+-0.007; max uncertified fraction 0.3438
+  |dt|>5: alpha from f_lo 0.055+-0.032, from f_hi 0.034+-0.007; max uncertified fraction 0.3438
+  |dt|>10: alpha from f_lo 0.092+-0.034, from f_hi 0.048+-0.013; max uncertified fraction 0.3438
+wrote /root/scratch/review/sweep/ball_ghostR10_ym_E0.3_eps0.01_M32.png

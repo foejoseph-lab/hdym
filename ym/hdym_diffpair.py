@@ -330,8 +330,10 @@ def dV(q, dq):
 
 
 def sample_dpairs(section, E, eps, seed, plane, center, width, M, delta, rng):
-    """Reference states S_a (identical to hdym_uncertainty.sample_pairs) and exact
-    differences D = S_b - S_a for the same random pairs."""
+    """Reference states S_a (identical to hdym_uncertainty.sample_pairs) and differences
+    D = S_b - S_a for the same random pairs, computed to about 1 ulp of D (sines, square roots in
+    floating point), so the separation is delta (1 + O(1e-16)).  The certified pair is (S_a,
+    S_a + D) with D the stored doubles."""
     r2 = copy.deepcopy(rng)
     Sa, _Sb_unused, ok = unc.sample_pairs(section, E, eps, seed, plane, center, width, M,
                                           delta, rng)

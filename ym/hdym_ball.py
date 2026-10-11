@@ -22,7 +22,10 @@ with a radius of ~1e-40 x (rv / |v|), as long as the reference ball stays small.
 What is certified.  The exact orbit, in real arithmetic, of the integrator
 map actually used: Yoshida-type compositions with the stored double
 coefficients, step h = fl(dt/n), sub-step count n chosen from the computed
-centres.  Each such step is an exactly symplectic map (a composition of exact
+centres.  While both members of a pair are tracked they share n = max(n_a, n_b), so the
+step schedule depends on the pair (after one member is done the other uses its own n): what
+is certified is the escape time under this pair-dependent schedule, the same for both
+members, not one fixed map applied to each initial condition separately.  Each such step is an exactly symplectic map (a composition of exact
 drifts and kicks), consistent with the flow to O(dt^4) up to ~1e-16 in the
 coefficients.  Roundoff is fully accounted for; the time-discretisation error
 relative to the continuous Hamiltonian flow is NOT (that needs Taylor-model
@@ -50,8 +53,15 @@ Escape intervals.  At each step: 'possibly escaped' if some |c| + r > R,
 'certainly escaped' if some |c| - r > R.  The true exit step lies in
 [first possible, first certain].  A pair is CERTIFIED DIFFERENT at threshold
 T if the two intervals are separated by more than T, CERTIFIED SAME if the
-union of the intervals spans <= T.  Rigorous bracket:
-      f_lo = P(certified different)  <=  f_true  <=  1 - P(certified same) = f_hi.
+union of the intervals spans <= T.  Rigorous bracket, for the M SAMPLED pairs:
+      f_lo = (fraction certified different)  <=  f_true  <=  1 - (fraction certified same) = f_hi,
+f_true the fraction of these pairs whose escape times differ by more than T.  It is not a
+bracket on the probability over the section (that carries the Monte Carlo error ~ 1/sqrt(M)),
+and exponents fitted to f_lo(delta) and f_hi(delta) separately do NOT bracket the exponent of
+f_true: f_true can wander between the curves (review of 2026-10-11, F3).  A rigorous statement
+about alpha needs the uncertified fraction small compared with f itself at every delta fitted.
+Escape observable: by default (--esc ghost) the ghost amplitude max(|w|, |W|) > R = 10, not
+the paper's landscape observable (max over all 12 components > 1e4); --esc all is the latter.
 
 Examples
   python hdym_ball.py --selftest
@@ -596,7 +606,7 @@ DEVFN void bpair(const double* S, double* out, int N, int i, double dt, long lon
         if (mode == 2) {
             int ea = (st[0] & 2) != 0, eb = (st[1] & 2) != 0, lb = (st[1] & 4) != 0;
             if (ea) { out[1 * N + i] = t; out[4 * N + i] = emax[0]; }
-            if (eb) out[3 * N + i] = t;
+            if (eb && !lb) out[3 * N + i] = t;    /* a lost b never gets a certified exit (review F1) */
             int bdone = eb || lb;
             if (ea && bdone) break;
             if (ea) {                            /* continue b alone: v <- fl(v + d) */
@@ -605,7 +615,10 @@ DEVFN void bpair(const double* S, double* out, int N, int i, double dt, long lon
                     g[m][k].v = cc; g[m][k].d = mkd(0, 0);
                     def[1][3 * m + k] = DDU * ddabs(cc);
                 }
-                ell_update(Q[1], &rho[1], x[1], dt, 1, def[1], 0.0, rho[1], 0, diag);   /* fold in the switch rounding (J = I) */
+                if (ell_update(Q[1], &rho[1], x[1], dt, 1, def[1], 0.0, rho[1], 0, diag)) {   /* fold in the switch rounding (J = I) */
+                    out[3 * N + i] = -2.0;           /* b's enclosure could not be formed: lost (review F1) */
+                    break;
+                }
                 emax[1] = ebound(Q[1], rho[1], Eb[1]);
                 mode = 1;
             } else if (bdone) {
@@ -638,6 +651,16 @@ DEVFN void bpair(const double* S, double* out, int N, int i, double dt, long lon
     /* diagnostics: max over the run of |RY|_F / |Y|_F (tangent arithmetic) and rho' / |Y|_F (QR) */
     out[(41 + 2 * nchk) * N + i] = diag[0];
     out[(42 + 2 * nchk) * N + i] = diag[1];
+    /* validation rows for member b (meaningful while mode == 2 at the end): centre v + d
+       (double-word, hi + lo) and its error bound; then the final mode                         */
+    for (m = 0; m < 4; m++) for (k = 0; k < 3; k++) {
+        bd* gm = (m == 0 ? p : m == 1 ? w : m == 2 ? P : W);
+        dd cb = ddadd(gm[k].v, gm[k].d);
+        out[(43 + 2 * nchk + 3 * m + k) * N + i] = cb.h;
+        out[(55 + 2 * nchk + 3 * m + k) * N + i] = cb.l;
+        out[(67 + 2 * nchk + 3 * m + k) * N + i] = Ev[1][3 * m + k];
+    }
+    out[(79 + 2 * nchk) * N + i] = (double)mode;
 }
 """
 
@@ -712,7 +735,7 @@ class CBall:
         S = np.ascontiguousarray(S, dtype=np.float64)
         N = S.shape[1]
         chk = np.ascontiguousarray(chk, dtype=np.int64)
-        out = np.empty((43 + 2 * len(chk), N))
+        out = np.empty((80 + 2 * len(chk), N))
         dp, lp = ctypes.POINTER(ctypes.c_double), ctypes.POINTER(ctypes.c_longlong)
         self.lib.bpairs(S.ctypes.data_as(dp), out.ctypes.data_as(dp), N, dt, int(nmax), R, omd,
                         chk.ctypes.data_as(lp), len(chk))
@@ -730,7 +753,7 @@ class CupyBall:
         cp = self.cp
         Sd = cp.asarray(np.ascontiguousarray(S, dtype=np.float64))
         N = Sd.shape[1]
-        out = cp.empty((43 + 2 * len(chk), N), dtype=cp.float64)
+        out = cp.empty((80 + 2 * len(chk), N), dtype=cp.float64)
         threads = 128
         self.kern(((N + threads - 1) // threads,), (threads,),
                   (Sd, out, np.int32(N), np.float64(dt), np.int64(nmax), np.float64(R),
@@ -778,48 +801,79 @@ def _py_dd():
     return add, mul
 
 
-def _mp_orbit(x0, tmax, dt=0.005, omd=0.25, dps=60):
-    """Member a's orbit of the SAME map in 60-digit arithmetic: identical double
-    coefficients, h = fl(dt/n), drift/kick constants fl(YC*h), fl(YD*h)."""
+def _mp_pair(xa, xb, nsteps, dt=0.005, omd=0.25, R=None, ghost_esc=True, switch=None, alone='b',
+             dps=60):
+    """Orbits of members a and b of the SAME map as the kernel, in dps-digit arithmetic:
+    identical double coefficients, h = fl(dt/n), stage constants fl(YC*h), fl(YD*h); while both
+    members are tracked (steps 1..switch, all steps if switch is None) they share
+    n = max(n_a, n_b), as in the kernel's mode 2; after step `switch` only member `alone`
+    continues, with its own n (modes 1 / 0).  xa, xb: 12 mpf values each (xb may be None).
+    Returns (state_a, state_b, exit_a, exit_b): exit = first step whose end state has
+    max |component| > R over the ghost components (ghost_esc) or all 12, else None."""
     import mpmath as mp
     mp.mp.dps = dps
     YC = (0.6756035959798288, -0.17560359597982886, -0.17560359597982886, 0.6756035959798288)
     YD = (1.3512071919596576, -1.7024143839193153, 1.3512071919596576)
-    p = [mp.mpf(float(v)) for v in x0[0:3]]
-    w = [mp.mpf(float(v)) for v in x0[3:6]]
-    P = [mp.mpf(float(v)) for v in x0[6:9]]
-    W = [mp.mpf(float(v)) for v in x0[9:12]]
+    st = [list(xa)] + ([list(xb)] if xb is not None else [])
 
-    def kick(h):
-        x, y, z = p[0] - w[0], p[1] - w[1], p[2] - w[2]
-        x2, y2, z2 = x * x, y * y, z * z
+    def kick(z, h):
+        p, w, P, W = z[0:3], z[3:6], z[6:9], z[9:12]
+        x, y, zz = p[0] - w[0], p[1] - w[1], p[2] - w[2]
+        x2, y2, z2 = x * x, y * y, zz * zz
         yz, zx, xy = y2 + z2, z2 + x2, x2 + y2
-        g = (x * yz, y * zx, z * xy)
-        txy, txz, tyz = 2 * x * y, 2 * x * z, 2 * y * z
+        g = (x * yz, y * zx, zz * xy)
+        txy, txz, tyz = 2 * x * y, 2 * x * zz, 2 * y * zz
         hv = (yz * w[0] + txy * w[1] + txz * w[2],
               txy * w[0] + zx * w[1] + tyz * w[2],
               txz * w[0] + tyz * w[1] + xy * w[2])
         hh = mp.mpf(h)
         for k in range(3):
-            P[k] -= hh * (g[k] + hv[k])
-            W[k] += hh * (hv[k] + w[k])
+            z[6 + k] -= hh * (g[k] + hv[k])
+            z[9 + k] += hh * (hv[k] + w[k])
 
-    def drift(ch):
+    def drift(z, ch):
         cc = mp.mpf(ch)
         for k in range(3):
-            p[k] += cc * P[k]
-            w[k] -= cc * W[k]
-    nsteps = int(round(tmax / dt))
-    for _ in range(nsteps):
-        om = max(abs(float(p[k] - w[k])) for k in range(3))
-        n = max(1, int(np.ceil(om * dt / omd)))
+            z[k] += cc * z[6 + k]
+            z[3 + k] -= cc * z[9 + k]
+
+    def nsub(z):
+        om = max(abs(float(z[k] - z[3 + k])) for k in range(3))
+        return max(1, int(np.ceil(om * dt / omd)))
+
+    def escaped(z):
+        idx = (3, 4, 5, 9, 10, 11) if ghost_esc else range(12)
+        return max(abs(z[k]) for k in idx) > R
+
+    ex = [None] * len(st)
+    live = list(range(len(st)))
+    for s in range(1, nsteps + 1):
+        if switch is not None and s == switch + 1 and len(st) == 2:
+            live = [0 if alone == 'a' else 1]
+        n = max(nsub(st[m]) for m in live)
         h = dt / n
-        for _u in range(n):
-            drift(YC[0] * h); kick(YD[0] * h)
-            drift(YC[1] * h); kick(YD[1] * h)
-            drift(YC[2] * h); kick(YD[2] * h)
-            drift(YC[3] * h)
-    return p + w + P + W
+        for m in live:
+            z = st[m]
+            for _u in range(n):
+                drift(z, YC[0] * h); kick(z, YD[0] * h)
+                drift(z, YC[1] * h); kick(z, YD[1] * h)
+                drift(z, YC[2] * h); kick(z, YD[2] * h)
+                drift(z, YC[3] * h)
+        if R is not None:
+            for m in live:
+                if ex[m] is None and escaped(st[m]):
+                    ex[m] = s
+            if all(ex[m] is not None for m in live):
+                break
+    return st[0], (st[1] if len(st) == 2 else None), ex[0], (ex[1] if len(ex) == 2 else None)
+
+
+def _mp_orbit(x0, tmax, dt=0.005, omd=0.25, dps=60):
+    """Member a's orbit alone (selftest 2)."""
+    import mpmath as mp
+    mp.mp.dps = dps
+    a, _, _, _ = _mp_pair([mp.mpf(float(v)) for v in x0], None, int(round(tmax / dt)), dt, omd)
+    return a
 
 
 def _selftest_bounds():
@@ -871,6 +925,42 @@ def _selftest_bounds():
     assert ok, "a hard-coded bound in step_remainder is not an upper bound"
 
 
+def _selftest_escape(dt, n_pairs=6, R=0.3, tmax=100.0, rel=1e-3):
+    """Pairs at delta = 1e-3 x width, ghost escape at R = 0.3: both members escape within t = 100,
+    in either order, so the mode switch (2 -> 1 or 2 -> 0) and the single-member continuation run.
+    The 60-digit orbits follow the kernel's schedule (shared n until the first member is certainly
+    escaped, then the other alone) and must exit inside the certified [first possible, first
+    certain] steps."""
+    import mpmath as mp
+    E, eps, width = 0.3, 0.01, em.default_width('ym', 0.3)
+    Sa, D, ok = dpm.sample_dpairs('ym', E, eps, 1, 'xy', [0.0, 0.0], width, n_pairs,
+                                  rel * width, hp.pair_rng(13, rel))
+    out = CBall().run(np.concatenate([Sa, D], 0), dt, int(round(tmax / dt)), R, 0.25, [])
+    step = lambda t: int(round(t / dt))
+    seen = {0: 0, 1: 0}
+    for i in range(n_pairs):
+        alo, ahi, blo, bhi = (out[r, i] for r in range(4))
+        if not (ahi > 0 and bhi > 0):
+            print(f"   pair {i}: skipped (a {ahi:g}, b {bhi:g}: not both certainly escaped by t = {tmax:g})")
+            continue
+        sw = min(step(ahi), step(bhi))
+        alone = 'b' if step(ahi) < step(bhi) else 'a'
+        xa = [mp.mpf(float(Sa[k, i])) for k in range(12)]
+        xb = [mp.mpf(float(Sa[k, i])) + mp.mpf(float(D[k, i])) for k in range(12)]
+        t0 = time.time()
+        _, _, ea, eb = _mp_pair(xa, xb, step(tmax), dt, R=R, switch=sw, alone=alone)
+        good = (ea is not None and step(alo) <= ea <= step(ahi)
+                and eb is not None and step(blo) <= eb <= step(bhi))
+        if step(ahi) != step(bhi):
+            seen[int(out[79, i])] += 1
+        print(f"   pair {i}: certified a in [{alo:g}, {ahi:g}], b in [{blo:g}, {bhi:g}];  60-digit exits "
+              f"a {ea * dt if ea else None:g}, b {eb * dt if eb else None:g};  final mode {int(out[79, i])}  "
+              f"({time.time() - t0:.0f}s)")
+        assert good, "a 60-digit exit step lies outside its certified interval"
+    print(f"   switch paths exercised: a first then b alone {seen[1]}, b first then a alone {seen[0]}")
+    assert seen[0] and seen[1], "not both switch paths were exercised; change the seed"
+
+
 def selftest(n_traj=3, tmax=40.0):
     from fractions import Fraction as Fr
     print("selftest 0: polynomial bounds in step_remainder (sympy)")
@@ -911,6 +1001,32 @@ def selftest(n_traj=3, tmax=40.0):
               f"worst ratio {ratio:.3f}  ({time.time() - t0:.0f}s);  frame radii / |Y|: tangent "
               f"{out[41, i]:.1e}, QR containment {out[42, i]:.1e}")
         assert ratio <= 1.0, "enclosure violated"
+
+    print(f"selftest 2b: member b (difference ball, delta = 1e-30 x width): its 60-digit orbit, "
+          f"started from a + D exactly, lies inside b's certified enclosure ({n_traj} pairs to t = {tmax:g})")
+    Sa, D, ok = dpm.sample_dpairs('ym', E, eps, 1, 'xy', [0.0, 0.0], width, n_traj,
+                                  1e-30 * width, hp.pair_rng(12, 1e-30))
+    out = CBall().run(np.concatenate([Sa, D], 0), dt, int(round(tmax / dt)), 1e4, 0.25, [])
+    for i in range(n_traj):
+        assert out[79, i] == 2, "pair did not stay in mode 2"
+        t0 = time.time()
+        xa = [mp.mpf(float(Sa[k, i])) for k in range(12)]
+        xb = [mp.mpf(float(Sa[k, i])) + mp.mpf(float(D[k, i])) for k in range(12)]   # exact at 60 digits
+        oa, ob, _, _ = _mp_pair(xa, xb, int(round(tmax / dt)), dt)
+        for lab, orb, r0 in (("a", oa, 5), ("b", ob, 43)):
+            ch, cl, Eb = out[r0:r0 + 12, i], out[r0 + 12:r0 + 24, i], out[r0 + 24:r0 + 36, i]
+            err = [abs(orb[k] - (mp.mpf(float(ch[k])) + mp.mpf(float(cl[k])))) for k in range(12)]
+            ratio = max(float(err[k]) / Eb[k] for k in range(12))
+            assert ratio <= 1.0, f"enclosure of member {lab} violated"
+            if lab == "b":
+                sep = max(abs(float(ob[k] - oa[k])) for k in range(12))
+                print(f"   pair {i}: |b - a| at t = {tmax:g}: {sep:.2e};  member b max |true - centre| "
+                      f"= {float(max(err)):.2e}, bound {Eb.max():.2e}, worst ratio {ratio:.3f}  "
+                      f"({time.time() - t0:.0f}s)")
+
+    print("selftest 3: escape bookkeeping (member switch): for pairs that escape, the 60-digit "
+          "exit step of each member lies in its certified interval [first possible, first certain]")
+    _selftest_escape(dt)
     print("selftest passed")
 
 
@@ -1004,14 +1120,15 @@ def main():
               f"bound(a) t={a.t_sep[0]:g}: {rv_chk[0, i]:.1e} at esc: {rv_esc[i]:.1e}  "
               f"frame radii/|Y| tan {tan_rel[i]:.0e} QR {qr_rel[i]:.0e}  "
               f"({time.time() - t0:.0f}s)", flush=True)
-    print("\nrigorous bracket on the uncertainty exponent (fit to f_lo and f_hi separately):")
+    print("\nuncertainty exponent fitted to the lower and upper curves separately "
+          "(each a fit to a rigorous bracket on the sampled fraction; together NOT a bracket on alpha):")
     al = []
     for k, th in enumerate(a.thresholds):
         alo = unc.fit_alpha(rel, f_lo[k])[:2]
         ahi = unc.fit_alpha(rel, f_hi[k])[:2]
         al.append((alo, ahi))
-        print(f"  |dt|>{th:g}: alpha from f_lo {alo[0]:.3f}+-{alo[1]:.3f}, "
-              f"from f_hi {ahi[0]:.3f}+-{ahi[1]:.3f}; max uncertified fraction "
+        print(f"  |dt|>{th:g}: alpha fitted to f_lo (lower curve) {alo[0]:.3f}+-{alo[1]:.3f}, "
+              f"fitted to f_hi (upper curve) {ahi[0]:.3f}+-{ahi[1]:.3f}; max uncertified fraction "
               f"{np.nanmax(unc_frac[k]):.4f}")
     np.savez(os.path.join(a.out, tag + '.npz'), rel=rel, f_lo=f_lo, f_hi=f_hi, f_c=f_c,
              unc=unc_frac, lost=lost, rv_esc=rv_esc, rv_chk=rv_chk, rd_chk=rd_chk, iw=iw,
@@ -1025,7 +1142,7 @@ def main():
         ax = axs[0]
         k = nT - 1
         ax.fill_between(rel, np.maximum(f_lo[k], 1e-4), f_hi[k], color='C0', alpha=0.25,
-                        label='certified bracket [f_lo, f_hi]')
+                        label='certified bracket on the sampled fraction [f_lo, f_hi]')
         ax.loglog(rel, f_lo[k], '-', color='C0', lw=1)
         ax.loglog(rel, f_hi[k], '-', color='C0', lw=1)
         ax.loglog(rel, f_c[k], 'o', ms=3, color='k', label='ball centres (float result)')
