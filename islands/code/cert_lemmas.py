@@ -137,11 +137,11 @@ def variational_coeffs(series, p, m):
     x, y, px, py, xx, yy = series
     mI = I(m)
     Ak = []
-    for k in range(p + 1):
+    for k in range(p):                         # X_1..X_p need A_0..A_{p-1} only
         xy = _conv(x, y, k)
         d = I(1 if k == 0 else 0)
-        a20 = neg(yy[k]) if k < len(yy) else I(0)
-        a31 = neg(xx[k]) if k < len(xx) else I(0)
+        a20 = neg(yy[k])
+        a31 = neg(xx[k])
         if k == 0:
             a20 = sub(a20, mI); a31 = sub(a31, mI)
         Ak.append([[I(0), I(0), d, I(0)], [I(0), I(0), I(0), d],
@@ -236,7 +236,7 @@ def lemma_step(step, nxt, h, p, m_list):
     # m>0 uses its own frames G_m -> G_m' (certificate fields G/Ginv), else falls back to A.
     Ts = [mmul(mmul(Ainv, Js[0]), A)]
     for mi in range(1, len(Js)):
-        if "G" in step and "G" in nxt:
+        if "G" in step:                     # run_chain guarantees: G at every step or at none
             Ginv = lemma_inverse(nxt["G"][mi - 1], nxt["Ginv"][mi - 1])
             Ts.append(mmul(mmul(Ginv, Js[mi]), step["G"][mi - 1]))
         else:
@@ -292,9 +292,11 @@ def lemma_trace_stability(trM):
     """Lemma T: a 4x4 real symplectic monodromy of a periodic orbit of an autonomous
     Hamiltonian flow has eigenvalue 1 with multiplicity >= 2; the other two have product 1
     and sum  tr M - 2.  If  tr M - 2 in (-2, 2)  they are a conjugate pair on the unit
-    circle (elliptic); if |tr M - 2| > 2 they are real, one of modulus > 1 (hyperbolic)."""
+    circle (elliptic); if |tr M - 2| > 2 they are real, one of modulus > 1 (hyperbolic).
+    "Elliptic" is spectral: the linearised return map is elliptic.  The monodromy itself is not
+    Lyapunov-stable (the eigenvalue 1 sits in a Jordan block: period-energy shear)."""
     s = sub(trM, I(2))
-    if s[0] > -2 and s[1] < 2:  return "ELLIPTIC (stable)", s
+    if s[0] > -2 and s[1] < 2:  return "ELLIPTIC (linearised return map)", s
     if s[1] < -2 or s[0] > 2:   return "HYPERBOLIC (unstable)", s
     return "UNDECIDED (enclosure straddles |tr-2| = 2)", s
 
@@ -322,21 +324,36 @@ def lemma_symplectic_4x4(M):
 # ============================================================== FRAME: one chain
 def run_chain(ch, p, m_list, label, verbose, initial_box, dirstate=None):
     h, steps = ch["h"], ch["steps"]
-    # steps[0] must contain the initial data
-    B0 = set_box(steps[0]["c"], steps[0]["A"], steps[0]["r"])
-    for i in range(4):
-        if not inside(initial_box[i], B0[i]):
-            raise CheckFailed(f"{label}: initial data component {i} not inside steps[0]")
-    # Lemma FRAME: accumulated Jacobian  M_k = A_k R_k  with  R_{k+1} = (A_{k+1}^{-1} J_k A_k) R_k,
-    # A_0 = I.  Keeps the product in the moving frame so it does not wrap.  (Sound because each
-    # factor is an enclosure and matrix products of enclosures enclose the product.)
+    # Lemma FRAME: accumulated Jacobian  M_k = F_k R_k  with  R_{k+1} = (F_{k+1}^{-1} J_k F_k) R_k,
+    # F_0 = I.  Keeps the product in the moving frame so it does not wrap.  (Sound because each
+    # factor is an enclosure and matrix products of enclosures enclose the product.)  The product
+    # telescopes only if the SAME frame family F is used at every step: the set frames A for the
+    # base flow, and for the extra variational systems either their own frames G at every step
+    # or A at every step.  Status (2026-10-11): the choice used to be made per step (G if both
+    # step and next had it, else A), so a certificate omitting G on one step inserted a factor
+    # G_k A_k^{-1} into the ghost monodromy; found by the review of 11 Oct.  Now decided once.
+    use_G = "G" in steps[0]
+    for k, s in enumerate(steps):
+        if ("G" in s) != use_G or ("Ginv" in s) != use_G:
+            raise CheckFailed(f"{label}: step {k}: ghost frames G/Ginv must be present at every step or at none")
+        if use_G and (len(s["G"]) < len(m_list) - 1 or len(s["Ginv"]) < len(m_list) - 1):
+            raise CheckFailed(f"{label}: step {k}: too few ghost frames for the requested systems")
     Rs = [eye(4) for _ in m_list]
-    frames0 = [steps[0]["A"]] + (steps[0]["G"] if "G" in steps[0] else [])
+    frames0 = [steps[0]["A"]] + (steps[0]["G"] if use_G else [])
     for Fm in frames0[:len(m_list)]:
         for i in range(4):
             for j in range(4):
                 if Fm[i][j] != I(1 if i == j else 0):
                     raise CheckFailed(f"{label}: all initial Jacobian frames must be the identity")
+    # steps[0] must contain the initial data.  With A_0 = I (just checked) the set is the box
+    # c + r exactly; compare in exact Fractions, without the outward rounding of set_box (which
+    # would let a point in the rounding slack through).  Status (2026-10-11): before, compared
+    # with the rounded set_box; review of 11 Oct.
+    c0, r0 = steps[0]["c"], steps[0]["r"]
+    for i in range(4):
+        lo, hi = c0[i][0] + r0[i][0], c0[i][1] + r0[i][1]
+        if not (lo <= initial_box[i][0] and initial_box[i][1] <= hi):
+            raise CheckFailed(f"{label}: initial data component {i} not inside steps[0]")
     t0 = time.time()
     n = len(steps) - 1
     for k in range(n):

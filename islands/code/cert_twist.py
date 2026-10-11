@@ -14,7 +14,12 @@ Lemmas (function names):
   TWIST      the exact return-map formula (twist_formula.json, generated once by sympy in
              twist_symbolic2.py) evaluated on interval data; complexification in the canonical
              frame; Kuznetsov's normal-form coefficient; tau = Im(conj(lambda) c1).
-             Non-resonance lambda^q != 1 (q = 1,2,3) is enforced by the divisions.
+             Non-resonance lambda^q != 1 for q = 1..4: q = 2 and q = 4 by the explicit cos theta
+             tests (cos theta not -1, 0), q = 1 and q = 3 also by the divisions (lambda - 1,
+             lambda^2 - lambda, lambda^2 - conj lambda), and all four by cos theta not in
+             {1, -1, -1/2, 0}.  Consistency guards (added 2026-10-11): det L, the zetabar
+             coefficient of the linear part and Re(conj(lambda) c1) must contain 1, 0, 0, the
+             values they have for the true area-preserving return map.
 """
 import json
 from fractions import Fraction as Fr
@@ -34,11 +39,11 @@ def A_series(ser, p):
     """Taylor coefficients A_k of A(z(t)) = Df(z(t)) (m = 0)."""
     x, y, px, py, xx, yy = ser
     Ak = []
-    for k in range(p + 1):
+    for k in range(p):                         # coefficients up to order p need A_0..A_{p-1}
         xy = _conv(x, y, k)
         d = I(1 if k == 0 else 0)
-        a20 = neg(yy[k]) if k < len(yy) else I(0)
-        a31 = neg(xx[k]) if k < len(xx) else I(0)
+        a20 = neg(yy[k])
+        a31 = neg(xx[k])
         Ak.append([[I(0), I(0), d, I(0)], [I(0), I(0), I(0), d],
                    [a20, scal(Fr(-2), xy), I(0), I(0)], [scal(Fr(-2), xy), a31, I(0), I(0)]])
     return Ak
@@ -287,6 +292,9 @@ def lemma_twist(formula, env, DP_check=None):
         return {tuple(int(v) for v in k.split(',')): eval_tree(t, env) for k, t in formula[key].items()}
     a1, a2 = coeffs("P1"), coeffs("P2")
     L = [[a1[(1, 0)], a1[(0, 1)]], [a2[(1, 0)], a2[(0, 1)]]]
+    detL = sub(mul(L[0][0], L[1][1]), mul(L[0][1], L[1][0]))
+    if not detL[0] <= 1 <= detL[1]:                             # area preservation (guard)
+        raise CheckFailed(f"consistency: det L = [{float(detL[0])}, {float(detL[1])}] does not contain 1")
     ct = scal(Fr(1, 2), add(L[0][0], L[1][1]))                 # cos theta
     one_minus = sub(I(1), mul(ct, ct))
     if not one_minus[0] > 0: raise CheckFailed("return map not elliptic (cos^2 theta >= 1)")
@@ -332,7 +340,12 @@ def lemma_twist(formula, env, DP_check=None):
     t4 = cscal(Fr(1, 2), g(2, 1))
     c1 = cadd(cadd(t1, t2), cadd(t3, t4))
     lc = cmul(lamb, c1)
-    return lc[1], lam, ct, lc[0], G.get((0, 1), _C0())
+    zb = G.get((0, 1), _C0())
+    for name, iv in (("Re zetabar coefficient", zb[0]), ("Im zetabar coefficient", zb[1]),
+                     ("Re(conj(lambda) c1)", lc[0])):
+        if not iv[0] <= 0 <= iv[1]:                             # true value 0 (guards, 2026-10-11)
+            raise CheckFailed(f"consistency: {name} = [{float(iv[0])}, {float(iv[1])}] does not contain 0")
+    return lc[1], lam, ct, lc[0], zb
 
 def load_formula(path):
     return json.load(open(path))
