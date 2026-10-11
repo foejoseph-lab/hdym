@@ -40,7 +40,7 @@ Section, figure and table names refer to `paper/main.tex`.
 | `hdym_spectrum_xy.py` | spectrum of the xy Hessian entry at E = 1 | Off-diagonal sector |
 | `hdym_escape_map.py` | escape-time landscape on 2-d sections of initial conditions | fig:maps (a, b) |
 | `hdym_uncertainty.py` | uncertainty exponent α of the escape landscape | fig:maps (c) |
-| `hdym_precision.py`, `hdym_diffpair.py`, `hdym_ball.py` | checks that the landscape's fine structure at δ ~ 10⁻¹⁴ is the flow and not roundoff: mantissa-precision sweep; pair integration in "difference numbers" (no roundoff floor); certified pair escape times in ball arithmetic (rigour status in the docstring of `hdym_ball.py`; `2026-10-03/results/ball_sweep.npz` predates the rigorous step remainder of 10 Oct, `2026-10-10/ball_sweep.npz` is its rerun); `hdym_precision.py` is also imported by `islands/code/hdym_island.py` | The escape-time landscape |
+| `hdym_precision.py`, `hdym_diffpair.py`, `hdym_ball.py` | checks that the landscape's fine structure at δ ~ 10⁻¹⁴ is the flow and not roundoff: mantissa-precision sweep; pair integration in "difference numbers" (no roundoff floor); certified pair escape times in ball arithmetic (rigour status in the docstring of `hdym_ball.py`; `2026-10-03/results/ball_sweep.npz` predates the rigour fixes of 10 Oct, `2026-10-10/ball_sweep.npz` is its rerun); `hdym_precision.py` is also imported by `islands/code/hdym_island.py` | The escape-time landscape |
 | `make_fig1.py`, `make_figs.py`, `make_fig_Q.py` | regenerate fig:lambda, fig:maps, fig:nu0 and fig:Q from `data/` into `paper/` | |
 | `make_fig_landscape.py` | (D, J) landscape figure | not in the paper |
 
@@ -81,7 +81,7 @@ paper still rest on them. Each writes its output to the working directory.
 | `results_rung1/` | off-diagonal GPU runs: summary `rung1_offdiag.csv`, per-trajectory exponents (c_j = 1 and 0), `history_*.npy` |
 | `rung1_lyap_E*.npy`, `rung1_ym_E*.npy` | off-diagonal CPU Lyapunov spectra (ghost blocks, YM blocks) |
 | `spec_xy_E1.npz` | xy-entry spectrum at E = 1 |
-| `results_precision/` | extended-precision difference-pair run at E = 0.3, ε = 0.01; `2026-10-03/` the precision study of that day (`results/`, `figures/`); `2026-10-10/` the certified ball sweep rerun with the rigorous step remainder (`ball_sweep.npz`, `.png`, log `ball_sweep.txt`; `selftest.txt`) |
+| `results_precision/` | extended-precision difference-pair run at E = 0.3, ε = 0.01; `2026-10-03/` the precision study of that day (`results/`, `figures/`); `2026-10-10/` the certified ball sweep rerun with the rigorous step remainder (`ball_sweep.npz`, `.png`, log `ball_sweep.txt`; `selftest.txt`). *Status (2026-10-10, later): that kernel still asserted the two frame-arithmetic constants; with them computed (same day), a 100-pair, 11-δ comparison gave identical certified fractions; the production rerun with the final kernel is pending; same arguments as in `ball_sweep.txt`, output to a new dated folder* |
 
 ## Reproducing the main result
 

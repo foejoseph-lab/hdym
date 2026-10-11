@@ -30,18 +30,21 @@ enclosures, e.g. CAPD).  So: "the escape-time function of this symplectic map
 has these pair differences", rigorously, at any delta the radii allow -- with the
 exceptions below.
 
-Status of the rigour (2026-10-10).  The step remainder now comes from a computed a priori
-bound (step_remainder: forward magnitude propagation through the stages, computed Lipschitz
-and second-derivative bounds); it replaces the asserted intermediate-state bound
-X = 1.5 X + 1 and the asserted stage-growth factor 1.1.  Two constants in the ellipsoid
-update (ell_update) are still asserted, not derived, and are open:
-  (a) +1e-13 |Y|_F in beta, said to cover the floating-point error of the tangent columns
-      Y = J L (7n stages in double; for large sub-step counts n it is not obviously enough);
-  (b) the 1 + 1e-12 inflation of L' after the floating-point Householder QR: a rounding
-      perturbation of size ~u |M| is compared with the thinnest semi-axis, which is only
-      bounded below by ~sqrt(|Y| beta), so for a thin ellipsoid 1e-12 is not obviously enough.
-Both need either a derived bound or an a posteriori containment check; until then the
-certified brackets rest on them.
+Status of the rigour (2026-10-10).  Three constants that were asserted are now computed:
+  - the step remainder (was: intermediate states <= 1.5 X + 1, stage growth < 1.1):
+    step_remainder, forward magnitude bounds through the stages with computed Lipschitz and
+    second-derivative bounds (polynomials checked against sympy in selftest 0);
+  - the tangent arithmetic (was: covered by +1e-13 |Y|_F): the tangent columns are computed in
+    ball arithmetic and their radii enter beta;
+  - the QR re-factorisation (was: covered by L' (1 + 1e-12)): an a posteriori containment
+    check, M = L' N + E with E bounded rigorously and |N|_2 by Gershgorin on N N^T, leaves an
+    isotropic radius rho that is carried to the next step (ell_update, steps (1)-(4)).
+  Also the componentwise bound E_k now covers the rounding of its sum of squares (the old
+  factor 1 + 1e-15 was slightly short).  What the rounding bounds rely on: IEEE double,
+  round-to-nearest, no FMA contraction (-ffp-contract=off / --fmad=false), the standard
+  dot-product bound gamma_n = n u / (1 - n u) (Higham, Accuracy and Stability, Lemma 3.1 / 3.4),
+  and the double-word bounds of Joldes-Muller-Popescu.  Not covered, by design: the
+  time-discretisation error relative to the continuous flow (see above).
 
 Escape intervals.  At each step: 'possibly escaped' if some |c| + r > R,
 'certainly escaped' if some |c| - r > R.  The true exit step lies in
@@ -226,24 +229,48 @@ DEVFN int nsub_b(const bd* p, const bd* w, double dt, double omd, int sel)
     return n;
 }
 
-/* ---------------- tangent-linear Yoshida step (for the Lohner frames) ---------------- */
-typedef struct { double v, t; } tg;
-DEVFN tg mkt(double v, double t) { tg r; r.v = v; r.t = t; return r; }
-DEVFN tg tadd(tg a, tg b) { return mkt(a.v + b.v, a.t + b.t); }
-DEVFN tg tsub(tg a, tg b) { return mkt(a.v - b.v, a.t - b.t); }
-DEVFN tg tmul(tg a, tg b) { return mkt(a.v * b.v, a.t * b.v + a.v * b.t); }
-DEVFN tg tscl(double c, tg a) { return mkt(c * a.v, c * a.t); }
-DEVFN void kick_t(const tg* p, const tg* w, tg* P, tg* W, double h)
+/* ---------------- tangent-linear Yoshida step in ball arithmetic (for the Lohner frames) ----
+   Each quantity is (v, rv, t, rt): the exact stage state of the base point x~ lies in v +- rv,
+   the exact tangent in t +- rt.  Same rounding rules as the bd balls (U2 per rounding, INFL,
+   ETA).  This replaces (2026-10-10) the asserted cover 1e-13 |Y|_F of the tangent arithmetic:
+   ell_update now gets a rigorous componentwise radius for every entry of Y = J(x~) L.        */
+typedef struct { double v, rv, t, rt; } tb;
+DEVFN tb mktb(double v, double rv, double t, double rt) { tb r; r.v = v; r.rv = rv; r.t = t; r.rt = rt; return r; }
+DEVFN tb tadd(tb a, tb b)
 {
-    tg x = tsub(p[0], w[0]), y = tsub(p[1], w[1]), z = tsub(p[2], w[2]);
-    tg x2 = tmul(x, x), y2 = tmul(y, y), z2 = tmul(z, z);
-    tg yz = tadd(y2, z2), zx = tadd(z2, x2), xy = tadd(x2, y2);
-    tg gx = tmul(x, yz), gy = tmul(y, zx), gz = tmul(z, xy);
-    tg wx = w[0], wy = w[1], wz = w[2];
-    tg txy = tmul(tscl(2.0, x), y), txz = tmul(tscl(2.0, x), z), tyz = tmul(tscl(2.0, y), z);
-    tg hx = tadd(tadd(tmul(yz, wx), tmul(txy, wy)), tmul(txz, wz));
-    tg hy = tadd(tadd(tmul(txy, wx), tmul(zx, wy)), tmul(tyz, wz));
-    tg hz = tadd(tadd(tmul(txz, wx), tmul(tyz, wy)), tmul(xy, wz));
+    double v = a.v + b.v, t = a.t + b.t;
+    return mktb(v, (a.rv + b.rv + U2 * fabs(v)) * INFL + ETA, t, (a.rt + b.rt + U2 * fabs(t)) * INFL + ETA);
+}
+DEVFN tb tsub(tb a, tb b)
+{
+    double v = a.v - b.v, t = a.t - b.t;
+    return mktb(v, (a.rv + b.rv + U2 * fabs(v)) * INFL + ETA, t, (a.rt + b.rt + U2 * fabs(t)) * INFL + ETA);
+}
+DEVFN tb tmul(tb a, tb b)
+{
+    double v = a.v * b.v, p1 = a.t * b.v, p2 = a.v * b.t, t = p1 + p2;
+    double rv = (fabs(a.v) * b.rv + fabs(b.v) * a.rv + a.rv * b.rv + U2 * fabs(v)) * INFL + ETA;
+    double rt = (fabs(a.t) * b.rv + fabs(b.v) * a.rt + a.rt * b.rv
+               + fabs(a.v) * b.rt + fabs(b.t) * a.rv + a.rv * b.rt
+               + U2 * (fabs(p1) + fabs(p2) + fabs(t))) * INFL + ETA;
+    return mktb(v, rv, t, rt);
+}
+DEVFN tb tscl(double c, tb a)                 /* c an exact double */
+{
+    double v = c * a.v, t = c * a.t;
+    return mktb(v, (fabs(c) * a.rv + U2 * fabs(v)) * INFL + ETA, t, (fabs(c) * a.rt + U2 * fabs(t)) * INFL + ETA);
+}
+DEVFN void kick_t(const tb* p, const tb* w, tb* P, tb* W, double h)
+{
+    tb x = tsub(p[0], w[0]), y = tsub(p[1], w[1]), z = tsub(p[2], w[2]);
+    tb x2 = tmul(x, x), y2 = tmul(y, y), z2 = tmul(z, z);
+    tb yz = tadd(y2, z2), zx = tadd(z2, x2), xy = tadd(x2, y2);
+    tb gx = tmul(x, yz), gy = tmul(y, zx), gz = tmul(z, xy);
+    tb wx = w[0], wy = w[1], wz = w[2];
+    tb txy = tmul(tscl(2.0, x), y), txz = tmul(tscl(2.0, x), z), tyz = tmul(tscl(2.0, y), z);
+    tb hx = tadd(tadd(tmul(yz, wx), tmul(txy, wy)), tmul(txz, wz));
+    tb hy = tadd(tadd(tmul(txy, wx), tmul(zx, wy)), tmul(tyz, wz));
+    tb hz = tadd(tadd(tmul(txz, wx), tmul(tyz, wy)), tmul(xy, wz));
     P[0] = tsub(P[0], tscl(h, tadd(gx, hx)));
     P[1] = tsub(P[1], tscl(h, tadd(gy, hy)));
     P[2] = tsub(P[2], tscl(h, tadd(gz, hz)));
@@ -251,63 +278,93 @@ DEVFN void kick_t(const tg* p, const tg* w, tg* P, tg* W, double h)
     W[1] = tadd(W[1], tscl(h, tadd(hy, wy)));
     W[2] = tadd(W[2], tscl(h, tadd(hz, wz)));
 }
-DEVFN void drift_t(tg* p, tg* w, const tg* P, const tg* W, double ch)
+DEVFN void drift_t(tb* p, tb* w, const tb* P, const tb* W, double ch)
 {
     int k;
     for (k = 0; k < 3; k++) { p[k] = tadd(p[k], tscl(ch, P[k])); w[k] = tsub(w[k], tscl(ch, W[k])); }
 }
-DEVFN void yoshida_t(tg* p, tg* w, tg* P, tg* W, double h)
+DEVFN void yoshida_t(tb* p, tb* w, tb* P, tb* W, double h)
 {
     drift_t(p, w, P, W, YC0 * h); kick_t(p, w, P, W, YD0 * h);
     drift_t(p, w, P, W, YC1 * h); kick_t(p, w, P, W, YD1 * h);
     drift_t(p, w, P, W, YC2 * h); kick_t(p, w, P, W, YD2 * h);
     drift_t(p, w, P, W, YC3 * h);
 }
-/* out = J(x) col, J the Jacobian of n sub-steps of size dt/n at base point x */
-DEVFN void tangent_step(const double* x, const double* col, double* out, double dt, int n)
+/* out +- rad encloses J(x) col exactly, J the Jacobian of n sub-steps of size dt/n at the base
+   point x (exact doubles), col exact doubles */
+DEVFN void tangent_step(const double* x, const double* col, double* out, double* rad, double dt, int n)
 {
-    tg p[3], w[3], P[3], W[3];
+    tb p[3], w[3], P[3], W[3];
     int k, u;
     for (k = 0; k < 3; k++) {
-        p[k] = mkt(x[k], col[k]);         w[k] = mkt(x[3 + k], col[3 + k]);
-        P[k] = mkt(x[6 + k], col[6 + k]); W[k] = mkt(x[9 + k], col[9 + k]);
+        p[k] = mktb(x[k], 0.0, col[k], 0.0);         w[k] = mktb(x[3 + k], 0.0, col[3 + k], 0.0);
+        P[k] = mktb(x[6 + k], 0.0, col[6 + k], 0.0); W[k] = mktb(x[9 + k], 0.0, col[9 + k], 0.0);
     }
     { double h = dt / n; for (u = 0; u < n; u++) yoshida_t(p, w, P, W, h); }
     for (k = 0; k < 3; k++) {
         out[k] = p[k].t; out[3 + k] = w[k].t; out[6 + k] = P[k].t; out[9 + k] = W[k].t;
+        rad[k] = p[k].rt; rad[3 + k] = w[k].rt; rad[6 + k] = P[k].rt; rad[9 + k] = W[k].rt;
     }
 }
 
+/* Upper bound on sqrt(s) for s a floating sum of at most ~700 non-negative rounded terms:
+   relative error of the sum <= gamma_700 < 1e-13, of sqrt half that plus one rounding.        */
+#define FNU 1.0000000000001                 /* 1 + 1e-13 */
+DEVFN double sqrt_up(double s) { return sqrt(s) * FNU * FNU + ETA; }
+
 /* Ellipsoidal enclosure, square-root form (as in a square-root Kalman filter).
-   Error set of a member: e in { L u : |u|_2 <= 1 },  L 12x12 (column-major L[c*12 + k]).
-   Step:  e' = J e + (defect + remainder),  |defect + remainder|_2 <= beta.
-   Linear image J L is exact (no wrapping); the Minkowski sum with the ball is enclosed by
-       Sigma' = (1 + 1/c) Y Y^T + (1 + c) beta^2 I,   Y = J L,  c = |Y|_F / (beta sqrt 12)
-   and L' with L' L'^T = Sigma' comes from a Householder QR of [sqrt(1+1/c) Y | sqrt(1+c) beta I]^T.
-   Frame arithmetic (Y, QR) is floating point; its error, relative to |Y|, is covered by
-   +1e-13 |Y|_F in beta and a 1 + 1e-12 inflation.                                          */
-DEVFN void ell_update(double* L, const double* x, double dt, int n, const double* defect,
-                      double rem, int usej)
+   Error set of a member:  e in { L u : |u|_2 <= 1 } + ball(rho),  L 12x12 (column-major
+   L[c*12 + k], lower triangular after the first step), rho >= 0 an extra isotropic radius.
+   Step:  e' = J e + (defect + remainder),  |defect + remainder|_2 <= beta0.
+   (1) Y = J L in ball arithmetic: J L in Y +- RY componentwise, so J L u in Y u + ball(|RY|_F).
+       J ball(rho) in ball(carry), carry = sqrt(12) G rho supplied by the caller (|J|_2 <=
+       sqrt(12) |J|_inf <= sqrt(12) G, G from step_remainder).  So e' in Y u + ball(beta),
+       beta = beta0 + |RY|_F + carry.
+   (2) Minkowski: { Y u } + ball(beta) subset { M u : |u| <= 1 },  M = [sa Y | sb I] (12 x 24),
+       for any c > 0 with sa >= sqrt(1 + 1/c), sb >= sqrt(1 + c) beta;  c = |Y|_F / (beta sqrt 12).
+       M is formed in floating point: fl(sa Y) = sa Y + D, |D|_F <= U2 |fl(sa Y)|_F.
+   (3) L' = R^T from a Householder QR of M^T (floating point, nothing assumed about its accuracy).
+   (4) A posteriori containment (replaces, 2026-10-10, the asserted inflation 1 + 1e-12):
+       N = L'^{-1} M by forward substitution (floating), E = M - L' N with a rigorous bound
+       (dot-product error gamma_13 (|M| + |L'||N|)).  Then M = L' N + E exactly, so
+         { M u } subset |N|_2 { L' v } + ball(|E|_F)  subset  { L' v } + ball(rho'),
+         rho' = max(0, |N|_2 - 1) |L'|_F + |E|_F + |D|_F,
+       |N|_2^2 <= max row sum of |N N^T| (Gershgorin), N N^T with error gamma_24 |N||N|^T.
+   The new set is { L' v } + ball(rho').  usej = 0: Y = L exactly (no tangent), J = I.
+   Returns 0, or -1 if the enclosure cannot be formed (zero pivot).                          */
+DEVFN int ell_update(double* L, double* rho, const double* x, double dt, int n, const double* defect,
+                     double rem, double carry, int usej, double* diag)
 {
-    double Y[144], A[288], beta = 0.0, tr1 = 0.0;
+    double Y[144], RY[144], A[288], N[288], beta = 0.0, tr1 = 0.0, ry2 = 0.0;
     int c, k, j, r;
     for (c = 0; c < 12; c++) {
-        if (usej) tangent_step(x, &L[c * 12], &Y[c * 12], dt, n);
-        else for (k = 0; k < 12; k++) Y[c * 12 + k] = L[c * 12 + k];
+        if (usej) tangent_step(x, &L[c * 12], &Y[c * 12], &RY[c * 12], dt, n);
+        else for (k = 0; k < 12; k++) { Y[c * 12 + k] = L[c * 12 + k]; RY[c * 12 + k] = 0.0; }
     }
-    for (k = 0; k < 144; k++) tr1 += Y[k] * Y[k];
+    for (k = 0; k < 144; k++) { tr1 += Y[k] * Y[k]; ry2 += RY[k] * RY[k]; }
     for (k = 0; k < 12; k++) beta += (defect[k] + rem) * (defect[k] + rem);
-    beta = sqrt(beta) * INFL + 1e-13 * sqrt(tr1) + ETA;
+    double ryF = sqrt_up(ry2), yF = sqrt(tr1);
+    beta = (sqrt_up(beta) + ryF + carry) * INFL + ETA;
+    if (yF > 0.0 && ryF / yF > diag[0]) diag[0] = ryF / yF;
     if (tr1 == 0.0) {
         for (k = 0; k < 144; k++) L[k] = 0.0;
         for (k = 0; k < 12; k++) L[k * 12 + k] = beta;
-        return;
+        *rho = 0.0;
+        return 0;
     }
-    double cc = sqrt(tr1) / (beta * sqrt(12.0));
-    double sa = sqrt(1.0 + 1.0 / cc), sb = sqrt(1.0 + cc) * beta;
+    double cc = yF / (beta * sqrt(12.0));
+    double sa = sqrt(1.0 + 1.0 / cc) * FNU * FNU, sb = sqrt(1.0 + cc) * beta * FNU * FNU;
     /* A = M^T, 24 x 12, row-major A[row*12 + col]:  rows 0..11 = sa * Y^T, rows 12..23 = sb I */
-    for (r = 0; r < 12; r++) for (k = 0; k < 12; k++) A[r * 12 + k] = sa * Y[r * 12 + k];
+    double d2 = 0.0;
+    for (r = 0; r < 12; r++) for (k = 0; k < 12; k++) {
+        A[r * 12 + k] = sa * Y[r * 12 + k];
+        d2 += A[r * 12 + k] * A[r * 12 + k];
+    }
+    double dF = U2 * sqrt_up(d2);
     for (r = 0; r < 12; r++) for (k = 0; k < 12; k++) A[(12 + r) * 12 + k] = (r == k) ? sb : 0.0;
+    /* keep M (= A^T) for the containment check:  M[k][j] = A[j*12 + k],  j = 0..23 */
+    double Mk[288];
+    for (k = 0; k < 288; k++) Mk[k] = A[k];
     /* Householder QR of A (24 x 12) in place; R in the upper triangle */
     for (j = 0; j < 12; j++) {
         double nrm = 0.0;
@@ -328,19 +385,53 @@ DEVFN void ell_update(double* L, const double* x, double dt, int n, const double
         }
         A[j * 12 + j] = alpha;
     }
-    /* L' = R^T :  column c of L' = row c of R  */
-    for (c = 0; c < 12; c++) for (k = 0; k < 12; k++)
-        L[c * 12 + k] = (k >= c ? A[c * 12 + k] : 0.0) * (1.0 + 1e-12);
+    /* L' = R^T :  L'[row k, col c] = L[c*12 + k] = R[c][k] (k >= c)                       */
+    for (c = 0; c < 12; c++) for (k = 0; k < 12; k++) L[c * 12 + k] = (k >= c ? A[c * 12 + k] : 0.0);
+    /* (4) containment.  N[k][j] (12 x 24) stored N[k*24 + j];  L'_{k,c} = L[c*12 + k]          */
+    for (k = 0; k < 12; k++) if (L[k * 12 + k] == 0.0) return -1;
+    double e2 = 0.0, lF2 = 0.0;
+    for (j = 0; j < 24; j++) {
+        for (k = 0; k < 12; k++) {
+            double s = Mk[j * 12 + k];
+            for (c = 0; c < k; c++) s -= L[c * 12 + k] * N[c * 24 + j];
+            N[k * 24 + j] = s / L[k * 12 + k];
+        }
+        for (k = 0; k < 12; k++) {          /* residual E_kj = M_kj - sum_{c<=k} L'_{kc} N_cj */
+            double s = Mk[j * 12 + k], sa_ = fabs(Mk[j * 12 + k]);
+            for (c = 0; c <= k; c++) { s -= L[c * 12 + k] * N[c * 24 + j]; sa_ += fabs(L[c * 12 + k] * N[c * 24 + j]); }
+            double e = fabs(s) + 2.0e-15 * sa_ * FNU;          /* gamma_13 < 1.5e-15 */
+            e2 += e * e;
+        }
+    }
+    for (k = 0; k < 144; k++) lF2 += L[k] * L[k];
+    double gmax = 0.0;
+    for (k = 0; k < 12; k++) {
+        double row = 0.0;
+        for (j = 0; j < 12; j++) {
+            double s = 0.0, sa_ = 0.0;
+            for (r = 0; r < 24; r++) { double t = N[k * 24 + r] * N[j * 24 + r]; s += t; sa_ += fabs(t); }
+            row += fabs(s) + 3.0e-15 * sa_ * FNU;                  /* gamma_24 < 2.7e-15 */
+        }
+        row *= FNU;
+        if (row > gmax) gmax = row;
+    }
+    double nN = sqrt_up(gmax);
+    double rh = ((nN > 1.0 ? (nN - 1.0) * FNU : 0.0) * sqrt_up(lF2) + sqrt_up(e2) + dF) * INFL + ETA;
+    *rho = rh;
+    if (rh / yF > diag[1]) diag[1] = rh / yF;
+    return 0;
 }
-/* componentwise bound E_k = |row k of L|_2 ; returns max_k E_k */
-DEVFN double ebound(const double* L, double* E)
+/* componentwise bound E_k >= sup |e_k| over { L u } + ball(rho):  |row k of L|_2 + rho;
+   returns max_k E_k.  (The old factor 1 + 1e-15 did not cover the rounding of a 12-term sum
+   of squares, ~1.4e-15; sqrt_up does.)                                                      */
+DEVFN double ebound(const double* L, double rho, double* E)
 {
     int c, k;
     double m = 0.0;
     for (k = 0; k < 12; k++) {
         double s = 0.0;
         for (c = 0; c < 12; c++) s += L[c * 12 + k] * L[c * 12 + k];
-        E[k] = sqrt(s) * (1.0 + 1e-15);
+        E[k] = (sqrt_up(s) + rho) * INFL;
         if (E[k] > m) m = E[k];
     }
     return m;
@@ -366,7 +457,8 @@ DEVFN double ebound(const double* L, double* E)
    and with |e| <= r0, |x - x~| <= sh:
      |Phi(x + e) - Phi(x) - D Phi(x~) e| <= M2 r0 (sh + r0/2)
    (integrate D Phi(x + s e) - D Phi(x~) over s in [0,1]; |x + s e - x~| <= sh + s r0).       */
-DEVFN double step_remainder(const double* xt, const double* Ek, double dt, int n, double r0, double sh)
+DEVFN double step_remainder(const double* xt, const double* Ek, double dt, int n, double r0, double sh,
+                            double* Gout)
 {
     double bq[3], bw[3], bP[3], bW[3], G = 1.0, S2 = 0.0;
     double h = dt / n, cs[4], ds[3];
@@ -409,6 +501,7 @@ DEVFN double step_remainder(const double* xt, const double* Ek, double dt, int n
             S2 = (S2 + a * K2) * INFL;
         }
     }
+    *Gout = G;
     return (G * G * S2) * r0 * (sh + 0.5 * r0) * INFL * INFL * INFL + ETA;
 }
 
@@ -440,6 +533,7 @@ DEVFN void bpair(const double* S, double* out, int N, int i, double dt, long lon
 {
     bd p[3], w[3], P[3], W[3];
     double Q[2][144], Ev[2][12], Eb[2][12], x[2][12], c[2][12], E[2][12], def[2][12], emax[2] = {0, 0};
+    double rho[2] = {0.0, 0.0}, diag[2] = {0.0, 0.0};     /* extra isotropic radius per frame; diagnostics */
     int k, j = 0, n, m, mode = 2;               /* 2: v = a, v+d = b;  0: only a in v;  1: only b in v */
     long long s;
     for (k = 0; k < 3; k++) {
@@ -480,12 +574,15 @@ DEVFN void bpair(const double* S, double* out, int N, int i, double dt, long lon
             for (k = 0; k < 12; k++) shift = fmax(shift, 2.0 * U2 * fabs(x[f][k]));
             /* remainder of the linearisation at the hi part x~ (tangent is evaluated there),
                over the error set of the start of the step: step_remainder                  */
-            double rem = step_remainder(x[f], Eb[fr], dt, n, emax[fr], shift);
-            ell_update(Q[fr], x[f], dt, n, def[f], rem, 1);
-            emax[fr] = ebound(Q[fr], E[fr]);
+            double G;
+            double rem = step_remainder(x[f], Eb[fr], dt, n, emax[fr], shift, &G);
+            double carry = sqrt(12.0) * FNU * G * rho[fr] * INFL;   /* |J ball(rho)| <= sqrt(12) G rho */
+            int bad = ell_update(Q[fr], &rho[fr], x[f], dt, n, def[f], rem, carry, 1, diag);
+            emax[fr] = ebound(Q[fr], rho[fr], E[fr]);
             for (k = 0; k < 12; k++) { Ev[fr][k] = E[fr][k]; Eb[fr][k] = E[fr][k]; }
             for (k = 0; k < 12; k++) E[fr][k] += 2.0 * U2 * fabs(c[f][k]) * INFL;   /* centre = hi part */
             st[mem] = estatus(c[f], E[fr], R);
+            if (bad) st[mem] |= 4;
         }
         double t = s * dt;
         int done = 0;
@@ -508,8 +605,8 @@ DEVFN void bpair(const double* S, double* out, int N, int i, double dt, long lon
                     g[m][k].v = cc; g[m][k].d = mkd(0, 0);
                     def[1][3 * m + k] = DDU * ddabs(cc);
                 }
-                ell_update(Q[1], x[1], dt, 1, def[1], 0.0, 0);   /* fold in the switch rounding */
-                emax[1] = ebound(Q[1], Eb[1]);
+                ell_update(Q[1], &rho[1], x[1], dt, 1, def[1], 0.0, rho[1], 0, diag);   /* fold in the switch rounding (J = I) */
+                emax[1] = ebound(Q[1], rho[1], Eb[1]);
                 mode = 1;
             } else if (bdone) {
                 for (m = 0; m < 4; m++) for (k = 0; k < 3; k++) g[m][k].d = mkd(0, 0);
@@ -538,6 +635,9 @@ DEVFN void bpair(const double* S, double* out, int N, int i, double dt, long lon
         out[(17 + 2 * nchk + 3 * m + k) * N + i] = (m == 0 ? p : m == 1 ? w : m == 2 ? P : W)[k].v.l;
         out[(29 + 2 * nchk + 3 * m + k) * N + i] = Ev[0][3 * m + k];
     }
+    /* diagnostics: max over the run of |RY|_F / |Y|_F (tangent arithmetic) and rho' / |Y|_F (QR) */
+    out[(41 + 2 * nchk) * N + i] = diag[0];
+    out[(42 + 2 * nchk) * N + i] = diag[1];
 }
 """
 
@@ -612,7 +712,7 @@ class CBall:
         S = np.ascontiguousarray(S, dtype=np.float64)
         N = S.shape[1]
         chk = np.ascontiguousarray(chk, dtype=np.int64)
-        out = np.empty((41 + 2 * len(chk), N))
+        out = np.empty((43 + 2 * len(chk), N))
         dp, lp = ctypes.POINTER(ctypes.c_double), ctypes.POINTER(ctypes.c_longlong)
         self.lib.bpairs(S.ctypes.data_as(dp), out.ctypes.data_as(dp), N, dt, int(nmax), R, omd,
                         chk.ctypes.data_as(lp), len(chk))
@@ -630,7 +730,7 @@ class CupyBall:
         cp = self.cp
         Sd = cp.asarray(np.ascontiguousarray(S, dtype=np.float64))
         N = Sd.shape[1]
-        out = cp.empty((41 + 2 * len(chk), N), dtype=cp.float64)
+        out = cp.empty((43 + 2 * len(chk), N), dtype=cp.float64)
         threads = 128
         self.kern(((N + threads - 1) // threads,), (threads,),
                   (Sd, out, np.int32(N), np.float64(dt), np.int64(nmax), np.float64(R),
@@ -808,7 +908,8 @@ def selftest(n_traj=3, tmax=40.0):
         err = [abs(orb[k] - (mp.mpf(float(ch[k])) + mp.mpf(float(cl[k])))) for k in range(12)]
         ratio = max(float(err[k]) / Eb[k] for k in range(12))
         print(f"   traj {i}: max |true - centre| = {float(max(err)):.2e}, bound {Eb.max():.2e}, "
-              f"worst ratio {ratio:.3f}  ({time.time() - t0:.0f}s)")
+              f"worst ratio {ratio:.3f}  ({time.time() - t0:.0f}s);  frame radii / |Y|: tangent "
+              f"{out[41, i]:.1e}, QR containment {out[42, i]:.1e}")
         assert ratio <= 1.0, "enclosure violated"
     print("selftest passed")
 
@@ -869,6 +970,7 @@ def main():
     rv_chk = np.full((len(chk), nd), np.nan)
     rd_chk = np.full((len(chk), nd), np.nan)
     iw = np.full(nd, np.nan)
+    tan_rel, qr_rel = np.full(nd, np.nan), np.full(nd, np.nan)
     t0 = time.time()
     for i, r in enumerate(rel):
         d = r * a.width
@@ -892,12 +994,15 @@ def main():
             y = out[6 + 2 * j][ok & (out[6 + 2 * j] >= 0)]
             rv_chk[j, i] = np.median(x) if x.size else np.nan
             rd_chk[j, i] = np.median(y) if y.size else np.nan
+        dg = 41 + 2 * len(chk)
+        tan_rel[i], qr_rel[i] = out[dg][ok].max(), out[dg + 1][ok].max()
         wa = (out[1] - out[0])[ok & (out[1] > 0)]
         iw[i] = np.median(wa) if wa.size else np.nan
         k = nT - 1
         print(f"  delta/w={r:.1e}  f(>{a.thresholds[k]:g}) in [{f_lo[k, i]:.4f}, {f_hi[k, i]:.4f}]"
               f" (centres {f_c[k, i]:.4f}, uncertified {unc_frac[k, i]:.4f})  lost {lost[i]:.3f}  "
               f"bound(a) t={a.t_sep[0]:g}: {rv_chk[0, i]:.1e} at esc: {rv_esc[i]:.1e}  "
+              f"frame radii/|Y| tan {tan_rel[i]:.0e} QR {qr_rel[i]:.0e}  "
               f"({time.time() - t0:.0f}s)", flush=True)
     print("\nrigorous bracket on the uncertainty exponent (fit to f_lo and f_hi separately):")
     al = []
@@ -910,6 +1015,7 @@ def main():
               f"{np.nanmax(unc_frac[k]):.4f}")
     np.savez(os.path.join(a.out, tag + '.npz'), rel=rel, f_lo=f_lo, f_hi=f_hi, f_c=f_c,
              unc=unc_frac, lost=lost, rv_esc=rv_esc, rv_chk=rv_chk, rd_chk=rd_chk, iw=iw,
+             tan_rel=tan_rel, qr_rel=qr_rel,
              args=json.dumps(vars(a)))
     try:
         import matplotlib
