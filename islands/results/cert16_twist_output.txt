@@ -1,0 +1,41 @@
+certificate: p=16, K=200, box widths x0 2.0e-11  px0 2.0e-11  T 2.0e-10
+chain P (center) ...
+  [P] step 100/1000 ok  box width 1.56e-23  (35s)
+  [P] step 200/1000 ok  box width 3.62e-23  (70s)
+  [P] step 300/1000 ok  box width 1.02e-22  (105s)
+  [P] step 400/1000 ok  box width 9.49e-23  (140s)
+  [P] step 500/1000 ok  box width 1.44e-22  (175s)
+  [P] step 600/1000 ok  box width 6.18e-22  (210s)
+  [P] step 700/1000 ok  box width 1.26e-21  (245s)
+  [P] step 800/1000 ok  box width 1.98e-21  (281s)
+  [P] step 900/1000 ok  box width 1.85e-21  (316s)
+  [P] step 1000/1000 ok  box width 4.87e-21  (349s)
+  F(center) = ['[1.673e-12, 1.673e-12]', '[-6.539e-13, -6.539e-13]', '[4.091e-12, 4.091e-12]']
+chain B (box) ...
+  [B] step 100/1000 ok  box width 1.35e-10  (286s)
+  [B] step 200/1000 ok  box width 2.55e-10  (577s)
+  [B] step 300/1000 ok  box width 6.30e-10  (868s)
+  [B] step 400/1000 ok  box width 4.66e-10  (1160s)
+  [B] step 500/1000 ok  box width 2.85e-10  (1453s)
+  [B] step 600/1000 ok  box width 7.17e-10  (1744s)
+  [B] step 700/1000 ok  box width 1.31e-09  (2033s)
+  [B] step 800/1000 ok  box width 1.91e-09  (2325s)
+  [B] step 900/1000 ok  box width 1.67e-09  (2616s)
+  [B] step 1000/1000 ok  box width 3.83e-09  (2908s)
+
+Krawczyk:
+  x0 : K=[3.1464012276983686, 3.146401227698371]  ratio 0.000
+  px0: K=[0.0017931934188136977, 0.0017931934188141494]  ratio 0.000
+  T  : K=[31.053330268585064, 31.053330268585068]  ratio 0.000
+  K strictly inside X : True
+
+base monodromy: tr M in [0.07806870390725909, 0.07823889587633746]  -> HI = (tr-2)/2 in [-0.9609656480463704, -0.9608805520618313]  ELLIPTIC (stable)
+ghost monodromy: tr in [5.346986405150874, 5.347137869427777], disc in [6.716, 6.724]  -> UNSTABLE (real multiplier off the unit circle)
+
+directional variations at T: max widths  m 3.3e-04  b 5.5e+00  c 4.9e+04
+return map: cos theta in [-0.9609621479332926, -0.960884051532991]  (non-resonant to order 4: checked)
+            lambda = (-0.962561..-0.959287) + i(-0.277975..-0.275657);  zetabar coeff width 3.3e-03
+            Re(conj(lambda) c1) in [-1.142e+05, 1.151e+05]  (0 for area-preserving)
+BIRKHOFF TWIST tau in [-304748.20853652776, -122807.92906437143]  ->  NONZERO (Moser twist hypothesis certified)
+
+RESULT: PROVED: unique periodic orbit in X
