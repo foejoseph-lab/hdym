@@ -15,6 +15,10 @@ it is Floquet-stable. Its Birkhoff twist is τ ≈ −2.14×10⁵ (exact formula
 rigorous enclosure pending), so Moser's theorem applies once τ is certified: the island exists.
 *Status (2026-10-10): the enclosure was computed on 9–10 Oct, τ ∈ [−3.05×10⁵, −1.23×10⁵]; its
 check output is not yet committed (see Status / open).*
+*Status (2026-10-10, later): rerun with the fixed checker (see Status / open): τ ∈
+[−3.0475×10⁵, −1.2280×10⁵], nonzero, output in `results/cert16_twist_output.txt`. The island
+is now a theorem modulo Moser's twist theorem and the outstanding independent review of the
+checker.*
 In the full 12-d Lee–Wick system with a tiny ghost seed (ε = 10⁻¹⁰) the island is an
 infinite-escape-time hole at E = 0.3 and a fast smooth plateau at E = 1, with a sticky halo
 that escapes slower than the sea; at the paper's ε = 0.01 the ghost's back-reaction (|w| ≈ 0.1
@@ -44,7 +48,12 @@ results/
   cert16.json          certificate, md5 690878da67b071b6ce277aea0fb02e98
   cert16_check_output.txt   checker output (PROVED).  Status (2026-10-10): produced by the
                        checker before the MVT / centre-in-box fixes (see Status / open);
-                       the recheck with the fixed checker is not yet committed
+                       the recheck with the fixed checker is not yet committed.
+                       Status (2026-10-10, later): replaced by the output of the fixed
+                       checker (run 10 Oct): PROVED, every printed number equal to the
+                       earlier output's
+  cert16_twist_output.txt   output of `--ghost --twist` with the fixed checker (10 Oct):
+                       PROVED, τ nonzero                                  (added 2026-10-10)
   cert.json            p = 24 certificate (generator default), md5 b2dc3efca31bd6b848048b34cc8527bc;
                        no checker output committed
   twist_sym.log
@@ -53,6 +62,7 @@ results/
 Not yet committed: the `results/island_E*_eps*.log`
 outputs of `hdym_island.py` (E = 1, 0.3; ε = 1e-10, 0.01; two planar), the output of
 `scan.py` / `interior.py`, and a `cert_check.py --twist` run.
+*Status (2026-10-10): the `--twist` run is now committed (`results/cert16_twist_output.txt`).*
 
 ## Reproduce the proof
 
@@ -78,7 +88,7 @@ import.
 
 ## Status / open
 
-- [ ] Twist enclosure: add 2nd/3rd-order variational series to generator and checker (VAR2, VAR3),
+- [x] Twist enclosure: add 2nd/3rd-order variational series to generator and checker (VAR2, VAR3),
       evaluate the `twist_symbolic.py` formula in intervals. Then the island is a theorem modulo Moser.
       *Status (2026-10-10): done. Checker side: `cert_twist.py` (VAR2/VAR3, FRAME2, TWIST) with the
       formula `twist_formula.json` from `twist_symbolic2.py`. Run on Joseph's machine 9–10 Oct
@@ -87,6 +97,9 @@ import.
       close this, rerun with the output redirected to `results/cert16_twist_output.txt` and commit it.*
       *Status (2026-10-10, later): the τ interval above came from the checker before the fixes
       under "Independent review"; it needs the rerun with the fixed checker.*
+      *Status (2026-10-10, latest): rerun with the fixed checker on Joseph's machine,
+      output `results/cert16_twist_output.txt`: τ ∈ [−304748.21, −122807.93], NONZERO; cos θ ∈
+      [−0.960962, −0.960884], non-resonant to order 4. Consistent with the 9–10 Oct interval.*
 - [ ] Second certificate at E = 0.3 (ghost Floquet-STABLE on the orbit).
 - [ ] Independent review of `cert_check.py`.
       *Status (2026-10-10): a review was started on 10 Oct and stopped before its written report;
@@ -103,6 +116,11 @@ import.
       the review of the remaining lemmas and of `cert_twist.py` is still open.
       Regenerating `cert16.json` with `cap_dr_orbit.py 16 1000 1e-11` on 10 Oct gave the same
       file (same md5).*
+      *Status (2026-10-10, later): full recheck with the fixed checker done on Joseph's machine:
+      `--ghost` PROVED with every printed number equal to the earlier output
+      (`results/cert16_check_output.txt`); `--ghost --twist` PROVED, τ nonzero
+      (`results/cert16_twist_output.txt`). Still open: the review of the remaining lemmas and of
+      `cert_twist.py`.*
 - [ ] ε-crossover scan at E = 0.3: `hdym_island.py --eps 1e-9 … 1e-6`.
 - [ ] 3-dof: the DR orbit's z-direction Floquet trace (−1.53, float) is not certified; the
       island is sealed in 2-dof and leaks by Arnold diffusion in 3-dof (seen: 2.7 % at r = 2e-4).
