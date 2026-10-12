@@ -68,6 +68,10 @@ N = 18, T = 3000 E^{-1/4}):
 | 1 | +0.0126(9), +0.0070(5), +0.003, +0.0015, −0.0015, −0.003, −0.0070, −0.0127 | 0.003 |
 | 0.1 | +0.0018(2), +0.0013(1), +0.0005, +0.0001, …, −0.0018 | 0.0016 |
 
+*Status (2026-10-12): the committed `data/rung1_lyap_E1.npy` (18 runs) gives sample means
++0.01261, +0.00705, +0.00287, +0.00162, −0.00167, −0.00288, −0.00685, −0.01279 at E = 1: the
+±0.0015 pair is +0.0016, −0.0017 (both inside the noise floor 0.003).*
+
 Four neutral exponents (gauge, Gauss, YM pair) and two resolved positive ghost exponents at
 E = 1; at E = 0.1 the ghost exponents are at the noise floor of the QR method.
 
@@ -137,6 +141,10 @@ exponents. In the real theory (c_j = 1) the j² term lifts the longitudinal mode
 channels and detunes this resonance (g₁ = 6.2×10⁻⁴ vs 15.4×10⁻⁴ at E = 0.1), but leaves the
 interior pair degenerate and coupled to the YM mode; the shallow low-E law is that interior
 contribution. Its derivation is open.
+*Status (2026-10-12): the attribution "the shallow low-E law is that interior contribution" is
+withdrawn at E = 0.1 by §3c (79 % of the leading vector's log-growth accrues in channels; the
+"interior mechanism" reading was wrong there). At E = 1 the split has not been re-measured, so
+the sentence is unsupported rather than refuted there.*
 
 ## 3c. The theory at E = 0.1 with the split, and the Q statistic
 

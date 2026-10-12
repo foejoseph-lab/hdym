@@ -89,6 +89,9 @@ Substituting J = c·a/D with c = 1 − ½μ²D²:
     ŝ_xx^res(u) = 16π I₂ ν₀ c^{5/2} / u⁵,      I₂ = ∫₀¹ a² da/√(2(1−a)) = B(3,½)/√2 = 16/(15√2),
 
     A_res ≡ u⁵ ŝ_xx^res / c^{5/2} = (256π/(15√2)) ν₀ = 37.93 ν₀    (2.511 at μ₁ = 0.1, 1.730 at 0.03).
+    *Status (2026-10-12): 256π/(15√2) = 37.913, not 37.93; the values 2.511 and 1.730 were
+    computed from the closed form and are right. `hdym2d_spectrum.py`'s docstring and printout
+    carry the same 37.93 label.*
 
 [3-d check of the same algebra: I = ∫_{a+b<1}(a²+b²)/√(2(1−a−b)) = (2/3√2)B(4,½) = 64/(105√2),
 the paper's value.]
@@ -151,6 +154,12 @@ middle term, which is the count of transverse actions. The regulator factor matt
 |---|---|---|---|---|---|---|---|
 | 0.1 | 12 000 | 8.19×10⁻⁵ ± 1.2% | 7.93×10⁻⁵ | 9.32×10⁻⁵ | 0.87 | 1.84×10⁻⁵ | 0.22 |
 | 0.03 | 60 000 | 7.96×10⁻⁶ ± 1.8% | 8.10×10⁻⁶ | 8.15×10⁻⁶ | 0.98 (0.99 extrap.) | 1.5 ± 1.3×10⁻⁷ | 0.02 |
+
+*Status (2026-10-12): the E = 0.1 row mixes two predictions. 9.32×10⁻⁵ includes the ghost-mass
+factor (as in the paper's two-field table); the ratio 0.87 is the CSV's
+(`results_2d_cpu/transverse_2d_E0.1_mu0.1.csv`: pred = 9.4255×10⁻⁵, written by the earlier
+prediction code without that factor, ratio 0.869). Against 9.32×10⁻⁵ the ratio is 0.879. The
+E = 0.03 CPU CSV carries the prediction with the factor (8.155×10⁻⁶).*
 
 **GPU results** (RTX 4080 SUPER, 2026-10-01, N = 10⁵ at E = 0.1 and 2×10⁵ otherwise,
 `--target-rel 0.02`; 0.03–0.05 ms/step, 46 min in all):

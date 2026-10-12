@@ -24,12 +24,29 @@ infinite-escape-time hole at E = 0.3 and a fast smooth plateau at E = 1, with a 
 that escapes slower than the sea; at the paper's ε = 0.01 the ghost's back-reaction (|w| ≈ 0.1
 ≫ island width 2×10⁻⁴) erases the island entirely. The same holds in the exact 2-dof planar
 subsystem, so nothing about the three-field lift changes the 2-dof analysis.
+*Status (2026-10-12): five qualifications of this paragraph, from the 10 Oct audit and the 12 Oct
+off-diagonal computation. (a) Widths: `hdym_island.py` prints the island HALF-width, ~2×10⁻⁴ in x
+at E = ½ (scaled by λ = (2E)^{1/4} elsewhere); "island width 2×10⁻⁴" above should read half-width,
+and the docstring's "(~1e-4)" is a rougher figure. The ghost amplitude is |w| = √(2εE): 0.077 at
+E = 0.3, 0.1 at E = ½, 0.14 at E = 1 (the docstring's 0.07 and the 0.1 above are the same estimate
+at different E); either way ≫ the island. (b) "Floquet tongue (e.g. 1.0)" in the docstring and
+"Floquet-unstable for all E ≳ 0.315" here describe the same thing: E = 1 lies in the unstable
+region of the diagonal ghost. (c) "Infinite-escape-time" means no escape within the run's tmax
+(3000 in the usage line, default 5000 at E = 0.3; the logs are not committed). (d) "Nothing about
+the three-field lift changes the 2-dof analysis" refers to the hole / plateau / erasure pattern,
+which the planar runs reproduce; it does not mean the 3-dof island is sealed: in 3-dof it leaks by
+Arnold diffusion (Status / open, 3-dof item), and the `--planar` sea control stays 3-dof.
+(e) All of the above is the colour-diagonal ghost. The off-diagonal ghost is Floquet-unstable on
+the DR orbit at E = 0.3 (Status / open, off-diagonal item), so in the full homogeneous theory the
+E = 0.3 island is not a refuge, at least at its centre.*
 
 ## Layout
 
 ```
 code/
   dr_orbit_ghost.py    DR orbit, Hénon index, coarse ghost Floquet scan in E       (float)
+  dr_offdiag_floquet.py  the six off-diagonal ghost components (ym/rung1_system.pkl, c_j = 1)
+                       on the DR orbit: block monodromies vs E                (float; added 2026-10-12)
   scan.py              fine Floquet scan: python scan.py E_min E_max N             (float)
   interior.py          base and ghost Lyapunov exponents inside the island         (float)
   cap_dr_orbit.py      UNTRUSTED certificate generator (mpmath intervals, Lohner/Taylor)
@@ -182,6 +199,27 @@ import.
       needs, not the first-return map of that global section. A rerun of the `--ghost` check
       with this checker (~18 min) would put RET into the committed output.* Not resolved by review B: an independent float fit of the return-map
       coefficients (described in its findings file).*
+      *Status (2026-10-12, latest): the `--ghost` rerun is done on Joseph's machine (Spyder kernel
+      interpreter; `cert_check.py results/cert16.json --ghost --E 1/2 --verbose`, checker with the
+      RET print line): `results/cert16_check_output.txt` now shows `RET: p_y at time T in
+      [9.9999839222565711e-1, 9.9999839222912168e-1] > 0` and ends `PROVED`; every other printed
+      number is unchanged. `results/cert16_twist_output.txt` predates RET and was not rerun: RET is a
+      property of the certificate (chain B's final enclosure Zf), which the twist layer reads
+      unchanged, so the RET line above covers the twist verdict too.*
+- [x] Off-diagonal ghost on the DR orbit (everything above is the colour-diagonal ghost).
+      *Status (2026-10-12): `code/dr_offdiag_floquet.py`, output `results/dr_offdiag_floquet.txt`
+      (float, DOP853 rtol 1e-12; run in the cloud session of 12 Oct, Python 3.13). Monodromy of the three
+      8-dim off-diagonal blocks of ym/rung1_system.pkl (c_j = 1, the theory) over one period of the DR
+      orbit scaled to energy E. Checks: orbit closure ~3e-13, det M = 1 to 1e-10, ghost multipliers
+      in (mu, 1/mu) pairs, and with c_j = 0 the block reproduces the scalar Hill equations of the
+      paper's off-diagonal section. Result: the off-diagonal ghost is Floquet-UNSTABLE on the orbit
+      over about half of E = 0.05-1 (unstable intervals in the output), including E ∈ [0.281, 0.494]:
+      at E = 0.3 block (u23, u32) has the real multiplier 1.5522 (rate 0.0125, against the sea-averaged
+      off-diagonal g1 = 3.37e-3 of the paper's off-diagonal table), while the diagonal ghost is
+      Floquet-stable there. So the E = 0.3 island, a non-escaping hole for the diagonal ghost at
+      ε = 1e-10, is not a refuge in the full homogeneous theory, at least at its centre. The 12-d
+      `hdym_island.py` runs have no off-diagonal components. Not certified; this is the central
+      orbit only, not the surrounding tori.*
 - [ ] ε-crossover scan at E = 0.3: `hdym_island.py --eps 1e-9 … 1e-6`.
 - [ ] 3-dof: the DR orbit's z-direction Floquet trace (−1.53, float) is not certified; the
       island is sealed in 2-dof and leaks by Arnold diffusion in 3-dof (seen: 2.7 % at r = 2e-4).
@@ -193,3 +231,7 @@ E = |P|²/2 + V(q), ghost |w|² + |W|² = 2εE, p = q + w, P = P_q − W, Yoshid
 and channel sub-stepping, escape at any |component| > 10⁴. The DR point in these
 coordinates: q* = λ(3.14640122769837, 0, 0), P* = λ²(0.00179319341881, √(1 − p_x*²), 0),
 λ = (E/½)^{1/4}; copies 0–23 by cyclic permutation, 90° in-plane rotation, time reversal.
+*Status (2026-10-12): "verbatim" except the channel sub-stepping: `hdym_island.py` runs pairs
+through `hdym_precision.CPairs` with the SHARED sub-step schedule (both members take the larger
+n), not the production per-trajectory schedule of `hdym_escape_map`; its docstring says so. The
+difference is at truncation level.*

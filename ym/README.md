@@ -35,6 +35,7 @@ Section, figure and table names refer to `paper/main.tex`.
 | `hdym_gpu.py` | transverse Lyapunov exponent λ⊥(E), whole integrator in one kernel; `--ghost vec` (physical ghost) or `--ghost diag` (three independent scalar oscillators, per-component estimator) | fig:lambda, tab:low |
 | `hdym_gpu_landscape.py` | `hdym_gpu.py` plus the (D, J) histogram output, results bit-identical | (landscape figure, not in the paper) |
 | `hdym_spectrum.py` | multitaper spectrum of Hess V along pure-YM trajectories at E = 1; the u⁻⁶ tail and the tail constant A | Spectral formula and the u⁻⁶ tail |
+| `hdym_tailA.py` | reads a saved `hdym_spectrum.py` run (`spectrum.npz`) and prints the band slopes and the tail constant A = ⟨u⁶ s(u)⟩ over u = 8–45; hdym_spectrum.py itself does not print A. *(added 2026-10-12)* | eq:A |
 | `hdym_channel_check.py` | channel-passage checks: adiabatic invariant J, parabolic x(t), chirp at 2\|x\|, P(J) ∝ J | Channel statistics |
 | `hdym_nu0.py` | channel entry rate ν₀ at E = 1 against 8π²/Z | ν₀ from the density of states, fig:nu0 |
 | `hdym_analytic.py` | sympy derivations, every constant checked: general-n law, 4/(9n−4) share, Z₂ elliptic form, c_j = 0 law 0.0210 E^{5/4} | Derivation; Off-diagonal sector |
@@ -81,6 +82,9 @@ paper still rest on them. Each writes its output to the working directory.
 | `transverse_E*.npz` | independent numpy re-run at E = 0.215, 0.3, 0.43, 0.6, 1 (open symbols in fig:lambda), written by `early/transverse.py` (`lam_d` = vector-norm diagonal estimator) |
 | `nu0_E1.npz` | channel visits (depth, entry action) at E = 1 |
 | `Z_density_of_states.txt` | output of `hdym_Z.py`: Z = 557.088806 (the two methods agree to 1e-13), ν₀ = 0.141731, λ_diag = 0.011994 E^{9/4}, c_j = 0 law 0.020990 E^{5/4} *(added 2026-10-12)* |
+| `analytic_output.txt` | output of `hdym_analytic.py` (run 12 Oct on Joseph's machine): every symbolic check `True`; 3-d law 0.01199 E^{9/4} (with Z = 557.1, now computed by `hdym_Z.py`); predicted A = (7/2) A_res = 21.49; Z₂ = 189.7330 (μ = 0.1), 275.3160 (μ = 0.03); c_j = 0 law 0.0210 E^{5/4} *(added 2026-10-12)* |
+| `results_spectrum/` | `spectrum.npz` and `prediction.csv` from `hdym_spectrum.py --N 2048 --T 20000 --t-burn 500 --workers 12` (rerun 12 Oct on Joseph's machine; log `spectrum_log.txt`) *(added 2026-10-12)* |
+| `tailA_output.txt` | output of `hdym_tailA.py results_spectrum`: 98 304 segments, band slopes −6.14, −6.05, −6.00, −5.98, −5.89, A = 21.65 ± 0.13 (paper eq:A: 21.6 ± 0.3; predicted (7/2) A_res = 21.49) *(added 2026-10-12)* |
 | `map256.npz`, `ghost256.npz`, `unc_ym.npz`, `unc_ghost.npz` | escape maps and uncertainty-exponent data at E = 0.3, ε = 0.01 |
 | `nu0_2d_mu*.npz`, `spec_2d_mu*.npz` | two-field entry flux and spectrum at μ₁ = 0.1, 0.03 |
 | `results_2d/` | two-field GPU runs: summaries `transverse_2d_mu*.csv` (`hdym_2d.py` appends to `<out>/transverse_2d.csv`; one file per μ₁ here), per-trajectory exponents `lam_i_E*_mu*.npy`, `history_*.npy` |

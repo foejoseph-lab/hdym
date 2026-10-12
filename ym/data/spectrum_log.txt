@@ -1,0 +1,94 @@
+hdym_spectrum v2.1  taper=dpss NW=16.0 K=8 workers=12
+  worker 0: segment 1/48
+  worker 0: segment 2/48
+  worker 0: segment 3/48
+  worker 0: segment 4/48
+  worker 0: segment 5/48
+  worker 0: segment 6/48
+  worker 0: segment 7/48
+  worker 0: segment 8/48
+  worker 0: segment 9/48
+  worker 0: segment 10/48
+  worker 0: segment 11/48
+  worker 0: segment 12/48
+  worker 0: segment 13/48
+  worker 0: segment 14/48
+  worker 0: segment 15/48
+  worker 0: segment 16/48
+  worker 0: segment 17/48
+  worker 0: segment 18/48
+  worker 0: segment 19/48
+  worker 0: segment 20/48
+  worker 0: segment 21/48
+  worker 0: segment 22/48
+  worker 0: segment 23/48
+  worker 0: segment 24/48
+  worker 0: segment 25/48
+  worker 0: segment 26/48
+  worker 0: segment 27/48
+  worker 0: segment 28/48
+  worker 0: segment 29/48
+  worker 0: segment 30/48
+  worker 0: segment 31/48
+  worker 0: segment 32/48
+  worker 0: segment 33/48
+  worker 0: segment 34/48
+  worker 0: segment 35/48
+  worker 0: segment 36/48
+  worker 0: segment 37/48
+  worker 0: segment 38/48
+  worker 0: segment 39/48
+  worker 0: segment 40/48
+  worker 0: segment 41/48
+  worker 0: segment 42/48
+  worker 0: segment 43/48
+  worker 0: segment 44/48
+  worker 0: segment 45/48
+  worker 0: segment 46/48
+  worker 0: segment 47/48
+  worker 0: segment 48/48
+12 workers, 2048 trajectories, 48 segments each (4850s)
+channel depth per segment: median 10.0, p99 114.0, max 1440.3
+tail of s(u) [diag]: local log-log slope
+   u =   2-3  :  -6.50
+   u =   3-5  :  -4.90
+   u =   5-8  :  -6.14
+   u =   8-12 :  -6.05
+   u =  12-20 :  -6.00
+   u =  20-30 :  -5.98
+   u =  30-45 :  -5.89
+         E      u       diag        eig     eigmin
+ 1.000e-04  20.00  4.179e-11  1.209e-09  4.959e-10
+ 1.334e-04  18.61  8.014e-11  2.278e-09  9.218e-10
+ 1.778e-04  17.32  1.539e-10  4.274e-09  1.807e-09
+ 2.371e-04  16.12  2.952e-10  7.874e-09  3.261e-09
+ 3.162e-04  15.00  5.592e-10  1.486e-08  6.382e-09
+ 4.217e-04  13.96  1.067e-09  2.697e-08  1.179e-08
+ 5.623e-04  12.99  2.052e-09  5.118e-08  2.322e-08
+ 7.499e-04  12.09  3.912e-09  9.616e-08  4.326e-08
+ 1.000e-03  11.25  7.506e-09  1.735e-07  8.526e-08
+ 1.334e-03  10.47  1.430e-08  3.185e-07  1.600e-07
+ 1.778e-03   9.74  2.751e-08  6.065e-07  3.036e-07
+ 2.371e-03   9.06  5.319e-08  1.214e-06  6.345e-07
+ 3.162e-03   8.43  1.019e-07  1.939e-06  1.021e-06
+ 4.217e-03   7.85  1.957e-07  3.937e-06  2.547e-06
+ 5.623e-03   7.30  3.756e-07  6.604e-06  3.836e-06
+ 7.499e-03   6.80  7.117e-07  1.243e-05  7.045e-06
+ 1.000e-02   6.32  1.408e-06  2.396e-05  1.377e-05
+ 1.334e-02   5.89  2.894e-06  5.578e-05  3.061e-05
+ 1.778e-02   5.48  5.551e-06  8.655e-05  6.356e-05
+ 2.371e-02   5.10  9.317e-06  1.241e-04  7.952e-05
+ 3.162e-02   4.74  1.737e-05  1.866e-04  1.044e-04
+ 4.217e-02   4.41  4.955e-05  4.043e-04  1.863e-04
+ 5.623e-02   4.11  1.380e-04  1.049e-03  4.102e-04
+ 7.499e-02   3.82  2.063e-04  1.618e-03  6.750e-04
+ 1.000e-01   3.56  2.534e-04  2.047e-03  8.966e-04
+ 1.334e-01   3.31  3.304e-04  2.582e-03  9.674e-04
+ 1.778e-01   3.08  5.822e-04  3.731e-03  1.163e-03
+ 2.371e-01   2.87  1.203e-03  6.028e-03  1.630e-03
+ 3.162e-01   2.67  2.649e-03  1.066e-02  2.471e-03
+ 4.217e-01   2.48  5.882e-03  1.951e-02  3.801e-03
+ 5.623e-01   2.31  1.166e-02  3.271e-02  5.360e-03
+ 7.499e-01   2.15  1.938e-02  4.746e-02  6.464e-03
+ 1.000e+00   2.00  2.924e-02  6.352e-02  7.175e-03
+wrote ym\data\results_spectrum
