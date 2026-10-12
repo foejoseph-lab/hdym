@@ -1,35 +1,35 @@
-certificate: p=16, K=200, box widths x0 2.0e-11  px0 2.0e-11  T 2.0e-10
+certificate: E = 1/2 (exact), p=16, K=200, box widths x0 2.0e-11  px0 2.0e-11  T 2.0e-10
 chain P (center) ...
   [P] step 100/1000 ok  box width 1.56e-23  (34s)
-  [P] step 200/1000 ok  box width 3.62e-23  (69s)
-  [P] step 300/1000 ok  box width 1.02e-22  (104s)
-  [P] step 400/1000 ok  box width 9.49e-23  (138s)
-  [P] step 500/1000 ok  box width 1.44e-22  (173s)
-  [P] step 600/1000 ok  box width 6.18e-22  (208s)
-  [P] step 700/1000 ok  box width 1.26e-21  (242s)
-  [P] step 800/1000 ok  box width 1.98e-21  (277s)
-  [P] step 900/1000 ok  box width 1.85e-21  (313s)
-  [P] step 1000/1000 ok  box width 4.87e-21  (348s)
-  F(center) = ['[1.673e-12, 1.673e-12]', '[-6.539e-13, -6.539e-13]', '[4.091e-12, 4.091e-12]']
+  [P] step 200/1000 ok  box width 3.62e-23  (68s)
+  [P] step 300/1000 ok  box width 1.02e-22  (103s)
+  [P] step 400/1000 ok  box width 9.49e-23  (137s)
+  [P] step 500/1000 ok  box width 1.44e-22  (172s)
+  [P] step 600/1000 ok  box width 6.18e-22  (206s)
+  [P] step 700/1000 ok  box width 1.26e-21  (240s)
+  [P] step 800/1000 ok  box width 1.98e-21  (275s)
+  [P] step 900/1000 ok  box width 1.85e-21  (311s)
+  [P] step 1000/1000 ok  box width 4.87e-21  (345s)
+  F(center) = ['[1.672e-12, 1.673e-12]', '[-6.539e-13, -6.538e-13]', '[4.091e-12, 4.092e-12]']
 chain B (box) ...
-  [B] step 100/1000 ok  box width 1.35e-10  (68s)
-  [B] step 200/1000 ok  box width 2.55e-10  (136s)
-  [B] step 300/1000 ok  box width 6.30e-10  (204s)
-  [B] step 400/1000 ok  box width 4.66e-10  (272s)
-  [B] step 500/1000 ok  box width 2.85e-10  (339s)
-  [B] step 600/1000 ok  box width 7.17e-10  (408s)
-  [B] step 700/1000 ok  box width 1.31e-09  (476s)
-  [B] step 800/1000 ok  box width 1.91e-09  (544s)
-  [B] step 900/1000 ok  box width 1.67e-09  (612s)
-  [B] step 1000/1000 ok  box width 3.83e-09  (680s)
+  [B] step 100/1000 ok  box width 1.35e-10  (69s)
+  [B] step 200/1000 ok  box width 2.55e-10  (138s)
+  [B] step 300/1000 ok  box width 6.30e-10  (207s)
+  [B] step 400/1000 ok  box width 4.66e-10  (276s)
+  [B] step 500/1000 ok  box width 2.85e-10  (345s)
+  [B] step 600/1000 ok  box width 7.17e-10  (413s)
+  [B] step 700/1000 ok  box width 1.31e-09  (481s)
+  [B] step 800/1000 ok  box width 1.91e-09  (549s)
+  [B] step 900/1000 ok  box width 1.67e-09  (618s)
+  [B] step 1000/1000 ok  box width 3.83e-09  (687s)
 
 Krawczyk:
-  x0 : K=[3.1464012276983686, 3.146401227698371]  ratio 0.000
-  px0: K=[0.0017931934188136977, 0.0017931934188141494]  ratio 0.000
-  T  : K=[31.053330268585064, 31.053330268585068]  ratio 0.000
+  x0 : K=[3.1464012276983684e+0, 3.1464012276983707e+0]  ratio 0.000
+  px0: K=[1.7931934188136978e-3, 1.7931934188141494e-3]  ratio 0.000
+  T  : K=[3.1053330268585064e+1, 3.1053330268585068e+1]  ratio 0.000
   K strictly inside X : True
 
-base monodromy: tr M in [0.07806870390725909, 0.07823889587633746]  -> HI = (tr-2)/2 in [-0.9609656480463704, -0.9608805520618313]  ELLIPTIC (stable)
-ghost monodromy: tr in [5.346986405150874, 5.347137869427777], disc in [6.716, 6.724]  -> UNSTABLE (real multiplier off the unit circle)
+base monodromy: tr M in [7.8068703907259084e-2, 7.8238895876337468e-2]  -> HI = (tr-2)/2 in [-9.6096564804637046e-1, -9.6088055206183126e-1]  ELLIPTIC (linearised return map)
+ghost monodromy: tr in [5.3469864051508736e+0, 5.3471378694277774e+0], disc in [6.715e+0, 6.725e+0]  -> UNSTABLE (real multiplier off the unit circle)
 
-RESULT: PROVED: unique periodic orbit in X
+RESULT: PROVED: unique periodic orbit in X at E = 1/2

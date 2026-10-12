@@ -1,0 +1,29 @@
+selftest 0: polynomial bounds in step_remainder (sympy)
+   force P  : code - exact = 0  ok
+   force W  : code - exact = 0  ok
+   K1 W row : code - exact = 0  ok
+   K1 P row : code - exact = 0  ok
+   K2 W row : code - exact = 0  ok
+   K2 P row : code - exact = 8*Q0 + 8*Q1 + 8*Q2  ok
+selftest 1: double-word add/mul error <= 2^-101 |result| (vs exact rationals)
+   worst error / (2^-101 |result|) = 0.029  (must be < 1)
+selftest 2: an independent 60-digit orbit of the same map lies inside the certified ellipsoid (3 trajectories to t = 40)
+C ball/difference-number kernel
+   traj 0: max |true - centre| = 2.04e-26, bound 9.86e-22, worst ratio 0.000  (1s);  frame radii / |Y|: tangent 9.3e-16, QR containment 1.4e-12
+   traj 1: max |true - centre| = 2.16e-27, bound 1.23e-22, worst ratio 0.000  (1s);  frame radii / |Y|: tangent 9.1e-16, QR containment 8.0e-13
+   traj 2: max |true - centre| = 1.11e-26, bound 2.80e-22, worst ratio 0.000  (1s);  frame radii / |Y|: tangent 9.5e-16, QR containment 1.0e-12
+selftest 2b: member b (difference ball, delta = 1e-30 x width): its 60-digit orbit, started from a + D exactly, lies inside b's certified enclosure (3 pairs to t = 40)
+C ball/difference-number kernel
+   pair 0: |b - a| at t = 40: 2.24e-25;  member b max |true - centre| = 2.08e-25, bound 5.33e-21, worst ratio 0.000  (3s)
+   pair 1: |b - a| at t = 40: 2.59e-26;  member b max |true - centre| = 2.27e-26, bound 4.16e-22, worst ratio 0.000  (3s)
+   pair 2: |b - a| at t = 40: 2.68e-26;  member b max |true - centre| = 2.57e-26, bound 1.91e-22, worst ratio 0.000  (4s)
+selftest 3: escape bookkeeping (member switch): for pairs that escape, the 60-digit exit step of each member lies in its certified interval [first possible, first certain]
+C ball/difference-number kernel
+   pair 0: certified a in [43.64, 43.64], b in [67.645, 67.645];  60-digit exits a 43.64, b 67.645;  final mode 1  (6s)
+   pair 1: certified a in [79.18, 79.18], b in [46.165, 46.165];  60-digit exits a 79.18, b 46.165;  final mode 0  (7s)
+   pair 2: certified a in [24.545, 24.545], b in [24.415, 24.415];  60-digit exits a 24.545, b 24.415;  final mode 0  (3s)
+   pair 3: certified a in [48.66, 48.66], b in [61.21, 61.21];  60-digit exits a 48.66, b 61.21;  final mode 1  (5s)
+   pair 4: certified a in [98.065, 98.065], b in [88.91, 88.91];  60-digit exits a 98.065, b 88.91;  final mode 0  (7s)
+   pair 5: certified a in [76.545, 76.545], b in [69.335, 69.335];  60-digit exits a 76.545, b 69.335;  final mode 0  (6s)
+   switch paths exercised: a first then b alone 2, b first then a alone 4
+selftest passed
