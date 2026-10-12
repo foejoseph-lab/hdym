@@ -38,6 +38,7 @@ Section, figure and table names refer to `paper/main.tex`.
 | `hdym_channel_check.py` | channel-passage checks: adiabatic invariant J, parabolic x(t), chirp at 2\|x\|, P(J) ∝ J | Channel statistics |
 | `hdym_nu0.py` | channel entry rate ν₀ at E = 1 against 8π²/Z | ν₀ from the density of states, fig:nu0 |
 | `hdym_analytic.py` | sympy derivations, every constant checked: general-n law, 4/(9n−4) share, Z₂ elliptic form, c_j = 0 law 0.0210 E^{5/4} | Derivation; Off-diagonal sector |
+| `hdym_Z.py` | the density of states Z = ∫δ(1−H) d³q d³p at E = 1, two independent quadratures (radial/angular and Cartesian), then ν₀ = 8π²/Z and the λ_diag and c_j = 0 coefficients; seconds. Assumes no value of Z; compares with 557.1 only at the end. *(added 2026-10-12)* | ν₀ from the density of states; eq:final |
 | `hdym_2d.py`, `hdym2d_nu0.py`, `hdym2d_spectrum.py` | two-field model: kernel, entry flux, spectrum (see `notes/NOTE_2d.md`) | Test on the two-field model, tab:twofield |
 | `hdym_rung1.py` → `rung1_system.pkl` | linearisation of the full homogeneous theory about the diagonal background | Off-diagonal sector |
 | `hdym_rung1_lyap.py` | CPU Lyapunov spectra of the off-diagonal blocks (reads `rung1_system.pkl` from the working directory) | Off-diagonal sector |
@@ -79,6 +80,7 @@ paper still rest on them. Each writes its output to the working directory.
 | `results_percomp.7z` | the run folders behind the three CSVs (`lam_i_E*.npy`, `history_E*.npy`, `transverse_gpu.csv`), including the diagonal E = 0.03 run (N = 10⁵), which has no row in the CSV. Unpack to `data/results_percomp/` (ignored by git) for `make_fig_Q.py`: `7z x results_percomp.7z -oresults_percomp`, or with `py7zr` |
 | `transverse_E*.npz` | independent numpy re-run at E = 0.215, 0.3, 0.43, 0.6, 1 (open symbols in fig:lambda), written by `early/transverse.py` (`lam_d` = vector-norm diagonal estimator) |
 | `nu0_E1.npz` | channel visits (depth, entry action) at E = 1 |
+| `Z_density_of_states.txt` | output of `hdym_Z.py`: Z = 557.088806 (the two methods agree to 1e-13), ν₀ = 0.141731, λ_diag = 0.011994 E^{9/4}, c_j = 0 law 0.020990 E^{5/4} *(added 2026-10-12)* |
 | `map256.npz`, `ghost256.npz`, `unc_ym.npz`, `unc_ghost.npz` | escape maps and uncertainty-exponent data at E = 0.3, ε = 0.01 |
 | `nu0_2d_mu*.npz`, `spec_2d_mu*.npz` | two-field entry flux and spectrum at μ₁ = 0.1, 0.03 |
 | `results_2d/` | two-field GPU runs: summaries `transverse_2d_mu*.csv` (`hdym_2d.py` appends to `<out>/transverse_2d.csv`; one file per μ₁ here), per-trajectory exponents `lam_i_E*_mu*.npy`, `history_*.npy` |

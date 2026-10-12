@@ -170,6 +170,7 @@ def main():
     # verdicts would be about nothing.  Status (2026-10-11): before, they were printed anyway.
     if not ok:
         raise CheckFailed("Krawczyk inclusion failed: no periodic orbit certified in X")
+    print(f"  RET: p_y at time T in {fiv(Zf[3])} > 0  -> full period (not a reflected half)")
 
     trM = cl._trace(Jfinal)
     verdict, s = lemma_trace_stability(trM)

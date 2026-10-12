@@ -1,0 +1,29 @@
+hdym_Z.py  python 3.13.16  numpy 2.5.3  scipy 1.18.1
+Z = int delta(1 - H) d^3q d^3p for V = (x^2y^2 + y^2z^2 + z^2x^2)/2, E = 1
+
+(A) radial / angular
+    K = B(3/4,3/2)/4 = 0.239628046947118   (quad: 0.239628046947118, est. err 1.4e-13)
+    integrand limit at the axis: 2^(7/4) = 3.3635856610   (numerical 3.3635856610)
+    int_S2 v^(-3/4) dOmega = 130.816318268090   (est. err 1.5e-12)
+    Z_A = 557.0888061067
+
+(B) Cartesian, closed-form z integral
+    1/48 volume integral, x in [0, 2^(1/4)], [2^(1/4), 50], [50, inf):
+        0.220368300056565   (est. err 3.3e-12)
+        0.422227617319151   (est. err 9.1e-12)
+        0.010471975444954   (est. err 1.8e-14)
+    tail x > 50 by the channel asymptote pi/(6*50) = 0.010471975511966  (vs numerical above)
+    Z_B = 557.0888061066
+
+relative difference (A - B)/A = 9.29e-14
+
+RESULT: Z = 557.088806
+        nu0 = 8 pi^2 / Z = 0.141731
+        lambda_diag coefficient (32 pi^3 / 105 sqrt 2) / Z = 0.011994   (times E^(9/4))
+        c_j = 0 off-diagonal coefficient (4 sqrt2 pi^3 / 15) / Z = 0.020990   (times E^(5/4))
+
+comparison with the values quoted in the repository (not used above):
+    paper/main.tex Z = 557.1         -> computed rounds to 557.1
+    paper/main.tex nu0 = 0.1417      -> computed 0.1417
+    paper/main.tex 0.0120 E^(9/4)    -> computed 0.0120
+    ym/notes/NOTE_rung1.md 0.0210 E^(5/4) -> computed 0.0210
