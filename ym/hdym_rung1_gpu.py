@@ -35,6 +35,8 @@ import time
 
 import numpy as np
 
+import cbuild
+
 HIST_SHAPE = (64, 50)          # (depth D in [0, 8], action J in [0, 1]) bins; must match HIST_* in the C source
 HIST_EDGES = (np.linspace(0, 8, 65), np.linspace(0, 1, 51))
 
@@ -271,10 +273,10 @@ class CBackend:
             fh.write(C_SRC)
         cc = os.environ.get('CC', 'gcc')
         try:
-            subprocess.check_call([cc, '-O3', '-fopenmp', '-shared', '-fPIC', '-o', lib, src, '-lm'])
+            cbuild.check_call([cc, '-O3', '-fopenmp', '-shared', '-fPIC', '-o', lib, src, '-lm'])
             omp = 'with OpenMP'
         except subprocess.CalledProcessError:
-            subprocess.check_call([cc, '-O3', '-shared', '-fPIC', '-o', lib, src, '-lm'])
+            cbuild.check_call([cc, '-O3', '-shared', '-fPIC', '-o', lib, src, '-lm'])
             omp = 'single-threaded (no OpenMP)'
         self.lib = ctypes.CDLL(lib)
         dp = ctypes.POINTER(ctypes.c_double)

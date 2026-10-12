@@ -80,6 +80,8 @@ import time
 import math
 import numpy as np
 
+import cbuild
+
 
 if hasattr(math, 'fma'):                      # Python >= 3.13
     _fma = math.fma
@@ -721,9 +723,9 @@ class CBall:
         base = [cc, '-O3', '-march=native', '-ffp-contract=off', '-fno-fast-math', '-shared', '-fPIC', '-o', lib,
                 src, '-lm']
         try:
-            subprocess.check_call(base[:5] + ['-fopenmp'] + base[5:])
+            cbuild.check_call(base[:5] + ['-fopenmp'] + base[5:])
         except subprocess.CalledProcessError:
-            subprocess.check_call(base)
+            cbuild.check_call(base)
         _dll_search_path(cc)
         self.lib = ctypes.CDLL(lib)
         dp, lp = ctypes.POINTER(ctypes.c_double), ctypes.POINTER(ctypes.c_longlong)

@@ -46,6 +46,8 @@ import time
 
 import numpy as np
 
+import cbuild
+
 # ---------------------------------------------------------------- kernel (C / CUDA)
 STEP_SRC = r"""
 #define YC0 0.6756035959798288
@@ -194,10 +196,10 @@ class CBackend:
             fh.write(C_SRC)
         cc = os.environ.get('CC', 'gcc')
         try:
-            subprocess.check_call([cc, '-O3', '-fopenmp', '-shared', '-fPIC', '-o', lib, src, '-lm'])
+            cbuild.check_call([cc, '-O3', '-fopenmp', '-shared', '-fPIC', '-o', lib, src, '-lm'])
             omp = 'with OpenMP'
         except subprocess.CalledProcessError:
-            subprocess.check_call([cc, '-O3', '-shared', '-fPIC', '-o', lib, src, '-lm'])
+            cbuild.check_call([cc, '-O3', '-shared', '-fPIC', '-o', lib, src, '-lm'])
             omp = 'single-threaded (no OpenMP)'
         self.lib = ctypes.CDLL(lib)
         dp = ctypes.POINTER(ctypes.c_double)

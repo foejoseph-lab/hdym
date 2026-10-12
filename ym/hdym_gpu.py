@@ -38,6 +38,8 @@ import time
 
 import numpy as np
 
+import cbuild
+
 # ---------------------------------------------------------------- the integrator (C)
 # Shared between CUDA and plain C.  One call advances trajectory i by `nsteps`
 # steps of size dt (with per-trajectory channel sub-stepping), renormalising the
@@ -208,10 +210,10 @@ class CBackend:
             fh.write(C_SRC)
         cc = os.environ.get('CC', 'gcc')
         try:
-            subprocess.check_call([cc, '-O3', '-fopenmp', '-shared', '-fPIC', '-o', lib, src, '-lm'])
+            cbuild.check_call([cc, '-O3', '-fopenmp', '-shared', '-fPIC', '-o', lib, src, '-lm'])
             omp = 'with OpenMP'
         except subprocess.CalledProcessError:
-            subprocess.check_call([cc, '-O3', '-shared', '-fPIC', '-o', lib, src, '-lm'])
+            cbuild.check_call([cc, '-O3', '-shared', '-fPIC', '-o', lib, src, '-lm'])
             omp = 'single-threaded (no OpenMP)'
         self.lib = ctypes.CDLL(lib)
         dp = ctypes.POINTER(ctypes.c_double)

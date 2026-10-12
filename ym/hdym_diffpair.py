@@ -61,6 +61,8 @@ import time
 
 import numpy as np
 
+import cbuild
+
 import hdym_escape_map as em
 import hdym_uncertainty as unc
 
@@ -266,9 +268,9 @@ class CDual:
         # -ffp-contract=off keeps the v channel identical to the production kernel
         base = [cc, '-O3', '-ffp-contract=off', '-shared', '-fPIC', '-o', lib, src, '-lm']
         try:
-            subprocess.check_call(base[:3] + ['-fopenmp'] + base[3:])
+            cbuild.check_call(base[:3] + ['-fopenmp'] + base[3:])
         except subprocess.CalledProcessError:
-            subprocess.check_call(base)
+            cbuild.check_call(base)
         _dll_search_path(cc)
         self.lib = ctypes.CDLL(lib)
         dp, lp = ctypes.POINTER(ctypes.c_double), ctypes.POINTER(ctypes.c_longlong)

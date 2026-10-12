@@ -68,6 +68,8 @@ import time
 
 import numpy as np
 
+import cbuild
+
 import hdym_escape_map as em
 import hdym_uncertainty as unc
 
@@ -279,10 +281,10 @@ class CPairs:
         cc = os.environ.get('CC', 'gcc')
         base = [cc, '-O3', '-ffp-contract=off', '-shared', '-fPIC', '-o', lib, src, '-lm']
         try:
-            subprocess.check_call(base[:3] + ['-fopenmp'] + base[3:])
+            cbuild.check_call(base[:3] + ['-fopenmp'] + base[3:])
             omp = 'with OpenMP'
         except subprocess.CalledProcessError:
-            subprocess.check_call(base)
+            cbuild.check_call(base)
             omp = 'single-threaded'
         _dll_search_path(cc)
         self.lib = ctypes.CDLL(lib)

@@ -18,6 +18,11 @@ Python ≥ 3.10, numpy, scipy, matplotlib; sympy for the derivation scripts (`hd
 `hdym_analytic.py`, `hdym_rung1.py`). The production runs use CuPy with an NVIDIA GPU
 (`--backend cupy`); the same C kernels compile with gcc for a multicore CPU (`--backend c`,
 built in a temporary directory), and a pure-numpy reference backend exists for checking.
+All compiler calls go through `cbuild.py`, which puts the compiler's own bin folder first on the
+compiler's PATH and prints the compiler's output and exit code on failure. *Status (2026-10-12):
+added after gcc's `cc1.exe` failed silently when started from the Spyder 6 console, whose
+runtime folder ships older `zlib1.dll`, `libzstd.dll`, `libwinpthread-1.dll`, `libgcc_s_seh-1.dll`
+ahead of `C:\msys64\mingw64\bin` on the PATH.*
 
 ## Scripts
 
