@@ -121,6 +121,10 @@ import.
       *Status (2026-10-10, latest): rerun with the fixed checker on Joseph's machine,
       output `results/cert16_twist_output.txt`: τ ∈ [−304748.21, −122807.93], NONZERO; cos θ ∈
       [−0.960962, −0.960884], non-resonant to order 4. Consistent with the 9–10 Oct interval.*
+      *Status (2026-10-12): two of the quoted endpoints above were rounded inward from the
+      printed doubles (found when the checker began printing outward-rounded endpoints, review
+      of 11 Oct, C-F3). Outward: τ ∈ [−304748.21, −122807.92], cos θ ∈ [−0.960963, −0.960884].
+      The sign of τ and the resonance checks were always decided on exact Fractions.*
 - [ ] Second certificate at E = 0.3 (ghost Floquet-STABLE on the orbit).
 - [ ] Independent review of `cert_check.py`.
       *Status (2026-10-10): a review was started on 10 Oct and stopped before its written report;
@@ -155,7 +159,13 @@ import.
       and the trusted-base note (B-F2, B-F3); docstring and silent-zero items (B-F4, B-F5).
       Regression tests in `code/test_checker.py`; tests 2 and 3 fail on the checker of 10 Oct
       and pass now. The recheck of cert16 with this checker (commands under "Reproduce the
-      proof") is pending. Not resolved by review B: an independent float fit of the return-map
+      proof") is pending.
+      *Status (2026-10-12): done on Joseph's machine with the post-review checker and `--E 1/2`:
+      `results/cert16_check_output.txt` and `results/cert16_twist_output.txt` both end
+      `PROVED: unique periodic orbit in X at E = 1/2`; the area-preservation guards passed; all
+      certified intervals are the same as before the review fixes, now printed outward-rounded
+      (e.g. HI ∈ [−0.96096564804637046, −0.96088055206183126], ghost trace ∈ [5.3469864, 5.3471379],
+      τ ∈ [−3.0474820853652777×10⁵, −1.2280792906437143×10⁵]).* Not resolved by review B: an independent float fit of the return-map
       coefficients (described in its findings file).*
 - [ ] ε-crossover scan at E = 0.3: `hdym_island.py --eps 1e-9 … 1e-6`.
 - [ ] 3-dof: the DR orbit's z-direction Floquet trace (−1.53, float) is not certified; the
