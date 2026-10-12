@@ -103,6 +103,9 @@ rounded: the certified value is 0.0017931934188137–0.0017931934188142). Krawcz
 exactly one periodic orbit in the box (width 2e-11); it is the DR orbit in the sense that its
 initial data agree with the published ones to every published digit.*
 
+*Status (2026-10-12): the lemma list is now PIC, PICV, LAG, MVT, NEU, step, FRAME, RET, KRA, T,
+SYMP (plus VAR2/VAR3, FRAME2, TWIST for the twist).*
+
 Design target: Lean. The lemma shapes were chosen so each is an elementary statement about
 polynomial ODE enclosures or rational linear algebra; Moser's twist theorem would remain an
 import.
