@@ -29,7 +29,9 @@ Certificate (JSON) layout
 
 What is proved if every check passes
   (1) there is exactly one (x0, px0, T) in X with  x(T)=x0, px(T)=px0, y(T)=0  for the
-      initial condition (x0, 0, px0, sqrt(2E - px0^2))  -- a periodic orbit;
+      initial condition (x0, 0, px0, sqrt(2E - px0^2)), and at it py(T) = +py0 (Lemma RET), so
+      all four components return  -- a periodic orbit of period T, and the time-T Jacobian is
+      its monodromy (not the map over a reflected half period);
   (2) tr M of the monodromy over the orbit lies in the printed interval; if it is in (0,4)
       the linearised return map of the orbit is elliptic (spectrally stable) [Lemma T];
   (3) with --ghost, the ghost monodromy  w'' = -(1 + Hess V) w  over the orbit: by Lemma SYMP
@@ -150,6 +152,7 @@ def main():
     delta = X[2][1] - X[2][0]
     Zf = chB["Zfinal"]
     Jfinal, fZ = lemma_rough_time_interval(zTlo, delta, Zf, Jaccs[0], 0)
+    lemma_full_return(Zf)                     # py(T) = +py0: a full period, not a reflected half
     # DF over the box:  d z0 / d(x0, px0) = [[1,0],[0,0],[0,1],[0, -px0/py0]]
     dpy = neg(cl._div(X[1], py0))
     dz0 = [[I(1), I(0)], [I(0), I(0)], [I(0), I(1)], [I(0), dpy]]

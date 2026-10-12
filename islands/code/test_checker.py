@@ -10,6 +10,7 @@ test_checker.py -- fast regression tests for the trusted checker (seconds, not t
 3. Initial data in the outward-rounding slack of steps[0] but outside the exact set c + r:
    must raise CheckFailed (review of 2026-10-11).
 4. The outward-rounded printing never moves an endpoint inward.
+5. Lemma RET: the committed certificate's return has p_y(T) > 0; a reflected return is rejected.
 """
 import copy, json, os, random, sys
 from fractions import Fraction as Fr
@@ -59,4 +60,9 @@ for _ in range(20000):
     lo, hi = Fr(drv._dec(x, False, sig)), Fr(drv._dec(x, True, sig))
     assert lo <= x <= hi, (x, sig, lo, hi)
 print("ok   4: outward printing contains the exact value (20000 random cases)")
+Zf = drv.pvec(cert["chainB"]["Zfinal"])
+cl.lemma_full_return(Zf)
+print(f"ok   5: committed certificate returns with p_y(T) in [{float(Zf[3][0]):.6f}, {float(Zf[3][1]):.6f}] > 0")
+Zr = list(Zf); Zr[3] = (-Zf[3][1], -Zf[3][0])                      # a reflected (half-period) return
+expect_fail("5b: reflected return p_y(T) < 0", lambda: cl.lemma_full_return(Zr))
 print("all checker regression tests passed")

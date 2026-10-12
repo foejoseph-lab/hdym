@@ -21,6 +21,7 @@ Lemma list (function: statement):
   lemma_step                one Lohner step: phi_h(c + A r) subset c' + A' r'
   run_chain (FRAME)         accumulated Jacobian in the moving frame
   lemma_rough_time_interval enclosure of z(t), X(t) over the final interval [T_lo, T_hi]
+  lemma_full_return (RET)   py(T) > 0 on Zf: the zero of F is a full period, not a half one
   lemma_krawczyk (KRA)      unique zero of F in X
   lemma_trace_stability (T), lemma_symplectic_4x4 (SYMP)
 """
@@ -275,6 +276,19 @@ def lemma_rough_time_interval(B, delta, Z, J, m):
        z(t) in Z (Lemma PIC);  J(t) in J + [0,delta] A(Z) Jt  with Jt a Picard enclosure (PICV)."""
     lemma_rough(B, delta, Z)
     return lemma_var_rough(Z, delta, J, m), f(Z)
+
+def lemma_full_return(Zf):
+    """Lemma RET: F = (x(T) - x0, px(T) - px0, y(T)) = 0 together with energy conservation gives
+    only py(T) = +-py0.  V = x^2 y^2 / 2 is symmetric under y -> -y, and symmetric orbits reach
+    y = 0 with (x, px) restored and py reversed at half their period (the Dahlqvist-Russberg orbit
+    does, at t = T/2).  At such a zero the time-T map is the half-period map, not the monodromy.
+    Zf encloses z(t) for every start in the box and every t in [T_lo, T_hi] (PIC); the true zero
+    lies there, so a positive lower bound on its py component gives py(T) = +py0 > 0: all four
+    components return, T is a period, and the time-T Jacobian is the monodromy.
+    Status (2026-10-12): added after an independent review (out of project context) of 12 Oct."""
+    if not Zf[3][0] > 0:
+        raise CheckFailed("p_y at time T not certified positive: possibly a half-period (reflected) "
+                          "zero; the monodromy, ghost and twist verdicts would be about the wrong map")
 
 def lemma_krawczyk(xhat, X, Fc, DF, Y):
     """Lemma KRA: K(X) = xhat - Y F(xhat) + (I - Y DF(X))(X - xhat).

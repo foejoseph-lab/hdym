@@ -165,7 +165,19 @@ import.
       `PROVED: unique periodic orbit in X at E = 1/2`; the area-preservation guards passed; all
       certified intervals are the same as before the review fixes, now printed outward-rounded
       (e.g. HI ∈ [−0.96096564804637046, −0.96088055206183126], ghost trace ∈ [5.3469864, 5.3471379],
-      τ ∈ [−3.0474820853652777×10⁵, −1.2280792906437143×10⁵]).* Not resolved by review B: an independent float fit of the return-map
+      τ ∈ [−3.0474820853652777×10⁵, −1.2280792906437143×10⁵]).*
+      *Status (2026-10-12, later): an independent review (out of project context, 12 Oct) found
+      that nothing checked p_y(T) > 0. F = 0 and energy conservation give only p_y(T) = ±p_y0, and
+      this orbit really has the reflected zero: a float integration from the certified point
+      reaches y = 0 at t = 15.52667 = T/2 with (x, p_x) restored and p_y = −0.999998. A
+      certificate converging there would have "proved" verdicts about the half-period map. New
+      lemma RET (`lemma_full_return`): the validated final enclosure Zf must have p_y > 0. For
+      cert16, p_y on Zf ∈ [0.9999983922, 0.9999983923]: the certified T is the full period and the
+      verdicts are about the monodromy; regression test 5 in `test_checker.py`. Also recorded:
+      T is the 9th crossing of the global section {y = 0, p_y > 0}, so the "return map" of the
+      twist is the local Poincaré map of the periodic orbit (time ≈ T), as Moser's theorem
+      needs, not the first-return map of that global section. A rerun of the `--ghost` check
+      with this checker (~18 min) would put RET into the committed output.* Not resolved by review B: an independent float fit of the return-map
       coefficients (described in its findings file).*
 - [ ] ε-crossover scan at E = 0.3: `hdym_island.py --eps 1e-9 … 1e-6`.
 - [ ] 3-dof: the DR orbit's z-direction Floquet trace (−1.53, float) is not certified; the
