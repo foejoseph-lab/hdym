@@ -54,6 +54,25 @@ Section, figure and table names refer to `paper/main.tex`.
 `paper/fig_floquet.pdf` (fig:floquet): its data come from `early/floquet.py` (committed output
 `data/early/floquet.npz`); the plotting script is not in the repository yet.
 
+### `csrc/` and `tools/` — the shared model and the drift census *(added 2026-10-13)*
+
+Every kernel script above carries its own copy of V, ∇V, Hess V·w and the Yoshida-4
+coefficients, in Python, in C and in CUDA (as strings inside the `.py` files): fifteen copies.
+`csrc/hdym_model.h` is the one copy they are meant to converge on, written in the same
+operation order as the kernels so that a kernel built on it reproduces the committed data bit
+for bit; `csrc/README.md` says what is in it and how a kernel uses it. No script has been moved
+onto it yet: the scripts and their data are as they were.
+
+`tools/drift_census.py` evaluates every existing copy at the same random points and compares
+it with the header (bitwise / roundoff / DIFFERENT, each row with what is expected for that
+copy). Run from `ym/`: `python tools/drift_census.py --out data/drift_census_<date>.txt`.
+Result on the cloud CPU (`data/drift_census_2026-10-13_cloud.txt`): 83 quantities bitwise,
+22 at roundoff (≤ 7 ulp), none different, CUDA skipped (no GPU there). The roundoff rows are
+the copies that compute the Yoshida coefficients from the formula instead of the literals
+(`hdym_core.py`, `early/`; one ulp in three of the four), the two operation orders of
+Hess V·w (linearised vs nonlinear kernels), and `hdym2d_nu0.grad`, which writes
+`x*y*y + mu2*x` where the kernel has `x*(y2 + mu2)`.
+
 ### `early/` — the first-draft scripts (restored)
 
 Plain-numpy scripts from before the GPU code, removed from the repository on 2026-10-01 (as

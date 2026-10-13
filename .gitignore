@@ -35,3 +35,6 @@ desktop.ini
 .idea/
 *.swp
 *~
+
+# hdym_model.py builds csrc/hdym_model.c here
+ym/csrc/build/

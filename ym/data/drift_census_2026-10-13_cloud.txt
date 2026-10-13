@@ -1,0 +1,126 @@
+drift census of the model copies in ym/  --  reference: csrc/hdym_model.h
+2026-10-12 23:28:21
+python 3.13.16 (/usr/bin/python3)
+numpy 2.5.3
+platform Linux-6.18.44-fc-v114-x86_64-with-glibc2.39
+compiler gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0
+points N = 10000, seed = 20261013, kick h = 0.01351207191959658, yoshida dt = 0.01 x 3 steps, mu2 = 0.00173205; roundoff threshold 64 ulp
+
+copy                          quantity                    verdict    expected     max ulp  max |diff|   n diff  note
+--------------------------------------------------------------------------------------------------------------------
+hdym_core.py                  V                           bitwise    bitwise            0    0.00e+00        0
+hdym_core.py                  gradV                       bitwise    bitwise            0    0.00e+00        0
+hdym_core.py                  hessV_dot (od=1)            roundoff   roundoff           2    3.64e-12     5888  nonlinear operation order vs linearised order
+hdym_core.py                  Yoshida C                   roundoff   roundoff           3    1.11e-16        4  computed from formula vs literals
+hdym_core.py                  Yoshida D                   roundoff   roundoff           1    2.22e-16        2  computed from formula vs literals
+hdym_core.py                  yoshida_step (nonlinear)    roundoff   roundoff           4    5.33e-15    19402  coefficients and order
+hdym_core.py                  _lin_step (od=1)            roundoff   roundoff           4    5.33e-15    19793  coefficients and order
+hdym_core.py                  _ym_step                    roundoff   roundoff           4    5.33e-15     8925  coefficients
+hdym_gpu.py                   V                           bitwise    bitwise            0    0.00e+00        0
+hdym_gpu.py                   NumpyBackend.YC             bitwise    bitwise            0    0.00e+00        0
+hdym_gpu.py                   NumpyBackend.YD             bitwise    bitwise            0    0.00e+00        0
+hdym_gpu.py                   NumpyBackend._kick (od=1)   bitwise    bitwise            0    0.00e+00        0
+hdym_gpu.py                   NumpyBackend._kick (od=0)   bitwise    bitwise            0    0.00e+00        0
+hdym_gpu.py                   hessV_min_eig               bitwise    bitwise            0    0.00e+00        0
+hdym_gpu_landscape.py         V                           bitwise    bitwise            0    0.00e+00        0
+hdym_gpu_landscape.py         NumpyBackend.YC             bitwise    bitwise            0    0.00e+00        0
+hdym_gpu_landscape.py         NumpyBackend.YD             bitwise    bitwise            0    0.00e+00        0
+hdym_gpu_landscape.py         NumpyBackend._kick (od=1)   bitwise    bitwise            0    0.00e+00        0
+hdym_gpu_landscape.py         NumpyBackend._kick (od=0)   bitwise    bitwise            0    0.00e+00        0
+hdym_gpu_landscape.py         hessV_min_eig               bitwise    bitwise            0    0.00e+00        0
+hdym_2d.py                    NumpyBackend.YC             bitwise    bitwise            0    0.00e+00        0
+hdym_2d.py                    NumpyBackend.YD             bitwise    bitwise            0    0.00e+00        0
+hdym_2d.py                    NumpyBackend._kick (od=1)   bitwise    bitwise            0    0.00e+00        0
+hdym_2d.py                    NumpyBackend._kick (od=0)   bitwise    bitwise            0    0.00e+00        0
+hdym_escape_map.py            V1                          bitwise    bitwise            0    0.00e+00        0
+hdym_rung1_gpu.py             V                           bitwise    bitwise            0    0.00e+00        0
+hdym_rung1_lyap.py            V                           bitwise    bitwise            0    0.00e+00        0
+hdym_rung1_lyap.py            gradV                       bitwise    bitwise            0    0.00e+00        0
+hdym_rung1_lyap.py            YC                          bitwise    bitwise            0    0.00e+00        0
+hdym_rung1_lyap.py            YD                          bitwise    bitwise            0    0.00e+00        0
+hdym_rung1_lyap.py            ym_step                     bitwise    bitwise            0    0.00e+00        0
+hdym_rung1_lyap.py            ym_mass 12                  bitwise    bitwise            0    0.00e+00        0
+hdym_rung1_lyap.py            ym_mass 13                  bitwise    bitwise            0    0.00e+00        0
+hdym_rung1_lyap.py            ym_mass 23                  bitwise    bitwise            0    0.00e+00        0
+hdym_spectrum.py              hess                        bitwise    bitwise            0    0.00e+00        0
+hdym_spectrum_xy.py           V                           bitwise    bitwise            0    0.00e+00        0
+hdym_spectrum_xy.py           grad                        bitwise    bitwise            0    0.00e+00        0
+hdym_spectrum_xy.py           YC                          bitwise    bitwise            0    0.00e+00        0
+hdym_spectrum_xy.py           YD                          bitwise    bitwise            0    0.00e+00        0
+hdym_spectrum_xy.py           step                        bitwise    bitwise            0    0.00e+00        0
+hdym2d_nu0.py                 V                           bitwise    bitwise            0    0.00e+00        0
+hdym2d_nu0.py                 grad                        roundoff   roundoff           3    2.33e-10     8753  writes x*y*y + mu2*x where the kernel has x*(y2 + mu2)
+hdym2d_nu0.py                 YC                          bitwise    bitwise            0    0.00e+00        0
+hdym2d_nu0.py                 YD                          bitwise    bitwise            0    0.00e+00        0
+hdym2d_nu0.py                 step                        roundoff   roundoff           4    1.78e-15     1025  through the grad above
+hdym_diffpair.py              dV vs V(q+dq)-V(q)          roundoff   roundoff           7    1.17e-08     9620  difference arithmetic vs cancelling subtraction, judged against |V|
+early/channels.py             V                           bitwise    bitwise            0    0.00e+00        0
+early/channels.py             gradV                       bitwise    bitwise            0    0.00e+00        0
+early/channels.py             Yoshida C                   roundoff   roundoff           3    1.11e-16        4  computed from formula vs literals
+early/channels.py             Yoshida D                   roundoff   roundoff           1    2.22e-16        2  computed from formula vs literals
+early/channels.py             step (pure YM, in place)    roundoff   roundoff           4    5.33e-15     8925  coefficients
+early/spectrum.py             V                           bitwise    bitwise            0    0.00e+00        0
+early/spectrum.py             gradV                       bitwise    bitwise            0    0.00e+00        0
+early/spectrum.py             Yoshida C                   roundoff   roundoff           3    1.11e-16        4  computed from formula vs literals
+early/spectrum.py             Yoshida D                   roundoff   roundoff           1    2.22e-16        2  computed from formula vs literals
+early/spectrum.py             step (pure YM, in place)    roundoff   roundoff           4    5.33e-15     8925  coefficients
+early/transverse.py           V                           bitwise    bitwise            0    0.00e+00        0
+early/transverse.py           gradV                       bitwise    bitwise            0    0.00e+00        0
+early/transverse.py           hess                        bitwise    bitwise            0    0.00e+00        0
+early/transverse.py           Yoshida C                   roundoff   roundoff           3    1.11e-16        4  computed from formula vs literals
+early/transverse.py           Yoshida D                   roundoff   roundoff           1    2.22e-16        2  computed from formula vs literals
+early/lyap_full.py            V                           bitwise    bitwise            0    0.00e+00        0
+early/lyap_full.py            gradV                       bitwise    bitwise            0    0.00e+00        0
+early/lyap_full.py            hessV_w (od=1)              roundoff   roundoff           2    3.64e-12     5888  nonlinear operation order vs linearised order
+early/lyap_full.py            Yoshida C                   roundoff   roundoff           3    1.11e-16        4  computed from formula vs literals
+early/lyap_full.py            Yoshida D                   roundoff   roundoff           1    2.22e-16        2  computed from formula vs literals
+early/lyap_full.py            step (nonlinear, in place)  roundoff   roundoff           4    5.33e-15    19402  coefficients and order
+hdym_gpu.py [C]               Yoshida C                   bitwise    bitwise            0    0.00e+00        0
+hdym_gpu.py [C]               Yoshida D                   bitwise    bitwise            0    0.00e+00        0
+hdym_gpu.py [C]               kick (od=1)                 bitwise    bitwise            0    0.00e+00        0
+hdym_gpu.py [C]               kick (od=0)                 bitwise    bitwise            0    0.00e+00        0
+hdym_gpu.py [C]               yoshida x3 (od=1)           bitwise    bitwise            0    0.00e+00        0
+hdym_gpu.py [C]               yoshida x3 (od=0)           bitwise    bitwise            0    0.00e+00        0
+hdym_gpu.py [CUDA]            *                           skipped    n/a                                        no CuPy/GPU in this environment
+hdym_gpu_landscape.py [C]     Yoshida C                   bitwise    bitwise            0    0.00e+00        0
+hdym_gpu_landscape.py [C]     Yoshida D                   bitwise    bitwise            0    0.00e+00        0
+hdym_gpu_landscape.py [C]     kick (od=1)                 bitwise    bitwise            0    0.00e+00        0
+hdym_gpu_landscape.py [C]     kick (od=0)                 bitwise    bitwise            0    0.00e+00        0
+hdym_gpu_landscape.py [C]     yoshida x3 (od=1)           bitwise    bitwise            0    0.00e+00        0
+hdym_gpu_landscape.py [C]     yoshida x3 (od=0)           bitwise    bitwise            0    0.00e+00        0
+hdym_gpu_landscape.py [CUDA]  *                           skipped    n/a                                        no CuPy/GPU in this environment
+hdym_2d.py [C]                Yoshida C                   bitwise    bitwise            0    0.00e+00        0
+hdym_2d.py [C]                Yoshida D                   bitwise    bitwise            0    0.00e+00        0
+hdym_2d.py [C]                kick (od=1)                 bitwise    bitwise            0    0.00e+00        0
+hdym_2d.py [C]                kick (od=0)                 bitwise    bitwise            0    0.00e+00        0
+hdym_2d.py [C]                yoshida x3 (od=1)           bitwise    bitwise            0    0.00e+00        0
+hdym_2d.py [CUDA]             *                           skipped    n/a                                        no CuPy/GPU in this environment
+hdym_escape_map.py [C]        Yoshida C                   bitwise    bitwise            0    0.00e+00        0
+hdym_escape_map.py [C]        Yoshida D                   bitwise    bitwise            0    0.00e+00        0
+hdym_escape_map.py [C]        kick_nl                     bitwise    bitwise            0    0.00e+00        0
+hdym_escape_map.py [C]        yoshida_nl x3               bitwise    bitwise            0    0.00e+00        0
+hdym_escape_map.py [CUDA]     *                           skipped    n/a                                        no CuPy/GPU in this environment
+hdym_precision.py [C]         Yoshida C                   bitwise    bitwise            0    0.00e+00        0  d = 0, sc = 0: every rounding is the identity
+hdym_precision.py [C]         Yoshida D                   bitwise    bitwise            0    0.00e+00        0  d = 0, sc = 0: every rounding is the identity
+hdym_precision.py [C]         kick_r                      bitwise    bitwise            0    0.00e+00        0  d = 0, sc = 0: every rounding is the identity
+hdym_precision.py [C]         yoshida_r x3                bitwise    bitwise            0    0.00e+00        0  d = 0, sc = 0: every rounding is the identity
+hdym_precision.py [CUDA]      *                           skipped    n/a                                        no CuPy/GPU in this environment
+hdym_diffpair.py [C]          Yoshida C                   bitwise    bitwise            0    0.00e+00        0  value channel of the dual numbers, DT = double
+hdym_diffpair.py [C]          Yoshida D                   bitwise    bitwise            0    0.00e+00        0  value channel of the dual numbers, DT = double
+hdym_diffpair.py [C]          kick_d                      bitwise    bitwise            0    0.00e+00        0  value channel of the dual numbers, DT = double
+hdym_diffpair.py [CUDA]       *                           skipped    n/a                                        no CuPy/GPU in this environment
+hdym_ball.py [C]              Yoshida C                   bitwise    bitwise            0    0.00e+00        0
+hdym_ball.py [C]              Yoshida D                   bitwise    bitwise            0    0.00e+00        0
+hdym_ball.py [C]              kick_t                      bitwise    bitwise            0    0.00e+00        0  value channel of the tangent balls
+hdym_ball.py [C]              kick_b                      roundoff   roundoff           4    3.64e-12    11787  double-word centre h + l vs plain double
+hdym_ball.py [CUDA]           *                           skipped    n/a                                        no CuPy/GPU in this environment
+hdym_rung1_gpu.py [C]         Yoshida C                   bitwise    bitwise            0    0.00e+00        0
+hdym_rung1_gpu.py [C]         Yoshida D                   bitwise    bitwise            0    0.00e+00        0
+hdym_rung1_gpu.py [C]         gradV                       bitwise    bitwise            0    0.00e+00        0
+hdym_rung1_gpu.py [C]         yoshida x3 (pure YM)        bitwise    bitwise            0    0.00e+00        0
+hdym_rung1_gpu.py [C]         Kv (cj=1)                   bitwise    bitwise            0    0.00e+00        0
+hdym_rung1_gpu.py [C]         Kv (cj=0)                   bitwise    bitwise            0    0.00e+00        0
+hdym_rung1_gpu.py [CUDA]      *                           skipped    n/a                                        no CuPy/GPU in this environment
+
+113 rows: 83 bitwise, 22 roundoff, 0 DIFFERENT, 8 skipped, 0 error  (5.3s)
+PASS: no copy is worse than expected (bitwise where the text is the same, roundoff where the operation order or the Yoshida literals differ)
