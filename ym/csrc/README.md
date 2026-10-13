@@ -47,9 +47,23 @@ three of the four; `hdym_core.py` and the `early/` scripts compute it that way. 
 stay because they produced the data. The census (`../tools/drift_census.py`) reports the
 one-ulp rows as `roundoff`, which is what they are.
 
+## CPU and GPU builds of the same text differ at roundoff: FMA contraction
+
+NVRTC (the compiler behind CuPy's `RawKernel`) contracts `a*b + c` into a fused multiply-add by
+default (`--fmad=true`); gcc for plain x86-64 does not. A fused multiply-add rounds once where
+the separate operations round twice, so the CUDA build of a kernel and the C build of the same
+characters differ in the last bits. The census shows it: on the RTX 4080 SUPER every CUDA
+kick differs from the CPU reference by at most `1.82e-12` and every three-step Yoshida by at
+most `2.66e-15`, which is 3–8 ulps of the terms involved; compiling the C copies with
+contraction forced on (`gcc -ffp-contract=fast -mfma`) reproduces those numbers digit for
+digit, and the census's second CUDA pass with `--fmad=false` is expected bitwise with the CPU.
+This is the tolerance the phase-2 before/after checks use on the CUDA path (bitwise on the C
+path), and it is why the production data cannot be bitwise-reproduced on a CPU.
+
 ## Status
 
-*(2026-10-13)* Header and census written; the census passes on the committed copies (83
-bitwise, 22 roundoff ≤ 7 ulp, 0 different; CUDA copies to be run on a machine with a GPU).
-No script has been moved onto the header yet; that is the next step, one script at a time,
-each checked against a short fixed-seed run of the committed version before and after.
+*(2026-10-13)* Header and census written; the census passes on the committed copies on the
+cloud CPU (83 bitwise, 22 roundoff ≤ 7 ulp, 0 different) and on the author's machine with the
+GPU (CUDA copies at roundoff, as above). No script has been moved onto the header yet; that is
+the next step, one script at a time, each checked against a short fixed-seed run of the
+committed version before and after.

@@ -67,11 +67,14 @@ onto it yet: the scripts and their data are as they were.
 it with the header (bitwise / roundoff / DIFFERENT, each row with what is expected for that
 copy). Run from `ym/`: `python tools/drift_census.py --out data/drift_census_<date>.txt`.
 Result on the cloud CPU (`data/drift_census_2026-10-13_cloud.txt`): 83 quantities bitwise,
-22 at roundoff (≤ 7 ulp), none different, CUDA skipped (no GPU there). The roundoff rows are
-the copies that compute the Yoshida coefficients from the formula instead of the literals
-(`hdym_core.py`, `early/`; one ulp in three of the four), the two operation orders of
-Hess V·w (linearised vs nonlinear kernels), and `hdym2d_nu0.grad`, which writes
-`x*y*y + mu2*x` where the kernel has `x*(y2 + mu2)`.
+22 at roundoff (≤ 7 ulp), none different, CUDA skipped (no GPU there); on the author's machine
+(`data/drift_census_2026-10-13_win.txt`, RTX 4080 SUPER) the same plus the CUDA copies, which
+sit at roundoff (≤ 8 ulp of their terms) because NVRTC contracts `a*b + c` into fused
+multiply-adds and gcc does not (`csrc/README.md`), and bitwise again with `--fmad=false`.
+The CPU roundoff rows are the copies that compute the Yoshida coefficients from the formula
+instead of the literals (`hdym_core.py`, `early/`; one ulp in three of the four), the two
+operation orders of Hess V·w (linearised vs nonlinear kernels), and `hdym2d_nu0.grad`, which
+writes `x*y*y + mu2*x` where the kernel has `x*(y2 + mu2)`.
 
 ### `early/` — the first-draft scripts (restored)
 

@@ -1,5 +1,5 @@
 drift census of the model copies in ym/  --  reference: csrc/hdym_model.h
-2026-10-12 23:28:21
+2026-10-12 23:41:00
 python 3.13.16 (/usr/bin/python3)
 numpy 2.5.3
 platform Linux-6.18.44-fc-v114-x86_64-with-glibc2.39
@@ -122,5 +122,5 @@ hdym_rung1_gpu.py [C]         Kv (cj=1)                   bitwise    bitwise    
 hdym_rung1_gpu.py [C]         Kv (cj=0)                   bitwise    bitwise            0    0.00e+00        0
 hdym_rung1_gpu.py [CUDA]      *                           skipped    n/a                                        no CuPy/GPU in this environment
 
-113 rows: 83 bitwise, 22 roundoff, 0 DIFFERENT, 8 skipped, 0 error  (5.3s)
+113 rows: 83 bitwise, 22 roundoff, 0 DIFFERENT, 8 skipped, 0 error  (5.6s)
 PASS: no copy is worse than expected (bitwise where the text is the same, roundoff where the operation order or the Yoshida literals differ)

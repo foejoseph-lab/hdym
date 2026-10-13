@@ -24,7 +24,10 @@ Nothing in the repository is modified.  The scripts are not imported: the functi
 source strings they define are extracted from the files by name (ast) and exec'd, so scripts
 with argparse or runs at module level are fine.  C copies are compiled from the scripts'
 own C_SRC strings with an exporter appended that calls their static functions; CUDA copies
-likewise when CuPy and a GPU are present (otherwise reported as skipped).
+likewise when CuPy and a GPU are present (otherwise reported as skipped), in two passes: as the
+production kernels are built (NVRTC default, which contracts a*b+c into fused multiply-adds, so
+the CPU and GPU builds of the same text differ at roundoff; expected `roundoff`) and with
+`--fmad=false` (expected `bitwise` with the CPU).
 
 Usage
   python tools/drift_census.py                      # from ym/
@@ -523,39 +526,61 @@ def _get_src(ns, how):
     return how(ns) if callable(how) else getattr(ns, how)
 
 
-def run_c_exports(lib, names, X, R, copy, expected, note, call):
-    """call(fname, *args) invokes exporter fname on the backend; returns host arrays."""
+FMA_NOTE = 'NVRTC contracts a*b+c into fused multiply-adds by default (--fmad=true), gcc on x86-64 does not'
+
+
+def run_c_exports(lib, names, X, R, copy, expected, note, call, fma=False):
+    """call(fname, *args) invokes exporter fname on the backend; returns host arrays.
+    fma=True: the backend may contract a*b+c (CUDA as the production kernels are built), so
+    every row is expected at roundoff and judged against the magnitude of its terms."""
     y4 = call('census_y4')
     record(copy, 'Yoshida C', y4[:4], R.YC, 'bitwise', note)
     record(copy, 'Yoshida D', y4[4:7], R.YD, 'bitwise', note)
+    sc = X.scale_of                      # cancellation-aware: judge against the state's magnitude
+
+    def kicksc(ref, S0):
+        # a kick adds h (grad V + Hess V w) to P; its roundoff is set by the size of that increment,
+        # which can exceed every component of the state when P and the increment nearly cancel
+        return np.maximum(np.maximum(sc(ref), sc(S0)), sc(ref - S0))
     for n in names:
         exp, nt = EXPECT_OVERRIDE.get((os.path.basename(copy.split(' ')[0]), n), (expected, note))
+        if fma:
+            exp, nt = 'roundoff', (nt + '; ' if nt else '') + FMA_NOTE
         if n == 'kick_lin':
             for od, ref in ((1.0, R.kick_lin1), (0.0, R.kick_lin0)):
-                record(copy, f'kick (od={int(od)})', call('census_kick_lin', X.S_lin(), X.h_kick, od), ref, exp, nt)
+                record(copy, f'kick (od={int(od)})', call('census_kick_lin', X.S_lin(), X.h_kick, od), ref, exp, nt,
+                       scale=kicksc(ref, X.S_lin()))
         elif n == 'yoshida_lin':
             for od, ref in ((1.0, R.yosh_lin1), (0.0, R.yosh_lin0)):
                 record(copy, f'yoshida x{X.nsteps} (od={int(od)})',
-                       call('census_yoshida_lin', X.S_lin(True), X.dt, od, X.nsteps), ref, exp, nt)
+                       call('census_yoshida_lin', X.S_lin(True), X.dt, od, X.nsteps), ref, exp, nt, scale=sc(ref))
         elif n == 'kick2d':
             for od, ref in ((1.0, R.kick2d1), (0.0, R.kick2d0)):
-                record(copy, f'kick (od={int(od)})', call('census_kick2d', X.S_2d(), X.h_kick, od, X.mu2), ref, exp, nt)
+                record(copy, f'kick (od={int(od)})', call('census_kick2d', X.S_2d(), X.h_kick, od, X.mu2), ref, exp, nt,
+                       scale=kicksc(ref, X.S_2d()))
         elif n == 'yoshida2d':
             record(copy, f'yoshida x{X.nsteps} (od=1)',
-                   call('census_yoshida2d', X.S_2d(True), X.dt, 1.0, X.mu2, X.nsteps), R.yosh2d1, exp, nt)
+                   call('census_yoshida2d', X.S_2d(True), X.dt, 1.0, X.mu2, X.nsteps), R.yosh2d1, exp, nt,
+                   scale=sc(R.yosh2d1))
         elif n in ('kick_nl', 'kick_r', 'kick_d', 'kick_t', 'kick_b'):
-            record(copy, n, call(f'census_{n}', X.S_nl(), X.h_kick), R.kick_nl, exp, nt,
-                   scale=X.scale_of(R.kick_nl) if n == 'kick_b' else None)
+            record(copy, n, call(f'census_{n}', X.S_nl(), X.h_kick), R.kick_nl, exp, nt, scale=kicksc(R.kick_nl, X.S_nl()))
         elif n in ('yoshida_nl', 'yoshida_r'):
-            record(copy, f'{n} x{X.nsteps}', call(f'census_{n}', X.S_nl(True), X.dt, X.nsteps), R.yosh_nl, exp, nt)
+            record(copy, f'{n} x{X.nsteps}', call(f'census_{n}', X.S_nl(True), X.dt, X.nsteps), R.yosh_nl, exp, nt,
+                   scale=sc(R.yosh_nl))
         elif n == 'gradV':
-            record(copy, 'gradV', call('census_gradV', X.q.copy(), np.empty_like(X.q)), R.g, exp, nt)
+            record(copy, 'gradV', call('census_gradV', X.q.copy(), np.empty_like(X.q)), R.g, exp, nt, scale=sc(R.g))
         elif n == 'yoshida_ym':
-            record(copy, f'yoshida x{X.nsteps} (pure YM)', call('census_yoshida_ym', X.S_ym(True), X.dt, X.nsteps), R.yosh_ym, exp, nt)
+            record(copy, f'yoshida x{X.nsteps} (pure YM)', call('census_yoshida_ym', X.S_ym(True), X.dt, X.nsteps),
+                   R.yosh_ym, exp, nt, scale=sc(R.yosh_ym))
         elif n == 'Kv':
+            # K v is a long polynomial with cancellation: judge against the size of its terms,
+            # ~ (|q|^2 + |p|^2 + 1)^2 |v|
+            m = np.max(np.abs(X.q), 0, keepdims=True) ** 2 + np.max(np.abs(X.P), 0, keepdims=True) ** 2 + 1.0
+            kscale = m ** 2 * np.max(np.abs(X.v8), 0, keepdims=True)
             for cj, ref in ((1.0, R.Kv1), (0.0, R.Kv0)):
                 record(copy, f'Kv (cj={int(cj)})',
-                       call('census_Kv', X.q.copy(), X.P.copy(), X.v8.copy(), np.empty_like(X.v8), cj), ref, exp, nt)
+                       call('census_Kv', X.q.copy(), X.P.copy(), X.v8.copy(), np.empty_like(X.v8), cj), ref, exp, nt,
+                       scale=kscale)
 
 
 class CCaller:
@@ -601,10 +626,10 @@ class CCaller:
 
 
 class CudaCaller:
-    def __init__(self, src, tag):
+    def __init__(self, src, tag, options=()):
         import cupy as cp
         self.cp = cp
-        self.mod = cp.RawModule(code=src)
+        self.mod = cp.RawModule(code=src, options=tuple(options))
         self.tag = tag
 
     def __call__(self, fname, *args):
@@ -657,14 +682,17 @@ def c_checks(X, R, do_cuda):
             run_c_exports(None, names, X, R, relpath + ' [C]', expected, note, call)
         except Exception as e:                   # noqa: BLE001
             skip(relpath + ' [C]', '*', f"compile/run failed: {type(e).__name__}: {e}")
-        # CUDA
+        # CUDA, twice: as the production kernels are built (NVRTC default, FMA contraction on),
+        # expected at roundoff; and with --fmad=false, expected bitwise with the CPU.  The second
+        # pass is what pins the first pass's differences on the contraction and nothing else.
         if cuda_ok:
-            try:
-                src = _get_src(ns, cu_how) + "\n" + exporters_cuda(names)
-                call = CudaCaller(src, tag)
-                run_c_exports(None, names, X, R, relpath + ' [CUDA]', expected, note, call)
-            except Exception as e:               # noqa: BLE001
-                skip(relpath + ' [CUDA]', '*', f"compile/run failed: {type(e).__name__}: {e}")
+            for label, opts, fma in (('[CUDA]', (), True), ('[CUDA fmad=false]', ('--fmad=false',), False)):
+                try:
+                    src = _get_src(ns, cu_how) + "\n" + exporters_cuda(names)
+                    call = CudaCaller(src, tag, opts)
+                    run_c_exports(None, names, X, R, relpath + ' ' + label, expected, note, call, fma=fma)
+                except Exception as e:               # noqa: BLE001
+                    skip(relpath + ' ' + label, '*', f"compile/run failed: {type(e).__name__}: {e}")
         else:
             skip(relpath + ' [CUDA]', '*', 'no CuPy/GPU in this environment')
 
