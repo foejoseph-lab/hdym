@@ -1,0 +1,4 @@
+nabla_mu F^{mu nu} = a^-4 (flat divergence), all four nu: True
+sqrt(-g) J.J = a^-2 (flat J.J): True
+sqrt(-g) F.F = flat F.F (conformal invariance of the Yang-Mills term): True
+=> -F^2/4 + J^2/(2 M^2) on FRW (conformal time) = flat-space Lagrangian with M -> M a(eta): True

@@ -15,8 +15,9 @@ the numerical experiments and judgement calls are the author's.
 | `ym/` | all Yang–Mills code behind the paper (`ym/README.md`: scripts, run commands, data index); results in `ym/data/`; working notes in `ym/notes/` |
 | `islands/` | the regular (Dahlqvist–Russberg) island and the ghost on it, including a computer-assisted proof (`islands/README.md`) — the paper's open item on the regular islands |
 | `bianchi9/` | the Weyl ghost in Bianchi IX minisuperspace of quadratic gravity (`bianchi9/README.md`) — the paper's open item on Bianchi IX; code at the top, run outputs in `bianchi9/results/` |
+| `axion_su2/` | the isotropic SU(2) background of axion-SU(2) cosmology with the Lee–Wick ghost (`axion_su2/README.md`) — plan item 5, the new background; started 2026-10-12 |
 
-`islands/` and `bianchi9/` are dated working notes, written after the paper text; the paper does
+`islands/`, `bianchi9/` and `axion_su2/` are dated working notes, written after the paper text; the paper does
 not yet incorporate them.
 
 Conventions that keep this consistent: each result is described in one place (its folder's README

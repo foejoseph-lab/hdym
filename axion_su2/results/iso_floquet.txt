@@ -1,0 +1,32 @@
+iso_floquet.py  python 3.13.16  numpy 2.5.3  sympy 1.14.0  (/usr/bin/python3)
+
+Spot values (c_j = 1).  Columns: max |mu| per sector; O-gh = largest ghost multiplier of each block.
+      E        T  closure |     D-YM     D-gh |     O-YM |   O-gh12   O-gh13   O-gh23 |   det-1
+  0.010  18.3525  7.0e-15 |   1.0000   1.0000 |   1.0000 |   1.0000   1.0000   1.0000 | 2.2e-12
+  0.050  12.2731  4.6e-14 |   1.0000   1.0000 |   1.0000 |   1.0000   1.0000   1.0000 | 2.6e-12
+  0.100  10.3204  6.9e-14 |   1.0000   1.0000 |   1.0000 |   1.0000   1.0000   1.0000 | 2.1e-12
+  0.140   9.4877  1.0e-13 |   1.0000   1.2995 |   1.0000 |   1.0000   1.0000   1.0000 | 2.8e-12
+  0.200   8.6784  1.6e-13 |   1.0000   1.0000 |   1.0000 |   1.0000   1.0000   1.0000 | 2.4e-12
+  0.300   7.8418  2.5e-13 |   1.0000   1.0000 |   1.0000 |   1.0000   1.0000   1.0000 | 2.2e-12
+  0.500   6.9016  2.7e-13 |   1.0000   1.0000 |   1.0000 |   1.0000   1.0000   1.0000 | 2.4e-12
+  1.000   5.8036  2.8e-13 |   1.0000   1.0000 |   1.0000 |   1.0000   1.0000   1.0000 | 1.4e-12
+  2.000   4.8802  2.7e-13 |   1.0000   1.0000 |   1.0000 |   1.0000   1.0000   1.0000 | 1.0e-12
+  5.000   3.8811  1.9e-13 |   1.0000   1.0000 |   1.0000 |   1.0000   1.0000   1.0000 | 1.2e-12
+
+Scan E = 0.005 ... 10 (500 points, log-spaced), c_j = 1: unstable intervals per sector
+  diagonal ghost: 1 interval(s); unstable fraction of grid 0.04
+     E in [0.1263, 0.1661]  (19 pts)  max rate 0.02833
+  off-diagonal Yang-Mills: 0 interval(s); unstable fraction of grid 0.00
+  off-diagonal ghost: 0 interval(s); unstable fraction of grid 0.00
+  max spread of the largest ghost multiplier across the three blocks: 3.0e-14  (isotropy check)
+  diagonal ghost, closed form (Lame n = 2, k^2 = 1/2): unstable for E in (1/8, 1/6) = (0.1250, 0.1667)
+
+Scan E = 0.005 ... 10 (500 points, log-spaced), c_j = 0: unstable intervals per sector
+  diagonal ghost: 1 interval(s); unstable fraction of grid 0.04
+     E in [0.1263, 0.1661]  (19 pts)  max rate 0.02833
+  off-diagonal Yang-Mills: 0 interval(s); unstable fraction of grid 0.00
+  off-diagonal ghost: 1 interval(s); unstable fraction of grid 0.25
+     E in [1.5125, 10.0000]  (125 pts)  max rate 0.3307
+  max spread of the largest ghost multiplier across the three blocks: 8.6e-14  (isotropy check)
+
+(148 s)
