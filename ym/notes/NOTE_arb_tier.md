@@ -71,3 +71,19 @@ of `hdym_ball.py` onto `csrc/hdym_model.h` (so the C and Python paths share the 
 construction) and replaces §5's `td` tier as the first thing to try. Dependencies to add to
 `ym/README.md` Requirements if so: `python-flint` (wheels for Python 3.12 and 3.13 on
 Windows, Linux and macOS).
+
+*(2026-10-14)* Two corrections. (1) The frame (`ell_update`, step remainder, QR containment)
+is C inside the kernel's per-step loop; "keep the frame exactly as it is" therefore means the
+Arb centre arithmetic is done in C, linking FLINT's C library into the kernel (MSYS2
+`mingw-w64-x86_64-flint`), not in Python next to a reimplemented frame. Python (`python-flint`)
+is for selftests and references, where it can replace `mpmath` by a certified reference.
+(2) The lost pairs are the long-lived ones: at the sweep's dt = 0.005 they run 40 000–300 000
+steps each, not 25 000.
+Smoke test (`tools/arb_smoke.py`): one Yoshida step of the 12-d system at 200 bits in
+python-flint and in FLINT's C library through ctypes, against a 120-digit mpmath reference.
+On the author's machine (Windows, Python 3.12, python-flint 0.9.0, MSYS2 gcc + FLINT; console
+output pasted 2026-10-14, no log committed): reference inside every ball on both paths,
+midpoints of the two paths bit-identical, one-step radius 1.6e-60, 24 µs per step in Python and
+6.4 µs in C, i.e. ~0.7 min and ~0.2 min of centre arithmetic per 300 000-step pair (the frame
+adds its own, unchanged, cost). Same results on the cloud CPU (43 and 11 µs). No obstacle found
+on either platform; the approach is worth building when a claim needs it.

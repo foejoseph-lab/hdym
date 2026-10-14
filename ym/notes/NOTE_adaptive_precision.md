@@ -138,6 +138,26 @@ not a change. If the answer is arithmetic, §5 applies. If it is QR containment,
 in the frame (re-orthogonalise more often, or carry the frame itself in double-double), and the
 third word would be the wrong tool.
 
+*Status (2026-10-13, later): 5a answered without the planned diagnostic, by making the
+committed kernel worse instead of writing new arithmetic. The per-step rounding defects of the
+centre arithmetic (the three `def[...]` lines of `bpair`) were multiplied by 2¹⁰ and 2²⁰ in a
+scratch copy; the frame's own constants (`U2` tangent balls, step remainder, QR containment)
+were unchanged. Sweep: 200 pairs, δ = 10⁻⁸, 10⁻¹⁶, 10⁻²⁴, ghost escape R = 10, E = 0.3,
+ε = 0.01, tmax 1500 (cloud CPU, not committed). Lost fraction 0.255 / 0.21 / 0.20 at full
+precision, 0.41 / 0.32 / 0.35 with 10 bits removed, 0.555 / 0.48 / 0.505 with 20: the same
+factor at every δ, and log(lost) linear in the bits removed, slope 0.039–0.046 per bit. The
+losses are arithmetic. The slope implies λ_eff = κ ln 2 / slope ≈ 0.40–0.48, the paper's
+ensemble-weighted separation rate (0.42), measured independently: the lost pairs are the
+fast-separating tail and spend their budget at ≈ 0.42; §3's 0.3 is the rate of the certified
+pairs. The QR column rising (2e-3 → 1e-2) is the frame enclosing a larger error set, the same
+lever a wider centre moves the other way. Extrapolating the line to +53 bits: lost fraction
+15–25 % → 2–3 % (an extrapolation over 53 bits from a 20-bit range; the rerun is the
+measurement). Two checks for any implementation: rerun a sample of already-certified pairs in
+the wider arithmetic (exit intervals must overlap, classification must agree; §5b's monotone
+check alone cannot fail when only lost pairs are rerun), and note that the sub-step count
+n = ceil(...) of a wider centre can occasionally differ, i.e. a slightly different
+pair-dependent map is certified.*
+
 ### 5b. What the tier would buy, if 5a says arithmetic
 
 With the budget of §3: 53 more bits ≈ 16 more decades of radius ≈ 120 more time units of

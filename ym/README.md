@@ -71,6 +71,11 @@ Result on the cloud CPU (`data/drift_census_2026-10-13_cloud.txt`): 83 quantitie
 (`data/drift_census_2026-10-13_win.txt`, RTX 4080 SUPER) the same plus the CUDA copies, which
 sit at roundoff (≤ 8 ulp of their terms) because NVRTC contracts `a*b + c` into fused
 multiply-adds and gcc does not (`csrc/README.md`), and bitwise again with `--fmad=false`.
+
+`tools/arb_smoke.py` *(added 2026-10-14)*: smoke test for Arb ball arithmetic (FLINT) as the
+centre arithmetic of `hdym_ball.py`, from Python and from C; see `notes/NOTE_arb_tier.md`.
+Optional dependencies, only for this tool: `python-flint` (`pip install python-flint`) and
+FLINT's C library (MSYS2: `pacman -S mingw-w64-x86_64-flint`; Linux: `libflint-dev`).
 The CPU roundoff rows are the copies that compute the Yoshida coefficients from the formula
 instead of the literals (`hdym_core.py`, `early/`; one ulp in three of the four), the two
 operation orders of Hess V·w (linearised vs nonlinear kernels), and `hdym2d_nu0.grad`, which
