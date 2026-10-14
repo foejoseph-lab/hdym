@@ -1,0 +1,32 @@
+[    0.0s] building the full homogeneous Lagrangian (12 functions), Lee-Wick term / a(eta)^2
+[    1.5s]    1425 terms
+[    1.5s] perturbation ansatz
+[    6.0s]    A_0 equations derived
+[    7.6s]    L expanded: L2 has 108 terms
+    O(eps^0): diagonal reduced Lagrangian with M -> M a(eta): PASS
+    O(eps^1): vanishes (consistent truncation): PASS
+    Gauss law vanishes at O(eps^0): PASS
+[   11.9s]    linearised Gauss constraints built
+[   11.9s] Euler-Lagrange equations of L2
+    u'''' coefficients form -I / a^2: PASS
+[   13.2s] first-order form on the ghost-free (pure Yang-Mills, conformal) background
+    equations are linear in the state: PASS
+    u'''' does not appear on the right-hand side: PASS
+    linearised Gauss constraints are linear in the state and depend on u up to u''': PASS
+    only a, a', a'' occur in K and G (no a''', a''''): PASS
+    (a'' occurs in K: True; a' occurs in K: True; a' occurs in G: True)
+    gauge zero modes satisfy the linearised Gauss law for arbitrary a(eta): PASS
+    u = theta x A solves the linear equations for arbitrary a(eta): PASS
+[   18.9s] comparing with the committed ym/rung1_system.pkl at a = 1, a' = a'' = 0
+    K at a = 1 equals the committed K: PASS
+    Gauss matrix at a = 1 equals the committed G: PASS
+[   19.0s] ALL STRUCTURAL CHECKS PASSED
+[   19.9s] wrote axion_su2/rung1_frw_system.pkl
+
+terms of K's u'''' rows that carry a' or a'' (the non-adiabatic part), by row:
+  u''''_0 (u12(t)):  a1**2*(-6*u0_0*z**2/a**2 + 6*u0_2*x*y/a**2 - 6*u2_0/a**2) + a1*(-2*c_j*px*u0_0*x/a + 2*c_j*py*u0_2*x/a + 2*c_j*u1_0*x**2/a - 2*c_j*u1_2*x*y/a - 4*px*u0_2*y/a - 4*py*u0_2*x/a + 8*pz*u0_0*z/a + 4*u1_0*z**2/a - 4*u1_2*x*y/a + 4*u3_0/a) + a2*(2*u0_0*z**2/a - 2*u0_2*x*y/a + 2*u2_0/a)
+  u''''_1 (u13(t)):  a1**2*(-6*u0_1*y**2/a**2 + 6*u0_4*x*z/a**2 - 6*u2_1/a**2) + a1*(-2*c_j*px*u0_1*x/a + 2*c_j*pz*u0_4*x/a + 2*c_j*u1_1*x**2/a - 2*c_j*u1_4*x*z/a - 4*px*u0_4*z/a + 8*py*u0_1*y/a - 4*pz*u0_4*x/a + 4*u1_1*y**2/a - 4*u1_4*x*z/a + 4*u3_1/a) + a2*(2*u0_1*y**2/a - 2*u0_4*x*z/a + 2*u2_1/a)
+  u''''_2 (u21(t)):  a1**2*(6*u0_0*x*y/a**2 - 6*u0_2*z**2/a**2 - 6*u2_2/a**2) + a1*(2*c_j*px*u0_0*y/a - 2*c_j*py*u0_2*y/a - 2*c_j*u1_0*x*y/a + 2*c_j*u1_2*y**2/a - 4*px*u0_0*y/a - 4*py*u0_0*x/a + 8*pz*u0_2*z/a - 4*u1_0*x*y/a + 4*u1_2*z**2/a + 4*u3_2/a) + a2*(-2*u0_0*x*y/a + 2*u0_2*z**2/a + 2*u2_2/a)
+  u''''_3 (u23(t)):  a1**2*(-6*u0_3*x**2/a**2 + 6*u0_5*y*z/a**2 - 6*u2_3/a**2) + a1*(-2*c_j*py*u0_3*y/a + 2*c_j*pz*u0_5*y/a + 2*c_j*u1_3*y**2/a - 2*c_j*u1_5*y*z/a + 8*px*u0_3*x/a - 4*py*u0_5*z/a - 4*pz*u0_5*y/a + 4*u1_3*x**2/a - 4*u1_5*y*z/a + 4*u3_3/a) + a2*(2*u0_3*x**2/a - 2*u0_5*y*z/a + 2*u2_3/a)
+  u''''_4 (u31(t)):  a1**2*(6*u0_1*x*z/a**2 - 6*u0_4*y**2/a**2 - 6*u2_4/a**2) + a1*(2*c_j*px*u0_1*z/a - 2*c_j*pz*u0_4*z/a - 2*c_j*u1_1*x*z/a + 2*c_j*u1_4*z**2/a - 4*px*u0_1*z/a + 8*py*u0_4*y/a - 4*pz*u0_1*x/a - 4*u1_1*x*z/a + 4*u1_4*y**2/a + 4*u3_4/a) + a2*(-2*u0_1*x*z/a + 2*u0_4*y**2/a + 2*u2_4/a)
+  u''''_5 (u32(t)):  a1**2*(6*u0_3*y*z/a**2 - 6*u0_5*x**2/a**2 - 6*u2_5/a**2) + a1*(2*c_j*py*u0_3*z/a - 2*c_j*pz*u0_5*z/a - 2*c_j*u1_3*y*z/a + 2*c_j*u1_5*z**2/a + 8*px*u0_5*x/a - 4*py*u0_3*z/a - 4*pz*u0_3*y/a - 4*u1_3*y*z/a + 4*u1_5*x**2/a + 4*u3_5/a) + a2*(-2*u0_3*y*z/a + 2*u0_5*x**2/a + 2*u2_5/a)

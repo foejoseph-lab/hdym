@@ -1,0 +1,60 @@
+frw_offdiag.py  python 3.13.16  numpy 2.5.3  (/usr/bin/python3)
+isotropic orbit, comoving amplitude 1, period T0 = 5.2441; M = 1
+
+Part A: frozen a.  Check against the committed flat system at E = (3/2)/a^4 (largest ghost multiplier)
+     a  E=1.5/a^4  FRW frozen iso_floquet     diff spread/3 blocks
+  0.70     6.2474    1.000000    1.000000  1.9e-14         2.2e-14
+  1.00     1.5000    1.000000    1.000000  4.2e-15         3.3e-15
+  1.50     0.2963    1.000000    1.000000 -6.9e-15         2.7e-15
+  2.00     0.0938    1.000000    1.000000  1.8e-15         1.1e-15
+  3.00     0.0185    1.000000    1.000000  3.9e-14         1.1e-15
+
+  frozen scan a in [0.25, 5] (120 pts, log), c_j = 1: off-diagonal ghost unstable on 0 interval(s); fraction 0.00
+
+  frozen scan a in [0.25, 5] (120 pts, log), c_j = 0: off-diagonal ghost unstable on 1 interval(s); fraction 0.47
+     a in [0.2500, 0.9983]  (E in [1.51, 384], 56 pts)  max rate 0.2078 per unit eta
+
+Part B: radiation era a = eta/eta_s.  ln sigma_max of the block transfer matrix from a0 to a1,
+        two background phases (0, T0/4); Gauss-charge conservation |G1 Phi v|, v in ker G0 (max).
+
+  a from 0.3 to 3.0, c_j = 1
+   eta_s  H/M at a=1  eta span | ln s_max (ph 0)  (ph 1/4) |    Gauss
+       1    1.00e+00       2.7 |           7.525     6.586 |  3.6e-16
+       3    3.33e-01       8.1 |           6.984     6.186 |  1.5e-15
+      10    1.00e-01      27.0 |           7.143     6.245 |  3.7e-15
+      30    3.33e-02      81.0 |           8.939     6.823 |  2.2e-15
+     100    1.00e-02     270.0 |           9.770     8.018 |  3.4e-15
+     300    3.33e-03     810.0 |          11.122     9.111 |  2.4e-15
+    1000    1.00e-03    2700.0 |          12.027    10.836 |  3.3e-15
+
+  a from 0.3 to 3.0, c_j = 0
+   eta_s  H/M at a=1  eta span | ln s_max (ph 0)  (ph 1/4) |    Gauss
+       1    1.00e+00       2.7 |           7.441     6.545 |  2.3e-16
+       3    3.33e-01       8.1 |           6.895     6.186 |  8.7e-15
+      10    1.00e-01      27.0 |           7.219     6.975 |  5.4e-14
+      30    3.33e-02      81.0 |          10.365     8.278 |  1.9e-14
+     100    1.00e-02     270.0 |          18.113    17.833 |  1.5e-13
+     300    3.33e-03     810.0 |          42.673    41.917 |  2.4e-13
+    1000    1.00e-03    2700.0 |         127.592   127.023 |  5.6e-14
+
+  a from 1.4 to 2.3, c_j = 1
+   eta_s  H/M at a=1  eta span | ln s_max (ph 0)  (ph 1/4) |    Gauss
+       1    1.00e+00       0.9 |           2.574     1.940 |  3.8e-15
+       3    3.33e-01       2.7 |           3.044     1.802 |  2.4e-14
+      10    1.00e-01       9.0 |           3.219     3.186 |  6.1e-14
+      30    3.33e-02      27.0 |           4.716     4.281 |  1.9e-14
+     100    1.00e-02      90.0 |           5.866     5.567 |  1.7e-14
+     300    3.33e-03     270.0 |           7.312     5.714 |  1.5e-14
+    1000    1.00e-03     900.0 |           8.642     7.552 |  1.3e-14
+
+  a from 1.4 to 2.3, c_j = 0
+   eta_s  H/M at a=1  eta span | ln s_max (ph 0)  (ph 1/4) |    Gauss
+       1    1.00e+00       0.9 |           2.580     1.987 |  8.9e-15
+       3    3.33e-01       2.7 |           2.733     1.575 |  5.6e-14
+      10    1.00e-01       9.0 |           2.469     2.697 |  7.8e-14
+      30    3.33e-02      27.0 |           3.765     3.760 |  1.4e-13
+     100    1.00e-02      90.0 |           4.944     5.030 |  1.5e-13
+     300    3.33e-03     270.0 |           6.403     5.714 |  1.0e-13
+    1000    1.00e-03     900.0 |           7.741     7.041 |  8.7e-14
+
+(201 s)
