@@ -66,20 +66,38 @@ theirs; everything else is parameter-free in g, f, m_φ; `code/axion_aniso.py`, 
    Part B2). The instability is second order and goes through the ghost. The ghost's own parametric
    tongue at M = m_φ/2 (ghost-pair rate c₁/4, relative width qϕ ~ 10⁻⁵) lies below the band rate and
    is not the leading feature.
+5. **The sign rule, and the healthy twin** (`code/axion_twins.py`, log `results/axion_twins.txt`,
+   15 Oct, 213 s). The same Lagrangian with the heavy mode's Krein sign flipped, or with any set of
+   heavy modes (σ_i, M_i) coupled through the one combination s + Σh_i, obeys
+   s″ = + (ϕ²X²ω²/2) · D(ω²) · s, D(w) = Σ_i σ_i/(M_i² − w):
+   the anisotropic direction is tachyonic iff the heavy part of the propagator, evaluated at the
+   drive frequency m_φ, is positive. Healthy twin: tachyonic for M > m_φ, stable for M < m_φ — the
+   mirror image of the ghost (measured 3.783 / 3.769 and 2.149 / 2.148 per Q cycle at ω = 0.8, 0.6;
+   drift only at ω = 1.5, 2). The sixth-order Lee–Wick operator (poles 0, M, 2M; signs +, −, +): the
+   window M < m_φ < 2M, closed above the top pole (4.924 / 4.918 at ω = 1.5; drift at 0.8 and 3).
+   Ghost and healthy mode at the same mass: D = 0, marginal everywhere (drift at 0.8 and 1.5). A heavy
+   mode on its own, of either sign, has only the narrow Mathieu tongues at m_φ = 2M/n. So the
+   threshold is a property of the drive reaching M; which side is unstable is the sign of the
+   response across the pole, i.e. the Krein sign; and it is not that the ghost destabilises and a
+   healthy mode does not — each destabilises on its own side, with the pure Yang–Mills case (no heavy
+   mode) exactly marginal between them.
 
 **Contrast.** Yang–Mills mechanics (`paper/`): chaotic channel visits kick the ghost with a power
 law at every energy. Bianchi IX (`bianchi9/`): the smooth bounce is quiet, the ghost wakes at
 H ≈ 0.2 M, and the Einstein branch is a repeller by a power law only. Here: a periodic background
 with a fast drive, and the deciding fact is the sign of the ghost's response to the drive — above
 its pole (m_φ > M) the response flips sign and turns the Kapitza stabilisation into a tachyon,
-exponential, with a parameter-free e-fold count; below it nothing happens. Three backgrounds,
+exponential, with a parameter-free e-fold count; below it nothing happens. Bianchi's healthy-scalar
+control ("the bounce excites the ghost no more than an ordinary particle") has its analogue in point
+5: the healthy twin is unstable on exactly the other side of the threshold, so the comparison is not
+"ghost unstable, healthy stable" but "which side", and only the sign decides it. Three backgrounds,
 three mechanisms (a spectral tail; coupling parity at a turning point; a pole sign), one
 pattern: the ghost is excited only where the background has a frequency that reaches M — the
 channel chirp in Yang–Mills, H ≈ 0.2 M in Bianchi IX, m_φ > M here.
 
 **Figures.** None yet; the numbers are in `results/axion_aniso.txt`.
 
-**Status.** Working notes, 12–14 Oct 2026, in chronological order below. Flat space; the FRW
+**Status.** Working notes, 12–15 Oct 2026, in chronological order below. Flat space; the FRW
 integration with the a^{−5/2} envelope, the coupled axion (their A6), the isotropic
 (permutation-even) tangent, and the off-diagonal sector with the drive are not run. Each would
 change a prefactor, not the threshold, unless it introduces a new scale between H and m_φ.
@@ -109,6 +127,11 @@ code/
                      C: Fujita's numbers in g = M = 1 and the law per Hubble time; D: direct two-frequency
                      integration on the driven background with the no-ghost and M > m_φ controls.
                                                                               (float; added 2026-10-14)
+  axion_twins.py     the twin suite: the massless anisotropic direction coupled by the same drive to heavy
+                     modes (σ_i, M_i) of either Krein sign — healthy twin, sixth-order two-pole operator,
+                     tuned and reversed mass orders, heavy mode alone; the general law D(ω²) = Σσ_i/(M_i²−ω²)
+                     derived in the docstring, frozen-Q map (pair analysis for 2n modes), the law per Hubble
+                     time, direct two-frequency integration. Imports axion_aniso.py.   (float; added 2026-10-15)
 results/
   iso_floquet.txt    its output (run in the cloud session of 12 Oct, Python 3.13; seconds per energy)
   frw_identity.txt   output of code/frw_identity.py
@@ -117,6 +140,7 @@ results/
   frw_offdiag.txt    output of code/frw_offdiag.py (200 s)
   axion_derive.txt   output of code/axion_derive.py (3 s), all checks PASS
   axion_aniso.txt    output of code/axion_aniso.py (374 s, cloud session 14 Oct, Python 3.13, scipy 1.18)
+  axion_twins.txt    output of code/axion_twins.py (213 s, cloud session 15 Oct, Python 3.13, scipy 1.18)
 rung1_frw_system.pkl the FRW linearisation (K, Gauss matrix G, zero modes, L2; lambdify over
                      x,y,z,px,py,pz,c_j,a,a1,a2); regenerated by code/rung1_frw.py in 20 s
 ```
@@ -304,6 +328,42 @@ integration (the a^{−5/2} estimate above assumes the flat-space rates follow t
 coupled axion (their A6); ϕ_amp as a parameter (everything is linear in it). Not covered by the
 method: the growth once ε is no longer small (nonlinear), and inhomogeneous modes.
 
+**The twin suite (15 Oct): the sign rule** (`axion_twins.py`, `results/axion_twins.txt`; Summary
+point 5 quotes it). The PU equation is L = ½s′² − (½h′² − ½M²h²) − ½c(t)(s + h)², ε = s + h, a
+massless direction and the ghost seeing the drive through one combination. The suite keeps that and
+varies the heavy sector, L = ½s′² + Σσ_i(½h_i′² − ½M_i²h_i²) − ½c(s + Σh_i)²: ghost (reference),
+healthy twin (σ = +1), ghost + healthy at M_h = 2M (the sixth-order operator with poles 0, M, 2M and
+signs +, −, +, the two-pole theory `bianchi9/` left at the β′ = 0 singularity), M_h = M (tuned),
+M_h = M/2 (reversed order), and each heavy mode alone (Mathieu).
+
+- *Law.* The fast responses are f = c₁s cos(ωt)/ω² for s and h_i = −σ_i c₁ s cos(ωt)/(M_i² − ω²)
+  through each pole; the period average with the jitter term of Q (which cancels the 1/ω² Kapitza
+  term exactly, as in the first run) is s″ = +(ϕ²X²ω²/2)·D(ω²)·s, D(w) = Σσ_i/(M_i² − w): tachyonic
+  iff D(m_φ²) > 0, rate μ = gQϕ m_φ √(D(m_φ²)/2) in physical units. Ghost: m_φ > M. Healthy twin:
+  m_φ < M. Two poles M_h > M: M < m_φ < M_h. M_h < M: m_φ outside [M_h, M]. M_h = M: never. No heavy
+  mode: never (stage 1, and the Hill control of the first run).
+- *Checks* (Part A, all PASS): the ghost case reproduces `axion_aniso.pairs` to 2×10⁻¹³; c₁ = 0 gives
+  the frozen frequencies for every case; the characteristic polynomial is palindromic to 10⁻¹¹; M_h = M
+  gives rate ≤ 2×10⁻⁹ off resonance; a heavy mode alone of either sign has the Mathieu rate c₁/(4M)
+  at ω = 2M and nothing (10⁻¹³) at 1.7M, 0.9M.
+- *Frozen-Q map* (Part B, c₁ = 0.01; pole terms only). Healthy twin: unstable band ω ∈ [0.7075, 1.045]
+  (the pole-term prediction 1/√2 < ω < 1 plus the resonance) and the ghost-free 2M tongue; stable above.
+  Two poles at M_h = 2: one band [0.955, 2.035] (the window plus both resonances), the 4M tongue;
+  M_h = ½: bands [0.3675, 0.56] and [0.9525, 1.365]; M_h = M: isolated grid points at ω = 1/n and 2
+  only. Spot rates agree with the pole law to three digits where the law is nonzero.
+- *Per Hubble time* (Part C, their benchmark, ϕ = 1): healthy twin 7.7 (r = 1.1), 3.2 (1.5), 1.5 (2.5),
+  0.9 (4); 0 for r < 1. Two poles (M_h = 2M): 8.8 (r = 0.55), 6.1 (0.7), 8.4 (0.9); 0 outside
+  ½ < r < 1. The ghost column repeats the first run.
+- *Direct* (Part D, m_φ/gQ = 100, ϕ = 2, 30 Q periods, slope per cycle over cycles 10–30 / the slow
+  equation): ghost ω = 2: 3.283 / 3.278 (3.286 at ratio 200 in the first run). Healthy twin: ω = 0.8:
+  3.783 / 3.769; ω = 0.6: 2.149 / 2.148; ω = 1.5: 0.009; ω = 2: 0.034 (drift level 0.053). Two poles
+  M_h = 2: ω = 0.8: 0.003; ω = 1.5: 4.924 / 4.918; ω = 3: −0.002. M_h = M: ω = 0.8: 0.006; ω = 1.5:
+  0.006. Every sign of D(ω²) is confirmed; where D > 0 the slope matches the slow equation to 0.4 %.
+
+Not run: more than two heavy poles (the law is written for any number); the twin cases in the
+physical e-fold estimate (same prefactors as the ghost, Summary point 3, with D in place of
+1/(ω² − 1)); the twin cases on the off-diagonal sector.
+
 **Literature pass (14 Oct), post-inflationary anisotropic stability of the isotropic SU(2)
 background.** Nothing found that treats the anisotropic homogeneous perturbations while the axion
 oscillates; the question above is open in the literature as far as this pass reached.
@@ -351,4 +411,7 @@ Summary); Hubble damping is an adiabatic estimate there, not a run; the rest sta
       M = m_φ, the law on each side, the e-fold estimate through reheating, two controls; see the
       Summary. Open in this stage: the isotropic tangent, the off-diagonal sector with the drive, the
       FRW run, the coupled axion.
+      Status (2026-10-15): the twin suite is done (`axion_twins.py`): the sign rule D(m_φ²) > 0, the
+      healthy twin unstable on the other side, the sixth-order two-pole window; Summary point 5. The
+      open list is unchanged.
 - [ ] Inhomogeneous (k ≠ 0) perturbations on the isotropic background: decide whether in scope.
