@@ -160,8 +160,36 @@ untouched; φ(t) is a given homogeneous function, its own equation — their (12
   Frozen-coefficient statements are heuristics; the runs will say what the time dependence does.
 - Isotropic tangent: printed; as M → ∞ it is ε″ + (6g²Q² − 2κQ) ε = 0.
 
-Not done: any run; the literature pass on post-inflationary anisotropic stability of the
-axion-SU(2) background (next, before the first run); Hubble damping and the decaying φ̇ amplitude;
+**Literature pass (14 Oct), post-inflationary anisotropic stability of the isotropic SU(2)
+background.** Nothing found that treats the anisotropic homogeneous perturbations while the axion
+oscillates; the question above is open in the literature as far as this pass reached.
+- During inflation (φ̇ of fixed sign): Wolfson, Maleknejad, Murata, Komatsu, Kobayashi,
+  arXiv:2105.06259, Bianchi I with A^a_i = ψ e^{β}, β traceless, find numerically that the system
+  always isotropises (a few e-folds in their examples), and note that the Chern–Simons term depends
+  only on ψ = (det A)^{1/3}. That is the nonlinear form of CHECK 1 here (det A is the whole term);
+  the linearised mass κQ of the Cartesian anisotropic modes is the second-order dependence of det A
+  on the anisotropy, which their variables put into ψ. With κ > 0 the frozen Yang–Mills branch
+  ω² = κQ is stable, consistent with their isotropisation. Earlier: Maleknejad, Erfani,
+  arXiv:1311.3361 (same conclusion, chromo-natural model); Murata, Fujita, Kobayashi,
+  arXiv:2211.09489 treat SU(N) ⊃ SU(2) embeddings, a different question.
+- After inflation: Fujita et al. (2312.06889) assume isotropy (above). Khan, Pirzada, Mustafa,
+  arXiv:2604.07044, decouple the axion first and decompose the k = 0 fluctuations of the massive
+  (symmetry-broken) phase under the diagonal SO(3) into 1 ⊕ 3 ⊕ 5 with frequencies
+  m² + 6g²Q², m² + 2g²Q², m² for trace, antisymmetric, traceless-symmetric: at m = 0 the quintet
+  is gapless, which is the stage-1 result here (diagonal anisotropic modes free, isotropic mode
+  6Q²). No Floquet or resonance analysis there. Daniel, Kamali, arXiv:2603.12339, keep the
+  oscillating axion coupled in the background during the first e-fold of reheating, with
+  Q″ + 2𝓗Q′ + (𝓗′ + 𝓗²)Q + 2a²g²Q³ = (gλ₁/f) a χ′ Q² in conformal time — with X = aQ this is the
+  flat equation with κ = (gλ₁/f) dχ/dη, the same as CHECK 7 here — but study only tensor modes.
+  Adshead, Giblin, Weiner, arXiv:1708.02944 (non-Abelian gauge preheating, lattice) use a dilaton
+  coupling e^{φ/M} Tr F², not φFF̃, and no inflationary SU(2) background.
+- The anisotropic equation ε⁗/M² + ε″ + κ(t)Q(t) ε = 0 is a Pais–Uhlenbeck oscillator with one
+  time-dependent coefficient; Kuwabara, Yumibayashi, Harada, arXiv:1503.03657 note that the
+  time-dependent PU oscillator does not decompose into two independent oscillators. So the run
+  integrates the 4-d first-order system directly (as `frw_offdiag.py` does for the fourth-order
+  off-diagonal blocks); nothing to borrow.
+
+Not done: any run; Hubble damping and the decaying φ̇ amplitude;
 the coupled axion (their A6); the off-diagonal sector with the drive (the Gauss law is unchanged,
 so `rung1_frw.py` needs only the extra term (g/f) φ̇ det A).
 
@@ -171,6 +199,6 @@ so `rung1_frw.py` needs only the extra term (g/f) φ̇ det A).
       the off-diagonal blocks with M → M a(η); what H/M is at the crossing in a given scenario.
       Status (2026-10-14): the off-diagonal blocks are done (no instability from expansion, radiation
       era, a in [0.3, 3]); what H/M is at the crossing stays open (scenario-dependent).
-- [ ] Stage 3: the axion stage. Status (2026-10-14): derivation done (`axion_derive.py`, section
-      above); literature pass and the first anisotropic-sector run are next.
+- [ ] Stage 3: the axion stage. Status (2026-10-14): derivation done (`axion_derive.py`) and literature pass written
+      (section above); the first anisotropic-sector run is next.
 - [ ] Inhomogeneous (k ≠ 0) perturbations on the isotropic background: decide whether in scope.
