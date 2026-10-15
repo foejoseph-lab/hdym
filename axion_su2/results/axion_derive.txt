@@ -1,0 +1,55 @@
+[    0.1s] CHECK 1: homogeneous reduction of the axion term
+    (1/4f) phi F.Ftilde = s (g/f) phi d(det A)/dt with s = 1 (eps^0123 = +1): PASS
+    the term contains no A_0 (Gauss law unchanged): PASS
+    A_0 Euler-Lagrange equations of the term vanish: PASS
+[    0.3s] CHECK 2: the sign against Fujita et al. (13) at H = 0
+    isotropic EL equation from eps^0123 = +1 equals -(3 x Fujita (13) at H = 0): False
+    Fujita's (13) corresponds to L_axion = +(g/f) phidot det A, i.e. to eps^0123 = -1 in this construction (with eps^0123 = +1 the term came out as -1 (g/f) phidot det A).
+    with L_axion = (g/f) phidot det A the isotropic equation is Fujita (13) at H = 0 (x3): PASS
+[    0.7s] CHECK 3: diagonal ansatz stays a consistent truncation
+    off-diagonal axion EOM (i=1,a=2) vanishes on the ansatz: PASS
+    off-diagonal axion EOM (i=1,a=3) vanishes on the ansatz: PASS
+    off-diagonal axion EOM (i=2,a=1) vanishes on the ansatz: PASS
+    off-diagonal axion EOM (i=2,a=3) vanishes on the ansatz: PASS
+    off-diagonal axion EOM (i=3,a=1) vanishes on the ansatz: PASS
+    off-diagonal axion EOM (i=3,a=2) vanishes on the ansatz: PASS
+    L_axion on the ansatz = (g/f) phidot x y z: PASS
+[    0.8s] CHECK 4: auxiliary-field form with the axion
+    aux q-equation 0 proportional to 4th-order EOM (ratio=1): PASS
+    aux q-equation 1 proportional to 4th-order EOM (ratio=1): PASS
+    aux q-equation 2 proportional to 4th-order EOM (ratio=1): PASS
+    so in the (p, w) system of ym/: U(p, w) = V_tot(q) + w.grad V(q) - 1/2|w|^2, q = p - w,
+    V_tot = V - kappa(t) x y z; the Lee-Wick term keeps grad V (not grad V_tot): CHECK 4 confirms
+    that this is the correct reduction of L_YM + L_LW + L_axion.
+[    1.9s] CHECK 5: scaling to g = M = 1
+    kappa x y z = (M^4/g^2) (kappa/(g M)) u_x u_y u_z: PASS
+    units g = M = 1: time in 1/M, fields in M/g; the drive enters as kappa/(g M) = phidot/(f M)
+    (= 2 xi H/M with Fujita's xi = phidot/(2 f H)), and Fujita's (13) reads u'' + 2u^3 = (phidot/(fM)) u^2.
+[    1.9s] CHECK 6: linearisation on x = y = z in the (q, w) variables, M and g kept
+    isotropic truncation consistent: the three q-equations coincide, the three w-equations coincide: PASS
+    background w-equation: w0 = (2*g**2*Q(t)**3 + Derivative(Q(t), (t, 2)))/M**2
+    background 4th-order isotropic equation (= 0): -2*g**2*Q(t)**3 + Q(t)**2*kappa_t(t) - Derivative(Q(t), (t, 2)) - 12*g**4*Q(t)**5/M**2 - 12*g**2*Q(t)**2*Derivative(Q(t), (t, 2))/M**2 - 12*g**2*Q(t)*Derivative(Q(t), t)**2/M**2 - Derivative(Q(t), (t, 4))/M**2
+    M -> infinity: background equation is -(Q'' + 2 g^2 Q^3 - kappa Q^2): PASS
+    the two anisotropic directions give the same equations: PASS
+    anisotropic w-equation: zeta = Derivative(epsilon(t), (t, 2))/M**2
+    anisotropic 4th-order equation (= 0): -Q(t)*epsilon(t)*kappa_t(t) - Derivative(epsilon(t), (t, 2)) - Derivative(epsilon(t), (t, 4))/M**2
+    anisotropic sector:  eps''''/M^2 + eps'' + kappa(t) Q(t) eps = 0  (w0 drops out): PASS
+    frozen coefficients: omega^2 = (M^2/2)(1 +- sqrt(1 - 4 kappa Q / M^2)): the Yang-Mills branch
+    omega^2 ~ kappa Q is tachyonic for kappa Q < 0, the ghost branch omega^2 ~ M^2 - kappa Q, and the
+    two merge into a complex pair for kappa Q > M^2/4.  Without the axion the sector is exactly free.
+    isotropic w-equation: zeta = (6*g**2*Q(t)**2*epsilon(t) + Derivative(epsilon(t), (t, 2)))/M**2
+    isotropic 4th-order equation (= 0): (-1 - 12*g**2*Q(t)**2/M**2)*Derivative(epsilon(t), (t, 2)) + (-6*g**2*Q(t)**2 - 12*g**2*Q(t)*w0(t) + 2*Q(t)*kappa_t(t) - 36*g**4*Q(t)**4/M**2 - 12*g**2*Q(t)*Derivative(Q(t), (t, 2))/M**2 - 12*g**2*Derivative(Q(t), t)**2/M**2)*epsilon(t) - 24*g**2*Q(t)*Derivative(Q(t), t)*Derivative(epsilon(t), t)/M**2 - Derivative(epsilon(t), (t, 4))/M**2
+    isotropic sector, M -> infinity:  -(eps'' + (6 g^2 Q^2 - 2 kappa Q) eps): PASS
+[    2.4s] CHECK 7: FRW in conformal time
+    sqrt(-g) (1/4f) phi F.Ftilde on a(eta)^2 eta equals the flat expression (no a): PASS
+[    2.6s] ALL CHECKS PASSED
+
+Summary (units g = M = 1, time in 1/M, fields in M/g):
+  the axion adds to the 12-d system of ym/ exactly the time-dependent potential  -kappa(t) x y z
+  in q = p - w, kappa = (g/f) phidot (in flat space) = (g/f) dphi/d eta (on FRW, conformal time,
+  comoving fields), and nothing else: Lee-Wick term, Gauss law and the diagonal truncation are as
+  before.  On x = y = z = Q(t), as M -> infinity:  Q'' = -2Q^3 + kappa Q^2 (Fujita (13), H = 0);
+  the drive sources the ghost (w = kappa Q^2 / M^2 + O(1/M^4) on the isotropic background), and the
+  anisotropic sector obeys eps''''/M^2 + eps'' + kappa Q eps = 0 (frozen: YM branch ~ kappa Q, ghost
+  branch ~ M^2 - kappa Q, complex pair for kappa Q > M^2/4).
+
