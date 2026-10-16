@@ -1,0 +1,106 @@
+[    1.6s] Lagrangians built: L_YM 81 terms, L_LW 1200 terms
+[    2.4s] EL of Theta L_YM
+[   24.2s] EL of L_LW
+[   51.6s] EL of Theta L_LW
+[   51.6s] CHECK 1: the Gauss law with the dilaton
+    L_YM contains no A_0-dot (column A's A_0 equation is Theta x the Yang-Mills Gauss law + the LW one): PASS
+    column A: A_0 equation of Theta L_YM = Theta x (A_0 equation of L_YM), identically: PASS
+    column B: A_0 equation of Theta L_LW = Theta x (A_0 equation of L_LW) - Theta-dot dL_LW/dA_0-dot: PASS
+    column B, the extra constraint term dL_LW/dA_0-dot on the diagonal ansatz: [0, 0, 0]
+    (off the ansatz it is not zero: the constraint of the ghost sector carries Theta-dot in column B)
+[   54.0s] CHECK 2: diagonal ansatz stays a consistent truncation; closed forms
+    column A: Gauss law vanishes on the ansatz: PASS
+    column A: off-diagonal equations vanish on the ansatz: PASS
+    column A: L|ansatz == closed form: PASS
+    column A: reduced EL equations == restricted full equations: PASS
+    column B: Gauss law vanishes on the ansatz: PASS
+    column B: off-diagonal equations vanish on the ansatz: PASS
+    column B: L|ansatz == closed form: PASS
+    column B: reduced EL equations == restricted full equations: PASS
+[   70.2s] CHECK 3: auxiliary-field forms
+    column A: on shell w = (qddot + grad V)/M^2: PASS
+    column A: aux q-equation 0 proportional to the 4th-order equation (ratio=1): PASS
+    column A: aux q-equation 1 proportional to the 4th-order equation (ratio=1): PASS
+    column A: aux q-equation 2 proportional to the 4th-order equation (ratio=1): PASS
+    column B: on shell w = (qddot + grad V)/M^2: PASS
+    column B: aux q-equation 0 proportional to the 4th-order equation (ratio=1): PASS
+    column B: aux q-equation 1 proportional to the 4th-order equation (ratio=1): PASS
+    column B: aux q-equation 2 proportional to the 4th-order equation (ratio=1): PASS
+    column A in the (q, w) system of ym/: q-equation  Theta qddot + Theta-dot qdot + Theta grad V + wddot + Hess V w = 0,
+    w-equation  M^2 w = qddot + grad V; first-order-ready:  qddot = M^2 w - grad V,
+    wddot = -Theta-dot qdot - (Theta M^2 + Hess V) w.  On x = y = z (g = M = 1):
+      Q'' = w - 2Q^3,   w'' + (Theta + 6Q^2) w = -Theta-dot Q'      [compare axion: w'' + (1 + 6Q^2) w = kappa Q^2].
+[   71.0s] CHECK 4: scaling to g = M = 1
+    column A: L = (M^4/g^2) L~(u, Theta) with g = M = 1 and Theta untouched: PASS
+    column B: L = (M^4/g^2) L~(u, Theta) with g = M = 1 and Theta untouched: PASS
+    units g = M = 1: time in 1/M, fields in M/g; the dilaton enters as delta(t) = phi/Lambda, amplitude
+    delta_a = phi_amp/Lambda and frequency omega = m_phi/M; no other new quantity.
+[   71.2s] CHECK 5: M -> infinity is Yang-Mills with g -> g Theta in the time d tau = dt / Theta
+    q_0: equation in tau is  U'' = -Theta^2 grad V(U): PASS
+    q_1: equation in tau is  U'' = -Theta^2 grad V(U): PASS
+    q_2: equation in tau is  U'' = -Theta^2 grad V(U): PASS
+    on x = y = z:  Q_tautau = -2 g^2 Theta^2 Q^3.  For a fast dilaton the leading averaged coupling is the
+    tau-average <Theta^2>_tau = int e^delta dt / int e^-delta dt: positive, and exactly 1 for delta symmetric
+    about 0 (a cosine drive).  So the M -> infinity control never inverts the potential and at leading order
+    does not renormalise it; its only loss of the isotropic solution is the slow-drive parametric resonance
+    of Q itself, as in axion_su2/ (B').  Clock: dt = Theta d tau, <Theta>_tau = 1/I_0(delta_a) for the cosine.
+[   71.3s] CHECK 6: linearisation on x = y = z in the (q, w) variables, M and g kept
+  -- column A
+    column A: isotropic truncation consistent (q-equations coincide, w-equations coincide): PASS
+    background w-equation: w0 = (2*g**2*Q(t)**3 + Derivative(Q(t), (t, 2)))/M**2
+    background 4th-order isotropic equation (= 0): (-2*g**2*Q(t)**3 - Derivative(Q(t), (t, 2)))*Theta(t) - Derivative(Q(t), t)*Derivative(Theta(t), t) - 12*g**4*Q(t)**5/M**2 - 12*g**2*Q(t)**2*Derivative(Q(t), (t, 2))/M**2 - 12*g**2*Q(t)*Derivative(Q(t), t)**2/M**2 - Derivative(Q(t), (t, 4))/M**2
+    column A: M -> infinity: background equation is -(Theta (Q'' + 2 g^2 Q^3) + Theta-dot Q'): PASS
+    column A: the two anisotropic directions give the same equations: PASS
+    anisotropic w-equation: zeta = Derivative(epsilon(t), (t, 2))/M**2
+    anisotropic 4th-order equation (= 0): -Theta(t)*Derivative(epsilon(t), (t, 2)) - Derivative(Theta(t), t)*Derivative(epsilon(t), t) - Derivative(epsilon(t), (t, 4))/M**2
+    column A: anisotropic equation contains neither Q nor w0: PASS
+    column A: anisotropic sector  eps''''/M^2 + (Theta eps')' = 0: PASS
+    column A: d/dt [u''/M^2 + Theta u] reproduces the equation (u = eps'): PASS
+    isotropic w-equation: zeta = (6*g**2*Q(t)**2*epsilon(t) + Derivative(epsilon(t), (t, 2)))/M**2
+    isotropic 4th-order equation (= 0): (-Theta(t) - 12*g**2*Q(t)**2/M**2)*Derivative(epsilon(t), (t, 2)) + (-Derivative(Theta(t), t) - 24*g**2*Q(t)*Derivative(Q(t), t)/M**2)*Derivative(epsilon(t), t) + (-6*g**2*Q(t)**2*Theta(t) - 12*g**2*Q(t)*w0(t) - 36*g**4*Q(t)**4/M**2 - 12*g**2*Q(t)*Derivative(Q(t), (t, 2))/M**2 - 12*g**2*Derivative(Q(t), t)**2/M**2)*epsilon(t) - Derivative(epsilon(t), (t, 4))/M**2
+    column A: isotropic sector, M -> infinity:  -(Theta eps'' + Theta-dot eps' + 6 g^2 Theta Q^2 eps): PASS
+  -- column B
+    column B: isotropic truncation consistent (q-equations coincide, w-equations coincide): PASS
+    background w-equation: w0 = (2*g**2*Q(t)**3 + Derivative(Q(t), (t, 2)))/M**2
+    background 4th-order isotropic equation (= 0): (-2*g**2*Q(t)**3/M**2 - Derivative(Q(t), (t, 2))/M**2)*Derivative(Theta(t), (t, 2)) + (-Derivative(Q(t), t) - 12*g**2*Q(t)**2*Derivative(Q(t), t)/M**2 - 2*Derivative(Q(t), (t, 3))/M**2)*Derivative(Theta(t), t) + (-2*g**2*Q(t)**3 - Derivative(Q(t), (t, 2)) - 12*g**4*Q(t)**5/M**2 - 12*g**2*Q(t)**2*Derivative(Q(t), (t, 2))/M**2 - 12*g**2*Q(t)*Derivative(Q(t), t)**2/M**2 - Derivative(Q(t), (t, 4))/M**2)*Theta(t)
+    column B: M -> infinity: background equation is -(Theta (Q'' + 2 g^2 Q^3) + Theta-dot Q'): PASS
+    column B: the two anisotropic directions give the same equations: PASS
+    anisotropic w-equation: zeta = Derivative(epsilon(t), (t, 2))/M**2
+    anisotropic 4th-order equation (= 0): -Theta(t)*Derivative(epsilon(t), (t, 2)) - Derivative(Theta(t), t)*Derivative(epsilon(t), t) - Theta(t)*Derivative(epsilon(t), (t, 4))/M**2 - 2*Derivative(Theta(t), t)*Derivative(epsilon(t), (t, 3))/M**2 - Derivative(Theta(t), (t, 2))*Derivative(epsilon(t), (t, 2))/M**2
+    column B: anisotropic equation contains neither Q nor w0: PASS
+    column B: anisotropic sector  (Theta eps'')''/M^2 + (Theta eps')' = 0: PASS
+    column B: d/dt [(Theta u')'/M^2 + Theta u] reproduces the equation (u = eps'): PASS
+    column B: u = exp(-delta/2) v gives  v'' + (M^2 - delta''/2 - delta'^2/4) v = C M^2 exp(-delta/2): PASS
+    isotropic w-equation: zeta = (6*g**2*Q(t)**2*epsilon(t) + Derivative(epsilon(t), (t, 2)))/M**2
+    isotropic 4th-order equation (= 0): (-Theta(t) - 12*g**2*Q(t)**2*Theta(t)/M**2 - Derivative(Theta(t), (t, 2))/M**2)*Derivative(epsilon(t), (t, 2)) + (-Derivative(Theta(t), t) - 12*g**2*Q(t)**2*Derivative(Theta(t), t)/M**2 - 24*g**2*Q(t)*Theta(t)*Derivative(Q(t), t)/M**2)*Derivative(epsilon(t), t) + (-6*g**2*Q(t)**2*Theta(t) - 12*g**2*Q(t)*Theta(t)*w0(t) - 36*g**4*Q(t)**4*Theta(t)/M**2 - 6*g**2*Q(t)**2*Derivative(Theta(t), (t, 2))/M**2 - 12*g**2*Q(t)*Theta(t)*Derivative(Q(t), (t, 2))/M**2 - 24*g**2*Q(t)*Derivative(Q(t), t)*Derivative(Theta(t), t)/M**2 - 12*g**2*Theta(t)*Derivative(Q(t), t)**2/M**2)*epsilon(t) - Theta(t)*Derivative(epsilon(t), (t, 4))/M**2 - 2*Derivative(Theta(t), t)*Derivative(epsilon(t), (t, 3))/M**2
+    column B: isotropic sector, M -> infinity:  -(Theta eps'' + Theta-dot eps' + 6 g^2 Theta Q^2 eps): PASS
+  -- the anisotropic ghost as a Mathieu problem, first order in delta_a (heuristic; the runs decide).
+     delta = delta_a cos(omega t), z = omega t / 2, Mathieu  u_zz + (a - 2 q cos 2z) u = 0:
+       column A  u'' + M^2 e^delta u = C:          a = 4M^2/omega^2,  q = -2 M^2 delta_a / omega^2;
+                 first tongue omega = 2M: q = -delta_a/2, growth delta_a M / 4 per unit time;
+       column B  v'' + (M^2 - delta''/2 - ...) v:  a = 4M^2/omega^2 - delta_a^2/2,  q = -delta_a;
+                 first tongue omega = 2M: growth delta_a M / 2 per unit time (twice column A).
+     Both are first order in delta_a with no factor of Q (the axion's first tongue has c1/4, c1 = kappa Q).
+     Off the tongues (omega != 2M/n) the sector is stable with eps drifting linearly (the C term).
+[   72.6s] CHECK 7: FRW in conformal time
+    sqrt(-g) Theta F.F on a(eta)^2 eta equals the flat expression (no a): PASS
+    so on FRW the dilaton drive is Theta(eta) (-1/4 F.F)_flat with comoving fields in both columns, and the
+    Lee-Wick term is the flat one with M -> M a(eta) (axion_su2/code/frw_identity.py); column B multiplies
+    that by Theta(eta) too.
+[   72.7s] ALL CHECKS PASSED
+
+Summary (units g = M = 1, time in 1/M, fields in M/g; Theta = exp(delta), delta = phi/Lambda prescribed):
+  column A (F^2 only, the cited coupling): the dilaton is the factor Theta(t) on the normal sector's kinetic
+    term and potential in the (q, w) system of ym/ and nothing else; Gauss law and the diagonal truncation
+    unchanged; on x = y = z:  Q'' = w - 2Q^3,  w'' + (Theta + 6Q^2) w = -Theta-dot Q'.
+  column B (whole operator): L'_B = Theta L' + Theta-dot w.qdot; the ghost sector's constraint carries
+    Theta-dot off the diagonal ansatz (the off-diagonal generator would need regenerating).
+  Both: M -> infinity is Yang-Mills with g -> g Theta in d tau = dt/Theta (never an inverted potential);
+    the anisotropic sector is independent of the background -- A: u'' + Theta u = C, B: (Theta u')' + Theta u = C
+    (u = eps') -- so the axion's Pi-cancellation has nothing to act on there, and the sector's only
+    instabilities are the ghost's parametric tongues at m_phi = 2M/n, first order in delta_a and not
+    suppressed by Q.  What is left to measure is the isotropic sector: the background's own response to
+    the drive through the full propagator (the axion's threshold lambda_eff = 0 had its analogue here
+    only if the second-order DC term is a potential term; the drive -Theta-dot Q' is a friction, so it
+    may instead be a secular energy pump).  That is dilaton_dressed.py.
+
