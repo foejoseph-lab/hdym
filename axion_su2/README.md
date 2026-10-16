@@ -105,7 +105,8 @@ on the other side. **Status (2026-10-15, evening): withdrawn.** All of it was me
 M → ∞ background, inconsistent at O(1) for m_φ ~ M; on the self-consistent background the two
 terms cancel (point 1 above). The runs themselves (`axion_aniso.py`, `axion_twins.py`) are correct
 as statements about that model and are kept; their Parts A–B (checks, the frozen-Q map, the pole
-law, the Kapitza threshold, the tongue) stand.
+law, the Kapitza threshold, the tongue) stand. (Only this subsection is superseded: the stage-1 and
+stage-2 sections that follow the Layout are unaffected, they have no axion drive.)
 
 ## Layout
 
@@ -173,7 +174,7 @@ flat one with M → M a(η)) and `frw_ghost.py` (the isotropic diagonal ghost cr
 radiation era). Both added 2026-10-12, run in the cloud session (seconds). The 14 Oct scripts were
 run in the cloud session too (Python 3.13, sympy 1.14).
 
-## Results so far (float, flat space, homogeneous perturbations only)
+## Stage 1 results (12 Oct; float, flat space, no axion, homogeneous perturbations only — these stand)
 
 On x = y = z, s = A cn(√2 A t | k² = ½), A = (2E/3)^{1/4}, period 4K(½)/(√2 A):
 
