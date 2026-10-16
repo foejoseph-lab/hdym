@@ -14,93 +14,98 @@ Stages: (1) flat space, no axion: every linear sector on the isotropic orbit —
 a(t) in conformal time — needs a derivation, not an assumption; (3) the axion stage (the φF F̃ drive
 during reheating; Fujita et al., appendix A).
 
-## Summary (read this first; written 2026-10-14 after the first stage-3 run)
+## Summary (read this first; rewritten 2026-10-15 evening after the correction below; the 14 Oct version is kept under "Superseded summary")
 
 **Question.** The same question as the Yang–Mills paper (`paper/`, `ym/`) and the Bianchi IX notes
 (`bianchi9/`), asked of the one periodic background in cosmology that is an SU(2) Yang–Mills
 configuration: the isotropic field A^a_i = δ^a_i Q(t) of axion-SU(2) inflation after inflation,
 when Q oscillates under its quartic self-coupling and the axion φ oscillates at its mass m_φ and
 drives it through φFF̃. Fujita et al. assume the field stays isotropic. With the Lee–Wick ghost of
-mass M in the gauge sector, does it, and at what rate does anisotropy grow as a function of M?
+mass M in the gauge sector, does the isotropic solution exist, is it stable, and does anisotropy
+grow, as a function of M?
 
-**What closes item 5 (the exit criterion).** A growth-rate law for the homogeneous anisotropic sector
-on this background as a function of M, measured and derived, with the two controls that bound it
-(no ghost; ghost heavier than the drive), in the same shape as the Bianchi IX closure: a threshold
-in M, the law on each side, the e-fold count through reheating, and what is scenario-dependent.
-Hubble damping and the coupled axion (their A6) are listed as "what would change it" and are done
-only if the flat-space result is borderline. It is not borderline.
+**What closes item 5 (the exit criterion).** For every homogeneous sector of the Lee–Wick field on
+this background — the isotropic direction, the two diagonal anisotropic directions, the six
+off-diagonal components — stable or unstable as a function of M/m_φ and the drive, measured on a
+background that is itself a solution of the Lee–Wick theory, with the controls (no ghost; ghost
+heavier than the drive; the healthy twin), in the shape of the Bianchi IX closure.
 
-**Answer (flat space, linear, homogeneous perturbations, M → ∞ background Q(t), one benchmark —
-theirs; everything else is parameter-free in g, f, m_φ; `code/axion_aniso.py`, log
-`results/axion_aniso.txt`, run in the cloud session 14 Oct, 374 s).**
+**The correction (15 Oct).** The first run (14 Oct) and the twin suite (15 Oct) measured the
+perturbations on the M → ∞ background Q″ = −2Q³ + κQ², which is the gauge field's response to the
+drive with its massless pole only. For m_φ comparable with M the ghost pole's share of that
+response is O(1): the true background (the fourth-order isotropic equation, ghost included) jitters
+by δQ = κX²Π(m_φ²) with the full propagator Π(w) = 1/(w² − wM²) = −1/w + 1/(w − M²), not −κX²/m_φ².
+The inconsistency showed up as a gauge zero mode that failed by O(κ) in the off-diagonal run
+(`offdiag_axion.py`, first attempt), because gauge zero modes are exact only on a true solution. On
+the self-consistent background:
 
-1. **Threshold M = m_φ.** The anisotropic direction (the two permutation-odd modes, degenerate)
-   obeys ε⁗/M² + ε″ + κ(t)Q(t)ε = 0 with κ = (g/f)φ̇. At second order in the drive its slow part
-   obeys, in units g = M = 1 with ω = m_φ/M and X the slow amplitude of Q,
-   s″ = + (ϕ²X²/2) · ω²/(ω² − 1) · s, ϕ = φ_amp/f.
-   Two terms of the same order make it: the fast response of ε through the ghost pole,
-   s″ = +c₁²/(2ω²(ω²−1)) s with c₁ = ωϕX (measured to 1e-4 on the frozen-Q problem, Part B3), and
-   the jitter of Q itself, δQ = ϕX² sin(ωt)/ω, whose product with κ averages to −ϕ²X²/2 (Part D).
-   So: **M > m_φ, stable** (the Kapitza stabilisation of the sign-changing coefficient, through the
-   ghost, over-compensates the jitter term); **M → ∞, marginal** — the two terms cancel exactly, and
-   the M → ∞ Hill equation on the same background shows drift only (the no-ghost control, Part D);
-   **M < m_φ, tachyonic** with rate
-   μ = gQ ϕ / √(2(1 − r²)), r = M/m_φ,
-   not suppressed at small M, diverging at r → 1 (the ghost / free-branch combination resonance).
-2. **Rate per Hubble time** at the end of inflation: μ/H_end = m_Q,end ϕ / √(2(1 − r²)), i.e.
-   ≥ 3.5 ϕ for every M < m_φ at their m_Q,end = 5; 4.1 ϕ at r = ½, 8.1 ϕ at r = 0.9. Measured
-   against the direct two-frequency integration at reduced scale separation (m_φ/gQ = 50 and 200
-   instead of their 10⁵): growth per Q cycle 3.270 / 3.286 / 2.341 / 3.024 / 3.802 (ω = 2, 2, 2, 3,
-   1.5; ϕ = 2, 2, 1, 2, 2) against the reduced slow equation 3.250 / 3.285 / 2.341 / 3.024 / 3.800
-   (Part D, table). The frozen-Q (ghost-pole) term alone gives 1.80 / 1.81 / 1.28 / 0.91 / 2.29 there:
-   the jitter term is the larger half.
-3. **E-folds through matter-dominated reheating** (adiabatic estimate, not an FRW run): with
-   Q ∝ 1/a and φ̇ ∝ a^{−3/2} the rate falls as a^{−5/2} and the total is N = (rate/H)_end, with the
-   Q-cycle average ⟨|cn|⟩ = 0.599 and the turning-point factor 1.12 of the slow equation:
-   N = 1.12 × 0.599 × m_Q ϕ/√(2(1−r²)) = 2.4 ϕ (r → 0), 2.7 ϕ (r = ½), 5.4 ϕ (r = 0.9), 9.8 ϕ (r = 0.97).
-   ϕ (the axion displacement at the end of inflation, in units of f) is not stated by Fujita et al.;
-   everything is linear in it.
-4. **What the frozen picture gets wrong.** Frozen coefficients say the Yang–Mills branch
-   ω² ≈ κQ is tachyonic half of every axion oscillation. It is not: κQ/m_φ² ~ 10⁻⁵ is five orders
-   below the Kapitza threshold 0.454 (Mathieu b₁(q) = 0 at q = 0.908, reproduced by the 4-d system,
-   Part B2). The instability is second order and goes through the ghost. The ghost's own parametric
-   tongue at M = m_φ/2 (ghost-pair rate c₁/4, relative width qϕ ~ 10⁻⁵) lies below the band rate and
-   is not the leading feature.
-5. **The sign rule, and the healthy twin** (`code/axion_twins.py`, log `results/axion_twins.txt`,
-   15 Oct, 213 s). The same Lagrangian with the heavy mode's Krein sign flipped, or with any set of
-   heavy modes (σ_i, M_i) coupled through the one combination s + Σh_i, obeys
-   s″ = + (ϕ²X²ω²/2) · D(ω²) · s, D(w) = Σ_i σ_i/(M_i² − w):
-   the anisotropic direction is tachyonic iff the heavy part of the propagator, evaluated at the
-   drive frequency m_φ, is positive. Healthy twin: tachyonic for M > m_φ, stable for M < m_φ — the
-   mirror image of the ghost (measured 3.783 / 3.769 and 2.149 / 2.148 per Q cycle at ω = 0.8, 0.6;
-   drift only at ω = 1.5, 2). The sixth-order Lee–Wick operator (poles 0, M, 2M; signs +, −, +): the
-   window M < m_φ < 2M, closed above the top pole (4.924 / 4.918 at ω = 1.5; drift at 0.8 and 3).
-   Ghost and healthy mode at the same mass: D = 0, marginal everywhere (drift at 0.8 and 1.5). A heavy
-   mode on its own, of either sign, has only the narrow Mathieu tongues at m_φ = 2M/n. So the
-   threshold is a property of the drive reaching M; which side is unstable is the sign of the
-   response across the pole, i.e. the Krein sign; and it is not that the ghost destabilises and a
-   healthy mode does not — each destabilises on its own side, with the pure Yang–Mills case (no heavy
-   mode) exactly marginal between them.
+1. **The anisotropic sector is marginal at second order, for any heavy sector.** Its two
+   second-order terms — the drive times the background's jitter, and the drive times the
+   perturbation's own fast response — are the same response function Π attached in the two orders,
+   and cancel identically. In the periodic 4-d problem: the DC offset c₀ = (c₁²/2)Π cancels the
+   tachyon of ε⁗ + ε″ + (c₀ + c₁ cos ωt)ε = 0 to roundoff at ω = 3, 1.5, 2.5, 5 (`axion_dressed.py`
+   A1; residuals where |Π| is large scale as c₁², a fourth-order term, 10⁻⁵ of the old law at the
+   physical c₁). The sign rule of the twin suite, D(m_φ²) > 0, is a correct statement about the pole
+   term alone and not about the physics. What remains in this sector: the ghost pair's parametric
+   tongues at m_φ = 2M/n (rate c₁/4 at the first, relative width qϕ ~ 10⁻⁵; 2.5 ϕ per Hubble time at
+   the centre at Fujita's benchmark — the one number of the 14 Oct run that stands) and the linear
+   resonance at m_φ = M.
+2. **The off-diagonal sector is the anisotropic sector.** On the isotropic background the symmetric
+   combinations (u_ab + u_ba) obey exactly the anisotropic equation (the traceless-symmetric quintet of
+   the diagonal SO(3) is one representation) and the antisymmetric ones are the gauge direction and
+   its Gauss partner — proved at the algebra level for arbitrary background values
+   (`offdiag_axion.py` A, residuals 10⁻¹⁶) and measured on the true background (B): the whole 8-dim
+   block, its symmetric restriction and the anisotropic sector agree to the printed precision at
+   ω = 0.8, 2, 3, drift only; the gauge mode stays O(1); Gauss conserved to 10⁻¹⁵. The self-coupling's
+   role in this sector is the Yang–Mills mass 2Q² of the gauge triplet, which Gauss removes. The drive
+   enters each block as the single potential −κ z u₁₂u₂₁ (`rung1_axion.py`, sympy, all checks PASS).
+3. **The isotropic sector — the background's own direction — has a threshold in the drive.** Its
+   second-order terms do not cancel (coefficient −2κQ against +κQ): on the free-particle model
+   s″ = (3/4)c₁²Π s, confirmed to 0.5 % for the ghost, the healthy twin and the two-pole operator
+   (`axion_dressed.py` A2). On the real background that direction is the tangent of the family of
+   background orbits, with the quartic potential's own restoring curvature, and the tachyon has to
+   beat it: measured threshold ω²ϕ²Π(ω²) between 0.33 and 1.33 at ω = 2 (1.33 slowly unstable),
+   above 1.125 at ω = 3 and above 1.8 at ω = 1.5 over four cycles, none for ω < 1 (Part B, the
+   (ϕ, ω) scan on the exact background) — of order 1–2, not sharp in this variable; an averaged
+   estimate (3ω²ϕ²X²Π against 6⟨Q²⟩ = 2.74X²) puts it at 2. In physical variables: **ϕ² r²/(1 − r²)
+   ≳ 1–2, r = M/m_φ**, i.e. r ≳ 0.7–0.8 at ϕ = 1, r ≳ 0.45–0.7 at ϕ = 2, r ≳ 0.9 at ϕ = 0.5, with ϕ the
+   axion displacement at the end of inflation in units of f (not stated by Fujita et al.). Above it
+   the isotropic solution runs away in its own ghost content by 2.5–6 e-folds per Q period at ω = 2,
+   ϕ = 2–2.2 — the background is lost, and the anisotropic sector is carried along; the linear rate
+   above threshold is not cleanly measured (the background's own growing mode is seeded by the
+   approximate initial data). Below it, everything is marginal.
+4. **M > m_φ: stable**, every sector, every drive tested (ϕ up to 3). **M → ∞: marginal** (the Hill
+   control; pure Yang–Mills).
 
 **Contrast.** Yang–Mills mechanics (`paper/`): chaotic channel visits kick the ghost with a power
 law at every energy. Bianchi IX (`bianchi9/`): the smooth bounce is quiet, the ghost wakes at
 H ≈ 0.2 M, and the Einstein branch is a repeller by a power law only. Here: a periodic background
-with a fast drive, and the deciding fact is the sign of the ghost's response to the drive — above
-its pole (m_φ > M) the response flips sign and turns the Kapitza stabilisation into a tachyon,
-exponential, with a parameter-free e-fold count; below it nothing happens. Bianchi's healthy-scalar
-control ("the bounce excites the ghost no more than an ordinary particle") has its analogue in point
-5: the healthy twin is unstable on exactly the other side of the threshold, so the comparison is not
-"ghost unstable, healthy stable" but "which side", and only the sign decides it. Three backgrounds,
-three mechanisms (a spectral tail; coupling parity at a turning point; a pole sign), one
-pattern: the ghost is excited only where the background has a frequency that reaches M — the
-channel chirp in Yang–Mills, H ≈ 0.2 M in Bianchi IX, m_φ > M here.
+with a fast drive at m_φ; nothing at all unless m_φ > M, and then nothing at second order in the
+drive for the anisotropic field, because the ghost dresses the background and the perturbation
+alike; the one instability is of the isotropic solution itself, with a threshold set by the drive
+amplitude. The 14 Oct sentence "three mechanisms, one pattern: the ghost is excited only where the
+background has a frequency that reaches M" survives as the adiabatic half (m_φ > M is necessary);
+the "pole sign" mechanism it named for this background does not. The healthy-twin control is
+likewise redone: on its own dressed background the twin's anisotropic sector cancels the same way,
+and its isotropic threshold sits where its own full propagator is positive, 1/√2 < m_φ/M < 1.
 
-**Figures.** None yet; the numbers are in `results/axion_aniso.txt`.
+**Figures.** None yet; the numbers are in `results/axion_dressed.txt` and `results/offdiag_axion.txt`.
 
-**Status.** Working notes, 12–15 Oct 2026, in chronological order below. Flat space; the FRW
-integration with the a^{−5/2} envelope, the coupled axion (their A6), the isotropic
-(permutation-even) tangent, and the off-diagonal sector with the drive are not run. Each would
-change a prefactor, not the threshold, unless it introduces a new scale between H and m_φ.
+**Status.** Working notes, 12–15 Oct 2026, in chronological order below, with the 14–15 Oct
+sections kept as written and marked. Flat space; the FRW run, the coupled axion (their A6), the
+linear rate above the isotropic threshold, and the m_φ = M resonance are open. Each would change
+numbers, not the structure, unless it introduces a new scale between H and m_φ.
+
+### Superseded summary (14–15 Oct; kept for the record, see "The correction" above)
+
+The 14 Oct Summary stated: threshold M = m_φ for the anisotropic sector, tachyonic for M < m_φ with
+rate μ = gQϕ/√(2(1 − r²)) from two second-order terms (ghost pole + jitter of Q), e-folds through
+reheating 2.4 ϕ–9.8 ϕ, and (15 Oct, point 5) the sign rule D(m_φ²) > 0 with the healthy twin unstable
+on the other side. **Status (2026-10-15, evening): withdrawn.** All of it was measured on the
+M → ∞ background, inconsistent at O(1) for m_φ ~ M; on the self-consistent background the two
+terms cancel (point 1 above). The runs themselves (`axion_aniso.py`, `axion_twins.py`) are correct
+as statements about that model and are kept; their Parts A–B (checks, the frozen-Q map, the pole
+law, the Kapitza threshold, the tongue) stand.
 
 ## Layout
 
@@ -127,6 +132,20 @@ code/
                      C: Fujita's numbers in g = M = 1 and the law per Hubble time; D: direct two-frequency
                      integration on the driven background with the no-ghost and M > m_φ controls.
                                                                               (float; added 2026-10-14)
+  rung1_axion.py     ym/hdym_rung1.py with the axion drive κ(t) det A: the 24-dim first-order system of the
+                     off-diagonal components on the exact driven diagonal background (q, q′, q″, q‴ free,
+                     q⁗ from the diagonal equations); checks that the drive enters each block as the single
+                     potential −κ z u₁₂u₂₁, the Gauss law is unchanged, κ = 0 reproduces ym/rung1_system.pkl,
+                     the gauge zero modes are exact. Writes ../rung1_axion_system.pkl.  (sympy; added 2026-10-15)
+  offdiag_axion.py   the off-diagonal blocks on the driven isotropic background: the quintet algebra (the
+                     symmetric pair is the anisotropic equation exactly) and the direct run on the exact
+                     fourth-order background with the 8-dim block, its symmetric restriction, the Gauss surface
+                     and the 4-dim anisotropic sector side by side.                (float; added 2026-10-15)
+  axion_dressed.py   the correction of 15 Oct: the background dressed by the ghost's own response (full
+                     propagator Π); the periodic problem with the DC offset (anisotropic: cancellation;
+                     isotropic: (3/4)c₁²Π) for every heavy sector; the (ϕ, ω) scan of both sectors on the exact
+                     background (the isotropic threshold); Fujita's numbers. Imports axion_aniso, axion_twins.
+                                                                              (float; added 2026-10-15)
   axion_twins.py     the twin suite: the massless anisotropic direction coupled by the same drive to heavy
                      modes (σ_i, M_i) of either Krein sign — healthy twin, sixth-order two-pole operator,
                      tuned and reversed mass orders, heavy mode alone; the general law D(ω²) = Σσ_i/(M_i²−ω²)
@@ -141,8 +160,13 @@ results/
   axion_derive.txt   output of code/axion_derive.py (3 s), all checks PASS
   axion_aniso.txt    output of code/axion_aniso.py (374 s, cloud session 14 Oct, Python 3.13, scipy 1.18)
   axion_twins.txt    output of code/axion_twins.py (213 s, cloud session 15 Oct, Python 3.13, scipy 1.18)
+  rung1_axion.txt    output of code/rung1_axion.py (14 s, cloud session 15 Oct, sympy 1.14), all checks PASS
+  offdiag_axion.txt  output of code/offdiag_axion.py (23 s, cloud session 15 Oct)
+  axion_dressed.txt  output of code/axion_dressed.py (243 s, cloud session 15 Oct)
 rung1_frw_system.pkl the FRW linearisation (K, Gauss matrix G, zero modes, L2; lambdify over
                      x,y,z,px,py,pz,c_j,a,a1,a2); regenerated by code/rung1_frw.py in 20 s
+rung1_axion_system.pkl the driven linearisation (K, G, zero modes, q⁗ of the diagonal background; lambdify over
+                     x,y,z,px,py,pz,x2,y2,z2,x3,y3,z3,c_j,kappa); regenerated by code/rung1_axion.py in 14 s
 ```
 Also in `code/`: `frw_identity.py` (sympy: the Lee–Wick term on flat FRW in conformal time is the
 flat one with M → M a(η)) and `frw_ghost.py` (the isotropic diagonal ghost crossing its band in a
@@ -327,6 +351,11 @@ Not run: the isotropic (permutation-even) tangent; the off-diagonal sector with 
 integration (the a^{−5/2} estimate above assumes the flat-space rates follow the envelope); the
 coupled axion (their A6); ϕ_amp as a parameter (everything is linear in it). Not covered by the
 method: the growth once ε is no longer small (nonlinear), and inhomogeneous modes.
+Status (2026-10-15, evening): **superseded** — the law, the direct runs of Part D and the e-fold
+estimate were on the M → ∞ background, which misses the ghost's O(1) response to the drive when
+m_φ ~ M; on the self-consistent background the two second-order terms cancel (the correction
+section below). Parts A–B (checks, the frozen-Q map, the pole law, the Kapitza threshold) and C3
+(the tongue at M = m_φ/2) stand.
 
 **The twin suite (15 Oct): the sign rule** (`axion_twins.py`, `results/axion_twins.txt`; Summary
 point 5 quotes it). The PU equation is L = ½s′² − (½h′² − ½M²h²) − ½c(t)(s + h)², ε = s + h, a
@@ -363,6 +392,59 @@ M_h = M/2 (reversed order), and each heavy mode alone (Mathieu).
 Not run: more than two heavy poles (the law is written for any number); the twin cases in the
 physical e-fold estimate (same prefactors as the ghost, Summary point 3, with D in place of
 1/(ω² − 1)); the twin cases on the off-diagonal sector.
+Status (2026-10-15, evening): **superseded** — the direct runs of Part D, like those of the first
+run, used the M → ∞ background; on the self-consistent background the sign rule governs only the
+pole term and the anisotropic sector cancels (the correction section below). Parts A–C stand as
+statements about the periodic problem.
+
+**The off-diagonal sector with the drive, and the correction (15 Oct, evening)** (`rung1_axion.py`,
+`offdiag_axion.py`, `axion_dressed.py`; logs in `results/`; the Summary quotes them).
+
+- *Generator* (`rung1_axion.py`, sympy, 14 s, all checks PASS). `ym/hdym_rung1.py` with L_axion =
+  κ(t) det A: det A has no A₀ (Gauss law unchanged), the diagonal ansatz stays a consistent truncation,
+  L₂ − L₂(κ=0) = κ(−x u₂₃u₃₂ − y u₁₃u₃₁ − z u₁₂u₂₁) and nothing else, u⁗ coefficients −I, κ = 0
+  reproduces `ym/rung1_system.pkl` symbolically. The background is the exact driven diagonal one:
+  q, q′, q″, q‴ free, q⁗ from the diagonal fourth-order equations (ghost included) — the gauge zero
+  modes u = θ × A are then exact for any κ(t). A first version substituted the M → ∞ background;
+  on it the zero modes fail at O(κ), which is what started the correction.
+- *The quintet identity* (`offdiag_axion.py` A, 20 random background points, residuals ≤ 2×10⁻¹⁵):
+  the symmetric subspace u_ab = u_ba of each 8-dim block is invariant under K and K restricted to it
+  is the companion matrix of ε⁗ = −ε″ − κQε; the three blocks agree; the gauge zero mode is in ker G.
+  The antisymmetric half is a Pais–Uhlenbeck pair whose light branch is the gauge zero mode itself
+  (d ∝ Q(t), frequency √2 Q, the background's own) with the one Gauss condition in it.
+- *Direct run* (`offdiag_axion.py` B; exact background, dressed data, ϕ = 1, m_φ/gQ = 100, 6 Q
+  periods, ω = 0.8, 2, 3 and block 13 at 2): ln σ_max of the 8-dim block, its symmetric restriction,
+  the anisotropic 4-dim sector alongside and the block on the Gauss surface modulo the gauge
+  direction agree to the printed precision in every row (e.g. 5.87, 6.56, 6.97, 7.25, 7.48, 7.66 at
+  ω = 2: the O(1) transient, then ln t); |ΦZ₀| stays in [0.03, 1.5]; Gauss drift ≤ 1.1×10⁻¹⁴. On the
+  M → ∞ background the same block at ω = 0.8 grew 1.69 per cycle in its antisymmetric half, with
+  |ΦZ₀| reaching 4×10⁷ by cycle 12 and the Gauss drift 2×10⁵ — the gauge mode is not a solution on
+  a background that is not one. That was the signal.
+- *The dressing* (`axion_dressed.py`, docstring). The fourth-order isotropic equation gives
+  J̃ = Q″ + 2Q³ − κQ² with J̃″ + (1 + 6Q²)J̃ = −(κQ²)″ + …, so the fast jitter of Q under the drive is
+  δQ = κX²Π(ω²), Π(w) = 1/(w² − w) = −1/w + 1/(w − 1) (M = g = 1), where the M → ∞ background has
+  −1/w only; its DC product with the drive, ⟨κδQ⟩ = ⟨κ²⟩X²Π, is what the 14 Oct "jitter term"
+  computed with Π → −1/ω². Measured: the background's period at ω = 0.8 is 198 (exact) against 305
+  (M → ∞), the drive on Q being κQ²/(1 − ω²).
+- *Periodic problem* (`axion_dressed.py` A). A1: with c₀ = (c₁²/2)Π the massless pair's rate is 0 to
+  roundoff for the ghost at ω = 3, 1.5, 2.5, 5, and the residuals of every case where |Π| is large
+  scale as c₁² (4.6 c₁² for the ghost at ω = 0.8 and 0.6; 0.66 c₁² for the twin at 1.5; 0.13 c₁² for
+  the two-pole operator at 2.5), i.e. fourth order. A2: the isotropic model with c₁_iso = 2c₁,
+  c₀_iso = −(c₁_iso²/4)Π gives rate √((3/4)c₁_iso²Π) to 0.3 % (ghost ω = 3, 1.5, 2.5), 4 % (twin
+  ω = 0.8), 0.5 % (two poles ω = 1.5); zero wherever Π < 0.
+- *Threshold scan* (`axion_dressed.py` B; exact background, dressed data, m_φ/gQ = 100, 4 Q periods,
+  period from the smoothed zero crossings): see the table in the log and Summary point 3. Stable
+  rows show the free drift 0.69, 0.41, 0.29 after the first-cycle transient in both sectors; unstable
+  rows grow by 2.5–6 per cycle in both and the background moves (|Q| reaching 1.2–2.6 Q_amp within
+  four cycles) or blows up within a cycle (BLOW-UP rows, stopped at |Q| = 10 Q_amp). The run took
+  248 s; an earlier version with a longer period-detection span hung for 50 min on the (2, 2) point,
+  whose background runs away by the twelfth cycle — the threshold is slow there, not sharp.
+- *What is open from this.* The linear rate above the isotropic threshold: it needs the background on
+  its quasi-periodic solution to roundoff (the dressed initial data are O(10⁻³) off, seeding the
+  growing mode); a Newton iteration on the Q-period map would do it. The m_φ = M resonance (Π
+  singular; a first-order linear resonance of the background's ghost content with the drive). The
+  Lamé-gap argument for the isotropic direction, which predicts instability for any positive
+  tachyonic coefficient, is contradicted by the scan and is not understood.
 
 **Literature pass (14 Oct), post-inflationary anisotropic stability of the isotropic SU(2)
 background.** Nothing found that treats the anisotropic homogeneous perturbations while the axion
@@ -414,4 +496,11 @@ Summary); Hubble damping is an adiabatic estimate there, not a run; the rest sta
       Status (2026-10-15): the twin suite is done (`axion_twins.py`): the sign rule D(m_φ²) > 0, the
       healthy twin unstable on the other side, the sixth-order two-pole window; Summary point 5. The
       open list is unchanged.
+      Status (2026-10-15, evening): the off-diagonal sector with the drive is done (`rung1_axion.py`,
+      `offdiag_axion.py`) and exposed the inconsistent background; the correction (`axion_dressed.py`)
+      withdraws the 14–15 Oct conclusions and replaces them (Summary, rewritten): anisotropic and
+      off-diagonal sectors marginal at second order, the isotropic solution itself unstable above a
+      drive threshold ϕ²r²/(1−r²) ≳ 1–2, everything stable for M > m_φ. Open: the linear rate
+      above the threshold (needs the periodic background to roundoff), the m_φ = M resonance, the
+      FRW run, the coupled axion.
 - [ ] Inhomogeneous (k ≠ 0) perturbations on the isotropic background: decide whether in scope.

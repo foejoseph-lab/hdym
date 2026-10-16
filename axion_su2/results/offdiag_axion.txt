@@ -1,0 +1,59 @@
+offdiag_axion.py  python 3.13.16  numpy 2.5.3  (/usr/bin/python3)
+
+Part A: algebra at random isotropic background points (x = y = z = Q, kappa given)
+
+    symmetric subspace invariant under K: max residual 2.2e-16  PASS
+    K on it = companion of eps'''' = -eps'' - kappa Q eps: max difference 7.2e-16  PASS
+    the three blocks agree: 1.8e-15  PASS
+    gauge zero mode in ker G: 6.2e-16  PASS
+    So on the isotropic background the symmetric off-diagonal pair IS the anisotropic sector of
+    axion_aniso.py (the quintet is one representation); the antisymmetric pair is the gauge direction.
+[    0.1s] Part A done
+
+Part B: direct two-frequency integration on the exact 4th-order background (ghost included, dressed data),
+        m_phi/gQ = 100, phi = 1 (below the isotropic threshold of axion_dressed.py at every omega here), 6 Q periods;
+        per cycle: ln sigma_max of the 8-dim (u12,u21) block, of its symmetric restriction, of the anisotropic
+        4-dim sector alongside, of the block on the Gauss surface modulo the gauge direction; |Phi Z0| (the gauge
+        zero mode, exact: must stay O(1)); Gauss drift |G(t) Phi v|, v in ker G(0).
+
+  block 12, omega = 0.8, T_Q = 234.5:
+    cycle     8-d     sym   aniso  constr  |Phi Z0|     Gauss
+        1    5.82    5.82    5.82    5.82     1.118   8.8e-16
+        2    6.47    6.47    6.47    6.47     0.327   2.0e-15
+        3    6.84    6.84    6.84    6.84     1.465   3.1e-15
+        4    7.12    7.12    7.12    7.12     0.372   6.2e-15
+        5    7.25    7.25    7.25    7.25     1.149   5.7e-15
+        6    7.39    7.39    7.39    7.39     1.059   1.1e-14
+  block 12, omega = 2.0, T_Q = 248.9:
+    cycle     8-d     sym   aniso  constr  |Phi Z0|     Gauss
+        1    5.87    5.87    5.87    5.87     0.586   1.5e-15
+        2    6.56    6.56    6.56    6.56     0.026   1.6e-15
+        3    6.97    6.97    6.97    6.97     0.552   2.6e-15
+        4    7.25    7.25    7.25    7.25     0.985   2.0e-15
+        5    7.48    7.48    7.48    7.48     0.916   4.3e-15
+        6    7.66    7.66    7.66    7.66     0.418   4.1e-15
+  block 13, omega = 2.0, T_Q = 248.9:
+    cycle     8-d     sym   aniso  constr  |Phi Z0|     Gauss
+        1    5.87    5.87    5.87    5.87     0.586   1.1e-15
+        2    6.56    6.56    6.56    6.56     0.026   8.2e-16
+        3    6.97    6.97    6.97    6.97     0.552   2.0e-15
+        4    7.25    7.25    7.25    7.25     0.985   1.8e-15
+        5    7.48    7.48    7.48    7.48     0.916   2.4e-15
+        6    7.66    7.66    7.66    7.66     0.418   4.9e-15
+  block 12, omega = 3.0, T_Q = 173.5:
+    cycle     8-d     sym   aniso  constr  |Phi Z0|     Gauss
+        1    5.50    5.50    5.50    5.50     0.944   1.8e-15
+        2    6.19    6.19    6.19    6.19     0.830   9.4e-16
+        3    6.60    6.60    6.60    6.60     0.677   8.2e-16
+        4    6.89    6.89    6.89    6.89     0.502   2.4e-15
+        5    7.11    7.11    7.11    7.11     0.320   3.4e-15
+        6    7.30    7.30    7.30    7.30     0.135   4.6e-15
+
+  Reading: 'sym' equals 'aniso' (the quintet identity of Part A, now on a true solution); the 8-d and constrained
+  values saturate after the O(1) transient, the gauge mode stays O(1), Gauss is conserved to roundoff: on the
+  self-consistent background the off-diagonal sector is as marginal as the diagonal anisotropic one, on both
+  sides of M = m_phi, below the isotropic threshold.  (On the M -> infinity background the gauge direction grew
+  exponentially at omega = 0.8 -- the artefact that exposed the inconsistency; see axion_dressed.py.)
+[   22.6s] Part B done
+
+(23 s)

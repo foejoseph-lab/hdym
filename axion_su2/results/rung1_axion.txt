@@ -1,0 +1,36 @@
+[    0.0s] building the full homogeneous Lagrangian (12 functions) with kappa(t) det A
+    det A contains no A_0: PASS
+[    0.9s]    1431 terms
+[    0.9s] perturbation ansatz
+[    4.4s]    A_0 equations derived
+[    5.6s]    L expanded: L2 has 111 terms
+    L2 - L2(kappa=0) = kappa (-x u23 u32 - y u13 u31 - z u12 u21): PASS
+    O(eps^0): diagonal reduced Lagrangian with + kappa x y z: PASS
+    O(eps^1): vanishes (consistent truncation): PASS
+    Gauss law vanishes at O(eps^0): PASS
+[    8.2s]    linearised Gauss constraints built
+[    8.2s] Euler-Lagrange equations of L2
+    u'''' coefficients form -I: PASS
+[    8.9s] first-order form on the driven diagonal background q'' = -grad V + kappa grad(xyz) (M -> infinity)
+    diagonal q'''' equations are linear in q'''' with coefficient -1: PASS
+    q'''' involves kappa but not kappa', kappa'': PASS
+    equations are linear in the state: PASS
+    u'''' does not appear on the right-hand side: PASS
+    linearised Gauss constraints are linear in the state and depend on u up to u''': PASS
+    only kappa, kappa', kappa'' occur in K (no kappa''', kappa''''): PASS
+    (kappa occurs in K: True, kappa', kappa'': False; in G: False -- only through q'''' of the background)
+    gauge zero modes satisfy the linearised Gauss law with the drive: PASS
+    u = theta x A solves the driven linear equations for arbitrary kappa(t): PASS
+[   12.7s] comparing with the committed ym/rung1_system.pkl at kappa = 0
+    K at kappa = 0 on the ghost-free background equals the committed K: PASS
+    Gauss matrix at kappa = 0 on the ghost-free background equals the committed G: PASS
+[   12.8s] ALL STRUCTURAL CHECKS PASSED
+[   13.5s] wrote axion_su2/rung1_axion_system.pkl
+
+terms of K's u'''' rows that carry kappa, kappa' or kappa'' (what the drive adds), by row:
+  u''''_0 (u12(t)):  -kappa*u0_2*z
+  u''''_1 (u13(t)):  -kappa*u0_4*y
+  u''''_2 (u21(t)):  -kappa*u0_0*z
+  u''''_3 (u23(t)):  -kappa*u0_5*x
+  u''''_4 (u31(t)):  -kappa*u0_1*y
+  u''''_5 (u32(t)):  -kappa*u0_3*x

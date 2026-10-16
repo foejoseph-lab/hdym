@@ -1,0 +1,141 @@
+axion_dressed.py  python 3.13.16  numpy 2.5.3  (/usr/bin/python3)
+
+Part A: the periodic problem with the dressed DC offset, frozen X, every heavy sector
+
+A1  anisotropic: eps'''' + ... + (c0 + c1 cos omega t) eps with c0 = (c1^2/2) Pi(omega^2); massless-pair rate
+                  case  omega     c1 |       Pi |  rate c0=0    old law |  rate dressed
+                 ghost   3.00  0.030 |    0.014 |  2.500e-03  2.500e-03 |     0.000e+00
+                 ghost   1.50  0.030 |    0.356 |  1.264e-02  1.265e-02 |     0.000e+00
+                 ghost   2.50  0.030 |    0.030 |  3.703e-03  3.703e-03 |     0.000e+00
+                 ghost   0.80  0.030 |   -4.340 |  0.000e+00  0.000e+00 |     4.174e-03
+                 ghost   0.60  0.030 |   -4.340 |  0.000e+00  0.000e+00 |     4.433e-03
+          healthy twin   3.00  0.030 |   -0.236 |  0.000e+00  0.000e+00 |     4.845e-05
+          healthy twin   1.50  0.030 |   -1.244 |  0.000e+00  0.000e+00 |     5.948e-04
+          healthy twin   2.50  0.030 |   -0.350 |  0.000e+00  0.000e+00 |     8.776e-05
+          healthy twin   0.80  0.030 |    1.215 |  2.311e-02  2.339e-02 |     0.000e+00
+          healthy twin   0.60  0.030 |   -1.215 |  0.000e+00  0.000e+00 |     0.000e+00
+      ghost+healthy(2)   3.00  0.030 |   -0.186 |  0.000e+00  0.000e+00 |     3.462e-05
+      ghost+healthy(2)   1.50  0.030 |    0.927 |  2.040e-02  2.042e-02 |     0.000e+00
+      ghost+healthy(2)   2.50  0.030 |   -0.414 |  0.000e+00  0.000e+00 |     1.165e-04
+      ghost+healthy(2)   0.80  0.030 |   -4.043 |  0.000e+00  0.000e+00 |     3.911e-03
+      ghost+healthy(2)   0.60  0.030 |   -4.066 |  0.000e+00  0.000e+00 |     4.122e-03
+    ghost+healthy(1/2)   3.00  0.030 |   -0.100 |  0.000e+00  0.000e+00 |     1.331e-05
+    ghost+healthy(1/2)   1.50  0.030 |   -0.144 |  0.000e+00  0.000e+00 |     1.994e-05
+    ghost+healthy(1/2)   2.50  0.030 |   -0.136 |  0.000e+00  0.000e+00 |     2.095e-05
+    ghost+healthy(1/2)   0.80  0.030 |   -6.904 |  0.000e+00  0.000e+00 |     8.217e-03
+    ghost+healthy(1/2)   0.60  0.030 |  -13.431 |  3.114e-02  0.000e+00 |     2.673e-02
+      ghost+healthy(1)   3.00  0.030 |   -0.111 |  0.000e+00  0.000e+00 |     1.559e-05
+      ghost+healthy(1)   1.50  0.030 |   -0.444 |  0.000e+00  0.000e+00 |     1.247e-04
+      ghost+healthy(1)   2.50  0.030 |   -0.160 |  0.000e+00  0.000e+00 |     2.694e-05
+      ghost+healthy(1)   0.80  0.030 |   -1.562 |  0.000e+00  0.000e+00 |     8.231e-04
+      ghost+healthy(1)   0.60  0.030 |   -2.778 |  0.000e+00  0.000e+00 |     1.956e-03
+    Residuals where Pi < 0 (|Pi| large: the Kapitza and pole terms add) are higher order in c1 Pi: scaling test
+                  case  omega |     c1  dressed rate  rate/c1^2  old law(c1)
+                 ghost   0.80 |  0.030     4.174e-03      4.638    4.419e-02
+                 ghost   0.80 |  0.010     4.592e-04      4.592    1.473e-02
+                 ghost   0.80 |  0.003     4.128e-05      4.586    4.419e-03
+                 ghost   0.60 |  0.030     4.433e-03      4.925    4.419e-02
+                 ghost   0.60 |  0.010     4.916e-04      4.916    1.473e-02
+                 ghost   0.60 |  0.003     4.424e-05      4.915    4.419e-03
+          healthy twin   1.50 |  0.030     5.948e-04      0.661    2.366e-02
+          healthy twin   1.50 |  0.010     6.604e-05      0.660    7.888e-03
+          healthy twin   1.50 |  0.003     5.943e-06      0.660    2.366e-03
+      ghost+healthy(2)   2.50 |  0.030     1.165e-04      0.129    1.365e-02
+      ghost+healthy(2)   2.50 |  0.010     1.294e-05      0.129    4.550e-03
+      ghost+healthy(2)   2.50 |  0.003     1.165e-06      0.129    1.365e-03
+    (rate ~ c1^2 = a fourth-order term, against the uncancelled second-order c1 |Pi|^(1/2)/sqrt2: at the
+     physical c1 ~ 1e-5 omega^2 it is 1e-5 of the old law)  PASS: the second-order tachyon of the massless
+    direction is cancelled by the dressed jitter for every heavy sector.
+
+A2  isotropic: c1_iso = 2 c1, c0_iso = -(c1_iso^2/4) Pi; massless-pair rate vs sqrt(3/4 c1_iso^2 Pi)
+                  case  omega |       Pi |       rate        law   ratio
+                 ghost   3.00 |    0.014 |  6.124e-03  6.124e-03   1.000
+                 ghost   1.50 |    0.356 |  3.088e-02  3.098e-02   0.997
+                 ghost   2.50 |    0.030 |  9.070e-03  9.071e-03   1.000
+                 ghost   0.80 |   -4.340 |  0.000e+00  0.000e+00     nan
+                 ghost   0.60 |   -4.340 |  0.000e+00  0.000e+00     nan
+          healthy twin   3.00 |   -0.236 |  0.000e+00  0.000e+00     nan
+          healthy twin   1.50 |   -1.244 |  0.000e+00  0.000e+00     nan
+          healthy twin   2.50 |   -0.350 |  0.000e+00  0.000e+00     nan
+          healthy twin   0.80 |    1.215 |  5.490e-02  5.728e-02   0.958
+          healthy twin   0.60 |   -1.215 |  0.000e+00  0.000e+00     nan
+      ghost+healthy(2)   3.00 |   -0.186 |  0.000e+00  0.000e+00     nan
+      ghost+healthy(2)   1.50 |    0.927 |  4.975e-02  5.003e-02   0.995
+      ghost+healthy(2)   2.50 |   -0.414 |  0.000e+00  0.000e+00     nan
+      ghost+healthy(2)   0.80 |   -4.043 |  0.000e+00  0.000e+00     nan
+      ghost+healthy(2)   0.60 |   -4.066 |  0.000e+00  0.000e+00     nan
+    ghost+healthy(1/2)   3.00 |   -0.100 |  0.000e+00  0.000e+00     nan
+    ghost+healthy(1/2)   1.50 |   -0.144 |  0.000e+00  0.000e+00     nan
+    ghost+healthy(1/2)   2.50 |   -0.136 |  0.000e+00  0.000e+00     nan
+    ghost+healthy(1/2)   0.80 |   -6.904 |  1.945e-02  0.000e+00     inf
+    ghost+healthy(1/2)   0.60 |  -13.431 |  4.868e-02  0.000e+00     inf
+      ghost+healthy(1)   3.00 |   -0.111 |  0.000e+00  0.000e+00     nan
+      ghost+healthy(1)   1.50 |   -0.444 |  0.000e+00  0.000e+00     nan
+      ghost+healthy(1)   2.50 |   -0.160 |  0.000e+00  0.000e+00     nan
+      ghost+healthy(1)   0.80 |   -1.562 |  0.000e+00  0.000e+00     nan
+      ghost+healthy(1)   0.60 |   -2.778 |  0.000e+00  0.000e+00     nan
+    worst |ratio - 1| where the law is nonzero and omega >= 1.5: 5.5e-03  (PASS)
+    sign rule for the isotropic sector: tachyonic iff Pi(m_phi^2) = -1/m_phi^2 + D(m_phi^2) > 0 (massless pole included).
+[    0.4s] Part A done
+
+Part B: exact Lee-Wick isotropic background (ghost included, data on the dressed particular solution),
+        m_phi/gQ = 100, 4 Q periods (period from the zero crossings of the smoothed Q, else the dressed Kapitza formula):
+        per-cycle increments of ln sigma_max of the exact isotropic 4-d tangent
+        and of the anisotropic 4-d sector; a stable point shows the free drift ln(k+1)/k = 0.69, 0.41 after the
+        first-cycle transient, an unstable one grows by several per cycle and the background itself blows up
+        (its own growing mode, seeded by the imperfection of the initial data) -- the run then stops at |Q| > 10 Q_amp.
+
+   phi  omega     T_Q w^2phi^2Pi |           iso incr (4 cycles) |                    aniso incr |    verdict |Q|max/Q_amp
+   1.0   1.50   377.4      0.800 |    4.91    0.69    0.41    0.29 |    6.29    0.70    0.41    0.29 |     stable         1.00 (zc)
+   1.5   1.50   229.0      1.800 |    4.70    0.66   -0.53    0.93 |    5.75    0.65    0.35    0.20 |     stable         1.87 (formula)
+   2.0   1.50   191.8      3.200 |                               |                               |    BLOW-UP        10.00 (formula)  (stopped at t = 0.36 T_Q)
+   1.0   2.00   278.6      0.333 |    3.13    0.72    0.40    0.29 |    5.97    0.70    0.41    0.28 |     stable         1.00 (zc)
+   2.0   2.00   206.5      1.333 |    3.86    2.61    2.84    1.18 |    5.70    0.97    3.83    5.32 |   unstable         1.22 (zc)
+   2.2   2.00   118.9      1.613 |    6.39   -0.34    3.71    1.35 |    5.13    0.97    3.96    6.60 |   unstable         2.57 (zc)
+   2.5   2.00   203.6      2.083 |                               |                               |    BLOW-UP        10.00 (formula)  (stopped at t = 0.65 T_Q)
+   1.0   3.00   179.8      0.125 |    1.38    0.25    0.39    0.36 |    5.54    0.69    0.41    0.29 |     stable         1.00 (zc)
+   2.0   3.00   198.0      0.500 |    2.46    0.60    0.45    0.24 |    5.64    0.69    0.40    0.29 |     stable         1.00 (zc)
+   3.0   3.00   246.9      1.125 |    3.74    0.71    0.39    0.31 |    5.86    0.69    0.40    0.29 |     stable         1.00 (zc)
+   1.0   0.80   294.4     -2.778 |    5.10    0.67    0.44    0.24 |    6.02    0.68    0.35    0.25 |     stable         1.01 (zc)
+   3.0   0.80   100.1    -25.000 |    4.62    0.79   -0.86   -0.84 |    5.00    0.34   -0.29   -0.74 |     stable         1.83 (zc)
+
+  Threshold in w^2 phi^2 Pi: between 0.33 and 1.33 at omega = 2 (1.33 is slowly unstable, ~2.5 per cycle, the
+  background already moving), above 1.125 at omega = 3 and above 1.8 at omega = 1.5 over four cycles; none below
+  omega = 1 (Pi < 0).  So of order 1-2 and not sharp in this variable.  The averaged estimate -- the isotropic
+  tachyon 3 w^2 phi^2 X^2 Pi against the background's own restoring curvature 6 <Q^2> = 2.74 X^2, both ~ <cn^2>
+  -- puts it at 2: the right order (the isotropic direction is the tangent of the orbit family, not a free
+  particle).  The linear rate above threshold is not measured cleanly here: the background's own growing mode
+  is seeded at ~1e-3 by the approximate initial data and reaches O(1) within a cycle or two; what is seen is
+  2.5-6 per Q period at omega = 2, phi = 2-2.2.
+  The anisotropic sector follows once the background runs; below threshold it drifts (marginal).
+[  241.5s] Part B done
+
+Part C: the exact background's ghost content J~ = Q'' + 2Q^3 - kappa Q^2 on the dressed data, phi = 2: it stays at
+        its sourced value (the particular solution) at these points, which are all below threshold; the envelope
+        rate is that of the sourced part, not of a growing mode (the seed here is roundoff).
+
+    omega = 2.0: |J~| 2.5e-03 -> 3.4e-03 over t = 400; envelope rate (1e-10 < |J~| < 1e-3) 0.0049 per unit t; law 0.0432 (slow amplitude 0.0216); Q range [-0.025, 0.025]
+    omega = 3.0: |J~| 6.3e-03 -> 6.0e-03 over t = 400; envelope rate (1e-10 < |J~| < 1e-3) 0.0005 per unit t; law 0.0373 (slow amplitude 0.0304); Q range [-0.031, 0.031]
+    omega = 0.8: |J~| 2.1e-04 -> 2.6e-04 over t = 800; envelope rate (1e-10 < |J~| < 1e-3) 0.0001 per unit t; law 0.0000 (slow amplitude 0.0104); Q range [-0.014, 0.014]
+    The dressed drive on Q is kappa Q^2 omega^2 (-Pi) ... i.e. kappa Q^2/(1 - omega^2): reversed and weaker for omega > 1,
+    so the slow amplitude's Kapitza shift is small there.
+[  242.8s] Part C done
+
+Part D: Fujita's benchmark (axion_aniso.py Part C)
+
+    threshold of the isotropic runaway, phi^2 r^2/(1 - r^2) ~ 1-2 (Part B), as the smallest M/m_phi that runs away:
+      phi_amp = 0.3: r > 0.96-0.98
+      phi_amp = 0.5: r > 0.89-0.94
+      phi_amp = 1.0: r > 0.71-0.82
+      phi_amp = 2.0: r > 0.45-0.58
+      phi_amp = 3.0: r > 0.32-0.43
+    (phi_amp is the axion displacement at the end of inflation in units of f, not stated by Fujita et al.)
+    Above threshold the growth is 2.5-6 per Q period at (phi, r) = (2-2.2, 0.5) in the run, i.e. ~0.01-0.03 per unit
+    M^-1 at gQ/M = 0.02: in units of H_end that is ~0.01-0.03 x (M/H_end) = 0.01-0.03 x m_Q r m_phi/(gQ) -- large: the
+    isotropic solution is lost within a fraction of a Hubble time once the threshold is crossed.
+    anisotropic sector: marginal at second order; the ghost tongue at r = 1/2 stands (rate c1/4 = 2.50 per
+    Hubble time at its centre, relative width q phi = 9.6e-06), and the linear resonance at r = 1.
+    For M > m_phi everything is stable.
+[  242.8s] Part D done
+
+(243 s)
