@@ -74,8 +74,21 @@ the self-consistent background:
    ϕ = 2–2.2 — the background is lost, and the anisotropic sector is carried along; the linear rate
    above threshold is not cleanly measured (the background's own growing mode is seeded by the
    approximate initial data). Below it, everything is marginal.
+   Status (2026-10-16): the threshold is sharp and understood — it is λ_eff = 2 − ω²ϕ²Π(ω²) = 0, i.e.
+   **ϕ² r²/(1 − r²) = 2** exactly in the averaged theory (the drive renormalises the quartic coupling; the
+   Lamé-gap argument is resolved, section "The threshold, second look" below), and the exact background
+   confirms it off the ω = 2M tongue: steady at ω²ϕ²Π = 1.0, 1.33, 1.7, lost at 2.0–2.3 (`iso_lame_gap.py`).
+   The 1.33 row of Part B that was "slowly unstable" sits on that tongue. Above the threshold there is no
+   linear rate to measure: the averaged quartic potential is inverted and the orbit no longer exists; the
+   loss takes 0.4–0.9 of a Kapitza period. The open item "linear rate above threshold" is closed by that.
 4. **M > m_φ: stable**, every sector, every drive tested (ϕ up to 3). **M → ∞: marginal** (the Hill
    control; pure Yang–Mills).
+   Status (2026-10-16): with the amplitude of the drive relative to the Q oscillation allowed to grow (m_φ/gQ
+   down to 40, not 100), a second, Yang–Mills-own loss of the isotropic solution appears on both sides of
+   m_φ = M: the slow-drive (Kapitza-threshold) one of the isotropic Hill equation, at s_YM = 2ϕ gQ/m_φ
+   between 0.2 and 0.3 without the ghost, the same with the ghost far from resonance and lower near it
+   (`axion_frw_iso.py` B′). "Stable for M > m_φ" holds below that; above it pure Yang–Mills loses the
+   isotropic solution too, so it is not a ghost statement.
 
 **Contrast.** Yang–Mills mechanics (`paper/`): chaotic channel visits kick the ghost with a power
 law at every energy. Bianchi IX (`bianchi9/`): the smooth bounce is quiet, the ghost wakes at
@@ -88,6 +101,15 @@ background has a frequency that reaches M" survives as the adiabatic half (m_φ 
 the "pole sign" mechanism it named for this background does not. The healthy-twin control is
 likewise redone: on its own dressed background the twin's anisotropic sector cancels the same way,
 and its isotropic threshold sits where its own full propagator is positive, 1/√2 < m_φ/M < 1.
+Status (2026-10-16): "nothing at all unless m_φ > M" is the ghost-pole statement; the slow-drive loss
+(point 4) exists without the ghost. And in Fujita et al.'s own variables the picture closes: their
+(A11) fixes the axion amplitude at the end of inflation, ϕ_end = √3 (H_end/m_φ)(M_Pl/f) (the 14 Oct
+assumption ϕ_amp = 1 is replaced), so both thresholds are conditions on m_φ/H_end: the ghost-pole one
+m_φ/H_end < √(3/2)(M_Pl/f) r/√(1 − r²) (300 at r = 0.7, 630 at r = 0.9 for f = 0.004 M_Pl), the slow-drive
+one m_φ/H_end ≲ 130 (same f). At their benchmark m_φ/H_end = 5×10⁵ and ϕ_end = 8×10⁻⁴: the ghost does
+nothing to the isotropic solution, for any M. Where either threshold is reachable the gauge field's
+back-reaction on the axion is O(1) (relative size √2 ϕ_end, section below), so there the coupled
+system (their A6) is required and the prescribed-axion result is a map, not a verdict.
 
 **Figures.** None yet; the numbers are in `results/axion_dressed.txt` and `results/offdiag_axion.txt`.
 
@@ -95,6 +117,11 @@ and its isotropic threshold sits where its own full propagator is positive, 1/�
 sections kept as written and marked. Flat space; the FRW run, the coupled axion (their A6), the
 linear rate above the isotropic threshold, and the m_φ = M resonance are open. Each would change
 numbers, not the structure, unless it introduces a new scale between H and m_φ.
+Status (2026-10-16): the FRW run is done (`axion_frw_iso.py`; the expansion plays no part in the loss,
+which completes within Δa ≈ 0.1–0.4 of the end of inflation, and below threshold only dilutes the drive);
+the linear rate is closed (no such rate: the orbit ceases to exist); the m_φ = M resonance is the common
+limit of both thresholds (Π singular; both → 0 there) and is not run separately; the coupled axion is
+now the one open piece, with a known reason (back-reaction √2 ϕ_end, O(1) in the window).
 
 ### Superseded summary (14–15 Oct; kept for the record, see "The correction" above)
 
@@ -147,6 +174,14 @@ code/
                      isotropic: (3/4)c₁²Π) for every heavy sector; the (ϕ, ω) scan of both sectors on the exact
                      background (the isotropic threshold); Fujita's numbers. Imports axion_aniso, axion_twins.
                                                                               (float; added 2026-10-15)
+  iso_lame_gap.py    the Lamé-gap argument for the isotropic direction tested three ways (constant shift,
+                     Q²-shaped shift on the unshifted and on the consistently shifted orbit), then the
+                     exact background off the ω = 2M tongue: threshold ω²ϕ²Π = 2. Imports axion_frw_iso.
+                                                                              (float; added 2026-10-16)
+  axion_frw_iso.py   the FRW run of the isotropic threshold through matter-era reheating in the (Q, w)
+                     auxiliary form, ϕ_end from Fujita et al. (A11); the slow-drive (Kapitza-threshold)
+                     loss with its no-ghost control (B, B′); both thresholds as conditions on m_φ/H_end and
+                     the coupled-axion size estimate (C).                      (float; added 2026-10-16)
   axion_twins.py     the twin suite: the massless anisotropic direction coupled by the same drive to heavy
                      modes (σ_i, M_i) of either Krein sign — healthy twin, sixth-order two-pole operator,
                      tuned and reversed mass orders, heavy mode alone; the general law D(ω²) = Σσ_i/(M_i²−ω²)
@@ -164,6 +199,8 @@ results/
   rung1_axion.txt    output of code/rung1_axion.py (14 s, cloud session 15 Oct, sympy 1.14), all checks PASS
   offdiag_axion.txt  output of code/offdiag_axion.py (23 s, cloud session 15 Oct)
   axion_dressed.txt  output of code/axion_dressed.py (243 s, cloud session 15 Oct)
+  iso_lame_gap.txt   output of code/iso_lame_gap.py (~2 min, cloud session 16 Oct, Python 3.13, scipy 1.18)
+  axion_frw_iso.txt  output of code/axion_frw_iso.py (~6 min, cloud session 16 Oct, Python 3.13, scipy 1.18)
 rung1_frw_system.pkl the FRW linearisation (K, Gauss matrix G, zero modes, L2; lambdify over
                      x,y,z,px,py,pz,c_j,a,a1,a2); regenerated by code/rung1_frw.py in 20 s
 rung1_axion_system.pkl the driven linearisation (K, G, zero modes, q⁗ of the diagonal background; lambdify over
@@ -446,6 +483,71 @@ statements about the periodic problem.
   singular; a first-order linear resonance of the background's ghost content with the drive). The
   Lamé-gap argument for the isotropic direction, which predicts instability for any positive
   tachyonic coefficient, is contradicted by the scan and is not understood.
+  Status (2026-10-16): all three resolved or closed in the section "The threshold, second look" below:
+  the Lamé-gap argument assumed a constant shift of h, the dressed term is Q²-shaped and keeps the tangent
+  on the band edge, threshold ω²ϕ²Π = 2; no linear rate above it (the orbit is gone); the resonance is
+  where both thresholds meet zero.
+
+**The threshold, second look, and the FRW run (16 Oct)** (`iso_lame_gap.py`, `axion_frw_iso.py`; logs
+`results/iso_lame_gap.txt`, `results/axion_frw_iso.txt`, cloud session 16 Oct, Python 3.13, scipy 1.18).
+
+- *The Lamé-gap argument and why it fails.* On the undriven orbit the isotropic tangent ε″ + 6Q²ε = 0
+  is Lamé with n = 2, k² = ½, h = 3: the lower edge of the band [3, 4.5], the Jordan tangent of the
+  orbit family. A constant downward shift of h lands in the gap (1.5, 3), so "any positive tachyonic
+  coefficient destabilises" — that was the argument. The one-period monodromy (`iso_lame_gap.py`):
+  (a) constant shift −δ⟨Q²⟩: unstable for every δ > 0 (rate 0.35/T already at δ = 0.03); (b) a Q²-shaped
+  shift on the unshifted orbit, (6 − δ)Q²: also unstable; (c) the Q²-shaped shift on the consistently
+  shifted orbit, ε″ + 3λQ²ε = 0 on Q″ = −λQ³, λ = 2 − δ/3: multiplier exactly 1 for every λ > 0. The
+  dressed second-order isotropic equation (A2, (3/4)c₁_iso²Π with c₁_iso = 2κQ) is ε″ + (6 − 3κ²Π)Q²ε = 0
+  = ε″ + 3λ_eff Q² ε, λ_eff = 2 − κ_amp²Π = 2 − ω²ϕ²Π(ω²), and the averaged background is Q″ = −λ_eff Q³
+  (the Kapitza-averaged quartic with Π in place of −1/ω²): case (c). The tachyonic term is not a shift of
+  h but a rescaling of the Q² coefficient, which moves h and n(n+1)k² together along the band edge — as it
+  must, since the averaged equation is the linearisation of an autonomous averaged Hamiltonian system,
+  whose orbit family always has a Jordan tangent. Threshold: λ_eff = 0, **ω²ϕ²Π = 2 = ϕ² r²/(1 − r²)**,
+  sharp. Above it the averaged quartic potential is inverted: the background runs away, not a linear mode
+  on a periodic orbit (the orbit no longer exists). The README's averaged estimate of 15 Oct was this
+  number; now with the reason.
+- *Against the scan.* Exact background in the (Q, w) auxiliary form (Q″ = w − 2Q³, w″ + (1 + 6Q²)w = κQ²,
+  checked against the pickle's q⁗ to 5×10⁻¹⁶ and against three Part B rows), m_φ/gQ = 100, 8 periods:
+  at ω = 1.8, 2.4, 3.0 the background is steady at ω²ϕ²Π = 1.0, 1.33, 1.7 (amplitude 1.1 → 1.6 Q_amp,
+  growing as λ_eff shrinks, the (2/λ_eff)^{1/4} of the averaged orbit) and lost at 2.3 (0.4–0.55 T); at
+  exactly 2.0 it is lost at ω = 1.8 and steady at 2.2–2.8 Q_amp at ω = 2.4, 3.0 (the next order holds it).
+  At ω = 2.0 — the centre of the ghost pair's first parametric tongue, m_φ = 2M, which Part A of
+  `axion_dressed.py` skips and Part B did not — it is lost already at 1.33 (2.6 T) and 1.7. So Part B's
+  "1–2, not sharp" was the tongue; off it the threshold is 2.
+- *FRW run* (`axion_frw_iso.py`). Conformal time, comoving Q, M → M a(η), drive (g/f)(dφ/dη)Q³ (stage 2
+  and `axion_derive.py` CHECK 7): Q″ = a²w − 2Q³, w″ + (a² + 6Q²)w = a κ_phys Q². Reheating as in Fujita
+  et al.: the axion oscillates in its quadratic potential and dominates, H = H_end a^{−3/2}, ϕ(a) =
+  ϕ_end a^{−3/2}, **ϕ_end = √3 (H_end/m_φ)(M_Pl/f)** from their (A10)–(A11) (the earlier "ϕ_amp not stated
+  by them, taken as 1" missed these); the gauge field's energy is not fed back into H. Parameters
+  m_φ/H_end, r = M/m_φ, m_Q,end = 5, f = 0.004 M_Pl; a from 1 to 20; initial data Q = Q_end, physical
+  Q̇ = 0, the dressed particular solution for w. Results (Part A, 25 points):
+  - for m_φ/H_end ≥ 300 the averaged prediction holds row by row: lost iff λ_eff(a = 1) < 0 (r = 0.8, 0.9
+    at 300; r = 0.9 at 450; none at 700), the loss complete by a = 1.1–1.25, i.e. within a fraction of an
+    e-fold and well before the dilution crossing a_× = (ϕ_end²/(2(ω² − 1)))^{1/3} = 1.2–1.6; the
+    expansion plays no part. Below threshold the orbit persists with the larger amplitude of small λ_eff
+    (2.0–2.3 Q_end at λ_eff = 0.35–0.37) and relaxes as the drive dilutes.
+  - at m_φ/H_end = 100 every point is lost, including r = 1.2 (M > m_φ), and so is the no-ghost control
+    (Part B): this is the slow-drive instability of the isotropic Hill equation, pure Yang–Mills' own, at
+    s_YM = 2ϕ_end m_Q H_end/m_φ = 0.43. At 200, r = 1.2 is lost with the ghost (a = 2.4) and steady without
+    (s_YM = 0.11): near the resonance the ghost lowers that threshold. Part B′ (flat space, m_φ/gQ = 40,
+    16 periods) puts the pure-YM threshold between s_YM = 0.2 and 0.3 at ω = 0.5 and 0.833, the ghost
+    one the same at ω = 0.5 and below s = 0.2 at ω = 0.833 (lost after 2.2 T). The dressing 1/|1 − ω²| of
+    the drive on Q (Part C of `axion_dressed.py`) accounts for part of that, not all; the rest is the
+    "combination resonance near ω = 1" of `axion_dressed.py`'s docstring, not characterised.
+  - Both thresholds are quadratic in H_end/m_φ (Part C): ghost-pole m_φ/H_end < √(3/2)(M_Pl/f) r/√(1 − r²),
+    slow-drive m_φ/H_end < √(2√3 m_Q (M_Pl/f)/0.25) ≈ 130 at f = 0.004 M_Pl. At the benchmark (m_φ/H_end = 5.2×10⁵, ϕ_end = 8.3×10⁻⁴) λ_eff(1) =
+    2 − 3.5×10⁻⁷ r²/(1 − r²): nothing, for any M, short of 1 − r² < 3.5×10⁻⁷.
+- *The coupled axion, sized* (not run). The Euler–Lagrange equation of (g/f)φ̇Q³ for φ is φ̈ + m_φ²φ =
+  −(g/f) d(Q³)/dt. Relative to m_φ²φ, with g²Q⁴ ~ ρ_Q ~ M_Pl²H² (their ε_B = 1 at the end of inflation) and
+  ϕ_end from (A11), the back-reaction is of order √6 (M_Pl/f)(H_end/m_φ) = **√2 ϕ_end**: 1.2×10⁻³ at the
+  benchmark (consistent with their "the coupling barely moves q"), O(1) wherever either threshold above
+  is reachable, since both need ϕ_end = O(1). So the window the prescribed-axion runs locate is exactly
+  where the prescribed axion is not trustworthy: their A6–A7 with the ghost (the (Q, w) form plus the φ
+  equation, three second-order equations) is the run that decides it. Not done.
+- *What changes in the Summary* (Status lines there): point 3's threshold is sharp (2) and the rate item is
+  closed; point 4's "stable for M > m_φ" is scoped by the slow-drive loss; the Contrast gets the
+  m_φ/H_end form and the benchmark verdict; the coupled axion becomes the one open piece.
 
 **Literature pass (14 Oct), post-inflationary anisotropic stability of the isotropic SU(2)
 background.** Nothing found that treats the anisotropic homogeneous perturbations while the axion
@@ -504,4 +606,13 @@ Summary); Hubble damping is an adiabatic estimate there, not a run; the rest sta
       drive threshold ϕ²r²/(1−r²) ≳ 1–2, everything stable for M > m_φ. Open: the linear rate
       above the threshold (needs the periodic background to roundoff), the m_φ = M resonance, the
       FRW run, the coupled axion.
+      Status (2026-10-16): the threshold is ϕ²r²/(1−r²) = 2, sharp, with the Lamé-gap argument resolved
+      (`iso_lame_gap.py`); the FRW run is done (`axion_frw_iso.py`): the expansion plays no part, the loss
+      completes within Δa ≈ 0.1–0.4; a second, pure-Yang–Mills slow-drive loss at s_YM = 2ϕ gQ/m_φ ≈ 0.2–0.3
+      on both sides of m_φ = M; ϕ_end fixed by their (A11), so both thresholds are conditions on m_φ/H_end
+      (300–630 and ≈130 at f = 0.004 M_Pl), unreachable at their benchmark by many orders. The rate item
+      is closed (no linear rate exists), the resonance is the common limit of both thresholds. Open: the
+      coupled axion (their A6 with the ghost), required in the window because the back-reaction is
+      √2 ϕ_end = O(1) there; the near-resonance ghost lowering of the slow-drive threshold (not
+      characterised).
 - [ ] Inhomogeneous (k ≠ 0) perturbations on the isotropic background: decide whether in scope.

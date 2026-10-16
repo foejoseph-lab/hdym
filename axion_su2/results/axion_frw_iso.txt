@@ -1,0 +1,104 @@
+axion_frw_iso.py  python 3.13.16  numpy 2.5.3  (/usr/bin/python3)
+
+Part 0: checks
+
+    (Q, w) form vs pickle q4, 20 random points: worst relative residual 4.6e-16  (PASS)
+    flat, omega = 2.0, phi = 1.0: stable (axion_dressed.py B: stable)  (PASS)
+    flat, omega = 2.0, phi = 2.5: BLOW-UP at 0.56 T (axion_dressed.py B: BLOW-UP)  (PASS)
+    flat, omega = 3.0, phi = 3.0: stable (axion_dressed.py B: stable)  (PASS)
+[    2.2s] Part 0 done
+
+Part A: f/M_Pl = 0.004, m_Q,end = 5.0, matter-era reheating, a from 1 to 20; phi_end = sqrt3 (H_end/m_phi)(M_Pl/f) from their (A11).
+        Averaged prediction: lost iff lam_eff(1) = 2 - phi_end^2/(omega^2 - 1) < 0, for a < a_x (m_phi > M only).
+        s_YM = 2 phi_end m_Q H_end/m_phi: the slow-drive parameter c1_iso/omega^2 of pure Yang-Mills; s_dr = s_YM/|1 - omega^2|
+        the ghost-dressed one (Part B' locates their threshold).  Columns per e-fold of a (a in [1,e), [e,e^2),
+        [e^2,e^3), [e^3,20]): max|Q|/Q_end, ln e/e0 with e = Q'^2/2 + Q^4/2 comoving (the jitter velocity is in e).
+
+  m_phi/H     r phi_end lam_eff(1)   a_x  s_YM  s_dr |       efold 0        efold 1        efold 2        efold 3 | verdict a_blow     nfev
+      100  0.50   4.330     -4.250  1.46  0.43  0.14 |  10.00  11.87       -      -       -      - |    LOST   1.28     1892   (averaged: lost)   [    2s]
+      100  0.70   4.330    -16.015  2.08  0.43  0.42 |  10.00  10.13       -      -       -      - |    LOST   1.17     1361   (averaged: lost)   [    2s]
+      100  0.80   4.330    -31.333  2.55  0.43  0.77 |  10.00  11.26       -      -       -      - |    LOST   1.11      905   (averaged: lost)   [    2s]
+      100  0.90   4.330    -77.934  3.42  0.43  1.85 |  10.00   9.88       -      -       -      - |    LOST   1.07      680   (averaged: lost)   [    2s]
+      100  1.20   4.330     63.364   nan  0.43  1.42 |  10.00  11.82       -      -       -      - |    LOST   1.19     1742   (averaged: stable)   [    2s]
+      200  0.50   2.165      0.437   nan  0.11  0.04 |   1.38   1.71    1.23   1.48    1.22   1.80 |  steady    nan   336902   (averaged: stable)   [   11s]
+      200  0.70   2.165     -2.504  1.31  0.11  0.10 |  10.00  10.84       -      -       -      - |    LOST   1.22     2474   (averaged: lost)   [   11s]
+      200  0.80   2.165     -6.333  1.61  0.11  0.19 |  10.00  10.01       -      -       -      - |    LOST   1.14     1604   (averaged: lost)   [   11s]
+      200  0.90   2.165    -17.984  2.15  0.11  0.46 |  10.00  11.90       -      -       -      - |    LOST   1.13     1739   (averaged: lost)   [   11s]
+      200  1.20   2.165     17.341   nan  0.11  0.35 |  10.00  11.75       -      -       -      - |    LOST   2.40    21923   (averaged: stable)   [   12s]
+      300  0.50   1.443      1.306   nan  0.05  0.02 |   1.15   0.87    1.08   0.44    1.08   0.52 |  steady    nan   466490   (averaged: stable)   [   23s]
+      300  0.70   1.443     -0.002  1.00  0.05  0.05 |   1.96   3.54    1.66   2.66    1.65   3.00 |  steady    nan   561056   (averaged: lost)   [   36s]
+      300  0.80   1.443     -1.704  1.23  0.05  0.09 |  10.00  10.80       -      -       -      - |    LOST   1.23     3515   (averaged: lost)   [   36s]
+      300  0.90   1.443     -6.882  1.64  0.05  0.21 |  10.00  11.43       -      -       -      - |    LOST   1.13     2165   (averaged: lost)   [   36s]
+      300  1.20   1.443      8.818   nan  0.05  0.16 |   2.17   6.07    2.18   6.34    2.17   7.16 |  steady    nan   944273   (averaged: stable)   [   58s]
+      450  0.50   0.962      1.691   nan  0.02  0.01 |   1.07   0.47    1.05   0.24    1.05   0.26 |  steady    nan   614444   (averaged: stable)   [   72s]
+      450  0.70   0.962      1.110   nan  0.02  0.02 |   1.34   1.87    1.25   1.25    1.25   1.45 |  steady    nan   722690   (averaged: stable)   [   88s]
+      450  0.80   0.962      0.354   nan  0.02  0.04 |   1.92   3.85    1.67   2.77    1.66   3.13 |  steady    nan   872555   (averaged: stable)   [  108s]
+      450  0.90   0.962     -1.947  1.25  0.02  0.09 |  10.00  11.21       -      -       -      - |    LOST   1.18     3932   (averaged: lost)   [  108s]
+      450  1.20   0.962      5.030   nan  0.02  0.07 |   1.69   4.13    1.71   3.38    1.71   3.90 |  steady    nan  1274669   (averaged: stable)   [  137s]
+      700  0.50   0.619      1.872   nan  0.01  0.00 |   1.04   0.28    1.03   0.13    1.03   0.13 |  steady    nan   836942   (averaged: stable)   [  157s]
+      700  0.70   0.619      1.632   nan  0.01  0.01 |   1.16   1.07    1.12   0.61    1.12   0.65 |  steady    nan   949799   (averaged: stable)   [  178s]
+      700  0.80   0.619      1.320   nan  0.01  0.02 |   1.37   2.14    1.30   1.40    1.30   1.60 |  steady    nan  1119884   (averaged: stable)   [  204s]
+      700  0.90   0.619      0.369   nan  0.01  0.04 |   2.32   5.22    2.00   3.91    1.98   4.43 |  steady    nan  1489502   (averaged: stable)   [  239s]
+      700  1.20   0.619      3.252   nan  0.01  0.03 |   1.43   2.80    1.44   2.08    1.44   2.26 |  steady    nan  1574663   (averaged: stable)   [  275s]
+[  275.3s] Part A done
+
+Part B: pure Yang-Mills control (no ghost, Q'' = -2Q^3 + a kappa Q^2) at every point with m_phi/H_end <= 200
+        and at the r = 1.2 points of 300 and 450: the slow-drive instability exists without the ghost.
+
+      100  0.50 phi_end  4.330 s_YM  0.43 |  10.00   9.55       -      -       -      - |    LOST   1.19   [  275s]
+      100  0.70 phi_end  4.330 s_YM  0.43 |  10.00   9.55       -      -       -      - |    LOST   1.19   [  275s]
+      100  0.90 phi_end  4.330 s_YM  0.43 |  10.00   9.55       -      -       -      - |    LOST   1.19   [  275s]
+      100  1.20 phi_end  4.330 s_YM  0.43 |  10.00   9.55       -      -       -      - |    LOST   1.19   [  275s]
+      200  0.50 phi_end  2.165 s_YM  0.11 |   1.48   2.81    1.51   2.03    1.51   1.71 |  steady    nan   [  282s]
+      200  0.70 phi_end  2.165 s_YM  0.11 |   1.48   2.81    1.51   2.03    1.51   1.71 |  steady    nan   [  288s]
+      200  0.90 phi_end  2.165 s_YM  0.11 |   1.48   2.81    1.51   2.03    1.51   1.71 |  steady    nan   [  294s]
+      200  1.20 phi_end  2.165 s_YM  0.11 |   1.48   2.81    1.51   2.03    1.51   1.71 |  steady    nan   [  300s]
+      300  0.70 phi_end  1.443 s_YM  0.05 |   1.30   2.04    1.31   1.34    1.31   1.11 |  steady    nan   [  307s]
+      300  1.20 phi_end  1.443 s_YM  0.05 |   1.30   2.04    1.31   1.34    1.31   1.11 |  steady    nan   [  315s]
+      450  1.20 phi_end  0.962 s_YM  0.02 |   1.16   1.35    1.16   0.78    1.16   0.62 |  steady    nan   [  324s]
+[  323.9s] Part B done
+
+Part B': the slow-drive threshold in flat space, 16 Q periods, m_phi/gQ = 40 (Q_amp = omega/40):
+         phi chosen so that s = 2 phi Q_amp/(omega |1 - omega^2|) (with ghost) or s_YM = 2 phi Q_amp/omega (no ghost)
+         takes the listed values; LOST = |Q| > 10 Q_amp.  omega = 0.5 (far from M) and 0.833 (r = 1.2, near it).
+
+  omega     s phi (ghost)    ghost  phi (YM)  no ghost
+  0.500  0.20       3.000   steady     4.000    steady   [  328s]
+  0.500  0.30       4.500 LOST 0.2T     6.000 LOST 0.2T   [  328s]
+  0.500  0.40       6.000 LOST 0.1T     8.000 LOST 0.1T   [  329s]
+  0.500  0.50       7.500 LOST 0.1T    10.000 LOST 0.2T   [  329s]
+  0.500  0.70      10.500 LOST 0.1T    14.000 LOST 0.1T   [  329s]
+  0.833  0.20       1.224 LOST 2.2T     4.000    steady   [  331s]
+  0.833  0.30       1.837 LOST 0.8T     6.000 LOST 0.2T   [  331s]
+  0.833  0.40       2.449 LOST 0.4T     8.000 LOST 0.1T   [  331s]
+  0.833  0.50       3.061 LOST 0.3T    10.000 LOST 0.2T   [  331s]
+  0.833  0.70       4.286 LOST 0.1T    14.000 LOST 0.1T   [  331s]
+[  331.0s] Part B' done
+
+Part C: Fujita et al.'s benchmark (axion_aniso.py GEV: g = 1e-12, m_Q,end = 5, m_phi = 5e10 GeV, f = 0.004 M_Pl)
+
+    H_end = 9.60e+04 GeV (their (33)), h_end = H_end/m_phi = 1.92e-06, phi_end = sqrt3 h_end M_Pl/f = 8.31e-04 (their (A11))
+    r = 0.9: lam_eff(1) = 2 - phi_end^2 r^2/(1 - r^2) = 1.999997  (stable; the threshold needs 1 - r^2 < 3.5e-07)
+    r = 0.99: lam_eff(1) = 2 - phi_end^2 r^2/(1 - r^2) = 1.999966  (stable; the threshold needs 1 - r^2 < 3.5e-07)
+    r = 0.999: lam_eff(1) = 2 - phi_end^2 r^2/(1 - r^2) = 1.999655  (stable; the threshold needs 1 - r^2 < 3.5e-07)
+    The threshold phi_end^2 r^2/(1 - r^2) > 2 with phi_end = sqrt3 (H_end/m_phi)(M_Pl/f) reads
+        m_phi/H_end < sqrt(3/2) (M_Pl/f) r/sqrt(1 - r^2):
+        f/M_Pl = 0.002: r = 0.5:    354, r = 0.7:    600, r = 0.9:   1264
+        f/M_Pl = 0.004: r = 0.5:    177, r = 0.7:    300, r = 0.9:    632
+        f/M_Pl = 0.04: r = 0.5:     18, r = 0.7:     30, r = 0.9:     63
+    against the fast-drive condition m_phi >> g Q_end = m_Q H_end = 5 H_end.
+    The slow-drive threshold of Part B', s_YM = 2 phi_end m_Q H_end/m_phi = 2 sqrt3 m_Q (M_Pl/f)(H_end/m_phi)^2 between
+    0.2 and 0.3 (pure Yang-Mills, any M; with the ghost the same far from resonance, lower near it) reads, at 0.25,
+    m_phi/H_end < sqrt(2 sqrt3 m_Q (M_Pl/f)/0.25):
+        f/M_Pl = 0.002: m_phi/H_end <   186
+        f/M_Pl = 0.004: m_phi/H_end <   132
+        f/M_Pl = 0.04: m_phi/H_end <    42
+    Both thresholds are quadratic in H_end/m_phi; both are out of reach at the benchmark by six and nine orders of
+    magnitude in that ratio squared.  The gauge field's back-reaction on the axion (their A6; EL of (g/f) phidot Q^3
+    for phi: phiddot + m_phi^2 phi = -(g/f) d(Q^3)/dt), relative to m_phi^2 phi with g^2 Q^4 ~ rho_Q ~ M_Pl^2 H^2 (their
+    epsilon_B = 1), is of order sqrt6 (M_Pl/f)(H_end/m_phi) = sqrt2 phi_end: negligible at the benchmark (1e-3) and O(1)
+    wherever either threshold is reachable.  So in the window the prescribed-axion runs locate, the coupled system is
+    required; outside it the ghost does nothing to the isotropic solution.
+[  331.0s] Part C done
+
+(331 s)
