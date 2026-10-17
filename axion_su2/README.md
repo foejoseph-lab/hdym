@@ -199,6 +199,9 @@ code/
                      (g²/2)f² (ghost / twin / M → ∞, tangents checked against the core's linearisation, the test
                      scalar's own growth reported); the ghost's tongue at five probe masses. Imports probe_core.
                                                                               (float; added 2026-10-16, revised)
+  axion_probes_spread.py the loss-time spread of L1: the boson+F row with 10⁻⁶-perturbed initial data at two
+                     tolerances, both ω, and the twin / M → ∞ controls with the same perturbations. Imports axion_probes.
+                                                                              (float; added 2026-10-16)
   axion_probes_long.py the two open items of axion_probes.py with back-reaction: m_p = 0 over 60 periods (the
                      threshold is lowered with the ghost) and m_s ≈ M on the undriven orbit (preheating feeds the
                      ghost's tongue); written to the local-run protocol (CHECK line, CONTROL-FAIL tags, DONE).
@@ -224,6 +227,8 @@ results/
   axion_frw_iso.txt  output of code/axion_frw_iso.py (~6 min, cloud session 16 Oct, Python 3.13, scipy 1.18)
   probe_derive.txt   output of code/probe_derive.py (6 s, cloud session 16 Oct, sympy 1.14), all checks PASS (CHECK 5b added)
   axion_probes.txt   output of code/axion_probes.py, revised version (10 min, cloud session 16 Oct, Python 3.13, scipy 1.18)
+  axion_probes_spread.txt output of code/axion_probes_spread.py (17 min, cloud session 16 Oct): the loss-time spread
+                     (8 of 20 ghost runs lost within 60 T) and the perturbed controls (0 of 10)
   axion_probes_long.txt output of code/axion_probes_long.py, with the c(t), 6g²Q² and constant-force (`boson+F`) columns
                      (10 min, cloud session 16 Oct, Python 3.13, scipy 1.18)
 rung1_frw_system.pkl the FRW linearisation (K, Gauss matrix G, zero modes, L2; lambdify over
@@ -755,6 +760,29 @@ c climbs to 0.27; c crosses ¼ first (cycle 32, 27, 47, 29 in the four lost rows
 6g²Q² one cycle later (33, 28, 48, 29) — i.e. only in the loss cycle itself, when |Q| is already running to
 10 Q_amp. The probe-induced term carries the isotropic sector across; the Hessian follows.
 
+Status (2026-10-16, night, third review; `axion_probes_spread.py`, `results/axion_probes_spread.txt`, 17 min):
+**the loss time is not a rate either — the loss is realisation-dependent.** The `both` and `boson+F` rows integrate
+the same ODE and lost at 32.1 vs 27.1 T and 47.0 vs 28.5 T: roundoff amplified by a pumped, ultimately unstable
+system. Measured on the `boson+F` row at ω²ϕ²Π = 1.7 with initial data perturbed by 10⁻⁶ (five seeds) at two
+tolerances: with the ghost, **8 of 20 runs lose the background within 60 T** (ω = 2.4: 5 of 10, at 12–46 T; ω = 3.0:
+3 of 10, at 30–48 T, all three at the tighter tolerance), the other 12 survive the 60 cycles; c crossed ¼ in every
+lost run, within one cycle of the loss in six of the eight and 19 cycles before it in one. The perturbed controls:
+twin 0 of 5 and M → ∞ 0 of 5 lost, c ≤ 10⁻⁴ throughout, the background flat (1.66 and 1.33 Q_amp). So what L1
+supports is: with the ghost a massless boson on an orbit with nonzero mean pumps c toward the collision value and
+the orbit is lost in a fraction of realisations on this time scale, a sensitive process, and in none without the
+ghost; neither a threshold nor a rate but a fraction, to be quoted as such (8/20 against 0/10, with the 60-cycle
+horizon stated). **The framing (reviewer, point 1, conventions checked against Adshead–Wyman arXiv:1203.2264 eqs.
+1–6):** "an orbit with nonzero mean" is the inflationary regime of this very model — in chromo-natural inflation
+A^a_i = ψ(t)a(t)δ^a_i with ψ driven onto the attractor ψ_min = (μ⁴ sin(𝒳/f)/3g̃λH)^{1/3} and held there, a nonzero
+slowly varying mean; the mean is supplied by the axion's own drive with φ̇ of fixed sign (in this folder's flat
+language: constant κ gives Q̈ = −2Q³ + κQ² the equilibrium Q₀ = κ/2), no fermion needed. (Their −(λ/8f)𝒳FF̃ with
+F̃ = εF is this folder's (1/4f)φFF̃ with F̃ = εF/2 up to the ε⁰¹²³ sign fixed in `axion_derive.py` CHECK 2.) So the
+question the probe result raises is whether a massless charged scalar — the Higgs doublet, which exists — pumps
+the ghost during inflation and its tail; the run is a constant κ holding Q near κ/2, the doublet running, ghost
+against twin and M → ∞, with the same fraction statistics. Not yet run. And the fermion statement is scoped: the
+*m_p = 0* fermion reduces to a constant force; at m_D ≠ 0 it evolves (Part A's n₋ moves between 0.1 and 0.6 at
+gQ_amp) and is a participant.
+
 So for the paper: the ghost-specific instability in this space is a probe-induced anisotropic mass reaching the
 Lee–Wick pole-collision value, g f = M/√2 — not a tongue, not a resonance; the twin cannot do it; Yang–Mills alone
 cannot. The twin's limit Q < M/√6 is intrinsic: any Lagrangian twin that keeps the potential and matter coupled to
@@ -841,6 +869,10 @@ boson drives the ghost pair and not a healthy pair (Part B, twin sign fixed).
 - [ ] Probes (16 Oct): derivation and core done (`probe_derive.py`, `probe_core.py`); the runs with the probe
       columns on this background are next (isotropic threshold table; anisotropic and off-diagonal sectors with
       the scalar's (g²/2)f² mass). Then the same on `dilaton_su2/`.
+      Status (2026-10-16, night, third review): the loss is realisation-dependent — 8 of 20 perturbed ghost runs lose
+      the background within 60 T, 0 of 10 controls (`axion_probes_spread.py`); quote the fraction, not a rate. The
+      framing is chromo-natural inflation's own nonzero-mean background (Adshead–Wyman), where the axion supplies
+      the mean: next run, constant κ with a massless doublet, ghost vs controls. Fermion statement scoped to m_p = 0.
       Status (2026-10-16, night, second review): the m_D = 0 fermion is a constant force (σ_x eigenstate for all t),
       and the pump returns with that force alone (`boson+F`: lost at 27–29 T) — not three-body; c crosses ¼ before
       the Hessian term 6g²Q² in every lost row. Open: whether another source of a nonzero mean Q pumps without a

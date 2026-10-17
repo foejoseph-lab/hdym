@@ -1,0 +1,38 @@
+  iso_rhs against probe_core.rhs on x = y = z, all switches, random points: max rel err 3.8e-16 PASS
+  omega   rtol seed | lost at (T)   | c > 1/4 at cycle
+   2.40  1e-09    0 | 12.08362270030105 |    12
+   2.40  1e-09    1 | 44.92137284286029 |    45
+   2.40  1e-09    2 |         > 60 |     -
+   2.40  1e-09    3 | 45.66604824076832 |    26
+   2.40  1e-09    4 | 45.238114570090424 |    44
+   2.40  1e-11    0 | 24.66914998118837 |    25
+   2.40  1e-11    1 |         > 60 |     -
+   2.40  1e-11    2 |         > 60 |     -
+   2.40  1e-11    3 |         > 60 |     -
+   2.40  1e-11    4 |         > 60 |     -
+  omega = 2.4: loss time range 12.1 - 45.7 T over 5 of 10 runs (median 44.9 T)
+   3.00  1e-09    0 |         > 60 |     -
+   3.00  1e-09    1 |         > 60 |     -
+   3.00  1e-09    2 |         > 60 |     -
+   3.00  1e-09    3 |         > 60 |     -
+   3.00  1e-09    4 |         > 60 |     -
+   3.00  1e-11    0 |         > 60 |     -
+   3.00  1e-11    1 | 48.11408655427623 |    48
+   3.00  1e-11    2 | 34.96020074660484 |    34
+   3.00  1e-11    3 | 30.159323027908158 |    30
+   3.00  1e-11    4 |         > 60 |     -
+  omega = 3.0: loss time range 30.2 - 48.1 T over 3 of 10 runs (median 35.0 T)
+  controls, same perturbations, omega = 2.4, rtol 1e-9: twin (both probes) and M -> infinity (both)
+  heavy seed | lost at (T)   | max c over 60 cycles | |Q|max/Q_amp max
+   twin    0 |         > 60 |   0.0001 |   1.66
+   twin    1 |         > 60 |   0.0001 |   1.66
+   twin    2 |         > 60 |   0.0001 |   1.66
+   twin    3 |         > 60 |   0.0001 |   1.66
+   twin    4 |         > 60 |   0.0001 |   1.66
+    inf    0 |         > 60 |   0.0001 |   1.33
+    inf    1 |         > 60 |   0.0001 |   1.33
+    inf    2 |         > 60 |   0.0001 |   1.33
+    inf    3 |         > 60 |   0.0001 |   1.33
+    inf    4 |         > 60 |   0.0001 |   1.33
+DONE 1028
+exit=0
