@@ -29,7 +29,9 @@ System (units g = M = 1 by default; g and M are parameters so the checks can kee
         ghost (sigma = +1) is the Lee-Wick theory above.  twin (sigma = -1) flips the heavy sector to
         a healthy oscillator in the (p, w) variables, L_twin = L' + |wdot|^2 - M^2|w|^2, i.e.
         1/2|pdot|^2 + 1/2|wdot|^2 - V(q) - w.grad V(q) - M^2/2 |w|^2 with p = q + w: a mathematics /
-        code control, not a model.  It is defined only with Theta = 1 (with the dilaton on, any sign
+        code control, not a model.  Its heavy sector's effective coefficient is M^2 - Hess V, so it is a
+        control only where Q << M (for 6 Q^2 > M^2 the "healthy" sector is tachyonic on its own).  It is
+        defined only with Theta = 1 (with the dilaton on, any sign
         flip of the w sector makes the kinetic matrix degenerate at some Theta; the dilaton's twin
         control is done on the periodic-coefficient equations instead).
 
