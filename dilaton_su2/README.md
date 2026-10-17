@@ -57,6 +57,8 @@ derivation settles:
 - FRW: √−g Θ F·F is independent of a(η), so the dilaton drive is conformal like the axion's; stage 2
   of `axion_su2/` (M → M a(η)) carries over to both columns.
 
+Status (2026-10-17): decided by Joseph — **column A primary** (literature-backed), **column B as the control**.
+
 Recommendation for the sub-decision (Joseph's call): column A as the primary — it is the cited coupling,
 leaves the Gauss law and the ghost sector's constraint structure untouched, and the off-diagonal
 machinery of `axion_su2/` carries over with one factor; column B as the twin control in the runs,
@@ -85,7 +87,7 @@ results/
 ## Status / open
 
 - [x] Derivation, both columns (16 Oct).
-- [ ] Sub-decision on the column, by Joseph (recommendation above).
+- [x] Sub-decision on the column: A primary, B control (Joseph, 17 Oct).
 - [ ] Anisotropic Floquet scan (a Hill equation in u; no background needed).
 - [ ] Isotropic background with the drive: threshold or pump; no-ghost and M > m_φ controls; averaged equation.
 - [ ] Adshead et al.'s parameters in g = M = 1 (their appendix and parameter tables not yet read).

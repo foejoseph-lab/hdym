@@ -199,6 +199,9 @@ code/
                      (g²/2)f² (ghost / twin / M → ∞, tangents checked against the core's linearisation, the test
                      scalar's own growth reported); the ghost's tongue at five probe masses. Imports probe_core.
                                                                               (float; added 2026-10-16, revised)
+  axion_probes_infl.py the inflationary stand-in: constant κ at the isotropic fixed point with a massless doublet, ghost /
+                     twin / M → ∞, 60 periods, perturbed seeds; then the tail (the axion starting to oscillate at m_φ with
+                     the inflationary amplitude). Imports axion_probes.               (float; added 2026-10-17)
   axion_probes_spread.py the loss-time spread of L1: the boson+F row with 10⁻⁶-perturbed initial data at two
                      tolerances, both ω, and the twin / M → ∞ controls with the same perturbations. Imports axion_probes.
                                                                               (float; added 2026-10-16)
@@ -227,6 +230,7 @@ results/
   axion_frw_iso.txt  output of code/axion_frw_iso.py (~6 min, cloud session 16 Oct, Python 3.13, scipy 1.18)
   probe_derive.txt   output of code/probe_derive.py (6 s, cloud session 16 Oct, sympy 1.14), all checks PASS (CHECK 5b added)
   axion_probes.txt   output of code/axion_probes.py, revised version (10 min, cloud session 16 Oct, Python 3.13, scipy 1.18)
+  axion_probes_infl.txt output of code/axion_probes_infl.py (3.5 min, cloud session 17 Oct): the inflationary run, nothing
   axion_probes_spread.txt output of code/axion_probes_spread.py (17 min, cloud session 16 Oct): the loss-time spread
                      (8 of 20 ghost runs lost within 60 T) and the perturbed controls (0 of 10)
   axion_probes_long.txt output of code/axion_probes_long.py, with the c(t), 6g²Q² and constant-force (`boson+F`) columns
@@ -783,6 +787,30 @@ against twin and M → ∞, with the same fraction statistics. Not yet run. And 
 *m_p = 0* fermion reduces to a constant force; at m_D ≠ 0 it evolves (Part A's n₋ moves between 0.1 and 0.6 at
 gQ_amp) and is a participant.
 
+**The inflationary run (17 Oct)** (`axion_probes_infl.py`, `results/axion_probes_infl.txt`, 3.5 min, cloud session,
+Python 3.13, scipy 1.18; the first of the three runs left on 16 Oct). Question: does a massless charged scalar (the Higgs
+doublet) pump the ghost on the nonzero-mean background of chromo-natural inflation and its tail? Setup: constant κ, the
+isotropic fixed point Q₀ (w₀ = 2Q₀³, κ = 2Q₀(1 + 6Q₀²); checked to 10⁻¹⁷ as a fixed point of the core, and of the twin's
+and the M → ∞ systems with their own κ), the massless doublet at ε_p = 0.01, 0.1, 0.5 of E_bg = (3/2)Q₀⁴, Q₀/M = 0.024,
+0.1, 0.3, 60 periods of the isotropic mode; then the tail as the axion starting to oscillate at m_φ = 0.8, 2.4, 3.0 M with
+the amplitude inflation left it (κ₀ = 2Q₀). Columns ghost / twin / M → ∞, each with its no-scalar control.
+- *Static inflation:* **nothing**, in every column. At Q₀ = 0.024 the ghost rows equal the M → ∞ rows to the third digit;
+  |Q − Q₀|/Q₀ ≤ 0.56 (the scalar's static push at ε_p = 0.5), the scalar's energy within 0.5–1.0 of its start, c ≤ 0.054
+  against the collision value ¼, E_heavy at its fixed-point value (−0.002, −0.04, −0.36 E_bg at the three Q₀), no row lost
+  in 60 periods; five 10⁻⁶-perturbed seeds identical. The twin agrees at Q₀ = 0.024 and 0.1 (its own fixed point is
+  unstable at 0.3 — a twin limit, not a result).
+- *The tail:* **nothing**. Q oscillates at amplitude ≈ Q₀ in every column; the scalar's energy swings between 0 and
+  1.1–1.6× its start in all three (the same swing without the ghost); c ≤ 0.001; no loss in 50 periods of oscillation.
+  The oscillating regime reached has ω²ϕ²Π = 4Q₀²Π ~ 10⁻³, three orders below the no-probe threshold of 2.
+- *Reading:* L1's pump had two ingredients — a nonzero mean and a drive within ~15 % of the no-probe loss threshold
+  (ω²ϕ²Π = 1.7, i.e. ϕ = O(1) in units of f). Chromo-natural inflation proper supplies the mean and not the drive (the
+  orbit is static, so there is no oscillation for the scalar to feed on); its tail with the inflationary amplitude
+  supplies neither. So the Higgs doublet does not pump the ghost during inflation or at its tail in this setup, and the
+  probe pump joins 5a's own closing: it needs the axion amplitude at the end of inflation to be of order f, which the
+  benchmark (ϕ_end ≈ 8×10⁻⁴) does not give. What is left of the probe result for the paper is the mechanism (a
+  probe-induced coefficient reaching the collision), with the scope "where the axion drive is within ~15 % of its own
+  loss threshold"; outside that window real probes are spectators here.
+
 So for the paper: the ghost-specific instability in this space is a probe-induced anisotropic mass reaching the
 Lee–Wick pole-collision value, g f = M/√2 — not a tongue, not a resonance; the twin cannot do it; Yang–Mills alone
 cannot. The twin's limit Q < M/√6 is intrinsic: any Lagrangian twin that keeps the potential and matter coupled to
@@ -869,6 +897,10 @@ boson drives the ghost pair and not a healthy pair (Part B, twin sign fixed).
 - [ ] Probes (16 Oct): derivation and core done (`probe_derive.py`, `probe_core.py`); the runs with the probe
       columns on this background are next (isotropic threshold table; anisotropic and off-diagonal sectors with
       the scalar's (g²/2)f² mass). Then the same on `dilaton_su2/`.
+      Status (2026-10-17): the inflationary run is done (`axion_probes_infl.py`): nothing, static or tail — the pump needs
+      the drive near its own loss threshold as well as the mean; the Higgs doublet is a spectator in chromo-natural
+      inflation and its tail at the inflationary amplitude. Open: Part C's Fourier diagnostic; then the dilaton on the
+      core (column A primary, B control — Joseph, 17 Oct).
       Status (2026-10-16, night, third review): the loss is realisation-dependent — 8 of 20 perturbed ghost runs lose
       the background within 60 T, 0 of 10 controls (`axion_probes_spread.py`); quote the fraction, not a rate. The
       framing is chromo-natural inflation's own nonzero-mean background (Adshead–Wyman), where the axion supplies
