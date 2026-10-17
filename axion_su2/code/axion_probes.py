@@ -183,11 +183,23 @@ def run_iso(omega, crit, column, sigma, mp_over_gQ, ncyc=NCYC, no_ghost=False, r
     phi_eff = -phi * w2 * Pi
     X = Q_amp * (1 + 2 * phi_eff ** 2 / (2 + phi_eff ** 2)) ** 0.25
     T = 4 * K / (np.sqrt(lam) * X) if lam > 0 else 4 * K / (np.sqrt(2) * X)
-    P = pc.Params(sigma=sigma, boson=column in ('boson', 'both'), fermion=column in ('fermion', 'both'),
+    P = pc.Params(sigma=sigma, boson=column in ('boson', 'both', 'boson+F'), fermion=column in ('fermion', 'both'),
                   ms=m_p, mD=m_p, kappa=kappa_fun(omega, phi))
     s0 = initial(omega, phi, Q_amp, P, m_p)
     E_p0 = probe_energy(0.0, s0, P)
     f_rhs = iso_rhs(P)
+    if column == 'boson+F':
+        # the m_D = 0 fermion in the positive eigenstate of h(Q_amp) is a sigma_x eigenstate for all t (h = cgQ sigma_x),
+        # so its current is constant: replace it by that constant force g j0 (review of 16 Oct, point 1)
+        Pf = pc.Params(sigma=sigma, boson=False, fermion=True, ms=m_p, mD=m_p, kappa=kappa_fun(omega, phi))
+        sf = initial(omega, phi, Q_amp, Pf, m_p)
+        F0 = P.g * pc.fermion_current(sf[14:16] + 1j * sf[16:18])
+        base_f = f_rhs
+
+        def f_rhs(t, y):
+            out = base_f(t, y)
+            out[3] += F0 if sigma == +1 else -F0       # F enters w'' (ghost) / -F (twin), as in iso_rhs
+            return out
     if no_ghost:
         # M -> infinity: Q'' = -2 Q^3 + F (the ghost-free Hill background); w frozen at zero
         base = f_rhs

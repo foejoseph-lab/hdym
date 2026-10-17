@@ -25,7 +25,8 @@ L2 rows with the scalar absent.
 Usage (Joseph, from Spyder, output outside the repository; ~30-60 min expected):
     %cd C:\\GitHub\\hdym
     !"{sys.executable}" -B -u axion_su2\\code\\axion_probes_long.py > C:\\hdym_runs\\axion_probes_long.txt 2>&1
-Added 2026-10-16; c(t) columns and the one-probe rows added the same night.
+Added 2026-10-16; c(t) columns and the one-probe rows added the same night; the Hessian term and the constant-force
+column after the second review (the m_D = 0 fermion is a constant force; L1's coefficient carries 6 g^2 Q^2).
 """
 import os
 import sys
@@ -60,17 +61,20 @@ def long_iso(omega, crit, heavy, column='both', mp_over_gQ=0.0, ncyc=60):
     sigma = -1 if heavy == 'twin' else +1
     out = ap.run_iso(omega, crit, column, sigma, mp_over_gQ, ncyc=ncyc, no_ghost=(heavy == 'inf'), return_sol=True)
     phi, lam, T, per, eb, nf, eh, lost, sol = out
-    cmax = []
+    cmax, hmax = [], []
     for k in range(ncyc):
         a, b = k * T, min((k + 1) * T, sol.t[-1])
         if b > a:
             Y = sol.sol(np.linspace(a, b, 2001))
             cmax.append(0.5 * np.max(Y[4] ** 2))
+            hmax.append(6.0 * np.max(Y[0] ** 2))          # the Hessian term of the isotropic tangent, 6 g^2 Q^2
         else:
-            cmax.append(np.nan)
-    cmax = np.array(cmax)
-    cross = next((k + 1 for k in range(ncyc) if np.isfinite(cmax[k]) and cmax[k] > 0.25), None)
-    return per, eb, nf, lost, T, cmax, cross
+            cmax.append(np.nan); hmax.append(np.nan)
+    cmax, hmax = np.array(cmax), np.array(hmax)
+    cross_c = next((k + 1 for k in range(ncyc) if np.isfinite(cmax[k]) and cmax[k] > 0.25), None)
+    cross_h = next((k + 1 for k in range(ncyc) if np.isfinite(hmax[k]) and hmax[k] > 0.25), None)
+    cross_s = next((k + 1 for k in range(ncyc) if np.isfinite(cmax[k]) and cmax[k] + hmax[k] > 0.25), None)
+    return per, eb, nf, lost, T, cmax, hmax, (cross_c, cross_h, cross_s)
 
 
 # ---------------------------------------------------------------- L2
@@ -131,23 +135,34 @@ def coupled_scalar(m_s, eps_p, heavy, nper=100, Q_amp=1.0):
 
 if __name__ == "__main__":
     ap.check_iso_rhs()      # CHECK line: iso_rhs against probe_core.rhs
-    stamp("L1: m_p = 0, 60 Kapitza periods, ghost / twin / M -> infinity; c = (g^2/2) f^2 against the collision value M^2/4")
-    print(f"  {'omega':>5} {'w2phi2Pi':>8} {'heavy':>5} {'col':>7} | |Q|max/Q_amp: min, max over cycles 1-20 / 21-40 / 41-60 | E_boson/E_boson(0): min, max likewise | max c per block | c > 1/4 first at cycle | lost at")
+    stamp("L1: m_p = 0, 60 Kapitza periods, ghost / twin / M -> infinity; c = (g^2/2) f^2 and the Hessian term 6 g^2 Q^2 against 1/4")
+    print("  L1 is isotropic (no anisotropic eps in the state), so the coefficient that can collide is the isotropic tangent's,")
+    print("  which carries the Hessian 6 g^2 Q^2 as well as c; both are logged (max per 20-cycle block) and the first cycle at")
+    print("  which c, 6g^2Q^2 and their sum exceed 1/4.  'boson+F' = boson plus the constant force the m_D = 0 fermion exerts")
+    print("  (it sits in a sigma_x eigenstate for all t), no spinor dynamics: the test of whether the pump is offset-plus-boson.")
+    print(f"  {'omega':>5} {'w2phi2Pi':>8} {'heavy':>5} {'col':>8} | |Q|max/Q_amp per block | E_boson/E_boson(0) per block | max c per block | max 6Q^2 per block | >1/4 first (c, 6Q^2, sum) | lost at")
     for omega in (2.4, 3.0):
         for crit in (1.7, 2.0):
             for heavy in ('inf', 'ghost', 'twin'):
-                cols = ('none', 'both') if heavy == 'inf' else (('both', 'boson', 'fermion') if heavy == 'ghost' else ('both',))
+                if heavy == 'inf':
+                    cols = ('none', 'both')
+                elif heavy == 'ghost':
+                    cols = ('both', 'boson', 'fermion', 'boson+F') if crit == 1.7 else ('both', 'boson+F')
+                else:
+                    cols = ('both',)
                 for column in cols:
-                    per, eb, nf, lost, T, cmax, cross = long_iso(omega, crit, heavy, column)
+                    per, eb, nf, lost, T, cmax, hmax, cross = long_iso(omega, crit, heavy, column)
                     per, eb = np.array(per), np.array(eb)
                     blocks = [(0, 20), (20, 40), (40, 60)]
                     s1 = " / ".join(f"{np.nanmin(per[a:b]):5.2f} {np.nanmax(per[a:b]):5.2f}" if np.any(np.isfinite(per[a:b])) else "    -     -" for a, b in blocks)
                     s2 = " / ".join(f"{np.nanmin(eb[a:b]):7.2f} {np.nanmax(eb[a:b]):7.2f}" if np.any(np.isfinite(eb[a:b])) else "      -       -" for a, b in blocks)
                     s3 = " ".join(f"{np.nanmax(cmax[a:b]):6.3f}" if np.any(np.isfinite(cmax[a:b])) else "     -" for a, b in blocks)
+                    s4 = " ".join(f"{np.nanmax(hmax[a:b]):6.3f}" if np.any(np.isfinite(hmax[a:b])) else "     -" for a, b in blocks)
+                    s5 = " ".join(f"{x if x else '-':>4}" for x in cross)
                     tag = "" if lost is None else f"{lost:.2f} T"
                     if heavy == 'inf' and column == 'none' and lost is not None:
                         tag += "   CONTROL-FAIL"
-                    print(f"  {omega:5.2f} {crit:8.2f} {heavy:>5} {column:>7} | {s1} | {s2} | {s3} | {cross if cross else '-':>5} | {tag or '-'}", flush=True)
+                    print(f"  {omega:5.2f} {crit:8.2f} {heavy:>5} {column:>8} | {s1} | {s2} | {s3} | {s4} | {s5} | {tag or '-'}", flush=True)
     stamp("L2: m_s ~ M with back-reaction, undriven orbit, 100 periods")
     print(f"  {'m_s':>4} {'eps_p':>6} {'heavy':>5} | |Q|max/Q_amp at periods 10, 30, 60, 100 | E_s/E_s(0) at 10, 30, 60, 100 | max c at 10, 30, 60, 100 (collision at 0.25) | tangent growth/period over 10-30, 30-60, 60-100")
     for m_s in (0.8, 0.9, 1.0, 1.1, 1.2):
