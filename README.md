@@ -16,7 +16,7 @@ the numerical experiments and judgement calls are the author's.
 | `islands/` | the regular (Dahlqvist–Russberg) island and the ghost on it, including a computer-assisted proof (`islands/README.md`) — the paper's open item on the regular islands |
 | `bianchi9/` | the Weyl ghost in Bianchi IX minisuperspace of quadratic gravity (`bianchi9/README.md`) — the paper's open item on Bianchi IX; code at the top, run outputs in `bianchi9/results/` |
 | `axion_su2/` | the isotropic SU(2) background of axion-SU(2) cosmology with the Lee–Wick ghost (`axion_su2/README.md`) — plan item 5, the new background; started 2026-10-12 |
-| `dilaton_su2/` | the same isotropic SU(2) background with a gauge-kinetic (dilaton) coupling Θ(φ)F² instead of the axion's φFF̃ (`dilaton_su2/README.md`) — plan item 5b, the parity-even twin; started 2026-10-16 |
+| `dilaton_su2/` | the same isotropic SU(2) background with a gauge-kinetic (dilaton) coupling Θ(φ)F² instead of the axion's φFF̃ (`dilaton_su2/README.md`) — plan item 5b, the parity-even twin; started 2026-10-16, closed 2026-10-17 |
 
 `TODO_held.md` holds the code-map to-do lists of 12 Oct (README-against-code mismatches in `ym/` and `bianchi9/`), held by decision.
 
