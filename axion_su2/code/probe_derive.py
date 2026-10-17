@@ -54,7 +54,9 @@ Checks (each prints PASS/FAIL):
            the twin only with Theta = 1), to 1e-10 relative.  probe_core.energy is checked to be
            the Legendre transform of L' symbolically and to be conserved numerically (constant
            drives) over a short integration.
-  CHECK 5  Linearisation on x = y = z with the probes present, in the (q, w) variables (M, g kept):
+  CHECK 5  Linearisation on x = y = z with the probes present (and 5b: the twin's anisotropic pair with the scalar,
+           zeta'' = -M^2 zeta + c eps, eps'' = M^2 zeta - 2c eps, c = (g^2/2) f^2, against which probe_core.tangent_rhs,
+           a finite-difference linearisation of the core, is checked), in the (q, w) variables (M, g kept):
            the anisotropic sector is
                eps''''/M^2 + Theta eps'' + Theta-dot eps' + (kappa Q + (g^2/2) f^2) eps = 0
            (the scalar adds a direct, isotropic effective mass (g^2/2) f^2 to the formerly free
@@ -368,6 +370,15 @@ for sigma, Lp, sol, E_sym in results:
                     maxerr = max(maxerr, err_c)
 ok4 &= report(f"probe_core.rhs and .energy agree with the Euler-Lagrange equations and the Legendre transform "
               f"at random points, all switch combinations (max relative error {maxerr:.1e})", maxerr < 1e-10)
+# energy_parts sums to energy, at random points, both sigma, drives and probes on
+err_p = 0.0
+for sigma in (+1, -1):
+    P = pc.Params(sigma=sigma, boson=True, fermion=True, ms=0.7, mD=0.6, kappa=kan,
+                  Theta=Thn if sigma == 1 else None, Thetadot=Thdn if sigma == 1 else None)
+    for _ in range(20):
+        s = rng.normal(size=18); tt = rng.uniform(0, 10)
+        err_p = max(err_p, abs(sum(pc.energy_parts(tt, s, P)) - pc.energy(tt, s, P)) / max(1.0, abs(pc.energy(tt, s, P))))
+ok4 &= report(f"probe_core.energy_parts sums to energy (max relative error {err_p:.1e})", err_p < 1e-12)
 # energy conservation, constant drives, both sigma, both probes on
 from scipy.integrate import solve_ivp  # noqa: E402
 drift = 0.0
@@ -437,6 +448,41 @@ zsol_i = sp.solve(is_w, zet)[0]
 is4 = sp.expand(is_q.subs(zet, zsol_i).doit())
 print(f"    isotropic tangent (f, zeta frozen; = 0):\n      {sp.collect(is4, [eps_.diff(t, 4), eps_.diff(t, 2), eps_.diff(t), eps_])}")
 print("    (with the probes responding, the isotropic sector is the coupled (Q, w, f, zeta) tangent: run, not printed.)")
+
+# the sigma = -1 (twin) anisotropic pair with the scalar: zeta'' = -M^2 zeta + c eps, eps'' = M^2 zeta - 2 c eps,
+# c = (g^2/2) f^2, on the undriven isotropic orbit with w0 = 0 (the review of 16 Oct caught the sign of c in the
+# first hand-coded version); derived here from the Euler-Lagrange equations of L'_twin, and probe_core.tangent_rhs
+# (a finite-difference linearisation of the core) is checked against it.
+stamp("CHECK 5b: the twin's anisotropic pair with the scalar (sigma = -1)")
+sigma, Lp_t, sol_t, E_t = results[1]
+EL_t = [sp.expand(e.lhs).subs({kt: 0}) for e in sp.euler_equations(Lp_t, q + wv, t)]
+sub = {}
+for i in range(3):
+    sub[q[i]] = Qb + lam * eps_ * [1, -1, 0][i]
+    sub[wv[i]] = lam * zet * [1, -1, 0][i]          # w0 = 0 on the undriven orbit
+lin_t = [sp.expand(e.subs(sub).doit()).coeff(lam, 1) for e in EL_t]
+sol_lin = sp.solve([lin_t[0], lin_t[3]], [eps_.diff(t, 2), zet.diff(t, 2)], dict=True)[0]
+c_ = g**2 / 2 * f_**2
+ok5 &= report("twin, anisotropic pair:  zeta'' = -M^2 zeta + c eps,  eps'' = M^2 zeta - 2 c eps,  c = (g^2/2) f^2",
+              sp.expand(sol_lin[zet.diff(t, 2)] - (-M**2 * zet + c_ * eps_)) == 0
+              and sp.expand(sol_lin[eps_.diff(t, 2)] - (M**2 * zet - 2 * c_ * eps_)) == 0)
+# probe_core.tangent_rhs against both pairs at random points (ghost: eps'' = zeta, zeta'' = -zeta - c eps, M = g = 1)
+err_t = 0.0
+for sigma_ in (+1, -1):
+    P = pc.Params(sigma=sigma_, boson=True, ms=0.7)
+    for _ in range(20):
+        s = np.zeros(18); s[0:3] = rng.normal(); s[3:6] = rng.normal(); s[12], s[13] = rng.normal(), rng.normal()
+        ds = np.zeros(18); e0, e1, z0, z1 = rng.normal(size=4)
+        vdir = np.array([1.0, -1.0, 0.0])
+        ds[0:3] = e0 * vdir; ds[3:6] = e1 * vdir; ds[6:9] = z0 * vdir; ds[9:12] = z1 * vdir
+        d = pc.tangent_rhs(0.0, s, ds, P)
+        cc = 0.5 * s[12]**2
+        if sigma_ == +1:
+            ref_e, ref_z = z0, -z0 - cc * e0
+        else:
+            ref_e, ref_z = z0 - 2 * cc * e0, -z0 + cc * e0
+        err_t = max(err_t, abs(d[3] - ref_e), abs(d[9] - ref_z), abs(d[4] + ref_e), abs(d[10] + ref_z))
+ok5 &= report(f"probe_core.tangent_rhs reproduces both anisotropic pairs at random points (max abs error {err_t:.1e})", err_t < 1e-6)
 
 # ---------------------------------------------------------------- summary
 allok = all([ok1, ok2, ok3, ok4, ok5])

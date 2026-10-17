@@ -6,13 +6,13 @@
     (c) on the ansatz: L_Phi = |Phi_0|^2 [fdot^2 - (ms^2 + (g^2/4)(x^2 + y^2 + z^2)) f^2]: PASS
     (c) the off-diagonal gauge equations of L_Phi vanish on the ansatz, for any Phi: PASS
     (c) its force on q_i is -(g^2/2) q_i |Phi_0|^2 f^2: PASS
-[    1.3s] CHECK 2: adjoint triplet (for the record)
+[    1.4s] CHECK 2: adjoint triplet (for the record)
     triplet: chi = f(t) n (fixed direction) has zero colour charge: PASS
     triplet: off-diagonal gauge equations on the ansatz: [g**2*n0*n1*f(t)**2*x(t), g**2*n0*n2*f(t)**2*x(t), g**2*n0*n1*f(t)**2*y(t), g**2*n1*n2*f(t)**2*y(t), g**2*n0*n2*f(t)**2*z(t), g**2*n1*n2*f(t)**2*z(t)]
     triplet: they vanish for n along an axis (n = z-hat) and not otherwise: PASS
     triplet, n = z-hat: L = fdot^2/2 - (ms^2/2 + (g^2/2)(x^2 + y^2)) f^2  (anisotropic probe): PASS
     not in probe_core.py: it breaks the isotropy of the background by construction.
-[    1.6s] CHECK 3: Dirac doublet, the diagonal-SO(3) singlet sector
+[    1.8s] CHECK 3: Dirac doublet, the diagonal-SO(3) singlet sector
     H_D = mD beta - g A^a_i alpha^i T^a is Hermitian (12 gauge components free): PASS
     the diagonal SO(3) singlet sector of the 8-spinor is two-dimensional: PASS
     singlet basis (columns): [[0, -sqrt(2)/2, sqrt(2)/2, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, -sqrt(2)/2, sqrt(2)/2, 0]]
@@ -25,7 +25,7 @@
     every diagonal background x, y, z: H_D maps the singlet to itself (each alpha^i T^i does separately): PASS
     there h = [[mD, c g Q],[c g Q, -mD]] with Q = (x + y + z)/3, the same c: PASS
     a traceless symmetric (quintet) perturbation of A^a_i annihilates the singlet: no linear coupling: PASS
-[    1.8s] CHECK 4: the full (q, w, f, zeta) system against probe_core.rhs
+[    2.0s] CHECK 4: the full (q, w, f, zeta) system against probe_core.rhs
     Euler-Lagrange equations solved for the accelerations in both sigma
       sigma=+1 axion=0 dilaton=0 boson=0 fermion=0: max rel err 6.7e-16
       sigma=+1 axion=0 dilaton=0 boson=0 fermion=1: max rel err 8.9e-16
@@ -52,8 +52,9 @@
       sigma=-1 axion=1 dilaton=0 boson=1 fermion=0: max rel err 9.9e-16
       sigma=-1 axion=1 dilaton=0 boson=1 fermion=1: max rel err 1.2e-15
     probe_core.rhs and .energy agree with the Euler-Lagrange equations and the Legendre transform at random points, all switch combinations (max relative error 3.6e-15): PASS
+    probe_core.energy_parts sums to energy (max relative error 6.7e-16): PASS
     energy and the spinor norm are conserved over t = 20 with both probes on, ghost and twin (drift 1.4e-11): PASS
-[    4.6s] CHECK 5: linearisation on x = y = z with the probes (sigma = +1)
+[    4.8s] CHECK 5: linearisation on x = y = z with the probes (sigma = +1)
     anisotropic sector:  eps''''/M^2 + (Theta eps')' + (kappa Q + (g^2/2) f^2) eps = 0  (Q, w0, zeta drop out): PASS
     background (x = y = z) 4th-order equation with the probes (= 0):
       -g**2*Q(t)*f(t)**2/2 - g*zeta0(t)*zeta2(t) - g*zeta1(t)*zeta3(t) + (-2*g**2*Q(t)**3 - Derivative(Q(t), (t, 2)))*Theta(t) + Q(t)**2*kappa_t(t) - Derivative(Q(t), t)*Derivative(Theta(t), t) - 12*g**4*Q(t)**5/M**2 - 12*g**2*Q(t)**2*Derivative(Q(t), (t, 2))/M**2 - 12*g**2*Q(t)*Derivative(Q(t), t)**2/M**2 - Derivative(Q(t), (t, 4))/M**2
@@ -61,7 +62,10 @@
     isotropic tangent (f, zeta frozen; = 0):
       (-Theta(t) - 12*g**2*Q(t)**2/M**2)*Derivative(epsilon(t), (t, 2)) + (-Derivative(Theta(t), t) - 24*g**2*Q(t)*Derivative(Q(t), t)/M**2)*Derivative(epsilon(t), t) + (-6*g**2*Q(t)**2*Theta(t) - 12*g**2*Q(t)*w0(t) - g**2*f(t)**2/2 + 2*Q(t)*kappa_t(t) - 36*g**4*Q(t)**4/M**2 - 12*g**2*Q(t)*Derivative(Q(t), (t, 2))/M**2 - 12*g**2*Derivative(Q(t), t)**2/M**2)*epsilon(t) - Derivative(epsilon(t), (t, 4))/M**2
     (with the probes responding, the isotropic sector is the coupled (Q, w, f, zeta) tangent: run, not printed.)
-[    5.3s] ALL CHECKS PASSED
+[    5.5s] CHECK 5b: the twin's anisotropic pair with the scalar (sigma = -1)
+    twin, anisotropic pair:  zeta'' = -M^2 zeta + c eps,  eps'' = M^2 zeta - 2 c eps,  c = (g^2/2) f^2: PASS
+    probe_core.tangent_rhs reproduces both anisotropic pairs at random points (max abs error 1.2e-08): PASS
+[    5.9s] ALL CHECKS PASSED
 
 Summary (units g = M = 1):
   boson   one real field f (the modulus of a scalar doublet; its phase is fixed by the Gauss law), effective

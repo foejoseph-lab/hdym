@@ -1,27 +1,46 @@
 """axion_probes.py -- the axion background with the real-particle probes of probe_core.py (16 Oct):
 the boson (doublet modulus f), the fermion (singlet two-level zeta), both, each coupled to the ghost
 through the gauge field, with the twin as the sign control.  Three parts, all on the exact Lee-Wick
-isotropic background in the (q, w) form, flat space, g = M = 1, m_phi/gQ = 100 as in iso_lame_gap.py.
+isotropic background in the (q, w) form, flat space, g = M = 1.  Revised after the review of 16 Oct
+(twin tangent sign, probe-mass axis, energy split, fermion observable, twin initial data, Part C masses).
 
-  A  The isotropic threshold with the probes.  Rows: omega = m_phi/M in (2.4, 3.0) [off the ghost's
-     omega = 2M tongue] and 0.8 [M > m_phi control]; omega^2 phi^2 Pi in (1.0, 1.7, 2.0, 2.3) (the
-     no-probe threshold is 2.0, README "The threshold, second look").  Columns: no probe / ghost + boson /
-     ghost + fermion / ghost + both, at probe mass m_p = M; then both probes at m_p = 0 and 3M; then the
-     twin in place of the ghost with both probes; then at m_p = 0 the twin and the M -> infinity control.  Each run: 8 Kapitza periods, |Q|max/Q_amp per cycle,
-     the probe's energy per cycle relative to its start (drain < 1 < feed), blow-up at |Q| = 10 Q_amp.
-     The probe starts with 10 % of the background's energy (scalar at rest at its turning point; fermion
-     in the positive-energy eigenstate of h(Q_amp)).
+Two regimes, labelled because they are opposite ends of one axis:
+  Part A / C:  gQ_amp = M/100 (m_phi/gQ = 100 as in iso_lame_gap.py).  The probe's coupling to the field is
+               (3/4) g^2 Q^2 (scalar) and (3/2) g Q (fermion mixing), so the axis that matters is m_p / gQ_amp, not
+               m_p / M: at m_p = M the probe is decoupled by construction (coupling ~1e-4 of m_p^2, force ~1e-5 of
+               2Q^3) and reproduces the no-probe rows to every digit -- a hierarchy statement, not a ghost one.
+               Rows are at m_p / gQ_amp = 0, 1, 3 and 100 (= M, the decoupled control).
+  Part B:      Q_amp = 1, i.e. gQ_amp = M: the regime where the probe's induced mass is of order M.
+
+  A  The isotropic threshold with the probes.  Rows: omega = m_phi/M in (2.4, 3.0) [off the ghost's omega = 2M
+     tongue] and 0.8 [M > m_phi control]; omega^2 phi^2 Pi in (1.0, 1.7, 2.0, 2.3) (the no-probe threshold is 2.0).
+     Columns: none / ghost + boson / ghost + fermion / ghost + both, then the twin and the M -> infinity control.
+     Each run: 8 Kapitza periods, per cycle |Q|max/Q_amp, the boson's energy relative to its start (its own
+     fdot^2 + (ms^2 + |q|^2/4) f^2), the fermion's adiabatic number n_- (weight on the negative-energy level of
+     h(Q), 0 at the start, the first-quantised "pair" fraction -- its energy is bounded by construction and says
+     nothing; and it is meaningful only for m_p >~ gQ_amp: at m_p = 0 the two levels cross whenever Q
+     passes through zero and the adiabatic basis flips, so n_- ~ 1/2 there is level crossing, not production),
+     and the heavy sector's energy E_heavy (ghost: -|wdot|^2/2 - M^2|w|^2/2; twin: +) over the background's
+     energy, averaged over the cycle (with a drive on the pieces of the energy are not separately conserved:
+     the split is bookkeeping of where the drive's work went); blow-up at |Q| = 10 Q_amp.  The probe starts with 10 % of the
+     background's Yang-Mills energy E_bg = 1.5 Q_amp^4 (V at the turning point; the ghost sector's negative share,
+     O(kappa^2 Q^4 Pi^2) ~ 1e-3 E_bg here, is not counted in that reference).  The twin's dressed initial wdot has
+     the opposite sign from the ghost's (its w-equation is w'' + (M^2 - 6Q^2) w = -kappa Q^2).
   B  The anisotropic sector with the scalar: the formerly free direction obeys
-        eps''''/M^2 + eps'' + (g^2/2) f(t)^2 eps = 0
-     (probe_derive.py CHECK 5) with f on the undriven orbit (no axion: this is the scalar's own drive);
-     direct integration of the tangent over 30 Q periods (renormalised each period) across m_s and three
-     scalar energy fractions, ghost / twin / M -> infinity side by side; growth of ln|eps| per Q period.
-  C  Energy flow on the ghost's first tongue (omega = 2M, omega^2 phi^2 Pi = 1.0, where the background is
-     steady but the ghost pair grows): the probe's energy per cycle with the ghost and with the twin.
+        ghost  eps''''/M^2 + eps'' + c eps = 0,   twin  zeta'' = -M^2 zeta + c eps, eps'' = M^2 zeta - 2 c eps,
+        M -> infinity  eps'' + c eps = 0,         c = (g^2/2) f(t)^2
+     (probe_derive.py CHECK 5, 5b) with f a test field on the undriven orbit (no axion: the scalar's own drive);
+     the hand-coded tangents are checked against probe_core.tangent_rhs (a finite-difference linearisation of the
+     core) at random points before the scan; 30 Q periods renormalised each period; the test scalar's own growth
+     reported (where it is not ~0 the background preheats it and the test-field setup is not valid: see
+     axion_probes_long.py L2 for the back-reacting version).
+  C  On the ghost's first tongue (omega = 2M, omega^2 phi^2 Pi = 1.0: the background steady, the ghost pair
+     growing) with the ghost and the twin, at m_p / gQ_amp = 0, 1, 3, 50 (= M/2, where the probe's own parametric
+     tongue from the growing w sits at 2 m_p = M) and 100 (= M).
 
 Usage (from the repository root, ~10 min):
     python axion_su2/code/axion_probes.py > axion_su2/results/axion_probes.txt
-Added 2026-10-16.
+Added 2026-10-16; revised the same night.
 """
 import os
 import sys
@@ -127,7 +146,7 @@ def initial(omega, phi, Q_amp, P, m_p):
     s = np.zeros(18)
     s[0:3] = Q_amp
     w2 = omega * omega
-    s[9:12] = w2 * phi * Q_amp ** 2 / (w2 - 1.0)
+    s[9:12] = P.sigma * w2 * phi * Q_amp ** 2 / (w2 - 1.0)      # twin: opposite sign (docstring)
     E_bg = 1.5 * Q_amp ** 4
     if P.boson:
         meff2 = m_p ** 2 + 0.75 * Q_amp ** 2
@@ -153,11 +172,13 @@ def probe_energy(t, s, P):
     return E
 
 
-def run_iso(omega, crit, column, sigma, m_p, ncyc=NCYC, no_ghost=False):
+def run_iso(omega, crit, column, sigma, mp_over_gQ, ncyc=NCYC, no_ghost=False):
+    """mp_over_gQ: the probe mass in units of g Q_amp (both probes get the same mass)."""
     w2 = omega * omega
     Pi = 1.0 / (w2 * w2 - w2)
     phi = np.sqrt(crit / (w2 * Pi)) if w2 * Pi > 0 else np.sqrt(abs(crit / (w2 * Pi)))
     Q_amp = omega / RATIO
+    m_p = mp_over_gQ * Q_amp
     lam = 2.0 - crit if w2 * Pi > 0 else 2.0 + crit     # omega < 1: Pi < 0, the drive stiffens
     phi_eff = -phi * w2 * Pi
     X = Q_amp * (1 + 2 * phi_eff ** 2 / (2 + phi_eff ** 2)) ** 0.25
@@ -183,36 +204,80 @@ def run_iso(omega, crit, column, sigma, m_p, ncyc=NCYC, no_ghost=False):
         return abs(y[0]) - 10 * Q_amp
     blow.terminal = True
     sol = solve_ivp(f_rhs, (0.0, ncyc * T), iso_pack(s0), dense_output=True, events=blow, **RT)
-    per, ep = [], []
+    E_bg = 1.5 * Q_amp ** 4
+    E_b0 = (P.ms ** 2 + 0.75 * Q_amp ** 2) * s0[12] ** 2 if P.boson else 0.0
+    per, eb, nf, eh = [], [], [], []
     for k in range(ncyc):
         a, b = k * T, min((k + 1) * T, sol.t[-1])
         if b > a:
             tt = np.linspace(a, b, 2001)
             Y = sol.sol(tt)
             per.append(np.max(np.abs(Y[0])) / Q_amp)
-            ep.append(np.mean([probe_energy(t_, iso_unpack(Y[:, i]), P) for i, t_ in enumerate(tt[::40])]) / E_p0 if E_p0 else np.nan)
+            if P.boson:
+                eb.append(np.mean((Y[5] ** 2 + (P.ms ** 2 + 0.75 * Y[0] ** 2) * Y[4] ** 2)[::40]) / E_b0)
+            else:
+                eb.append(np.nan)
+            if P.fermion:
+                nf.append(np.mean([pc.fermion_adiabatic_number(Y[0, i], Y[6:8, i] + 1j * Y[8:10, i], P) for i in range(0, 2001, 40)]))
+            else:
+                nf.append(np.nan)
+            eh.append(0.0 if no_ghost else np.mean([pc.energy_parts(t_, iso_unpack(Y[:, i]), P)[1] for i, t_ in enumerate(tt[::40])]) / E_bg)
         else:
-            per.append(np.nan); ep.append(np.nan)
+            per.append(np.nan); eb.append(np.nan); nf.append(np.nan); eh.append(np.nan)
     blew = sol.status == 1
-    return phi, lam, T, per, ep, (sol.t_events[0][0] / T if blew else None)
+    return phi, lam, T, per, eb, nf, eh, (sol.t_events[0][0] / T if blew else None)
 
 
 def table(rows, title):
     print(f"\n{title}")
-    print(f"  {'omega':>5} {'w2phi2Pi':>8} {'col':>8} {'heavy':>5} {'m_p':>4} | |Q|max/Q_amp per cycle ({NCYC})" + " " * 15
-          + "| E_probe/E_probe(0) per cycle" + " " * 15 + "| lost at")
+    print(f"  {'omega':>5} {'w2phi2Pi':>8} {'col':>7} {'heavy':>5} {'m_p/gQ':>6} | |Q|max/Q_amp per cycle ({NCYC})" + " " * 15
+          + "| E_boson/E_boson(0) per cycle" + " " * 15 + "| fermion n_- per cycle" + " " * 26
+          + "| E_heavy/E_bg, cycle mean" + " " * 23 + "| lost at")
+    f2 = lambda v: " ".join(f"{x:5.2f}" if np.isfinite(x) else "    -" for x in v)
+    f3 = lambda v: " ".join(f"{x:5.3f}" if np.isfinite(x) else "    -" for x in v)
     for row in rows:
-        omega, crit, column, sigma, m_p = row[:5]
+        omega, crit, column, sigma, mp = row[:5]
         no_ghost = len(row) > 5 and row[5]
-        phi, lam, T, per, ep, lost = run_iso(omega, crit, column, sigma, m_p, no_ghost=no_ghost)
-        s1 = " ".join(f"{p:5.2f}" if np.isfinite(p) else "    -" for p in per)
-        s2 = " ".join(f"{e:5.2f}" if np.isfinite(e) else "    -" for e in ep)
+        phi, lam, T, per, eb, nf, eh, lost = run_iso(omega, crit, column, sigma, mp, no_ghost=no_ghost)
         hv = 'inf' if no_ghost else ('ghost' if sigma == 1 else 'twin')
-        print(f"  {omega:5.2f} {crit:8.2f} {column:>8} {hv:>5} {m_p:4.1f} | {s1} | {s2} | "
+        print(f"  {omega:5.2f} {crit:8.2f} {column:>7} {hv:>5} {mp:6.0f} | {f2(per)} | {f2(eb)} | {f3(nf)} | {f3(eh)} | "
               + (f"{lost:.2f} T" if lost is not None else "-"), flush=True)
 
 
 # ------------------------------------------------------------------ Part B: anisotropic sector with the scalar
+_TANGENT_CHECKED = set()
+
+
+def check_tangent(rhs_local, heavy):
+    """The hand-coded tangent of aniso_scalar against probe_core.tangent_rhs (finite differences of the core's
+    full rhs along (1, -1, 0)): at random points, and at 20 points along the actual orbit-plus-scalar trajectory
+    (m_s = 0, eps_p = 0.5, one period), where c = f^2/2 swings through zero and a sign error is invisible wherever
+    f is small; once per heavy type; prints a CHECK line."""
+    if heavy in _TANGENT_CHECKED:
+        return
+    _TANGENT_CHECKED.add(heavy)
+    rng = np.random.default_rng(5)
+    P = pc.Params(sigma=+1 if heavy == 'ghost' else -1, boson=True, ms=0.0)
+    T = 4 * K / np.sqrt(2)
+    f0 = np.sqrt(0.5 * 1.5 / 0.75)
+    orb = solve_ivp(lambda t, y: [y[1], -2 * y[0] ** 3, y[3], -(0.75 * y[0] ** 2) * y[2]], (0, T), [1.0, 0.0, f0, 0.0],
+                    dense_output=True, **RT)
+    pts = [tuple(rng.normal(size=4)) for _ in range(20)] + [tuple(orb.sol(t_)) for t_ in np.linspace(0, T, 21)[:-1]]
+    err = 0.0
+    for (Q, Qd, f, fd) in pts:
+        e = rng.normal(size=4)
+        d_local = rhs_local(0.0, np.array([Q, Qd, f, fd, *e]))[4:]
+        s = np.zeros(18); s[0:3] = Q; s[3:6] = Qd; s[12], s[13] = f, fd
+        ds = np.zeros(18); v = np.array([1.0, -1.0, 0.0])
+        # local state: ghost (eps, d eps, d2 eps, d3 eps) with d2 eps = zeta; twin (eps, d eps, zeta, d zeta)
+        ds[0:3], ds[3:6], ds[6:9], ds[9:12] = e[0] * v, e[1] * v, e[2] * v, e[3] * v
+        d = pc.tangent_rhs(0.0, s, ds, P)
+        d_core = np.array([d[0], d[3], d[6], d[9]])
+        err = max(err, np.max(np.abs(d_local - d_core)) / max(1.0, np.max(np.abs(d_core))))
+    print(f"  CHECK tangent ({heavy}) against probe_core.tangent_rhs at 20 random points and 20 along the orbit: "
+          f"max rel err {err:.1e} {'PASS' if err < 1e-6 else 'FAIL'}", flush=True)
+
+
 def aniso_scalar(m_s, eps_p, heavy='ghost', nper=30, Q_amp=1.0):
     """Undriven isotropic orbit Q'' = -2 Q^3 from (Q_amp, 0); scalar f'' = -(m_s^2 + 3/4 Q^2) f from its turning point
     with eps_p of the background energy; the anisotropic tangent with the scalar's mass c(t) = f^2/2 (probe_derive.py
@@ -237,11 +302,13 @@ def aniso_scalar(m_s, eps_p, heavy='ghost', nper=30, Q_amp=1.0):
         c = 0.5 * f * f
         if heavy == 'ghost':      # (eps, eps', eps'', eps''')
             out[4], out[5], out[6], out[7] = e[1], e[2], e[3], -e[2] - c * e[0]
-        elif heavy == 'twin':     # (eps, eps', zeta, zeta')
-            out[4], out[5], out[6], out[7] = e[1], e[2] - 2 * c * e[0], e[3], -e[2] - c * e[0]
+        elif heavy == 'twin':     # (eps, eps', zeta, zeta'): zeta'' = -zeta + c eps, eps'' = zeta - 2 c eps
+            out[4], out[5], out[6], out[7] = e[1], e[2] - 2 * c * e[0], e[3], -e[2] + c * e[0]
         else:
             out[4], out[5] = e[1], -c * e[0]
         return out
+    if heavy != 'inf':
+        check_tangent(rhs, heavy)
     y = np.concatenate([[Q_amp, 0.0, f0, 0.0], np.ones(dim) / np.sqrt(dim)])
     lns = [0.0]
     lnf = []
@@ -262,22 +329,19 @@ def aniso_scalar(m_s, eps_p, heavy='ghost', nper=30, Q_amp=1.0):
 
 if __name__ == "__main__":
     check_iso_rhs()
-    stamp("Part A: the isotropic threshold with the probes (ghost, m_p = M)")
-    rows = [(om, cr, col, +1, 1.0) for om in (2.4, 3.0) for cr in (1.0, 1.7, 2.0, 2.3) for col in ('none', 'boson', 'fermion', 'both')]
-    rows += [(0.8, cr, col, +1, 1.0) for cr in (1.0, 2.3) for col in ('none', 'both')]
-    table(rows, "A1  ghost, probe mass m_p = M; columns none / boson / fermion / both")
-    stamp("Part A2: both probes, m_p = 0 and 3M")
-    rows = [(om, cr, 'both', +1, mp) for mp in (0.0, 3.0) for om in (2.4, 3.0) for cr in (1.7, 2.0, 2.3)]
-    table(rows, "A2  ghost, both probes, m_p = 0 and 3M")
-    stamp("Part A3: the twin in place of the ghost, both probes, m_p = M")
-    rows = [(om, cr, col, -1, 1.0) for om in (2.4, 3.0) for cr in (1.0, 2.3) for col in ('none', 'both')]
-    table(rows, "A3  twin (sigma = -1), columns none / both")
+    stamp("Part A: the isotropic threshold with the probes (regime gQ_amp = M/100; m_p in units of g Q_amp)")
+    rows = [(om, cr, 'none', +1, 0) for om in (2.4, 3.0) for cr in (1.0, 1.7, 2.0, 2.3)]
+    rows += [(om, cr, col, +1, mp) for om in (2.4, 3.0) for cr in (1.0, 1.7, 2.0, 2.3) for mp in (0, 1, 3) for col in ('boson', 'fermion', 'both')]
+    rows += [(om, cr, 'both', +1, 100) for om in (2.4, 3.0) for cr in (1.7, 2.3)]
+    rows += [(0.8, cr, col, +1, mp) for cr in (1.0, 2.3) for (col, mp) in (('none', 0), ('both', 0), ('both', 1))]
+    table(rows, "A1  ghost; columns none / boson / fermion / both at m_p/gQ_amp = 0, 1, 3; the decoupled control m_p = M (= 100 gQ_amp)")
+    stamp("Part A2: the twin and the M -> infinity control")
+    rows = [(om, cr, 'both', -1, mp) for om in (2.4, 3.0) for cr in (1.0, 1.7, 2.0, 2.3) for mp in (0, 1)]
+    rows += [(om, cr, 'none', -1, 0) for om in (2.4, 3.0) for cr in (1.7, 2.3)]
+    rows += [(om, cr, col, +1, mp, True) for om in (2.4, 3.0) for cr in (1.7, 2.0) for (col, mp) in (('none', 0), ('both', 0), ('both', 1))]
+    table(rows, "A2  twin (both probes at m_p/gQ = 0, 1; none) and M -> infinity (none / both at 0, 1)")
 
-    stamp("Part A4: m_p = 0 -- the twin and the M -> infinity control")
-    rows = [(om, cr, 'both', -1, 0.0) for om in (2.4, 3.0) for cr in (1.7, 2.0)]
-    rows += [(om, cr, col, +1, 0.0, True) for om in (2.4, 3.0) for cr in (1.7, 2.0) for col in ('none', 'both')]
-    table(rows, "A4  m_p = 0: twin with both probes; M -> infinity (Hill background) with none / both")
-    stamp("Part B: the anisotropic sector with the scalar's (g^2/2) f^2 on the undriven orbit")
+    stamp("Part B: the anisotropic sector with the scalar's (g^2/2) f^2 on the undriven orbit (regime gQ_amp = M)")
     print("  undriven orbit Q_amp = 1 (T = %.3f), scalar at eps_p of the background energy, 30 periods; growth of" % (4 * K / np.sqrt(2)))
     print("  ln|eps| per period over periods 10-30 (the free sector drifts as ln t: ~0.05 per period here)")
     print("  2 m_eff is the scalar's f^2 frequency (m_eff^2 = m_s^2 + 3/4 <Q^2>, <Q^2> = 0.457 Q_amp^2); the ghost pair's")
@@ -293,7 +357,7 @@ if __name__ == "__main__":
             rh, lh, _ = aniso_scalar(m_s, eps_p, 'inf')
             print(f"  {m_s:4.1f} {meff2:6.2f} {eps_p:6.2f} {fr:7.3f} | {rg:10.4f} {lg:8.2f} | {rt:10.4f} {lt:8.2f} | {rh:11.4f} {lh:8.2f}", flush=True)
 
-    stamp("Part C: energy flow on the ghost's tongue omega = 2M, omega^2 phi^2 Pi = 1.0")
-    rows = [(2.0, 1.0, col, sg, 1.0) for sg in (+1, -1) for col in ('boson', 'fermion', 'both')]
-    table(rows, "C   omega = 2 (tongue), ghost and twin, probe energy per cycle")
+    stamp("Part C: on the ghost's tongue omega = 2M, omega^2 phi^2 Pi = 1.0 (regime gQ_amp = M/100)")
+    rows = [(2.0, 1.0, col, sg, mp) for sg in (+1, -1) for mp in (0, 1, 3, 50, 100) for col in ('boson', 'fermion', 'both')]
+    table(rows, "C   omega = 2 (tongue), ghost and twin, m_p/gQ_amp = 0, 1, 3, 50 (= M/2), 100 (= M)")
     stamp("done")

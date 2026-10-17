@@ -144,6 +144,41 @@ def energy(t, s, P):
     return E
 
 
+def energy_parts(t, s, P):
+    """The split of energy(): massless sector 1/2 |pdot|^2 with p = q + w (Theta/2 |qdot + wdot/Theta|^2 when the
+    dilaton is on), heavy sector (ghost: -|wdot|^2/(2 Theta) - M^2|w|^2/2; twin: +|wdot|^2/2 + M^2|w|^2/2),
+    potential (Theta V + w.grad V - kappa x y z, plus the scalar's gauge coupling), and the probes' own energies.
+    Returns (E_massless, E_heavy, E_pot, E_boson, E_fermion); they sum to energy()."""
+    q, v, w, u, f, fd, zeta = unpack(s)
+    g, M = P.g, P.M
+    Th, ka = P.Theta(t), P.kappa(t)
+    if P.sigma == +1:
+        Em = Th / 2 * ((v + u / Th) @ (v + u / Th))
+        Eh = -(u @ u) / (2 * Th) - M**2 / 2 * (w @ w)
+    else:
+        Em = 0.5 * ((v + u) @ (v + u))
+        Eh = 0.5 * (u @ u) + M**2 / 2 * (w @ w)
+    Ep = Th * V(q, g) + w @ gradV(q, g) - ka * q[0] * q[1] * q[2]
+    Eb = Ef = 0.0
+    if P.boson:
+        Eb = fd * fd + P.ms**2 * f * f
+        Ep += (g**2 / 4) * (q @ q) * f * f
+    if P.fermion:
+        Q = (q[0] + q[1] + q[2]) / 3.0
+        Ef = np.real(np.conj(zeta) @ (fermion_h(Q, P) @ zeta))
+    return Em, Eh, Ep, Eb, Ef
+
+
+def tangent_rhs(t, s, ds, P, h=1e-6):
+    """Directional derivative of rhs at s along ds by central differences: the linearised flow for a tangent ds,
+    with no hand-derived tangent anywhere (error O(h^2) relative)."""
+    n = np.linalg.norm(ds)
+    if n == 0:
+        return np.zeros_like(ds)
+    e = ds / n * h
+    return (rhs(t, s + e, P) - rhs(t, s - e, P)) / (2 * h) * n
+
+
 def fermion_adiabatic_number(Q, zeta, P):
     """Diagnostic only: the weight of zeta on the instantaneous negative-energy eigenvector of h
     (a positive-energy state that leaks there has 'produced a pair' in the first-quantised picture)."""
