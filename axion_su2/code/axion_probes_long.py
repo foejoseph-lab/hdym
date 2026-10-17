@@ -2,7 +2,11 @@
 20 minutes, run by Joseph locally (README, "Probes"; protocol of 16 Oct: self-checks first, every failure a
 named line, DONE <seconds> at the end).  Everything in phase space on probe_core.py; g = M = 1, flat space.
 
-  L1  The m_p = 0 exchange over long times, with back-reaction.  The exact (Q, w) isotropic background with the
+  L1  The m_p = 0 exchange over long times, with back-reaction; boson-only and fermion-only columns (the fermion's
+      energy is bounded by its norm, so a large probe energy is the boson's); the scalar's Hill coefficient c =
+      (g^2/2) f^2 per cycle against the pole-collision value M^2/4 (the ghost tangent's light and heavy poles leave the
+      real axis for c > M^2/4, axion_derive.py CHECK 6 and the review of 16 Oct), to see whether the loss coincides
+      with the crossing.  The exact (Q, w) isotropic background with the
       axion drive (omega = 2.4 and 3.0, omega^2 phi^2 Pi = 1.7 and 2.0, m_phi/gQ = 100) and both probes massless
       at 10 % of the background's energy, 60 Kapitza periods (axion_probes.py ran 8): ghost / twin / M -> infinity
       side by side.  Per cycle: |Q|max/Q_amp, E_probe/E_probe(0), and the running extremes.  Questions: does the
@@ -21,7 +25,7 @@ L2 rows with the scalar absent.
 Usage (Joseph, from Spyder, output outside the repository; ~30-60 min expected):
     %cd C:\\GitHub\\hdym
     !"{sys.executable}" -B -u axion_su2\\code\\axion_probes_long.py > C:\\hdym_runs\\axion_probes_long.txt 2>&1
-Added 2026-10-16.
+Added 2026-10-16; c(t) columns and the one-probe rows added the same night.
 """
 import os
 import sys
@@ -49,10 +53,24 @@ def fmt(v):
 
 
 # ---------------------------------------------------------------- L1
-def long_iso(omega, crit, heavy, column='both', m_p=0.0, ncyc=60):
+def long_iso(omega, crit, heavy, column='both', mp_over_gQ=0.0, ncyc=60):
+    """ap.run_iso with 60 cycles; also the scalar's Hill coefficient c = (g^2/2) f^2 per cycle (max), to be read
+    against the pole-collision value M^2/4 (review of 16 Oct, point 1: the ghost tangent's poles leave the real axis
+    for c > M^2/4), and the first cycle at which it crosses."""
     sigma = -1 if heavy == 'twin' else +1
-    phi, lam, T, per, ep, lost = ap.run_iso(omega, crit, column, sigma, m_p, ncyc=ncyc, no_ghost=(heavy == 'inf'))
-    return per, ep, lost, T
+    out = ap.run_iso(omega, crit, column, sigma, mp_over_gQ, ncyc=ncyc, no_ghost=(heavy == 'inf'), return_sol=True)
+    phi, lam, T, per, eb, nf, eh, lost, sol = out
+    cmax = []
+    for k in range(ncyc):
+        a, b = k * T, min((k + 1) * T, sol.t[-1])
+        if b > a:
+            Y = sol.sol(np.linspace(a, b, 2001))
+            cmax.append(0.5 * np.max(Y[4] ** 2))
+        else:
+            cmax.append(np.nan)
+    cmax = np.array(cmax)
+    cross = next((k + 1 for k in range(ncyc) if np.isfinite(cmax[k]) and cmax[k] > 0.25), None)
+    return per, eb, nf, lost, T, cmax, cross
 
 
 # ---------------------------------------------------------------- L2
@@ -91,12 +109,13 @@ def coupled_scalar(m_s, eps_p, heavy, nper=100, Q_amp=1.0):
     y[0], y[4] = Q_amp, f0
     y[10:] = 1.0 / np.sqrt(dim)
     E0 = (m_s ** 2 + 0.75 * 3 * Q_amp ** 2 / 3) * f0 ** 2 if f0 else 1.0   # fdot^2 + (ms^2 + |q|^2/4) f^2 at t = 0, |q|^2 = 3Q^2
-    qmax, es, grow = [], [], []
+    qmax, es, grow, cmax = [], [], [], []
     for k in range(nper):
         sol = solve_ivp(rhs, (k * T, (k + 1) * T), y, dense_output=True, **RT)
         tt = np.linspace(k * T, (k + 1) * T, 401)
         Y = sol.sol(tt)
         qmax.append(np.max(np.abs(Y[0])) / Q_amp)
+        cmax.append(0.5 * np.max(Y[4] ** 2))
         Ef = np.mean(Y[5] ** 2 + (m_s ** 2 + 0.75 * Y[0] ** 2) * Y[4] ** 2)
         es.append(Ef / E0 if f0 else 0.0)
         y = sol.y[:, -1]
@@ -105,39 +124,45 @@ def coupled_scalar(m_s, eps_p, heavy, nper=100, Q_amp=1.0):
         y[10:] /= n
         if not np.all(np.isfinite(y)) or abs(y[0]) > 10 * Q_amp:
             qmax += [np.nan] * (nper - k - 1); es += [np.nan] * (nper - k - 1); grow += [np.nan] * (nper - k - 1)
+            cmax += [np.nan] * (nper - k - 1)
             break
-    return np.array(qmax), np.array(es), np.array(grow)
+    return np.array(qmax), np.array(es), np.array(grow), np.array(cmax)
 
 
 if __name__ == "__main__":
     ap.check_iso_rhs()      # CHECK line: iso_rhs against probe_core.rhs
-    stamp("L1: m_p = 0, both probes, 60 Kapitza periods, ghost / twin / M -> infinity")
-    print(f"  {'omega':>5} {'w2phi2Pi':>8} {'heavy':>5} {'col':>5} | |Q|max/Q_amp: min, max over cycles 1-20 / 21-40 / 41-60 | E_probe/E_probe(0): min, max likewise | lost at")
+    stamp("L1: m_p = 0, 60 Kapitza periods, ghost / twin / M -> infinity; c = (g^2/2) f^2 against the collision value M^2/4")
+    print(f"  {'omega':>5} {'w2phi2Pi':>8} {'heavy':>5} {'col':>7} | |Q|max/Q_amp: min, max over cycles 1-20 / 21-40 / 41-60 | E_boson/E_boson(0): min, max likewise | max c per block | c > 1/4 first at cycle | lost at")
     for omega in (2.4, 3.0):
         for crit in (1.7, 2.0):
             for heavy in ('inf', 'ghost', 'twin'):
-                for column in (('none', 'both') if heavy == 'inf' else ('both',)):
-                    per, ep, lost, T = long_iso(omega, crit, heavy, column)
-                    per, ep = np.array(per), np.array(ep)
+                cols = ('none', 'both') if heavy == 'inf' else (('both', 'boson', 'fermion') if heavy == 'ghost' else ('both',))
+                for column in cols:
+                    per, eb, nf, lost, T, cmax, cross = long_iso(omega, crit, heavy, column)
+                    per, eb = np.array(per), np.array(eb)
                     blocks = [(0, 20), (20, 40), (40, 60)]
                     s1 = " / ".join(f"{np.nanmin(per[a:b]):5.2f} {np.nanmax(per[a:b]):5.2f}" if np.any(np.isfinite(per[a:b])) else "    -     -" for a, b in blocks)
-                    s2 = " / ".join(f"{np.nanmin(ep[a:b]):5.2f} {np.nanmax(ep[a:b]):5.2f}" if np.any(np.isfinite(ep[a:b])) else "    -     -" for a, b in blocks)
+                    s2 = " / ".join(f"{np.nanmin(eb[a:b]):7.2f} {np.nanmax(eb[a:b]):7.2f}" if np.any(np.isfinite(eb[a:b])) else "      -       -" for a, b in blocks)
+                    s3 = " ".join(f"{np.nanmax(cmax[a:b]):6.3f}" if np.any(np.isfinite(cmax[a:b])) else "     -" for a, b in blocks)
                     tag = "" if lost is None else f"{lost:.2f} T"
                     if heavy == 'inf' and column == 'none' and lost is not None:
                         tag += "   CONTROL-FAIL"
-                    print(f"  {omega:5.2f} {crit:8.2f} {heavy:>5} {column:>5} | {s1} | {s2} | {tag or '-'}", flush=True)
+                    print(f"  {omega:5.2f} {crit:8.2f} {heavy:>5} {column:>7} | {s1} | {s2} | {s3} | {cross if cross else '-':>5} | {tag or '-'}", flush=True)
     stamp("L2: m_s ~ M with back-reaction, undriven orbit, 100 periods")
-    print(f"  {'m_s':>4} {'eps_p':>6} {'heavy':>5} | |Q|max/Q_amp at periods 10, 30, 60, 100 | E_s/E_s(0) at 10, 30, 60, 100 | tangent growth/period over 10-30, 30-60, 60-100")
+    print(f"  {'m_s':>4} {'eps_p':>6} {'heavy':>5} | |Q|max/Q_amp at periods 10, 30, 60, 100 | E_s/E_s(0) at 10, 30, 60, 100 | max c at 10, 30, 60, 100 (collision at 0.25) | tangent growth/period over 10-30, 30-60, 60-100")
     for m_s in (0.8, 0.9, 1.0, 1.1, 1.2):
         for eps_p in (0.0, 0.01, 0.1):
-            for heavy in (('inf', 'ghost') if eps_p == 0.0 else ('inf', 'ghost', 'twin')):
-                qmax, es, grow = coupled_scalar(m_s, eps_p, heavy)
+            for heavy in (('inf', 'ghost') if eps_p == 0.0 else ('inf', 'ghost')):
+                qmax, es, grow, cmax = coupled_scalar(m_s, eps_p, heavy)
                 pick = [9, 29, 59, 99]
                 s1 = fmt(qmax[pick]); s2 = fmt(es[pick])
+                s4 = " ".join(f"{x:6.3f}" if np.isfinite(x) else "     -" for x in cmax[pick])
                 g = [np.nanmean(grow[a:b]) for a, b in ((10, 30), (30, 60), (60, 100))]
                 s3 = " ".join(f"{x:7.3f}" if np.isfinite(x) else "      -" for x in g)
                 tag = ""
                 if eps_p == 0.0 and (not np.all(np.isfinite(qmax)) or np.nanmax(qmax) > 2.0):
                     tag = "   CONTROL-FAIL"
-                print(f"  {m_s:4.1f} {eps_p:6.2f} {heavy:>5} | {s1} | {s2} | {s3}{tag}", flush=True)
+                print(f"  {m_s:4.1f} {eps_p:6.2f} {heavy:>5} | {s1} | {s2} | {s4} | {s3}{tag}", flush=True)
+    print("  (twin rows omitted: on the Q_amp = 1 orbit the twin's heavy coefficient M^2 - Hess V is negative, so it is")
+    print("   not a control there; the ghost-vs-M->infinity comparison is the control at this amplitude)")
     print(f"DONE {time.time() - T0:.0f}", flush=True)

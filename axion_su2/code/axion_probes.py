@@ -172,7 +172,7 @@ def probe_energy(t, s, P):
     return E
 
 
-def run_iso(omega, crit, column, sigma, mp_over_gQ, ncyc=NCYC, no_ghost=False):
+def run_iso(omega, crit, column, sigma, mp_over_gQ, ncyc=NCYC, no_ghost=False, return_sol=False):
     """mp_over_gQ: the probe mass in units of g Q_amp (both probes get the same mass)."""
     w2 = omega * omega
     Pi = 1.0 / (w2 * w2 - w2)
@@ -225,7 +225,10 @@ def run_iso(omega, crit, column, sigma, mp_over_gQ, ncyc=NCYC, no_ghost=False):
         else:
             per.append(np.nan); eb.append(np.nan); nf.append(np.nan); eh.append(np.nan)
     blew = sol.status == 1
-    return phi, lam, T, per, eb, nf, eh, (sol.t_events[0][0] / T if blew else None)
+    lost = sol.t_events[0][0] / T if blew else None
+    if return_sol:
+        return phi, lam, T, per, eb, nf, eh, lost, sol
+    return phi, lam, T, per, eb, nf, eh, lost
 
 
 def table(rows, title):
