@@ -35,8 +35,10 @@ Two regimes, labelled because they are opposite ends of one axis:
      reported (where it is not ~0 the background preheats it and the test-field setup is not valid: see
      axion_probes_long.py L2 for the back-reacting version).
   C  On the ghost's first tongue (omega = 2M, omega^2 phi^2 Pi = 1.0: the background steady, the ghost pair
-     growing) with the ghost and the twin, at m_p / gQ_amp = 0, 1, 3, 50 (= M/2, where the probe's own parametric
-     tongue from the growing w sits at 2 m_p = M) and 100 (= M).
+     growing) with the ghost and the twin, at m_p / gQ_amp = 0, 1, 3, 50 and 100.  (Label correction, 17 Oct: at
+     omega = 2, Q_amp = 0.02, so these are m_p = M and 2M, not M/2 and M as the table title says; the fermion at m_p = M
+     has level spacing 2M = the drive frequency.  Likewise Part A's "m_p = M (= 100 gQ_amp)" is m_p = omega M.  The
+     table titles in the committed log are left as run; axion_probes_fourier.py takes the row apart.)
 
 Usage (from the repository root, ~10 min):
     python axion_su2/code/axion_probes.py > axion_su2/results/axion_probes.txt

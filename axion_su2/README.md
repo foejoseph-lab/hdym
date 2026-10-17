@@ -199,6 +199,9 @@ code/
                      (g²/2)f² (ghost / twin / M → ∞, tangents checked against the core's linearisation, the test
                      scalar's own growth reported); the ghost's tongue at five probe masses. Imports probe_core.
                                                                               (float; added 2026-10-16, revised)
+  axion_probes_fourier.py Part C's asymmetry taken apart: Fourier amplitudes of the recorded ghost and twin Q(t) at the
+                     fermion's level spacing, the fermion as a test field on each waveform, matched and pure-tone tests.
+                     Imports axion_probes.                                        (float; added 2026-10-17)
   axion_probes_infl.py the inflationary stand-in: constant κ at the isotropic fixed point with a massless doublet, ghost /
                      twin / M → ∞, 60 periods, perturbed seeds; then the tail (the axion starting to oscillate at m_φ with
                      the inflationary amplitude). Imports axion_probes.               (float; added 2026-10-17)
@@ -231,6 +234,7 @@ results/
   probe_derive.txt   output of code/probe_derive.py (6 s, cloud session 16 Oct, sympy 1.14), all checks PASS (CHECK 5b added)
   axion_probes.txt   output of code/axion_probes.py, revised version (10 min, cloud session 16 Oct, Python 3.13, scipy 1.18)
   axion_probes_infl.txt output of code/axion_probes_infl.py (3.5 min, cloud session 17 Oct): the inflationary run, nothing
+  axion_probes_fourier.txt output of code/axion_probes_fourier.py (16 min, cloud session 17 Oct): Part C's asymmetry is amplitude
   axion_probes_spread.txt output of code/axion_probes_spread.py (17 min, cloud session 16 Oct): the loss-time spread
                      (8 of 20 ghost runs lost within 60 T) and the perturbed controls (0 of 10)
   axion_probes_long.txt output of code/axion_probes_long.py, with the c(t), 6g²Q² and constant-force (`boson+F`) columns
@@ -811,6 +815,23 @@ the amplitude inflation left it (κ₀ = 2Q₀). Columns ghost / twin / M → �
   probe-induced coefficient reaching the collision), with the scope "where the axion drive is within ~15 % of its own
   loss threshold"; outside that window real probes are spectators here.
 
+**Part C taken apart, and two label corrections (17 Oct)** (`axion_probes_fourier.py`, `results/axion_probes_fourier.txt`,
+16 min, cloud session). *Labels first:* at ω = 2, Q_amp = ω/100 = 0.02, so Part C's rows "m_p/gQ_amp = 50 (= M/2)" and
+"100 (= M)" are m_D = **M** and **2M**; and Part A's "m_p = M (= 100 gQ_amp)" is m_p = ωM (2.4M, 3M) — decoupled either
+way, label only. Read the revised-run paragraph above with that: the fermion the twin pumps has m_D = M, level spacing
+Ω = 2m_D = 2M = the axion drive frequency — which is why it is driven at all — and "at m_p = M nothing with either" is
+at 2M. *The asymmetry:* the fermion couples to Q(t) alone, so the difference between ghost (n₋ → 0.015) and twin
+(0.56) is in the two waveforms. The twin's dressed orbit has **14× the Fourier amplitude at Ω** (0.0302 vs 0.00215 Q_amp;
+0.040 vs 0.0030 at the drive 2M; the same 0.0006 at M); the fermion as a test field on each recorded waveform
+reproduces the coupled rows (0.50 vs 0.017); a pure tone A cos Ωt at the twin's amplitude gives 0.50, at the ghost's
+0.007. A Rabi estimate agrees: coupling (3/2)g·A = 9×10⁻⁴ over the 2100 time units is a Rabi angle of 1.9 rad, n₋ =
+sin² ≈ 0.66 against the measured maximum 0.64; the ghost's component is 14× weaker and sits at 2.000 against Ω = 2.0009,
+detuning-limited. (The ghost waveform scaled up 14× gives only 0.035: the scaling takes its peaks to 16 Q_amp and moves
+Ω by 10 %, off resonance — the tone test is the clean one.) **So the sign of the heavy pole enters only through the
+dressed response of the orbit to the drive** — the propagator Π of the correction section with its heavy-pole term
+flipped — not through any direct effect on the fermion; pair production by a strong oscillating field, as the reviewer
+expected, with the field's amplitude set by the heavy sector's sign. Not a ghost instability.
+
 So for the paper: the ghost-specific instability in this space is a probe-induced anisotropic mass reaching the
 Lee–Wick pole-collision value, g f = M/√2 — not a tongue, not a resonance; the twin cannot do it; Yang–Mills alone
 cannot. The twin's limit Q < M/√6 is intrinsic: any Lagrangian twin that keeps the potential and matter coupled to
@@ -897,6 +918,10 @@ boson drives the ghost pair and not a healthy pair (Part B, twin sign fixed).
 - [ ] Probes (16 Oct): derivation and core done (`probe_derive.py`, `probe_core.py`); the runs with the probe
       columns on this background are next (isotropic threshold table; anisotropic and off-diagonal sectors with
       the scalar's (g²/2)f² mass). Then the same on `dilaton_su2/`.
+      Status (2026-10-17, later): Part C's asymmetry is amplitude (the twin's orbit has 14× the Fourier amplitude at the
+      fermion's level spacing; test-field and pure-tone runs reproduce it; Rabi estimate agrees) — the heavy pole's
+      sign acts only through the orbit's dressed response. Part C's mass labels corrected (M, 2M; Part A's control is
+      m_p = ωM). The probe programme on the axion background is complete; next: the dilaton on the core.
       Status (2026-10-17): the inflationary run is done (`axion_probes_infl.py`): nothing, static or tail — the pump needs
       the drive near its own loss threshold as well as the mean; the Higgs doublet is a spectator in chromo-natural
       inflation and its tail at the inflationary amplitude. Open: Part C's Fourier diagnostic; then the dilaton on the

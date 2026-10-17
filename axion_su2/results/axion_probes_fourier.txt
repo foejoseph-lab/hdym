@@ -1,0 +1,27 @@
+  iso_rhs against probe_core.rhs on x = y = z, all switches, random points: max rel err 3.8e-16 PASS
+
+  omega = 2.0, omega^2 phi^2 Pi = 1.0, Q_amp = 0.02, m_D = 1.0 = M (Part C label said M/2: wrong), level spacing Omega(Q_amp) = 2.0009
+
+  1  Fourier amplitudes of the recorded Q(t) over 8 cycles (A cos(nu t) -> A), in units of Q_amp
+  heavy      col |     <Q>  |Q|max | |Q^(Omega)|  |Q^(2M)|  |Q^(M)| | coupled n_- at cycle 8
+  ghost     none |  0.0154   1.142 |     0.00215   0.00300  0.00057 | -
+  ghost  fermion |  0.0154   1.142 |     0.00214   0.00300  0.00057 | 0.015
+   twin     none |  0.0020   1.558 |     0.03018   0.04000  0.00065 | -
+   twin  fermion |  0.0020   1.558 |     0.03018   0.04000  0.00065 | 0.560
+
+  2  The fermion as a test field on each recorded waveform (no back-reaction): n_- at the end / max
+  ghost waveform (   none run): n_- = 0.017 (max 0.017)
+  ghost waveform (fermion run): n_- = 0.017 (max 0.017)
+   twin waveform (   none run): n_- = 0.501 (max 0.643)
+   twin waveform (fermion run): n_- = 0.501 (max 0.643)
+
+  3  Matched: the test fermion on the ghost waveform rescaled to the twin's |Q^(Omega)|, and the twin's to the ghost's
+  |Q^(Omega)| ghost 0.00214, twin 0.03018 Q_amp; ratio twin/ghost = 14.069
+    ghost x (twin/ghost): n_- = 0.035 (max 0.036)
+     twin x (ghost/twin): n_- = 0.011 (max 0.011)
+     ghost, mean removed: n_- = 0.017 (max 0.017)
+      twin, mean removed: n_- = 0.501 (max 0.643)
+        tone at twin's A: n_- = 0.496 (max 0.518)
+       tone at ghost's A: n_- = 0.007 (max 0.007)
+DONE 944
+exit=0
