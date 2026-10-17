@@ -18,6 +18,8 @@ the numerical experiments and judgement calls are the author's.
 | `axion_su2/` | the isotropic SU(2) background of axion-SU(2) cosmology with the Lee–Wick ghost (`axion_su2/README.md`) — plan item 5, the new background; started 2026-10-12 |
 | `dilaton_su2/` | the same isotropic SU(2) background with a gauge-kinetic (dilaton) coupling Θ(φ)F² instead of the axion's φFF̃ (`dilaton_su2/README.md`) — plan item 5b, the parity-even twin; started 2026-10-16 |
 
+`TODO_held.md` holds the code-map to-do lists of 12 Oct (README-against-code mismatches in `ym/` and `bianchi9/`), held by decision.
+
 `islands/`, `bianchi9/`, `axion_su2/` and `dilaton_su2/` are dated working notes, written after the paper text; the paper does
 not yet incorporate them.
 
