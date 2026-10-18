@@ -31,7 +31,8 @@ itself unstable at Q0 = 0.3 -- its 'none' row leaves in 6 T -- so the twin is a 
 
 Usage (from the repository root, ~15 min):
     python axion_su2/code/axion_probes_infl.py > axion_su2/results/axion_probes_infl.txt
-Added 2026-10-17.
+Added 2026-10-17; the TWIN-LIMIT tag the same evening (log not rerun: the one tagged row, Q0 = 0.3 twin none, reads
+CONTROL-FAIL in results/axion_probes_infl.txt and is the twin's limit).
 """
 import os
 import sys
@@ -133,10 +134,10 @@ def row(Q0, eps_p, heavy, seed=0, tail=False, omega=None):
     s3 = blk(cm)
     s4 = " ".join(f"{eh[b - 1]:8.3f}" if b - 1 < len(eh) and np.isfinite(eh[b - 1]) else "       -" for a, b in ((0, 20), (20, 40), (40, 60)))
     tag = f"{lost:.2f} T" if lost is not None else "-"
-    if eps_p == 0.0 and lost is not None:
-        tag += "   CONTROL-FAIL"
-    if heavy == 'inf' and lost is not None:
-        tag += "   CONTROL-FAIL"
+    if lost is not None and (eps_p == 0.0 or heavy == 'inf'):
+        # a lost control row: for the twin at Q0 = 0.3 it is the twin's own limit (its fixed point is unstable there,
+        # README), not a failure of the run; everywhere else it is a failure
+        tag += "   TWIN-LIMIT" if heavy == 'twin' else "   CONTROL-FAIL"
     lab = f"{omega:7.2f}" if tail else f"{seed:7d}"
     print(f"  {Q0:5.3f} {eps_p:6.2f} {heavy:>5} {lab} | {s1} | {s2} | {s3} | {s4} | {tag}", flush=True)
 
