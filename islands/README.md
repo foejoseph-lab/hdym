@@ -54,6 +54,10 @@ code/
   channel_offdiag_monodromy.py  B002: the blocks on a frozen-depth channel background (x = D,
                        y,z = sqrt(2J/D) cos), monodromy over one transverse period vs (D, J), typed
                                                                                 (float; added 2026-10-19)
+  offdiag_escape.py    NONLINEAR escape times of the full nine-component system seeded with off-diagonal
+                       (and diagonal-ghost) perturbations of the DR orbit; sections E (energy x seeds) and
+                       orient (2-d seed-direction map at fixed E); needs ym/hdym_full_derive.py run once;
+                       kernel ym/csrc/hdym_full_escape.c (DOPRI5, OpenMP)             (float; added 2026-10-19)
   scan.py              fine Floquet scan: python scan.py E_min E_max N             (float)
   interior.py          base and ghost Lyapunov exponents inside the island         (float)
   cap_dr_orbit.py      UNTRUSTED certificate generator (mpmath intervals, Lohner/Taylor)
@@ -263,6 +267,22 @@ import.
       instability lies outside the model and most of it violates Gauss (the F118 trap). The DR orbit
       itself has ε ≈ 0.2, so its off-diagonal instabilities, both types, belong to the channel bounce,
       not to the adiabatic channel interior. One scan, per the cap; not tuned.*
+- [ ] Nonlinear off-diagonal escape map (`code/offdiag_escape.py`; the "all nine components" run that the
+      off-diagonal item above says `hdym_island.py` lacks). *Status (2026-10-19): code written and checked,
+      not yet run at size. The model is `ym/hdym_full_derive.py` (full nonlinear homogeneous SU(2) Lee-Wick,
+      temporal gauge; its checks: A'''' coefficient −I, diagonal reduction, linearisation = rung1_system.pkl's
+      K to 1e-15, Gauss law and Ostrogradsky energy conserved to 1e-18, generated C = sympy to 1e-15). The
+      kernel's integrator agrees with scipy DOP853 to 6e-9 over two periods and in escape time to the stated
+      tolerance (CHECK lines in the log). Smoke run in the cloud (6 energies x 8 seeds, both seeds 1e-6, tmax 1500):
+      at E = 1 the diagonal ghost (Floquet rate 0.233 on the orbit) escapes at t ≈ 96 against ln(R/δ)/rate = 99;
+      at E = 0.30, where the diagonal ghost is Floquet-stable, block 23's parametric pair drives the escape at
+      t ≈ 950 (linear 1100–1840); E = 0.05, 0.09 no escape by 1500. An unseeded ghost-free orbit at E = 1 escapes
+      at t ≈ 120 from the integrator's 1e-10 truncation seed, which is why both sectors are seeded at equal
+      amplitude; and the escape time converges in tolerance only for seeds ≳ 1e-5 (convergence table in the
+      docstring), so the defaults are δ = δ_diag = 1e-4, rtol 1e-11. Near a Krein band edge the two block-12
+      modes beat and amplify the seed ~10³ while Floquet-stable (E = 0.05: 1e-4 → 0.23 and back, energy
+      conserved), so the sector that leads a runaway is read as "largest before escape", not "first past a
+      threshold". Committed logs: none yet; the sized runs are Joseph's (commands in the docstring).*
 - [ ] ε-crossover scan at E = 0.3: `hdym_island.py --eps 1e-9 … 1e-6`.
 - [ ] 3-dof: the DR orbit's z-direction Floquet trace (−1.53, float) is not certified; the
       island is sealed in 2-dof and leaks by Arnold diffusion in 3-dof (seen: 2.7 % at r = 2e-4).

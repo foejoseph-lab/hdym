@@ -32,6 +32,7 @@ Section, figure and table names refer to `paper/main.tex`.
 |---|---|---|
 | `hdym_core.py` | equations of motion, Yoshida-4 symplectic integrator with per-trajectory channel sub-stepping, CPU Lyapunov estimators, adaptive DOP853 confirmation of blow-up | The model; Numerical methods |
 | `hdym_derive.py` | symbolic (sympy) reduction from the 3+1 theory to the 12-d system: Gauss law, off-diagonal equations, symmetric criticality, auxiliary-field Hamiltonian | ref. note:derive |
+| `hdym_full_derive.py` | the FULL nonlinear homogeneous system, all nine A^a_i, temporal gauge: fourth-order equations solved for A'''', the three Gauss constraints, the Ostrogradsky energy; checks against `rung1_system.pkl` (linearisation) and the diagonal closed form; writes `full_system.pkl` and the generated `csrc/hdym_full_rhs.h` for `csrc/hdym_full_escape.c` (used by `islands/code/offdiag_escape.py`) *(added 2026-10-19)* | — (off-diagonal nonlinear run) |
 | `hdym_gpu.py` | transverse Lyapunov exponent λ⊥(E), whole integrator in one kernel; `--ghost vec` (physical ghost) or `--ghost diag` (three independent scalar oscillators, per-component estimator) | fig:lambda, tab:low |
 | `hdym_gpu_landscape.py` | `hdym_gpu.py` plus the (D, J) histogram output, results bit-identical | (landscape figure, not in the paper) |
 | `hdym_spectrum.py` | multitaper spectrum of Hess V along pure-YM trajectories at E = 1; the u⁻⁶ tail and the tail constant A | Spectral formula and the u⁻⁶ tail |
