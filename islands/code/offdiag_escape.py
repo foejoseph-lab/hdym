@@ -311,11 +311,22 @@ def cross_check(kern, model, E, delta, rng, rtol, atol, hmax):
     dt_rel = abs(te[0] - t_sp) / t_sp
     print(f"CHECK escape time vs scipy DOP853 (rtol 1e-12) at E=0.549, both seeds {delta:.0e}: kernel {te[0]:.3f}, scipy {t_sp:.3f}, "
           f"relative {dt_rel:.1e} (tol 1e-3) {'PASS' if dt_rel < 1e-3 else 'FAIL'}", flush=True)
+    # determinism of the parallel kernel: identical initial states must give identical results.  Not a formality:
+    # a 20 Oct orient run on Windows (MinGW gcc, OpenMP, 24 threads) printed a spread of escape times across the
+    # theta = 0 row, whose 128 cells are bit-identical by construction, while the same row on Linux gives one value.
+    # The escape time passes through a chaotic loiter after the linear phase, so any bit-level difference between
+    # copies becomes hundreds of time units.  If this FAILS, rebuild single-threaded (set OMP_NUM_THREADS=1 or
+    # CC to a compiler without -fopenmp) and rerun this check before trusting any map.
+    Scp = np.repeat(s1[None, :], 8, axis=0)
+    tec, sec, chc, dgc, Sc, stc = kern.escape(Scp, 1.0, 300.0, 1e4, rtol, atol, hmax, 4)
+    same = np.all(tec == tec[0]) and np.all(Sc == Sc[0]) and np.all(np.nan_to_num(chc) == np.nan_to_num(chc[0]))
+    print(f"CHECK parallel kernel is deterministic (8 identical copies, E=0.549 to t=300): "
+          f"t_esc spread {np.ptp(tec):.3e}, final-state spread {np.abs(Sc - Sc[0]).max():.3e} {'PASS' if same else 'FAIL'}", flush=True)
     # the diagonal orbit alone must close: ghost-free, no seed
     s_end = kern.integrate_to(s_diag, 1.0, T, rtol, atol, hmax)
     clo = np.abs(s_end[[0, 4, 8, 9, 13, 17]] - s_diag[[0, 4, 8, 9, 13, 17]]).max()
     print(f"CHECK unseeded DR orbit closes after one period in the full system: {clo:.1e} (tol 1e-7) {'PASS' if clo < 1e-7 else 'FAIL'}", flush=True)
-    return max(rel, rel_od) < 1e-6 and G0 < 100 * delta ** 2 and clo < 1e-7 and dt_rel < 1e-3
+    return max(rel, rel_od) < 1e-6 and G0 < 100 * delta ** 2 and clo < 1e-7 and dt_rel < 1e-3 and same
 
 
 # ---------------------------------------------------------------- sections
