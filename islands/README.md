@@ -47,6 +47,13 @@ code/
   dr_orbit_ghost.py    DR orbit, Hénon index, coarse ghost Floquet scan in E       (float)
   dr_offdiag_floquet.py  the six off-diagonal ghost components (ym/rung1_system.pkl, c_j = 1)
                        on the DR orbit: block monodromies vs E                (float; added 2026-10-12)
+  dr_offdiag_floquet_typed.py  B001: the same monodromies with the TYPE of each unstable multiplier
+                       (REAL = parametric, CPLX = Krein quadruplet), all 8 printed where the off-circle
+                       count changes, Gauss violation of unstable eigenvectors; imports dr_offdiag_floquet
+                                                                                (float; added 2026-10-19)
+  channel_offdiag_monodromy.py  B002: the blocks on a frozen-depth channel background (x = D,
+                       y,z = sqrt(2J/D) cos), monodromy over one transverse period vs (D, J), typed
+                                                                                (float; added 2026-10-19)
   scan.py              fine Floquet scan: python scan.py E_min E_max N             (float)
   interior.py          base and ghost Lyapunov exponents inside the island         (float)
   cap_dr_orbit.py      UNTRUSTED certificate generator (mpmath intervals, Lohner/Taylor)
@@ -76,6 +83,11 @@ results/
   cert.json            p = 24 certificate (generator default), md5 b2dc3efca31bd6b848048b34cc8527bc;
                        no checker output committed
   twist_sym.log
+  dr_offdiag_floquet.txt        output of dr_offdiag_floquet.py (12 Oct, cloud session)
+  dr_offdiag_floquet_typed.txt  output of dr_offdiag_floquet_typed.py --ncores 20 (19 Oct, Joseph's machine,
+                       python 3.12.5 numpy 2.2.6 sympy 1.13.1); a cloud run the same day agrees row for row
+  channel_offdiag_monodromy.txt output of channel_offdiag_monodromy.py --ncores 20 (19 Oct, same machine;
+                       cloud run agrees in every in-model cell)
 ```
 
 Not yet committed: the `results/island_E*_eps*.log`
@@ -220,6 +232,37 @@ import.
       ε = 1e-10, is not a refuge in the full homogeneous theory, at least at its centre. The 12-d
       `hdym_island.py` runs have no off-diagonal components. Not certified; this is the central
       orbit only, not the surrounding tori.*
+      *Status (2026-10-19): typed. `code/dr_offdiag_floquet_typed.py`, output
+      `results/dr_offdiag_floquet_typed.txt` (B001 of the bridge work order), reproduces the 13 unstable
+      intervals of `dr_offdiag_floquet.txt` exactly and gives each unstable multiplier its type: a real
+      pair leaving the unit circle at +1 is parametric; a complex quadruplet is a Krein collision (two
+      unit-circle pairs of opposite Krein signature meeting). Scope: DR orbit, off-diagonal ghost,
+      c_j = 1, E ∈ [0.05, 1], 400 log-spaced points. Result: the type never changes inside a
+      (block, interval). Krein quadruplets occur in block 12 only, E ∈ [0.0761, 0.0773], [0.1519, 0.1613]
+      and [0.3469, 0.4937] (60 cells; max |mu| = 2.87, rate 0.032, at E = 0.412). Every other unstable
+      cell (137) is parametric with the pair leaving at +1; no pair ever leaves at −1. Every unstable
+      eigenvector satisfies the linearised Gauss law to 5e-11. The pure-YM off-diagonal block is stable
+      at every E (so the E = 0.3 block-23 instability quoted above is the ghost's). Checks: closure 4e-13,
+      det M − 1 ≤ 1e-9, (mu, 1/mu) pairing 1e-9, c_j = 0 Hill reduction 1e-11, no multiplier masked by
+      the "drop the 4 nearest 1" rule. In the Broucke (A, B) diagram of the ghost pair, block 12 rides the
+      seam between the Krein parabola and the period-doubling line from E ≈ 0.07 to 0.49 and always exits
+      through the parabola; blocks 13 and 23 exit through the +1 line only (figures in the 19 Oct review
+      brief, not committed). Open (B005, work order v3): the Krein signature of each pair, measured
+      rather than inferred from pass/collide.*
+      *Status (2026-10-19, B002): `code/channel_offdiag_monodromy.py`, output
+      `results/channel_offdiag_monodromy.txt`: monodromy of each block over one transverse period
+      T = 2π/D on the frozen-depth channel background x = D, px = 0, y = A cos Dt, z = A cos(Dt + ψ),
+      A = √(2J/D), for D ∈ [0.5, 6] (24 log points), J ∈ [0.005, 0.5] (6), ψ ∈ {0, π/2}, c_j ∈ {1, 0}.
+      The background is not an exact solution: the depth changes by ε = 4π²J/D³ (relative) over one
+      period, cells with ε > 0.1 are marked OUTSIDE-MODEL, the gauge zero mode's Jordan pair splits by
+      ~√ε there, so the verdict uses all 8 multipliers and the Gauss column tags growth in the broken
+      constraint sector; the exported K has the background equations of motion substituted, so the
+      c_j = 0 Hill check holds to O(ε) (9e-6 at ε = 3e-3). Result, scoped to ε ≤ 0.1 (188 of 576 cases):
+      the c_j = 1 off-diagonal ghost is Floquet-stable in every block at both phases except one weak
+      Krein cell (D = 3.89, J = 0.0315, |mu| = 1.002, rate 0.001, Gauss-respecting). Every strong
+      instability lies outside the model and most of it violates Gauss (the F118 trap). The DR orbit
+      itself has ε ≈ 0.2, so its off-diagonal instabilities, both types, belong to the channel bounce,
+      not to the adiabatic channel interior. One scan, per the cap; not tuned.*
 - [ ] ε-crossover scan at E = 0.3: `hdym_island.py --eps 1e-9 … 1e-6`.
 - [ ] 3-dof: the DR orbit's z-direction Floquet trace (−1.53, float) is not certified; the
       island is sealed in 2-dof and leaks by Arnold diffusion in 3-dof (seen: 2.7 % at r = 2e-4).
