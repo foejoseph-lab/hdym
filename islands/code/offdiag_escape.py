@@ -48,7 +48,11 @@ Usage (Spyder, from the repo root, kernel's own interpreter; the derivation must
     import sys; %cd C:\\GitHub\\hdym
     !"{sys.executable}" -B -u ym\\hdym_full_derive.py > islands\\results\\hdym_full_derive.txt 2>&1
     !"{sys.executable}" -B -u islands\\code\\offdiag_escape.py --section E --nE 100 --nseed 32 --tag esc_E > islands\\results\\esc_E.txt 2>&1
-    !"{sys.executable}" -B -u islands\\code\\offdiag_escape.py --section orient --E 0.412 --n 96 --tag esc_orient_0412 > islands\\results\\esc_orient_0412.txt 2>&1
+    !"{sys.executable}" -B -u islands\\code\\offdiag_escape.py --section orient --E 0.156 --n 128 --tag esc_orient_0156 > islands\\results\\esc_orient_0156.txt 2>&1
+    !"{sys.executable}" -B -u islands\\code\\offdiag_escape.py --section orient --E 0.30 --n 128 --tag esc_orient_030 > islands\\results\\esc_orient_030.txt 2>&1
+  (orient only pays where the off-diagonal sector leads the race, i.e. where the diagonal ghost is Floquet-stable on the
+  orbit: E = 0.156 is block 12's Krein band, E = 0.30 block 23's parametric tongue.  At E = 0.412 and 0.642 the diagonal
+  ghost's rate is 2-4x the off-diagonal one and the map is structureless: 20 Oct run at 0.412, median 183, 96 % diagonal.)
     !"{sys.executable}" -B -u islands\\code\\offdiag_escape.py --plot esc_E
 
 Run parameters and why: delta = delta_diag = 1e-4.  Convergence test (E = 0.549, both seeds, same initial
@@ -361,7 +365,13 @@ def run_orient(a, kern, model, rng, out):
             v -= (v @ b) * b
         basis.append(v / np.linalg.norm(v))
     e1, e2, e3 = basis
-    rng_diag = np.random.default_rng(a.seed + 1)      # one diagonal-ghost seed orientation per cell, reproducible
+    rng_diag = np.random.default_rng(a.seed + 1)
+    if a.diag_orient == 'fixed':
+        # ONE diagonal-ghost seed for the whole map, so that structure in the off-diagonal seed direction can show;
+        # re-randomising it per cell decorrelates the map wherever the diagonal ghost wins the race (seen at E = 0.412,
+        # 20 Oct: salt and pepper, 96 % of cells escaping through the diagonal ghost)
+        w_fixed = rng_diag.normal(size=6)
+        w_fixed *= a.delta_diag / np.linalg.norm(w_fixed)
     th = np.linspace(0, np.pi, a.n)
     ph = np.linspace(0, 2 * np.pi, a.n, endpoint=False)
     tesc = np.full((a.n, a.n), np.nan)
@@ -373,14 +383,21 @@ def run_orient(a, kern, model, rng, out):
         S0 = np.empty((a.n, 36))
         for j, p_ in enumerate(ph):
             v = a.delta * (np.cos(t_) * e1 + np.sin(t_) * np.cos(p_) * e2 + np.sin(t_) * np.sin(p_) * e3)
-            S0[j] = seed_diag_ghost(seeded_state(s_diag, v), a.delta_diag, rng_diag)
+            if a.diag_orient == 'fixed' and a.delta_diag > 0:
+                s_ = seeded_state(s_diag, v)
+                for ii in range(3):
+                    s_[18 + 4 * ii] += w_fixed[ii]
+                    s_[27 + 4 * ii] += w_fixed[3 + ii]
+                S0[j] = s_
+            else:
+                S0[j] = seed_diag_ghost(seeded_state(s_diag, v), a.delta_diag, rng_diag)
         te, se, ch, dg, _, st = kern.escape(S0, a.cj, a.tmax, a.R, a.rtol, a.atol, a.hmax, a.nchk)
         tesc[i], sector[i], diag[i], status[i] = te, se, dg, st
         esc = te > 0
         print(f"theta={t_:.4f} ({i + 1}/{a.n}): escaped {esc.sum()}/{a.n} ({(st == 1).sum()} singular, {(st == 2).sum()} failed), t_esc in [{te[esc].min() if esc.any() else float('nan'):.1f}, "
               f"{te[esc].max() if esc.any() else float('nan'):.1f}], max |dE/E| {pre_escape_drift(ch, dg).max():.1e}  ({time.time() - t0:.0f}s)", flush=True)
         np.savez(out, section='orient', E=a.E, T=T, theta=th, phi=ph, basis=np.array(basis), tesc=tesc, sector=sector, status=status, diag=diag,
-                 rows_done=i + 1, rows=a.n, delta=a.delta, delta_diag=a.delta_diag, R=a.R, tmax=a.tmax, rtol=a.rtol, atol=a.atol, block=a.block, cj=a.cj, seed=a.seed)
+                 rows_done=i + 1, rows=a.n, delta=a.delta, delta_diag=a.delta_diag, diag_orient=a.diag_orient, R=a.R, tmax=a.tmax, rtol=a.rtol, atol=a.atol, block=a.block, cj=a.cj, seed=a.seed)
     return tesc, sector
 
 
@@ -443,26 +460,35 @@ def plot(tag, results_dir):
                 E_ = np.array([r[0] for r in arr], dtype=float)
                 rate = np.array([r[1] for r in arr], dtype=float)
                 ok = rate > 0
-                ax.plot(E_[ok], ln / rate[ok], '.', ms=2.5, color=cols[c], alpha=0.5)
-                ax.plot(E_[ok], np.log(1.0 / float(d['delta'])) / rate[ok], '.', ms=1.2, color=cols[c], alpha=0.35)
-            ax.plot([], [], '.', color='#0b0b0b', label='linear: ln(R/δ)/rate and ln(1/δ)/rate per block (typed log)')
+                tmax_ = float(d['tmax'])
+                for ln_, ms_, al_ in ((ln, 2.5, 0.5), (np.log(1.0 / float(d['delta'])), 1.2, 0.35)):
+                    tp = ln_ / rate[ok]
+                    below = tp <= tmax_
+                    ax.plot(E_[ok][below], tp[below], '.', ms=ms_, color=cols[c], alpha=al_)
+                    # predictions beyond tmax: the run could not confirm them; drawn hollow and faint
+                    ax.plot(E_[ok][~below], tp[~below], 'o', ms=ms_ + 1, mfc='none', mec=cols[c], mew=0.5, alpha=0.35)
+            ax.plot([], [], '.', color='#0b0b0b', label='linear: ln(R/δ)/rate and ln(1/δ)/rate per block (typed log); hollow = beyond tmax, untestable here')
+        ax.axhline(float(d['tmax']), color='#52514e', lw=0.8, ls='--')
+        ax.text(float(d['E'][0]) * 1.02, float(d['tmax']) * 1.08, 'tmax', fontsize=8, color='#52514e')
         if 'rate_diag' in d.files:
             rd = d['rate_diag'][:nd]
-            okd = rd > 1e-6
             dd_ = max(float(d['delta_diag']), 1e-10)
-            ax.plot(Es[:nd][okd], np.log(float(d['R']) / dd_) / rd[okd], '-', color=cols5[4], lw=1,
-                    label='linear, diagonal ghost: ln(R/δ_diag)/rate_diag (and ln(1/δ_diag), dotted)')
-            ax.plot(Es[:nd][okd], np.log(1.0 / dd_) / rd[okd], ':', color=cols5[4], lw=1)
+            # NaN where the diagonal ghost is Floquet-stable, so the curve BREAKS there instead of bridging the gap
+            # (an earlier version joined the neighbours and drew a spurious prediction across E = 0.27-0.31)
+            rsafe = np.where(rd > 1e-6, rd, np.nan)
+            ax.plot(Es[:nd], np.log(float(d['R']) / dd_) / rsafe, '-', color=cols5[4], lw=1,
+                    label='linear, diagonal ghost: ln(R/δ_diag)/rate_diag (and ln(1/δ_diag), dotted); absent where Floquet-stable')
+            ax.plot(Es[:nd], np.log(1.0 / dd_) / rsafe, ':', color=cols5[4], lw=1)
         for g in (1, 2, 3, 4):
             ax.scatter([], [], color=cols5[g], label=f'runaway led by {names5[g]} (largest before escape)')
-        ax.scatter([], [], marker='^', color='#c3c2b7', label=f'not escaped by tmax = {float(d["tmax"]):.0f}')
+        ax.scatter([], [], marker='^', color='#c3c2b7', label=f'not escaped by tmax = {float(d["tmax"]):.0f} (drawn at 1.15 tmax)')
         ax.set_xscale('log')
         ax.set_yscale('log')
         ax.set_xlabel('E')
         ax.set_ylabel('escape time')
         ax.set_title(f'Nonlinear escape times, off-diagonal seed δ = {float(d["delta"]):.0e} on the DR orbit, block {str(d["block"])} '
                      f'({nd}/{int(d["rows"])} rows)', fontsize=10, loc='left')
-        ax.legend(frameon=False, fontsize=8)
+        ax.legend(frameon=False, fontsize=8, loc='lower left')
         ax.grid(True, color='#eeede9')
         fig.savefig(os.path.join(results_dir, tag + '.png'), dpi=150, bbox_inches='tight')
         print(f"wrote {tag}.png")
@@ -478,7 +504,7 @@ def plot(tag, results_dir):
         cm = matplotlib.colors.ListedColormap(['#c3c2b7', cols[0], cols[1], cols[2], cols[3]])
         axs[1].imshow(se + 1, origin='lower', aspect='auto', extent=[0, 2, 0, 1], cmap=cm, vmin=0, vmax=4)
         axs[1].set_xlabel('φ/π')
-        axs[1].set_title('escaping sector (grey: not escaped)', fontsize=10)
+        axs[1].set_title('escaping sector (light grey: not escaped; dark grey: diagonal; blue/orange/green: blocks 12/13/23)', fontsize=9)
         fig.savefig(os.path.join(results_dir, tag + '.png'), dpi=150, bbox_inches='tight')
         print(f"wrote {tag}.png")
 
@@ -507,6 +533,7 @@ def main():
     ap.add_argument('--nchk', type=int, default=60)
     ap.add_argument('--cj', type=float, default=1.0)
     ap.add_argument('--seed', type=int, default=1)
+    ap.add_argument('--diag-orient', choices=['fixed', 'random'], default='fixed', help='orient section: one diagonal-ghost seed for the whole map (default) or one per cell')
     a = ap.parse_args()
     results = os.path.normpath(a.results)
     os.makedirs(results, exist_ok=True)

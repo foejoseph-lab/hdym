@@ -283,6 +283,28 @@ import.
       modes beat and amplify the seed ~10³ while Floquet-stable (E = 0.05: 1e-4 → 0.23 and back, energy
       conserved), so the sector that leads a runaway is read as "largest before escape", not "first past a
       threshold". Committed logs: none yet; the sized runs are Joseph's (commands in the docstring).*
+      *Status (2026-10-20): section E run on Joseph's machine (100 energies x 64 seeds, both seeds 1e-4, tmax 3000,
+      rtol 1e-11, 24 threads, 16893 s; log `results/esc_E.txt`, data `results/esc_E.npz`; all checks PASS, no
+      integrator failures). Reading: the nonlinear escape times lie between ln(1/δ)/rate and ln(R/δ)/rate of
+      the leading linear instability at every E. Where the diagonal ghost is Floquet-unstable on the orbit
+      (E ≳ 0.31 and its tongues at 0.09, 0.16–0.19, 0.24–0.26) it leads, and above E ≈ 0.33 its rate (0.04–0.23)
+      exceeds every off-diagonal rate, so block 12's Krein band at 0.35–0.49 (rate ≤ 0.032) never leads an escape
+      there. In the gaps where the diagonal ghost is stable the off-diagonal instabilities take over at their own
+      linear rates — E = 0.153–0.158 (block 12 Krein, median 2276 vs 1460–2900), 0.227–0.246 (block 12
+      parametric, 914 vs 575–1150), 0.28–0.31 (block 23 parametric) — and in each the off-diagonal mode grows
+      first and the diagonal ghost, pumped nonlinearly, overtakes and does the escaping. Where nothing is
+      linearly unstable (E ≈ 0.113–0.149, 0.195–0.22, 0.272) nothing escapes by 3000. The orient map at
+      E = 0.412 (128², `results/esc_orient_0412.*`, 32975 s) is structureless (median 183, 96 % of cells escape
+      through the diagonal ghost): at that E the diagonal ghost wins regardless of the off-diagonal seed, and
+      the per-cell random diagonal seed decorrelates the map; the script now holds one diagonal seed per map
+      (`--diag-orient fixed`) and the maps worth making are at E = 0.156 and 0.30, where the off-diagonal sector
+      leads. Decomposing the escape time with the checkpoints: the diagonal ghost first reaches amplitude 1 at
+      ln(1/δ)/rate within the 50-unit checkpoint resolution at every E from 0.09 to 0.9 (the linear rate is the
+      clock), and what follows is a bounded nonlinear loiter of median 10–170 and 90th percentile 50–630 time
+      units (zero to ~ten orbit periods) before the blow-up — negligible against a linear phase of thousands at
+      low E, comparable to it above E ≈ 0.5, which is why the packets there spread upward. The upper line
+      ln(R/δ)/rate, which assumes exponential growth to R, is not the right upper edge; the end is a loiter then
+      a sharp blow-up.*
 - [ ] ε-crossover scan at E = 0.3: `hdym_island.py --eps 1e-9 … 1e-6`.
 - [ ] 3-dof: the DR orbit's z-direction Floquet trace (−1.53, float) is not certified; the
       island is sealed in 2-dof and leaks by Arnold diffusion in 3-dof (seen: 2.7 % at r = 2e-4).
