@@ -40,7 +40,9 @@ an escape at the last resolved time and is flagged status = 1 ("singular"; the L
 finite-time singularity, cf. hdym_core.confirm_runaway); status = 2 is a real integrator failure and fails the run.
 
 Output: <results>/<tag>.npz, written after every row (E value, or theta row) so a killed run keeps what
-it has (a partial file carries rows_done < rows).  Log: CHECK lines first (build, integrator
+it has (a partial file carries rows_done < rows); `--resume` with the same parameters continues it from there
+exactly (the seed basis, the fixed diagonal seed and the per-cell seeds are all regenerated from --seed).  Use
+`>>` on the log when resuming, or the restart overwrites it.  Log: CHECK lines first (build, integrator
 cross-check against scipy DOP853 on one trajectory, Gauss residual of the seeds), then one line per row,
 then DONE <seconds>.  --plot <tag> draws the figures from an existing npz (no run).
 
@@ -347,6 +349,24 @@ def cross_check(kern, model, E, delta, rng, rtol, atol, hmax):
     return max(rel, rel_od) < 1e-6 and G0 < 100 * delta ** 2 and clo < 1e-7 and dt_rel < 1e-3 and same
 
 
+def resume_from(out, a, keys):
+    """--resume: load an existing npz with the same run parameters and return it (rows_done tells where to continue);
+    None if absent or if any parameter differs.  The seed basis and the fixed diagonal seed are regenerated from
+    --seed, so continuing is exact; only the random per-cell seeds of section E are regenerated too (same rng, so the
+    rows already done are skipped by drawing and discarding the same numbers)."""
+    if not a.resume or not os.path.exists(out):
+        return None
+    d = np.load(out, allow_pickle=True)
+    for k in keys:
+        if k not in d.files:
+            continue                                   # files from before --resume existed lack a few keys
+        if str(d[k]) != str(getattr(a, k)):
+            print(f"--resume: parameter {k} differs ({d[k]} in file, {getattr(a, k)} now); starting afresh", flush=True)
+            return None
+    print(f"--resume: continuing {out} from row {int(d['rows_done'])} of {int(d['rows'])}", flush=True)
+    return d
+
+
 # ---------------------------------------------------------------- sections
 def run_E(a, kern, model, rng, out):
     Es = np.logspace(np.log10(a.Emin), np.log10(a.Emax), a.nE)
@@ -358,6 +378,12 @@ def run_E(a, kern, model, rng, out):
     diag = np.full((a.nE, N, 4), np.nan)
     Tper = np.zeros(a.nE)
     rate_diag = np.full(a.nE, np.nan)
+    start = 0
+    old = resume_from(out, a, ('nE', 'nseed', 'Emin', 'Emax', 'delta', 'delta_diag', 'block', 'tmax', 'rtol', 'seed', 'nchk'))
+    if old is not None:
+        start = int(old['rows_done'])
+        for k, arr in (('tesc', tesc), ('sector', sector), ('chk', chk), ('diag', diag), ('T', Tper), ('rate_diag', rate_diag), ('status', status)):
+            arr[:start] = old[k][:start]
     t0 = time.time()
     for i, E in enumerate(Es):
         s_diag, T = diagonal_state(E)
@@ -368,6 +394,8 @@ def run_E(a, kern, model, rng, out):
             v = P @ rng.normal(size=24)
             v *= a.delta / np.linalg.norm(v)
             S0[n] = seed_diag_ghost(seeded_state(s_diag, v), a.delta_diag, rng)
+        if i < start:
+            continue                                       # rows already in the file; the rng has been advanced identically
         te, se, ch, dg, _, st = kern.escape(S0, a.cj, a.tmax, a.R, a.rtol, a.atol, a.hmax, a.nchk)
         tesc[i], sector[i], chk[i], diag[i], status[i] = te, se, ch, dg, st
         rate_diag[i] = diag_ghost_rate(E)
@@ -380,6 +408,7 @@ def run_E(a, kern, model, rng, out):
               f"min {te[esc].min() if esc.any() else float('nan'):8.1f}  sectors [{secs}]  diag-ghost rate {rate_diag[i]:.4f}  max |dE/E| {drift.max():.1e}  "
               f"max |G|_end {dg[:, 3].max():.1e}{'  INTEGRATOR-FAIL x%d' % fail if fail else ''}  ({time.time() - t0:.0f}s)", flush=True)
         np.savez(out, section='E', E=Es, T=Tper, tesc=tesc, sector=sector, status=status, chk=chk, diag=diag, rate_diag=rate_diag, rows_done=i + 1, rows=a.nE,
+                 nE=a.nE, nseed=a.nseed, Emin=a.Emin, Emax=a.Emax,
                  delta=a.delta, delta_diag=a.delta_diag, R=a.R, tmax=a.tmax, rtol=a.rtol, atol=a.atol, block=a.block, cj=a.cj, nchk=a.nchk, seed=a.seed)
     return tesc, sector
 
@@ -407,8 +436,16 @@ def run_orient(a, kern, model, rng, out):
     sector = np.full((a.n, a.n), -1, dtype=np.int32)
     status = np.full((a.n, a.n), -1, dtype=np.int32)
     diag = np.full((a.n, a.n, 4), np.nan)
+    start = 0
+    old = resume_from(out, a, ('n', 'E', 'delta', 'delta_diag', 'block', 'tmax', 'rtol', 'seed', 'diag_orient'))
+    if old is not None:
+        start = int(old['rows_done'])
+        for k, arr in (('tesc', tesc), ('sector', sector), ('status', status), ('diag', diag)):
+            arr[:start] = old[k][:start]
     t0 = time.time()
     for i, t_ in enumerate(th):
+        if i < start:
+            continue
         S0 = np.empty((a.n, 36))
         for j, p_ in enumerate(ph):
             v = a.delta * (np.cos(t_) * e1 + np.sin(t_) * np.cos(p_) * e2 + np.sin(t_) * np.sin(p_) * e3)
@@ -425,7 +462,7 @@ def run_orient(a, kern, model, rng, out):
         esc = te > 0
         print(f"theta={t_:.4f} ({i + 1}/{a.n}): escaped {esc.sum()}/{a.n} ({(st == 1).sum()} singular, {(st == 2).sum()} failed), t_esc in [{te[esc].min() if esc.any() else float('nan'):.1f}, "
               f"{te[esc].max() if esc.any() else float('nan'):.1f}], max |dE/E| {pre_escape_drift(ch, dg).max():.1e}  ({time.time() - t0:.0f}s)", flush=True)
-        np.savez(out, section='orient', E=a.E, T=T, theta=th, phi=ph, basis=np.array(basis), tesc=tesc, sector=sector, status=status, diag=diag,
+        np.savez(out, section='orient', E=a.E, T=T, theta=th, phi=ph, basis=np.array(basis), tesc=tesc, sector=sector, status=status, diag=diag, n=a.n,
                  rows_done=i + 1, rows=a.n, delta=a.delta, delta_diag=a.delta_diag, diag_orient=a.diag_orient, R=a.R, tmax=a.tmax, rtol=a.rtol, atol=a.atol, block=a.block, cj=a.cj, seed=a.seed)
     return tesc, sector
 
@@ -562,6 +599,7 @@ def main():
     ap.add_argument('--nchk', type=int, default=60)
     ap.add_argument('--cj', type=float, default=1.0)
     ap.add_argument('--seed', type=int, default=1)
+    ap.add_argument('--resume', action='store_true', help='continue an existing <tag>.npz with identical parameters from its rows_done')
     ap.add_argument('--diag-orient', choices=['fixed', 'random'], default='fixed', help='orient section: one diagonal-ghost seed for the whole map (default) or one per cell')
     a = ap.parse_args()
     results = os.path.normpath(a.results)
