@@ -109,16 +109,18 @@ class Kernel:
         self.lib = ctypes.CDLL(lib)
         dp, ip = ctypes.POINTER(ctypes.c_double), ctypes.POINTER(ctypes.c_int)
         self.lib.escape.argtypes = [dp, ctypes.c_int, ctypes.c_double, ctypes.c_double, ctypes.c_double,
-                                    ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_int, dp, ip, ip, dp, dp]
+                                    ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_int, dp, ip, ip, dp, dp, ip]
         self.lib.integrate_to.argtypes = [dp, ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double]
         self.lib.omp_threads.restype = ctypes.c_int
         self.lib.fp_mode_report.argtypes = [ctypes.POINTER(ctypes.c_uint)]
         rep = (ctypes.c_uint * 3)()
         self.lib.fp_mode_report(rep)
         print(f"CHECK kernel built with {cc} {omp}, {self.lib.omp_threads()} threads: PASS", flush=True)
-        print(f"INFO  FP control word before the kernel set it: min 0x{rep[0]:04X} max 0x{rep[1]:04X} over threads "
-              f"({'DIFFERED between threads -- the 20 Oct Windows bug; now pinned' if rep[0] != rep[1] else 'same in all threads'}); "
-              f"every thread now runs with 0x{rep[2]:04X} (FTZ/DAZ off)", flush=True)
+        mx = (rep[0] & 0xFFFF, rep[1] & 0xFFFF)
+        x87 = (rep[0] >> 16, rep[1] >> 16)
+        print(f"INFO  FP state the threads had before the kernel pinned it: MXCSR control bits min 0x{mx[0] & 0xFFC0:04X} max 0x{mx[1] & 0xFFC0:04X}"
+              f" (status flags ignored); x87 control word min 0x{x87[0]:04X} max 0x{x87[1]:04X} (Windows only; 0 elsewhere)."
+              f"  Now MXCSR 0x{rep[2]:04X}, x87 53-bit, in every thread; the step controller no longer calls the C library.", flush=True)
 
     def escape(self, S0, cj, tmax, R, rtol, atol, hmax, nchk):
         S = np.array(S0, dtype=np.float64, order='C', copy=True)   # (N, 36); the kernel overwrites it with the final state
@@ -126,11 +128,13 @@ class Kernel:
         tesc = np.zeros(N)
         sector = np.zeros(N, dtype=np.int32)
         status = np.zeros(N, dtype=np.int32)
+        thread_of = np.zeros(N, dtype=np.int32)
         chk = np.zeros((N, nchk, 6))
         diag = np.zeros((N, 4))
         dp, ip = ctypes.POINTER(ctypes.c_double), ctypes.POINTER(ctypes.c_int)
         self.lib.escape(S.ctypes.data_as(dp), N, cj, tmax, R, rtol, atol, hmax, nchk,
-                        tesc.ctypes.data_as(dp), sector.ctypes.data_as(ip), status.ctypes.data_as(ip), chk.ctypes.data_as(dp), diag.ctypes.data_as(dp))
+                        tesc.ctypes.data_as(dp), sector.ctypes.data_as(ip), status.ctypes.data_as(ip), chk.ctypes.data_as(dp), diag.ctypes.data_as(dp), thread_of.ctypes.data_as(ip))
+        self.last_thread_of = thread_of
         return tesc, sector, chk, diag, S, status
 
     def integrate_to(self, s0, cj, T, rtol, atol, hmax):
@@ -331,6 +335,11 @@ def cross_check(kern, model, E, delta, rng, rtol, atol, hmax):
     same = np.all(tec == tec[0]) and np.all(Sc == Sc[0]) and np.all(np.nan_to_num(chc) == np.nan_to_num(chc[0]))
     print(f"CHECK parallel kernel is deterministic (48 identical copies, E=0.549 to t=300): "
           f"t_esc spread {np.ptp(tec):.3e}, final-state spread {np.abs(Sc - Sc[0]).max():.3e} {'PASS' if same else 'FAIL'}", flush=True)
+    if not same:
+        thr = kern.last_thread_of
+        vals, inv = np.unique(np.round(tec, 6), return_inverse=True)
+        for k, v in enumerate(vals):
+            print(f"      t_esc = {v:.6f}: {np.sum(inv == k)} copies, on threads {sorted(set(thr[inv == k].tolist()))}", flush=True)
     # the diagonal orbit alone must close: ghost-free, no seed
     s_end = kern.integrate_to(s_diag, 1.0, T, rtol, atol, hmax)
     clo = np.abs(s_end[[0, 4, 8, 9, 13, 17]] - s_diag[[0, 4, 8, 9, 13, 17]]).max()

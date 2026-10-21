@@ -315,6 +315,15 @@ import.
       the same equations up to a last-bit difference in the seed, so the statistics and every statement above
       stand, but cell-level reproducibility between platforms holds only for runs after this fix. The 0156 and 030
       orient maps are rerun with the fix.*
+      *Status (2026-10-20, latest): the FTZ reading above was wrong — the INFO line on Joseph's machine showed the
+      threads' MXCSR control bits identical (only sticky status flags differed) and the 48-copy determinism check
+      still FAILED (t_esc spread 0.087 at E = 0.549). Remaining per-thread FP state: the x87 control word, which
+      MinGW's `pow()` (the step controller's only C-library call) uses. The kernel now pins MXCSR and the x87 word
+      in every thread and computes the step factor with pure arithmetic (`root5`, Newton), so no C-library
+      floating-point routine remains in the integration; the check prints which thread produced which value if
+      it ever fails again. The controller is now the standard err^(−1/5) rule (was PI), so escape times from
+      before this change are not bit-reproducible with the kernel after it (same accuracy class; the scipy
+      cross-checks hold to the same tolerances).*
 - [ ] ε-crossover scan at E = 0.3: `hdym_island.py --eps 1e-9 … 1e-6`.
 - [ ] 3-dof: the DR orbit's z-direction Floquet trace (−1.53, float) is not certified; the
       island is sealed in 2-dof and leaks by Arnold diffusion in 3-dof (seen: 2.7 % at r = 2e-4).

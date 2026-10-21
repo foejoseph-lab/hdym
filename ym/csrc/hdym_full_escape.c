@@ -41,15 +41,38 @@
  * thread now sets MXCSR to the x86 default 0x1F80 (round to nearest, all exceptions masked, FTZ and DAZ off),
  * which is also what Linux runs with, so results agree across threads and platforms.                        */
 #define HDYM_FP_DEFAULT 0x1F80u
+#ifdef _WIN32
+#include <float.h>
+#endif
+/* returns the MXCSR the thread had (low 16 bits) and, on Windows, the x87 control word it had (high 16 bits);
+ * then pins both: MXCSR = 0x1F80 and x87 precision = 53 bits, round to nearest (the only x87 user left in this
+ * kernel would be the C library; the step controller no longer calls it, see ipow_fifth) */
 static unsigned fp_mode_set(void)
 {
+    unsigned before = 0u;
 #ifdef HDYM_HAVE_MXCSR
-    unsigned before = _mm_getcsr();
+    before = _mm_getcsr() & 0xFFFFu;
     _mm_setcsr(HDYM_FP_DEFAULT);
-    return before;
-#else
-    return 0u;
 #endif
+#ifdef _WIN32
+    before |= (_controlfp(0, 0) & 0xFFFFu) << 16;
+    _controlfp(_PC_53, _MCW_PC);
+    _controlfp(_RC_NEAR, _MCW_RC);
+#endif
+    return before;
+}
+
+/* x^(1/5) by Newton's method from a crude seed -- pure +,-,*,/ (and one sqrt), no C-library call, so every
+ * thread and every platform computes the same step factor from the same error estimate.  err is in
+ * [1e-10, ~1e3] here; 6 Newton steps from the seed sqrt(sqrt(x)) converge to rounding for that range. */
+static double root5(double x)
+{
+    double r = sqrt(sqrt(x));
+    for (int it = 0; it < 8; ++it) {
+        double r4 = r * r * r * r;
+        r = r - (r4 * r - x) / (5.0 * r4);
+    }
+    return r;
 }
 
 #define NS 36
@@ -158,14 +181,16 @@ static void one_trajectory(double *s, double cj, double tmax, double R, double r
                 ++kchk;
             }
             if (escaped(y, R, sector)) { *tesc = t; *status = 0; break; }
-            /* PI step control (Hairer's standard constants) */
-            double fac = 0.9 * pow(err > 1e-10 ? err : 1e-10, -0.7 / 5.0) * pow(errold, 0.4 / 5.0);
+            /* standard step control, fac = 0.9 err^(-1/5), computed without the C library (root5); the PI
+             * variant used until 2026-10-20 called pow(), which MinGW implements in x87 code and which gave
+             * thread-dependent last bits on Windows */
+            double fac = 0.9 / root5(err > 1e-10 ? err : 1e-10);
             if (fac > 5.0) fac = 5.0;
             if (fac < 0.2) fac = 0.2;
             h *= fac;
             errold = err > 1e-10 ? err : 1e-10;
         } else {
-            double fac = 0.9 * pow(err, -1.0 / 5.0);
+            double fac = 0.9 / root5(err);
             if (fac < 0.2) fac = 0.2;
             h *= fac;
         }
@@ -178,15 +203,21 @@ static void one_trajectory(double *s, double cj, double tmax, double R, double r
 }
 
 void escape(double *S, int N, double cj, double tmax, double R, double rtol, double atol, double hmax,
-            int nchk, double *tesc, int *sector, int *status, double *chk, double *diag)
+            int nchk, double *tesc, int *sector, int *status, double *chk, double *diag, int *thread_of)
 {
 #pragma omp parallel
     {
         fp_mode_set();
 #pragma omp for schedule(dynamic, 1)
-        for (int n = 0; n < N; ++n)
+        for (int n = 0; n < N; ++n) {
+#ifdef _OPENMP
+            thread_of[n] = omp_get_thread_num();
+#else
+            thread_of[n] = 0;
+#endif
             one_trajectory(S + (size_t)n * NS, cj, tmax, R, rtol, atol, hmax, nchk,
                            tesc + n, sector + n, status + n, chk + (size_t)n * nchk * 6, diag + (size_t)n * 4);
+        }
     }
 }
 
@@ -194,7 +225,7 @@ void escape(double *S, int N, double cj, double tmax, double R, double rtol, dou
  * threads; they differed on the 20 Oct Windows run).  out[0] = min, out[1] = max, out[2] = the value set. */
 void fp_mode_report(unsigned *out)
 {
-    unsigned mn = 0xFFFFFFFFu, mx = 0u;
+    unsigned mn = 0xFFFFFFFFu, mx = 0u;   /* low 16 bits MXCSR, high 16 bits x87 CW (Windows) */
 #pragma omp parallel
     {
         unsigned b = fp_mode_set();
