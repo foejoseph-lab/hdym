@@ -10,11 +10,14 @@ were run cost 41 s, 184 s and nothing (log parsing). Nothing here is paper work 
 
 | # | hole | outcome | where |
 |---|---|---|---|
-| 7 | Derivation of the selection rule | **Two of the three rules are now exact**: from M = N² with N real symplectic, a real negative multiplier of M off the circle is never isolated, so a single pair cannot fold at −1 and every single-pair instability is a +1 fold (two lines). Parity of the coupling verified to 10⁻¹¹ (self even / cross odd harmonics; swap symmetry in the ± sector basis). "Collisions only at −1" is exact in the decoupled symmetric limit (where Krein bands are the sector's period-doubling tongues) but the coupling is O(1) and that model sits a rung off; the real rule is "collisions at N = ±(0.44–0.68) π". Hole 5's "why block 12" falls out in one sentence (only block 12's components mix under the reflection). | `notes/RH7_selection_rule.md`, `code/rh7_selection_rule.py`, `results/rh7_*` |
+| 7 | Derivation of the selection rule | **Two of the three rules are now exact**: from M = N² with N real symplectic, a real negative multiplier of M off the circle is never isolated, so a single pair cannot fold at −1 and every single-pair instability is a +1 fold (two lines). Parity of the coupling verified to 10⁻¹¹ (self even / cross odd harmonics; swap symmetry in the ± sector basis). "Collisions only at −1" is exact in the decoupled symmetric limit (where Krein bands are the sector's period-doubling tongues) but the coupling is O(1) and that model sits a rung off; the real rule is "collisions at N = ±(0.44–0.68) π". Hole 5's "why block 12" falls out in one sentence (only block 12's components mix under the reflection). | `notes/RH7_selection_rule.md`, `notes/RH7_literature.md`, `code/rh7_selection_rule.py`, `results/rh7_*` |
 | 2 | Resonance ladder | **A formula**: the block-12 band centres lie on T_c = 4.057 (n + 0.210), n = 7–13, odd n parametric, even n Krein, rms 0.11 time units; the ghost accumulates phase at a constant effective frequency 0.774 (23 % below the Lee–Wick mass) over a factor 12 in E. Out-of-sample: rung 14 (Krein) predicted at E = 0.0421, **found at 0.0427–0.0435**. Above E ≈ 1 the ladder breaks (the two pairs are a rung apart; rung 6 is parametric, not Krein). A canonical rotation number was tried and does not come out of the u12 phase. | `notes/RH2_ladder.md`, `code/rh2_ladder.py`, `code/rh2_predict.py`, `results/rh2_*` |
 | 4 | Loiter statistics | Median loiter 20 time units (0.6 periods); it scales with the period, not absolute time (the list says the opposite); a stretched, modestly heavy tail (Pareto beats exponential in every E bin, γ ≈ 1.3–2.9, not a clean power law); long loiters end through the off-diagonal sector 3× more often. The 50-unit checkpoints are the limit: a quarter of escapes are unresolved. **Correction to the list**: the orient `.npz` files have no `chk` arrays (`run_orient` never saves them), so holes 1 and 12 have no checkpoint data in the repo. | `notes/RH4_loiter.md`, `code/rh4_loiter.py`, `results/rh4_*` |
 
 ## Verdicts on "interesting in their own right"
+
+(Books checked, `notes/RH7_literature.md`: the lemma is the Swift–Wiesenfeld 1984 mechanism; ours is the
+symplectic multiplicity version and its identification with the Krein collision — cite, then state.)
 
 - **Holes 2 + 7 together are a short paper's worth of material**, or a strong section: a half-period
   symmetry forbids the ghost's period-doubling for a single pair and forces every −1 instability to be a
@@ -22,7 +25,7 @@ were run cost 41 s, 184 s and nothing (log parsing). Nothing here is paper work 
   theory), and on the DR orbit the band centres follow a one-parameter ladder with an E-independent effective
   ghost frequency and a confirmed out-of-sample prediction. Title-shaped: "Krein collisions as dressed
   period doubling: a selection rule for Lee–Wick ghosts on symmetric periodic orbits". What it would still
-  need: the literature pointer for the lemma (reversible / symmetric periodic orbits), a two-harmonic
+  need: a two-harmonic
   Mathieu-type reduction that predicts the rung positions (the thing that would make it more than a
   measurement), and the same ladder on one more orbit (the x ↔ y-rotated copies are the same orbit; a
   non-planar one is hole 5's open question).

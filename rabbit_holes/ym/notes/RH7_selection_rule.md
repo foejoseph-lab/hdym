@@ -30,8 +30,9 @@ quadruplet of N near ±i (the generic case) or its degenerate limit, a double re
 Corollary (same argument read the other way): a fold of a single pair of N at ±1 is a fold of M at +1 — the
 period-doubling instability of a single pair, which a generic 2-dof Hill system shows, is **forbidden on any
 background with a half-period reflection symmetry**. This is the derivation of two of the three measured rules.
-It is standard structure (symmetric periodic orbits and their half-period maps, e.g. in the reversible-systems
-and symmetric-orbit literature), applied here; no new mathematics.
+It is the Swift–Wiesenfeld mechanism (PRL 52, 705, 1984: period doubling suppressed for orbits with a
+half-period symmetry, M = N²) in its symplectic multiplicity form; see `RH7_literature.md` for what is theirs
+and what is ours.
 
 Check (step 3 of the script): all 16 LEAVE/RE-ENTER events of B005 are either single-pair folds of N at
 |arg| < 0.05 π from {0, π} (eight events, all M = +1) or four-member collisions (eight); no single pair ever
@@ -90,8 +91,7 @@ pair; every multiplier at −1 is a two-pair Krein event, and every single-pair 
 
 ## Not done / next entrances
 
-- A literature pointer for the Lemma (symmetric periodic orbits, half-period monodromy, suppression of period
-  doubling by a reflection symmetry) — one search.
+- Literature: done, `RH7_literature.md` (Swift–Wiesenfeld 1984; Lamb–Roberts 1998; Frauenfelder–Moreno 2023).
 - The sector-basis picture suggests the natural object is not the decoupled model but the *dressed* sector:
   the cross-coupling's resonant harmonics k = 13, 15. A two-harmonic Mathieu-type reduction (self 2kΩ, cross
   (2k+1)Ω, two modes) would be the first model that could predict rung positions. Not attempted.
