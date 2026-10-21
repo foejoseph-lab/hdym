@@ -56,13 +56,23 @@ def nodal(tag, b, results, Kf):
     r = np.corrcoef(np.nan_to_num(L, nan=np.nanmean(L)).ravel(), np.log10(amp).ravel())[0, 1]
     kind = 'Krein quadruplet, 2 unstable directions -> nodal points' if len(unst) == 2 else 'real pair, 1 unstable direction -> nodal great circle'
     print(f"{tag}: E={E} block {b}: unstable multipliers {np.round(mu[unst], 4)}; {kind}; corr(log t_esc, log |proj|) = {r:+.3f}")
-    fig, ax = plt.subplots(figsize=(7.5, 5.4), facecolor='#fcfcfb')
+    fig, axs = plt.subplots(1, 2, figsize=(14, 5.4), facecolor='#fcfcfb', gridspec_kw=dict(width_ratios=[1.25, 1]))
+    ax = axs[0]
     im = ax.imshow(Ls, origin='lower', aspect='auto', extent=[0, 2, 0, 1], cmap='viridis')
     plt.colorbar(im, ax=ax, label='log10 t_esc, 5×5 boxcar mean (non-escaped cells = map mean)')
     ax.contour(PH / np.pi, TH / np.pi, np.log10(amp / amp.max()), levels=[-2.5, -2, -1.5], colors='white', linewidths=[1.6, 1.0, 0.6])
     ax.set_title(f'{tag}: E = {E}, block {b}\n{kind}\nwhite: predicted nodal set from the linear monodromy; corr(log t, log |proj|) = {r:+.2f}', fontsize=9)
     ax.set_xlabel('φ/π')
     ax.set_ylabel('θ/π')
+    # escape time against the projection: the lower envelope is the linear phase, the scatter above it the loiter
+    tmax = float(d['tmax'])
+    ax = axs[1]
+    ax.scatter(np.log10(amp).ravel(), np.where(te > 0, te, tmax).ravel(), s=1.5, alpha=0.25, color='#2a78d6', lw=0)
+    ax.axhline(tmax, color='#52514e', lw=0.8, ls='--')
+    ax.set_xlabel('log10 |projection of the seed on the unstable subspace| (0 = largest)')
+    ax.set_ylabel('t_esc  (at the dashed line: not escaped by tmax)')
+    ax.set_title('lower envelope = linear phase set by the projection; scatter above it = the loiter', fontsize=9)
+    ax.set_facecolor('#fcfcfb')
     fig.savefig(os.path.join(results, tag + '_nodal.png'), dpi=140, bbox_inches='tight')
 
 
