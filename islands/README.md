@@ -305,6 +305,16 @@ import.
       low E, comparable to it above E ≈ 0.5, which is why the packets there spread upward. The upper line
       ln(R/δ)/rate, which assumes exponential growth to R, is not the right upper edge; the end is a loiter then
       a sharp blow-up.*
+      *Status (2026-10-20, later): a thread-dependent floating-point mode was found and fixed. The 0156 orient run's
+      θ = 0 row (128 bit-identical cells) gave two escape times, 2965.95 for 123 cells and 1818.84 for 5 (one thread's
+      share of 24): on Windows numpy/MKL sets flush-to-zero on the main thread, OpenMP workers start with the default
+      mode, a denormal in the O(δ²) z-sector of the planar orbit was flushed on one thread only, and the chaotic
+      loiter made the last bit into 1100 time units. `hdym_full_escape.c` now pins MXCSR = 0x1F80 (FTZ/DAZ off, the
+      Linux mode) in every thread and the log reports the modes found. Consequence for the committed section-E
+      run: about 1/24 of its cells were integrated in the other mode; their escape times are valid trajectories of
+      the same equations up to a last-bit difference in the seed, so the statistics and every statement above
+      stand, but cell-level reproducibility between platforms holds only for runs after this fix. The 0156 and 030
+      orient maps are rerun with the fix.*
 - [ ] ε-crossover scan at E = 0.3: `hdym_island.py --eps 1e-9 … 1e-6`.
 - [ ] 3-dof: the DR orbit's z-direction Floquet trace (−1.53, float) is not certified; the
       island is sealed in 2-dof and leaks by Arnold diffusion in 3-dof (seen: 2.7 % at r = 2e-4).

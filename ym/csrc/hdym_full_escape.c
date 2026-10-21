@@ -27,7 +27,30 @@
 #ifdef _OPENMP
 #include <omp.h>
 #endif
+#if defined(__x86_64__) || defined(_M_X64) || defined(__i386__) || defined(_M_IX86)
+#include <xmmintrin.h>
+#define HDYM_HAVE_MXCSR 1
+#endif
 #include "hdym_full_rhs.h"
+
+/* Floating-point mode must be the same in every thread.  On Windows, numpy's MKL sets flush-to-zero /
+ * denormals-are-zero on the main thread and OpenMP workers start with the default mode; the z-sector of a
+ * planar background is driven only at O(delta^2), so denormals do occur, were flushed on one thread and not the
+ * others, and the chaotic loiter turned that last bit into two different escape times from identical initial
+ * data (20 Oct, E = 0.156: 123 cells at 2965.95, 5 cells -- one thread's share of 24 -- at 1818.84).  Every
+ * thread now sets MXCSR to the x86 default 0x1F80 (round to nearest, all exceptions masked, FTZ and DAZ off),
+ * which is also what Linux runs with, so results agree across threads and platforms.                        */
+#define HDYM_FP_DEFAULT 0x1F80u
+static unsigned fp_mode_set(void)
+{
+#ifdef HDYM_HAVE_MXCSR
+    unsigned before = _mm_getcsr();
+    _mm_setcsr(HDYM_FP_DEFAULT);
+    return before;
+#else
+    return 0u;
+#endif
+}
 
 #define NS 36
 #define SING_R 10.0
@@ -157,10 +180,33 @@ static void one_trajectory(double *s, double cj, double tmax, double R, double r
 void escape(double *S, int N, double cj, double tmax, double R, double rtol, double atol, double hmax,
             int nchk, double *tesc, int *sector, int *status, double *chk, double *diag)
 {
-#pragma omp parallel for schedule(dynamic, 1)
-    for (int n = 0; n < N; ++n)
-        one_trajectory(S + (size_t)n * NS, cj, tmax, R, rtol, atol, hmax, nchk,
-                       tesc + n, sector + n, status + n, chk + (size_t)n * nchk * 6, diag + (size_t)n * 4);
+#pragma omp parallel
+    {
+        fp_mode_set();
+#pragma omp for schedule(dynamic, 1)
+        for (int n = 0; n < N; ++n)
+            one_trajectory(S + (size_t)n * NS, cj, tmax, R, rtol, atol, hmax, nchk,
+                           tesc + n, sector + n, status + n, chk + (size_t)n * nchk * 6, diag + (size_t)n * 4);
+    }
+}
+
+/* the FP control word each thread had BEFORE the kernel set it (diagnostic: the CHECK prints min and max over
+ * threads; they differed on the 20 Oct Windows run).  out[0] = min, out[1] = max, out[2] = the value set. */
+void fp_mode_report(unsigned *out)
+{
+    unsigned mn = 0xFFFFFFFFu, mx = 0u;
+#pragma omp parallel
+    {
+        unsigned b = fp_mode_set();
+#pragma omp critical
+        {
+            if (b < mn) mn = b;
+            if (b > mx) mx = b;
+        }
+    }
+    out[0] = mn;
+    out[1] = mx;
+    out[2] = HDYM_FP_DEFAULT;
 }
 
 /* a plain integrate-to-T for the cross-check against scipy (no escape test, no checkpoints) */
@@ -168,6 +214,7 @@ void integrate_to(double *s, double cj, double T, double rtol, double atol, doub
 {
     double tesc, chk[6], diag[4];
     int sector, status;
+    fp_mode_set();
     one_trajectory(s, cj, T, 1e300, rtol, atol, hmax, 1, &tesc, &sector, &status, chk, diag);
 }
 

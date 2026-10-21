@@ -112,7 +112,13 @@ class Kernel:
                                     ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_int, dp, ip, ip, dp, dp]
         self.lib.integrate_to.argtypes = [dp, ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double]
         self.lib.omp_threads.restype = ctypes.c_int
+        self.lib.fp_mode_report.argtypes = [ctypes.POINTER(ctypes.c_uint)]
+        rep = (ctypes.c_uint * 3)()
+        self.lib.fp_mode_report(rep)
         print(f"CHECK kernel built with {cc} {omp}, {self.lib.omp_threads()} threads: PASS", flush=True)
+        print(f"INFO  FP control word before the kernel set it: min 0x{rep[0]:04X} max 0x{rep[1]:04X} over threads "
+              f"({'DIFFERED between threads -- the 20 Oct Windows bug; now pinned' if rep[0] != rep[1] else 'same in all threads'}); "
+              f"every thread now runs with 0x{rep[2]:04X} (FTZ/DAZ off)", flush=True)
 
     def escape(self, S0, cj, tmax, R, rtol, atol, hmax, nchk):
         S = np.array(S0, dtype=np.float64, order='C', copy=True)   # (N, 36); the kernel overwrites it with the final state
@@ -312,15 +318,18 @@ def cross_check(kern, model, E, delta, rng, rtol, atol, hmax):
     print(f"CHECK escape time vs scipy DOP853 (rtol 1e-12) at E=0.549, both seeds {delta:.0e}: kernel {te[0]:.3f}, scipy {t_sp:.3f}, "
           f"relative {dt_rel:.1e} (tol 1e-3) {'PASS' if dt_rel < 1e-3 else 'FAIL'}", flush=True)
     # determinism of the parallel kernel: identical initial states must give identical results.  Not a formality:
-    # a 20 Oct orient run on Windows (MinGW gcc, OpenMP, 24 threads) printed a spread of escape times across the
-    # theta = 0 row, whose 128 cells are bit-identical by construction, while the same row on Linux gives one value.
-    # The escape time passes through a chaotic loiter after the linear phase, so any bit-level difference between
-    # copies becomes hundreds of time units.  If this FAILS, rebuild single-threaded (set OMP_NUM_THREADS=1 or
-    # CC to a compiler without -fopenmp) and rerun this check before trusting any map.
-    Scp = np.repeat(s1[None, :], 8, axis=0)
+    # the 20 Oct orient run on Windows (MinGW gcc, OpenMP, 24 threads) gave TWO escape times across the theta = 0
+    # row, whose 128 cells are bit-identical by construction (123 cells at 2965.95, 5 at 1818.84 = one thread's
+    # share): numpy/MKL had set flush-to-zero on the main thread, the workers had the default mode, and a denormal
+    # in the O(delta^2) z-sector was flushed on one thread only; the chaotic loiter made the last bit into 1100
+    # time units.  The kernel now pins the FP control word in every thread (hdym_full_escape.c, fp_mode_set), the
+    # INFO line above reports what the threads had before, and this check runs 48 copies so every thread gets some.
+    # A short run can still pass with a latent difference (no denormal arises in 300 time units at E = 0.549), so the
+    # INFO line is the real evidence; if this FAILS, do not trust any map until it passes.
+    Scp = np.repeat(s1[None, :], 48, axis=0)      # more copies than threads, so every thread gets some
     tec, sec, chc, dgc, Sc, stc = kern.escape(Scp, 1.0, 300.0, 1e4, rtol, atol, hmax, 4)
     same = np.all(tec == tec[0]) and np.all(Sc == Sc[0]) and np.all(np.nan_to_num(chc) == np.nan_to_num(chc[0]))
-    print(f"CHECK parallel kernel is deterministic (8 identical copies, E=0.549 to t=300): "
+    print(f"CHECK parallel kernel is deterministic (48 identical copies, E=0.549 to t=300): "
           f"t_esc spread {np.ptp(tec):.3e}, final-state spread {np.abs(Sc - Sc[0]).max():.3e} {'PASS' if same else 'FAIL'}", flush=True)
     # the diagonal orbit alone must close: ghost-free, no seed
     s_end = kern.integrate_to(s_diag, 1.0, T, rtol, atol, hmax)
