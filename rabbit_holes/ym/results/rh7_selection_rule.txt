@@ -1,0 +1,211 @@
+rh7_selection_rule.py  python 3.13.16  numpy 2.5.3
+run parameters: nE=150 log-spaced in [0.05, 1.0], RT={'method': 'DOP853', 'rtol': 1e-12, 'atol': 1e-13}, c_j = 1, block 12
+
+== step 1: parity of K under the half-period reflection ==
+E=0.10: S~ K(t+T/2) S~ = K(t) to 2.0e-11; sector swap K++(t+T/2) = K--(t), K+-(t+T/2) = K-+(t) to 1.7e-11  (tol 1e-9) PASS
+        harmonics of Omega = 2pi/T in the (u12,u21) basis, relative to the largest: self blocks odd 3.7e-12 / even 1.0e+00; cross blocks even 9.7e-12 / odd 1.0e+00
+        leading harmonics: self k = [np.int64(0), np.int64(2), np.int64(4), np.int64(6)] (amp [2.949 1.151 0.151 0.085]), cross k = [np.int64(15), np.int64(13), np.int64(9), np.int64(17)] (amp [0.738 0.671 0.386 0.377])
+E=0.30: S~ K(t+T/2) S~ = K(t) to 2.7e-11; sector swap K++(t+T/2) = K--(t), K+-(t+T/2) = K-+(t) to 2.2e-11  (tol 1e-9) PASS
+        harmonics of Omega = 2pi/T in the (u12,u21) basis, relative to the largest: self blocks odd 3.8e-12 / even 1.0e+00; cross blocks even 8.9e-12 / odd 1.0e+00
+        leading harmonics: self k = [np.int64(0), np.int64(2), np.int64(4), np.int64(28)] (amp [4.376 1.993 0.261 0.211]), cross k = [np.int64(15), np.int64(13), np.int64(9), np.int64(17)] (amp [1.681 1.53  0.88  0.86 ])
+E=0.60: S~ K(t+T/2) S~ = K(t) to 2.6e-11; sector swap K++(t+T/2) = K--(t), K+-(t+T/2) = K-+(t) to 2.1e-11  (tol 1e-9) PASS
+        harmonics of Omega = 2pi/T in the (u12,u21) basis, relative to the largest: self blocks odd 3.9e-12 / even 1.0e+00; cross blocks even 8.0e-12 / odd 1.0e+00
+        leading harmonics: self k = [np.int64(0), np.int64(2), np.int64(28), np.int64(30)] (amp [5.774 2.819 0.422 0.401]), cross k = [np.int64(15), np.int64(13), np.int64(9), np.int64(17)] (amp [2.828 2.574 1.48  1.447])
+
+== step 2: the decoupled symmetric model (sector cross blocks zeroed), scanned in E ==
+columns: E | T | sector ghost pair of M_dec: type, angle/pi or rate | sector conjugacy | N_dec = swap Phi_T/2: +-sqrt(mu) residual | true block-12 ghost pair type
+E=0.05000 T= 55.2215 | sector pair fold-1   +0.2440 |mu|=1.2764 | conj 5.8e-07 | +-sqrt 1.7e-12 N^2 1.5e-12 | true circle |mu|=1.0000
+E=0.05102 T= 54.9446 | sector pair fold-1   +0.2957 |mu|=1.3441 | conj 1.2e-06 | +-sqrt 3.0e-11 N^2 1.6e-12 | true circle |mu|=1.0000
+E=0.05205 T= 54.6691 | sector pair fold-1   +0.1646 |mu|=1.1790 | conj 5.1e-06 | +-sqrt 4.0e-11 N^2 1.6e-12 | true circle |mu|=1.0000
+E=0.05311 T= 54.3950 | sector pair circle   +0.8899 |mu|=1.0000 | conj 5.2e-06 | +-sqrt 4.6e-11 N^2 1.7e-12 | true circle |mu|=1.0000
+E=0.05419 T= 54.1223 | sector pair circle   +0.8114 |mu|=1.0000 | conj 4.9e-06 | +-sqrt 3.4e-10 N^2 1.8e-12 | true circle |mu|=1.0000
+E=0.05529 T= 53.8510 | sector pair circle   +0.7404 |mu|=1.0000 | conj 7.1e-06 | +-sqrt 2.0e-10 N^2 1.8e-12 | true circle |mu|=1.0000
+E=0.05641 T= 53.5810 | sector pair circle   +0.6723 |mu|=1.0000 | conj 4.1e-06 | +-sqrt 4.2e-10 N^2 1.7e-12 | true circle |mu|=1.0000
+E=0.05756 T= 53.3123 | sector pair circle   +0.6057 |mu|=1.0000 | conj 1.8e-06 | +-sqrt 1.7e-10 N^2 1.8e-12 | true REAL+  |mu|=1.0777
+E=0.05873 T= 53.0450 | sector pair circle   +0.5402 |mu|=1.0000 | conj 1.5e-06 | +-sqrt 1.3e-11 N^2 1.8e-12 | true REAL+  |mu|=1.2054
+E=0.05992 T= 52.7791 | sector pair circle   +0.4755 |mu|=1.0000 | conj 2.7e-06 | +-sqrt 5.2e-10 N^2 1.9e-12 | true circle |mu|=1.0000
+E=0.06113 T= 52.5144 | sector pair circle   +0.4114 |mu|=1.0000 | conj 7.8e-06 | +-sqrt 2.1e-10 N^2 1.9e-12 | true circle |mu|=1.0000
+E=0.06238 T= 52.2512 | sector pair circle   +0.3479 |mu|=1.0000 | conj 1.4e-06 | +-sqrt 1.1e-10 N^2 1.8e-12 | true circle |mu|=1.0000
+E=0.06364 T= 51.9892 | sector pair circle   +0.2847 |mu|=1.0000 | conj 2.6e-06 | +-sqrt 2.7e-09 N^2 1.8e-12 | true circle |mu|=1.0000
+E=0.06494 T= 51.7285 | sector pair circle   +0.2217 |mu|=1.0000 | conj 2.5e-06 | +-sqrt 1.8e-08 N^2 1.8e-12 | true circle |mu|=1.0000
+E=0.06625 T= 51.4692 | sector pair circle   +0.1583 |mu|=1.0000 | conj 7.5e-06 | +-sqrt 1.8e-10 N^2 1.7e-12 | true circle |mu|=1.0000
+E=0.06760 T= 51.2111 | sector pair circle   +0.0929 |mu|=1.0000 | conj 5.1e-06 | +-sqrt 1.4e-08 N^2 2.0e-12 | true circle |mu|=1.0000
+E=0.06897 T= 50.9543 | sector pair fold+1   +0.0592 |mu|=1.0610 | conj 8.4e-06 | +-sqrt 4.3e-09 N^2 1.7e-12 | true circle |mu|=1.0000
+E=0.07037 T= 50.6989 | sector pair fold+1   +0.1432 |mu|=1.1540 | conj 4.0e-06 | +-sqrt 3.7e-10 N^2 1.7e-12 | true circle |mu|=1.0000
+E=0.07180 T= 50.4447 | sector pair circle   -0.0574 |mu|=1.0000 | conj 9.6e-07 | +-sqrt 8.2e-09 N^2 1.7e-12 | true circle |mu|=1.0000
+E=0.07326 T= 50.1918 | sector pair circle   +0.1249 |mu|=1.0000 | conj 2.9e-06 | +-sqrt 7.7e-09 N^2 1.7e-12 | true circle |mu|=1.0000
+E=0.07475 T= 49.9401 | sector pair circle   +0.1862 |mu|=1.0000 | conj 3.2e-06 | +-sqrt 1.2e-08 N^2 1.9e-12 | true circle |mu|=1.0000
+E=0.07627 T= 49.6897 | sector pair circle   +0.2456 |mu|=1.0000 | conj 1.9e-06 | +-sqrt 2.5e-08 N^2 1.8e-12 | true CPLX   |mu|=1.0932
+E=0.07782 T= 49.4406 | sector pair circle   +0.3040 |mu|=1.0000 | conj 4.6e-06 | +-sqrt 2.7e-08 N^2 1.7e-12 | true circle |mu|=1.0000
+E=0.07940 T= 49.1927 | sector pair circle   +0.3618 |mu|=1.0000 | conj 3.4e-06 | +-sqrt 7.7e-11 N^2 2.0e-12 | true circle |mu|=1.0000
+E=0.08101 T= 48.9461 | sector pair circle   +0.4189 |mu|=1.0000 | conj 8.7e-07 | +-sqrt 1.5e-10 N^2 1.9e-12 | true circle |mu|=1.0000
+E=0.08265 T= 48.7007 | sector pair circle   +0.4755 |mu|=1.0000 | conj 3.2e-07 | +-sqrt 1.0e-10 N^2 1.7e-12 | true circle |mu|=1.0000
+E=0.08433 T= 48.4565 | sector pair circle   +0.5316 |mu|=1.0000 | conj 2.8e-06 | +-sqrt 1.9e-11 N^2 1.7e-12 | true circle |mu|=1.0000
+E=0.08605 T= 48.2135 | sector pair circle   +0.5872 |mu|=1.0000 | conj 7.3e-06 | +-sqrt 1.2e-10 N^2 1.7e-12 | true circle |mu|=1.0000
+E=0.08779 T= 47.9718 | sector pair circle   +0.6425 |mu|=1.0000 | conj 5.9e-06 | +-sqrt 3.4e-10 N^2 1.8e-12 | true circle |mu|=1.0000
+E=0.08958 T= 47.7313 | sector pair circle   +0.6973 |mu|=1.0000 | conj 4.0e-06 | +-sqrt 1.2e-10 N^2 1.8e-12 | true circle |mu|=1.0000
+E=0.09139 T= 47.4920 | sector pair circle   +0.7519 |mu|=1.0000 | conj 1.3e-06 | +-sqrt 3.0e-10 N^2 1.6e-12 | true circle |mu|=1.0000
+E=0.09325 T= 47.2538 | sector pair circle   +0.8062 |mu|=1.0000 | conj 7.2e-06 | +-sqrt 5.7e-11 N^2 1.8e-12 | true circle |mu|=1.0000
+E=0.09514 T= 47.0169 | sector pair circle   +0.8606 |mu|=1.0000 | conj 6.5e-06 | +-sqrt 5.1e-10 N^2 1.8e-12 | true circle |mu|=1.0000
+E=0.09708 T= 46.7812 | sector pair circle   +0.9160 |mu|=1.0000 | conj 3.6e-06 | +-sqrt 1.0e-08 N^2 1.9e-12 | true circle |mu|=1.0000
+E=0.09905 T= 46.5466 | sector pair circle   +0.9830 |mu|=1.0000 | conj 2.6e-06 | +-sqrt 2.7e-11 N^2 1.8e-12 | true circle |mu|=1.0000
+E=0.10106 T= 46.3133 | sector pair fold-1   +0.0990 |mu|=1.1041 | conj 7.4e-07 | +-sqrt 1.7e-11 N^2 1.8e-12 | true circle |mu|=1.0000
+E=0.10311 T= 46.0811 | sector pair circle   +0.9445 |mu|=1.0000 | conj 7.2e-06 | +-sqrt 2.9e-10 N^2 2.3e-12 | true REAL+  |mu|=1.3068
+E=0.10521 T= 45.8500 | sector pair circle   +0.8888 |mu|=1.0000 | conj 2.8e-06 | +-sqrt 1.1e-08 N^2 1.7e-12 | true REAL+  |mu|=1.3753
+E=0.10734 T= 45.6201 | sector pair circle   +0.8364 |mu|=1.0000 | conj 1.5e-06 | +-sqrt 3.4e-10 N^2 1.7e-12 | true REAL+  |mu|=1.2989
+E=0.10952 T= 45.3914 | sector pair circle   +0.7852 |mu|=1.0000 | conj 4.8e-07 | +-sqrt 6.3e-10 N^2 1.8e-12 | true REAL+  |mu|=1.2872
+E=0.11175 T= 45.1638 | sector pair circle   +0.7347 |mu|=1.0000 | conj 6.3e-06 | +-sqrt 8.3e-10 N^2 1.6e-12 | true REAL+  |mu|=1.2102
+E=0.11402 T= 44.9374 | sector pair circle   +0.6847 |mu|=1.0000 | conj 9.8e-06 | +-sqrt 2.6e-09 N^2 1.8e-12 | true circle |mu|=1.0000
+E=0.11633 T= 44.7121 | sector pair circle   +0.6352 |mu|=1.0000 | conj 2.8e-06 | +-sqrt 1.6e-10 N^2 1.7e-12 | true circle |mu|=1.0000
+E=0.11870 T= 44.4879 | sector pair circle   +0.5862 |mu|=1.0000 | conj 9.9e-06 | +-sqrt 1.4e-10 N^2 1.7e-12 | true circle |mu|=1.0000
+E=0.12111 T= 44.2648 | sector pair circle   +0.5376 |mu|=1.0000 | conj 6.5e-07 | +-sqrt 1.0e-11 N^2 1.6e-12 | true circle |mu|=1.0000
+E=0.12357 T= 44.0429 | sector pair circle   +0.4893 |mu|=1.0000 | conj 6.4e-06 | +-sqrt 6.6e-11 N^2 1.2e-12 | true circle |mu|=1.0000
+E=0.12608 T= 43.8221 | sector pair circle   +0.4415 |mu|=1.0000 | conj 1.4e-06 | +-sqrt 1.2e-10 N^2 1.7e-12 | true circle |mu|=1.0000
+E=0.12864 T= 43.6024 | sector pair circle   +0.3939 |mu|=1.0000 | conj 6.1e-06 | +-sqrt 5.9e-11 N^2 1.4e-12 | true circle |mu|=1.0000
+E=0.13125 T= 43.3838 | sector pair circle   +0.3468 |mu|=1.0000 | conj 1.8e-07 | +-sqrt 1.3e-09 N^2 1.4e-12 | true circle |mu|=1.0000
+E=0.13391 T= 43.1662 | sector pair circle   +0.2999 |mu|=1.0000 | conj 5.2e-07 | +-sqrt 8.8e-11 N^2 1.6e-12 | true circle |mu|=1.0000
+E=0.13663 T= 42.9498 | sector pair circle   +0.2532 |mu|=1.0000 | conj 3.3e-06 | +-sqrt 3.9e-08 N^2 1.5e-12 | true circle |mu|=1.0000
+E=0.13941 T= 42.7345 | sector pair circle   +0.2067 |mu|=1.0000 | conj 8.0e-06 | +-sqrt 5.9e-08 N^2 1.5e-12 | true circle |mu|=1.0000
+E=0.14224 T= 42.5202 | sector pair circle   +0.1602 |mu|=1.0000 | conj 4.5e-06 | +-sqrt 2.6e-07 N^2 1.3e-12 | true circle |mu|=1.0000
+E=0.14513 T= 42.3070 | sector pair circle   +0.1131 |mu|=1.0000 | conj 4.3e-07 | +-sqrt 3.1e-08 N^2 1.6e-12 | true circle |mu|=1.0000
+E=0.14808 T= 42.0949 | sector pair circle   +0.0635 |mu|=1.0000 | conj 4.1e-06 | +-sqrt 9.5e-08 N^2 1.4e-12 | true circle |mu|=1.0000
+E=0.15108 T= 41.8839 | sector pair fold+1   +0.0830 |mu|=1.0865 | conj 1.7e-06 | +-sqrt 1.8e-07 N^2 1.4e-12 | true circle |mu|=1.0000
+E=0.15415 T= 41.6739 | sector pair fold+1   +0.1221 |mu|=1.1298 | conj 9.3e-06 | +-sqrt 5.1e-08 N^2 1.5e-12 | true CPLX   |mu|=1.2419
+E=0.15728 T= 41.4649 | sector pair circle   +0.0389 |mu|=1.0000 | conj 1.6e-06 | +-sqrt 1.7e-08 N^2 1.5e-12 | true CPLX   |mu|=1.2858
+E=0.16048 T= 41.2570 | sector pair circle   +0.0910 |mu|=1.0000 | conj 5.2e-06 | +-sqrt 3.0e-08 N^2 1.5e-12 | true CPLX   |mu|=1.1831
+E=0.16374 T= 41.0502 | sector pair circle   +0.1367 |mu|=1.0000 | conj 2.8e-07 | +-sqrt 2.2e-08 N^2 1.5e-12 | true circle |mu|=1.0000
+E=0.16706 T= 40.8444 | sector pair circle   +0.1808 |mu|=1.0000 | conj 2.8e-06 | +-sqrt 6.2e-08 N^2 1.8e-12 | true circle |mu|=1.0000
+E=0.17045 T= 40.6396 | sector pair circle   +0.2240 |mu|=1.0000 | conj 8.0e-06 | +-sqrt 6.8e-09 N^2 1.4e-12 | true circle |mu|=1.0000
+E=0.17392 T= 40.4358 | sector pair circle   +0.2666 |mu|=1.0000 | conj 2.7e-06 | +-sqrt 1.7e-07 N^2 1.5e-12 | true circle |mu|=1.0000
+E=0.17745 T= 40.2331 | sector pair circle   +0.3087 |mu|=1.0000 | conj 1.2e-07 | +-sqrt 2.0e-10 N^2 1.4e-12 | true circle |mu|=1.0000
+E=0.18105 T= 40.0314 | sector pair circle   +0.3504 |mu|=1.0000 | conj 1.1e-05 | +-sqrt 4.7e-11 N^2 1.4e-12 | true circle |mu|=1.0000
+E=0.18473 T= 39.8306 | sector pair circle   +0.3918 |mu|=1.0000 | conj 3.9e-08 | +-sqrt 3.6e-11 N^2 1.2e-12 | true circle |mu|=1.0000
+E=0.18848 T= 39.6309 | sector pair circle   +0.4328 |mu|=1.0000 | conj 4.6e-06 | +-sqrt 7.6e-11 N^2 1.5e-12 | true circle |mu|=1.0000
+E=0.19231 T= 39.4322 | sector pair circle   +0.4736 |mu|=1.0000 | conj 7.5e-07 | +-sqrt 2.2e-10 N^2 1.5e-12 | true circle |mu|=1.0000
+E=0.19621 T= 39.2345 | sector pair circle   +0.5141 |mu|=1.0000 | conj 1.3e-06 | +-sqrt 8.0e-11 N^2 1.6e-12 | true circle |mu|=1.0000
+E=0.20020 T= 39.0378 | sector pair circle   +0.5543 |mu|=1.0000 | conj 6.1e-06 | +-sqrt 4.6e-11 N^2 1.3e-12 | true circle |mu|=1.0000
+E=0.20426 T= 38.8421 | sector pair circle   +0.5944 |mu|=1.0000 | conj 7.7e-06 | +-sqrt 7.4e-11 N^2 1.6e-12 | true circle |mu|=1.0000
+E=0.20841 T= 38.6473 | sector pair circle   +0.6342 |mu|=1.0000 | conj 2.7e-06 | +-sqrt 1.3e-10 N^2 1.5e-12 | true circle |mu|=1.0000
+E=0.21265 T= 38.4536 | sector pair circle   +0.6740 |mu|=1.0000 | conj 5.3e-06 | +-sqrt 4.6e-11 N^2 1.3e-12 | true circle |mu|=1.0000
+E=0.21696 T= 38.2608 | sector pair circle   +0.7138 |mu|=1.0000 | conj 1.1e-06 | +-sqrt 3.7e-10 N^2 9.3e-13 | true circle |mu|=1.0000
+E=0.22137 T= 38.0690 | sector pair circle   +0.7538 |mu|=1.0000 | conj 1.6e-06 | +-sqrt 3.3e-09 N^2 1.4e-12 | true REAL+  |mu|=1.0981
+E=0.22587 T= 37.8781 | sector pair circle   +0.7941 |mu|=1.0000 | conj 2.5e-06 | +-sqrt 6.2e-08 N^2 1.2e-12 | true REAL+  |mu|=1.4747
+E=0.23045 T= 37.6882 | sector pair circle   +0.8354 |mu|=1.0000 | conj 8.9e-06 | +-sqrt 3.6e-08 N^2 1.3e-12 | true REAL+  |mu|=1.6586
+E=0.23513 T= 37.4992 | sector pair circle   +0.8789 |mu|=1.0000 | conj 1.3e-05 | +-sqrt 4.5e-08 N^2 1.4e-12 | true REAL+  |mu|=1.7682
+E=0.23991 T= 37.3112 | sector pair circle   +0.9290 |mu|=1.0000 | conj 2.3e-06 | +-sqrt 1.2e-07 N^2 1.2e-12 | true REAL+  |mu|=1.8196
+E=0.24478 T= 37.1241 | sector pair fold-1   +0.1341 |mu|=1.1435 | conj 5.9e-07 | +-sqrt 2.6e-11 N^2 1.0e-12 | true REAL+  |mu|=1.8176
+E=0.24975 T= 36.9380 | sector pair fold-1   +0.2434 |mu|=1.2756 | conj 3.7e-06 | +-sqrt 1.4e-11 N^2 1.1e-12 | true REAL+  |mu|=1.7631
+E=0.25482 T= 36.7528 | sector pair fold-1   +0.2731 |mu|=1.3140 | conj 1.1e-06 | +-sqrt 7.6e-11 N^2 1.2e-12 | true REAL+  |mu|=1.6528
+E=0.26000 T= 36.5685 | sector pair fold-1   +0.2541 |mu|=1.2893 | conj 4.0e-07 | +-sqrt 4.4e-11 N^2 1.3e-12 | true REAL+  |mu|=1.4733
+E=0.26528 T= 36.3852 | sector pair fold-1   +0.1726 |mu|=1.1884 | conj 4.3e-06 | +-sqrt 3.2e-11 N^2 1.1e-12 | true REAL+  |mu|=1.1291
+E=0.27067 T= 36.2027 | sector pair circle   +0.9456 |mu|=1.0000 | conj 8.3e-06 | +-sqrt 5.1e-11 N^2 1.3e-12 | true circle |mu|=1.0000
+E=0.27616 T= 36.0212 | sector pair circle   +0.8935 |mu|=1.0000 | conj 5.9e-06 | +-sqrt 3.9e-11 N^2 1.4e-12 | true circle |mu|=1.0000
+E=0.28177 T= 35.8406 | sector pair circle   +0.8514 |mu|=1.0000 | conj 4.3e-06 | +-sqrt 1.1e-11 N^2 1.5e-12 | true circle |mu|=1.0000
+E=0.28750 T= 35.6609 | sector pair circle   +0.8125 |mu|=1.0000 | conj 5.2e-06 | +-sqrt 2.1e-11 N^2 1.6e-12 | true circle |mu|=1.0000
+E=0.29333 T= 35.4821 | sector pair circle   +0.7754 |mu|=1.0000 | conj 9.1e-06 | +-sqrt 7.1e-11 N^2 1.7e-12 | true circle |mu|=1.0000
+E=0.29929 T= 35.3042 | sector pair circle   +0.7392 |mu|=1.0000 | conj 9.7e-06 | +-sqrt 7.7e-10 N^2 1.6e-12 | true circle |mu|=1.0000
+E=0.30537 T= 35.1272 | sector pair circle   +0.7038 |mu|=1.0000 | conj 2.5e-07 | +-sqrt 9.9e-11 N^2 1.9e-12 | true circle |mu|=1.0000
+E=0.31157 T= 34.9511 | sector pair circle   +0.6690 |mu|=1.0000 | conj 2.3e-06 | +-sqrt 4.6e-10 N^2 1.2e-12 | true circle |mu|=1.0000
+E=0.31790 T= 34.7759 | sector pair circle   +0.6345 |mu|=1.0000 | conj 6.1e-06 | +-sqrt 2.0e-11 N^2 1.5e-12 | true circle |mu|=1.0000
+E=0.32436 T= 34.6015 | sector pair circle   +0.6004 |mu|=1.0000 | conj 1.0e-05 | +-sqrt 1.3e-10 N^2 1.7e-12 | true circle |mu|=1.0000
+E=0.33094 T= 34.4280 | sector pair circle   +0.5666 |mu|=1.0000 | conj 1.1e-05 | +-sqrt 5.7e-10 N^2 1.6e-12 | true circle |mu|=1.0000
+E=0.33766 T= 34.2554 | sector pair circle   +0.5330 |mu|=1.0000 | conj 4.2e-06 | +-sqrt 1.8e-10 N^2 1.5e-12 | true circle |mu|=1.0000
+E=0.34452 T= 34.0837 | sector pair circle   +0.4996 |mu|=1.0000 | conj 1.3e-05 | +-sqrt 5.9e-11 N^2 1.6e-12 | true circle |mu|=1.0000
+E=0.35152 T= 33.9128 | sector pair circle   +0.4664 |mu|=1.0000 | conj 1.7e-07 | +-sqrt 9.0e-12 N^2 1.7e-12 | true CPLX   |mu|=1.5900
+E=0.35866 T= 33.7427 | sector pair circle   +0.4333 |mu|=1.0000 | conj 3.4e-06 | +-sqrt 1.6e-11 N^2 1.4e-12 | true CPLX   |mu|=1.9292
+E=0.36594 T= 33.5736 | sector pair circle   +0.4002 |mu|=1.0000 | conj 6.6e-06 | +-sqrt 2.1e-07 N^2 1.4e-12 | true CPLX   |mu|=2.1940
+E=0.37337 T= 33.4052 | sector pair circle   +0.3670 |mu|=1.0000 | conj 8.0e-06 | +-sqrt 2.1e-07 N^2 1.8e-12 | true CPLX   |mu|=2.4083
+E=0.38096 T= 33.2378 | sector pair circle   +0.3338 |mu|=1.0000 | conj 4.9e-06 | +-sqrt 4.2e-08 N^2 2.2e-12 | true CPLX   |mu|=2.5793
+E=0.38869 T= 33.0711 | sector pair circle   +0.3003 |mu|=1.0000 | conj 3.9e-06 | +-sqrt 1.7e-07 N^2 1.4e-12 | true CPLX   |mu|=2.7099
+E=0.39659 T= 32.9053 | sector pair circle   +0.2663 |mu|=1.0000 | conj 1.4e-05 | +-sqrt 7.5e-08 N^2 2.2e-12 | true CPLX   |mu|=2.8013
+E=0.40464 T= 32.7403 | sector pair circle   +0.2317 |mu|=1.0000 | conj 1.0e-05 | +-sqrt 5.2e-08 N^2 2.2e-12 | true CPLX   |mu|=2.8543
+E=0.41286 T= 32.5762 | sector pair circle   +0.1959 |mu|=1.0000 | conj 2.7e-06 | +-sqrt 1.3e-07 N^2 2.2e-12 | true CPLX   |mu|=2.8695
+E=0.42125 T= 32.4128 | sector pair circle   +0.1579 |mu|=1.0000 | conj 1.4e-05 | +-sqrt 1.1e-08 N^2 2.1e-12 | true CPLX   |mu|=2.8471
+E=0.42980 T= 32.2503 | sector pair circle   +0.1156 |mu|=1.0000 | conj 9.9e-06 | +-sqrt 1.0e-07 N^2 1.9e-12 | true CPLX   |mu|=2.7878
+E=0.43853 T= 32.0886 | sector pair circle   +0.0601 |mu|=1.0000 | conj 4.3e-06 | +-sqrt 9.5e-08 N^2 1.3e-12 | true CPLX   |mu|=2.6919
+E=0.44744 T= 31.9277 | sector pair fold+1   +0.2069 |mu|=1.2298 | conj 1.4e-06 | +-sqrt 2.9e-08 N^2 1.7e-12 | true CPLX   |mu|=2.5595
+E=0.45652 T= 31.7677 | sector pair fold+1   +0.3224 |mu|=1.3804 | conj 1.0e-05 | +-sqrt 2.3e-08 N^2 2.4e-12 | true CPLX   |mu|=2.3900
+E=0.46579 T= 31.6084 | sector pair fold+1   +0.3846 |mu|=1.4690 | conj 3.6e-06 | +-sqrt 3.7e-08 N^2 2.0e-12 | true CPLX   |mu|=2.1812
+E=0.47525 T= 31.4499 | sector pair fold+1   +0.4183 |mu|=1.5194 | conj 1.7e-05 | +-sqrt 1.9e-07 N^2 2.0e-12 | true CPLX   |mu|=1.9269
+E=0.48491 T= 31.2922 | sector pair fold+1   +0.4306 |mu|=1.5382 | conj 1.5e-05 | +-sqrt 1.1e-07 N^2 1.1e-12 | true CPLX   |mu|=1.6063
+E=0.49475 T= 31.1353 | sector pair fold+1   +0.4234 |mu|=1.5272 | conj 1.2e-05 | +-sqrt 1.2e-07 N^2 1.5e-12 | true circle |mu|=1.0000
+E=0.50480 T= 30.9792 | sector pair fold+1   +0.3960 |mu|=1.4859 | conj 1.7e-05 | +-sqrt 4.1e-08 N^2 1.6e-12 | true circle |mu|=1.0000
+E=0.51505 T= 30.8239 | sector pair fold+1   +0.3437 |mu|=1.4101 | conj 1.3e-05 | +-sqrt 5.4e-08 N^2 1.4e-12 | true circle |mu|=1.0000
+E=0.52551 T= 30.6694 | sector pair fold+1   +0.2514 |mu|=1.2859 | conj 2.3e-06 | +-sqrt 1.1e-10 N^2 9.8e-13 | true circle |mu|=1.0000
+E=0.53619 T= 30.5156 | sector pair circle   -0.0282 |mu|=1.0000 | conj 2.0e-06 | +-sqrt 8.7e-08 N^2 2.0e-12 | true circle |mu|=1.0000
+E=0.54708 T= 30.3626 | sector pair circle   +0.0981 |mu|=1.0000 | conj 7.7e-06 | +-sqrt 2.3e-07 N^2 1.6e-12 | true circle |mu|=1.0000
+E=0.55819 T= 30.2104 | sector pair circle   +0.1418 |mu|=1.0000 | conj 1.2e-06 | +-sqrt 5.0e-07 N^2 1.5e-12 | true circle |mu|=1.0000
+E=0.56952 T= 30.0589 | sector pair circle   +0.1796 |mu|=1.0000 | conj 9.9e-06 | +-sqrt 1.9e-07 N^2 1.1e-12 | true REAL+  |mu|=1.2298
+E=0.58109 T= 29.9082 | sector pair circle   +0.2147 |mu|=1.0000 | conj 1.1e-05 | +-sqrt 2.5e-07 N^2 1.9e-12 | true REAL+  |mu|=1.7100
+E=0.59289 T= 29.7582 | sector pair circle   +0.2482 |mu|=1.0000 | conj 1.9e-05 | +-sqrt 4.5e-08 N^2 1.5e-12 | true REAL+  |mu|=2.0014
+E=0.60493 T= 29.6090 | sector pair circle   +0.2809 |mu|=1.0000 | conj 3.0e-06 | +-sqrt 1.9e-08 N^2 1.1e-12 | true REAL+  |mu|=2.2075
+E=0.61722 T= 29.4606 | sector pair circle   +0.3131 |mu|=1.0000 | conj 5.8e-06 | +-sqrt 3.4e-08 N^2 9.0e-13 | true REAL+  |mu|=2.3458
+E=0.62975 T= 29.3129 | sector pair circle   +0.3450 |mu|=1.0000 | conj 2.4e-07 | +-sqrt 8.5e-08 N^2 9.6e-13 | true REAL+  |mu|=2.4229
+E=0.64254 T= 29.1659 | sector pair circle   +0.3768 |mu|=1.0000 | conj 2.0e-06 | +-sqrt 5.4e-08 N^2 1.6e-12 | true REAL+  |mu|=2.4417
+E=0.65559 T= 29.0197 | sector pair circle   +0.4087 |mu|=1.0000 | conj 4.5e-06 | +-sqrt 4.4e-09 N^2 8.0e-13 | true REAL+  |mu|=2.4039
+E=0.66891 T= 28.8742 | sector pair circle   +0.4408 |mu|=1.0000 | conj 2.2e-05 | +-sqrt 9.4e-08 N^2 1.3e-12 | true REAL+  |mu|=2.3102
+E=0.68249 T= 28.7294 | sector pair circle   +0.4733 |mu|=1.0000 | conj 8.3e-07 | +-sqrt 4.1e-08 N^2 8.0e-13 | true REAL+  |mu|=2.1601
+E=0.69635 T= 28.5854 | sector pair circle   +0.5064 |mu|=1.0000 | conj 6.4e-06 | +-sqrt 3.5e-08 N^2 1.0e-12 | true REAL+  |mu|=1.9496
+E=0.71049 T= 28.4420 | sector pair circle   +0.5403 |mu|=1.0000 | conj 2.3e-06 | +-sqrt 7.1e-07 N^2 9.5e-13 | true REAL+  |mu|=1.6641
+E=0.72492 T= 28.2994 | sector pair circle   +0.5752 |mu|=1.0000 | conj 8.8e-06 | +-sqrt 1.5e-10 N^2 1.0e-12 | true REAL+  |mu|=1.2032
+E=0.73965 T= 28.1575 | sector pair circle   +0.6116 |mu|=1.0000 | conj 1.7e-06 | +-sqrt 8.9e-12 N^2 6.8e-13 | true circle |mu|=1.0000
+E=0.75467 T= 28.0164 | sector pair circle   +0.6498 |mu|=1.0000 | conj 5.5e-06 | +-sqrt 6.2e-10 N^2 9.1e-13 | true circle |mu|=1.0000
+E=0.76999 T= 27.8759 | sector pair circle   +0.6909 |mu|=1.0000 | conj 8.4e-06 | +-sqrt 3.3e-11 N^2 8.7e-13 | true circle |mu|=1.0000
+E=0.78563 T= 27.7361 | sector pair circle   +0.7359 |mu|=1.0000 | conj 1.3e-05 | +-sqrt 2.9e-11 N^2 9.7e-13 | true circle |mu|=1.0000
+E=0.80159 T= 27.5971 | sector pair circle   +0.7878 |mu|=1.0000 | conj 1.0e-05 | +-sqrt 8.8e-11 N^2 1.1e-12 | true circle |mu|=1.0000
+E=0.81787 T= 27.4587 | sector pair circle   +0.8535 |mu|=1.0000 | conj 1.2e-05 | +-sqrt 1.3e-07 N^2 1.1e-12 | true circle |mu|=1.0000
+E=0.83448 T= 27.3210 | sector pair fold-1   +0.1017 |mu|=1.1071 | conj 2.7e-06 | +-sqrt 1.0e-07 N^2 4.1e-13 | true circle |mu|=1.0000
+E=0.85142 T= 27.1841 | sector pair fold-1   +0.4712 |mu|=1.6019 | conj 8.1e-06 | +-sqrt 1.0e-07 N^2 2.8e-13 | true circle |mu|=1.0000
+E=0.86872 T= 27.0478 | sector pair fold-1   +0.6509 |mu|=1.9173 | conj 1.4e-05 | +-sqrt 7.4e-08 N^2 8.4e-13 | true circle |mu|=1.0000
+E=0.88636 T= 26.9121 | sector pair fold-1   +0.7846 |mu|=2.1916 | conj 9.7e-06 | +-sqrt 7.7e-08 N^2 9.6e-13 | true circle |mu|=1.0000
+E=0.90436 T= 26.7772 | sector pair fold-1   +0.8933 |mu|=2.4433 | conj 1.9e-05 | +-sqrt 4.0e-08 N^2 5.3e-13 | true circle |mu|=1.0000
+E=0.92273 T= 26.6430 | sector pair fold-1   +0.9855 |mu|=2.6792 | conj 1.4e-05 | +-sqrt 1.9e-08 N^2 8.2e-13 | true circle |mu|=1.0000
+E=0.94147 T= 26.5094 | sector pair fold-1   +1.0656 |mu|=2.9026 | conj 2.9e-06 | +-sqrt 2.0e-08 N^2 8.3e-13 | true circle |mu|=1.0000
+E=0.96059 T= 26.3765 | sector pair fold-1   +1.1362 |mu|=3.1150 | conj 3.2e-06 | +-sqrt 3.7e-08 N^2 1.2e-12 | true circle |mu|=1.0000
+E=0.98010 T= 26.2442 | sector pair fold-1   +1.1992 |mu|=3.3173 | conj 2.3e-06 | +-sqrt 7.8e-09 N^2 1.4e-12 | true circle |mu|=1.0000
+E=1.00000 T= 26.1126 | sector pair fold-1   +1.2557 |mu|=3.5102 | conj 6.6e-06 | +-sqrt 9.7e-08 N^2 6.3e-13 | true circle |mu|=1.0000
+CHECK the two sectors of the decoupled model have the same period-T spectrum, worst 2.2e-05 (tol 1e-7) FAIL
+CHECK M_dec is block-diagonal in the sector basis, worst off-block 0.0e+00 (tol 1e-10) PASS
+CHECK spec(N_dec) = +-sqrt(spec(M_dec)) (symmetric under lambda -> -lambda), worst 7.1e-07 (tol 1e-6) PASS
+CHECK N_dec^2 = M_dec, worst 2.4e-12 (tol 1e-8) PASS
+
+== the decoupled sector's tongues against B001's block-12 intervals ==
+  decoupled sector (prediction):
+    E in [0.0500, 0.0521]  fold-1  max rate per period 0.296   -> predicts a KREIN (CPLX) band of the true block
+    E in [0.0690, 0.0704]  fold+1  max rate per period 0.143   -> predicts a PARAMETRIC (REAL+) band of the true block
+    E in [0.1011, 0.1011]  fold-1  max rate per period 0.099   -> predicts a KREIN (CPLX) band of the true block
+    E in [0.1511, 0.1542]  fold+1  max rate per period 0.122   -> predicts a PARAMETRIC (REAL+) band of the true block
+    E in [0.2448, 0.2653]  fold-1  max rate per period 0.273   -> predicts a KREIN (CPLX) band of the true block
+    E in [0.4474, 0.5255]  fold+1  max rate per period 0.431   -> predicts a PARAMETRIC (REAL+) band of the true block
+    E in [0.8345, 1.0000]  fold-1  max rate per period 1.256   -> predicts a KREIN (CPLX) band of the true block
+  true block 12 (B001, measured):
+    E in [0.0547, 0.0551]  REAL  max |mu| 1.0819
+    E in [0.0577, 0.0594]  REAL  max |mu| 1.2123
+    E in [0.0761, 0.0773]  CPLX  max |mu| 1.1134
+    E in [0.1020, 0.1133]  REAL  max |mu| 1.3753
+    E in [0.1519, 0.1613]  CPLX  max |mu| 1.2879
+    E in [0.2228, 0.2648]  REAL  max |mu| 1.8251
+    E in [0.2811, 0.4937]  CPLX  max |mu| 2.8696
+    E in [0.5694, 0.7241]  REAL  max |mu| 2.4420
+  (the decoupled model has no complex quadruplets by construction: every instability is a double real pair; the true cross-coupling turns the -1 ones into quadruplets and splits the +1 ones between the two pairs)
+
+== step 3: the exact lemma against B005's events ==
+  E=0.05471 LEAVE    fold of N at arg -0.989pi -> M at +1 (distance of |arg| from {0, 1}: 0.011pi)
+  E=0.05554 RE-ENTER fold of N at arg -0.984pi -> M at +1 (distance of |arg| from {0, 1}: 0.016pi)
+  E=0.05767 LEAVE    fold of N at arg -0.023pi -> M at +1 (distance of |arg| from {0, 1}: 0.023pi)
+  E=0.05987 RE-ENTER fold of N at arg +0.029pi -> M at +1 (distance of |arg| from {0, 1}: 0.029pi)
+  E=0.07613 LEAVE    four members leave together: two-pair collision (M at -1 by B005's angles +-0.44..0.59 pi of N)
+  E=0.07787 RE-ENTER four members leave together: two-pair collision (M at -1 by B005's angles +-0.44..0.59 pi of N)
+  E=0.10203 LEAVE    fold of N at arg -0.016pi -> M at +1 (distance of |arg| from {0, 1}: 0.016pi)
+  E=0.11334 RE-ENTER fold of N at arg -0.977pi -> M at +1 (distance of |arg| from {0, 1}: 0.023pi)
+  E=0.15190 LEAVE    four members leave together: two-pair collision (M at -1 by B005's angles +-0.44..0.59 pi of N)
+  E=0.16252 RE-ENTER four members leave together: two-pair collision (M at -1 by B005's angles +-0.44..0.59 pi of N)
+  E=0.22277 LEAVE    fold of N at arg -0.995pi -> M at +1 (distance of |arg| from {0, 1}: 0.005pi)
+  E=0.26675 RE-ENTER fold of N at arg -0.973pi -> M at +1 (distance of |arg| from {0, 1}: 0.027pi)
+  E=0.34693 LEAVE    four members leave together: two-pair collision (M at -1 by B005's angles +-0.44..0.59 pi of N)
+  E=0.49745 RE-ENTER four members leave together: two-pair collision (M at -1 by B005's angles +-0.44..0.59 pi of N)
+  E=0.56944 LEAVE    fold of N at arg -0.959pi -> M at +1 (distance of |arg| from {0, 1}: 0.041pi)
+  E=0.72954 RE-ENTER fold of N at arg -0.966pi -> M at +1 (distance of |arg| from {0, 1}: 0.034pi)
+CHECK no single-pair fold of N near +-i (which would be a lone pair of M leaving at -1, forbidden by the lemma): 0 found PASS
+figure: results/rh7_sector_tongues.png
+DONE 184

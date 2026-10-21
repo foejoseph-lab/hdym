@@ -1,0 +1,29 @@
+rh2_ladder.py: 400 energies from krein_b005.txt; T(E) = T_half (2E)^(-1/4), T_half = 31.053330268585064
+raw unwrapped Theta/pi at E = 0.050: A +1.685, B +0.572; at E = 1: A +0.011, B -2.957
+total winding over the scan: A -1.674 pi, B -3.529 pi; T goes 55.22 -> 26.11
+
+== naive ladder: omega_ghost = 1, tongues at T(E) = n pi ==
+  n   E_n (T = n pi)   nearest measured block-12 band (B001)        type expected (even n: parametric, odd n: Krein)
+   8   1.1653          blk13 [0.7864, 0.8541] REAL                parametric
+   9   0.7275          blk13 [0.7864, 0.8541] REAL                Krein
+  10   0.4773          blk12 [0.2811, 0.4937] CPLX (E_n inside)   parametric
+  11   0.3260          blk12 [0.2811, 0.4937] CPLX (E_n inside)   Krein
+  12   0.2302          blk12 [0.2228, 0.2648] REAL (E_n inside)   parametric
+  13   0.1671          blk13 [0.1637, 0.1637] REAL                Krein
+  14   0.1242          blk12 [0.1020, 0.1133] REAL                parametric
+  15   0.0943          blk13 [0.0891, 0.0905] REAL                Krein
+  16   0.0728          blk12 [0.0761, 0.0773] CPLX                parametric
+  17   0.0571          blk12 [0.0577, 0.0594] REAL                Krein
+  18   0.0455          blk13 [0.0535, 0.0539] REAL                parametric
+  19   0.0366          blk13 [0.0535, 0.0539] REAL                Krein
+
+== measured block-12 bands against the unwrapped phases (Theta/pi of each pair at the edges) ==
+  [0.0547, 0.0551] REAL: Theta_A/pi +1.979 -> +1.967, Theta_B/pi +0.261 -> +0.175, (A+B)/pi +2.240 -> +2.142, T/pi 54.09 -> 53.79
+  [0.0577, 0.0594] REAL: Theta_A/pi +1.835 -> +1.710, Theta_B/pi +0.029 -> -0.057, (A+B)/pi +1.864 -> +1.652, T/pi 53.29 -> 52.79
+  [0.0761, 0.0773] CPLX: Theta_A/pi +0.953 -> +0.860, Theta_B/pi -0.884 -> -0.983, (A+B)/pi +0.069 -> -0.122, T/pi 49.81 -> 49.34
+  [0.1020, 0.1133] REAL: Theta_A/pi +0.032 -> +0.206, Theta_B/pi -1.783 -> -2.081, (A+B)/pi -1.752 -> -1.875, T/pi 46.29 -> 44.92
+  [0.1519, 0.1613] CPLX: Theta_A/pi +0.990 -> +1.088, Theta_B/pi -2.897 -> -3.002, (A+B)/pi -1.907 -> -1.914, T/pi 41.91 -> 41.13
+  [0.2228, 0.2648] REAL: Theta_A/pi +1.988 -> +1.904, Theta_B/pi -3.841 -> -3.727, (A+B)/pi -1.853 -> -1.823, T/pi 38.01 -> 36.27
+  [0.2811, 0.4937] CPLX: Theta_A/pi +1.781 -> +1.172, Theta_B/pi -3.631 -> -2.650, (A+B)/pi -1.849 -> -1.479, T/pi 35.93 -> 31.09
+  [0.5694, 0.7241] REAL: Theta_A/pi +0.859 -> +0.501, Theta_B/pi -2.081 -> -2.121, (A+B)/pi -1.223 -> -1.619, T/pi 30.12 -> 28.20
+figure: results/rh2_ladder.png

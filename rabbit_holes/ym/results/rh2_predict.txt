@@ -1,0 +1,120 @@
+rh2_predict.py: ladder T_c = 4.057 (n + 0.21); predictions: rung 6 (Krein) E = 1.1540, rung 14 (Krein) E = 0.0421, rung 15 (parametric) E = 0.0321
+
+== E in [1.0, 1.5] (rung 6 expected Krein near E = 1.15) ==
+E=1.00000 T= 26.1126 rung T/a - phi =  6.226 | stable                       max |lambda| 1.0000 | angles/pi [-0.521 -0.006  0.006  0.521]
+E=1.01429 T= 26.0202 rung T/a - phi =  6.204 | FOLD at N = +1 (M = +1)      max |lambda| 1.1346 | angles/pi [-0.504  0.     0.     0.504]
+E=1.02857 T= 25.9294 rung T/a - phi =  6.181 | FOLD at N = +1 (M = +1)      max |lambda| 1.1928 | angles/pi [-0.487  0.     0.     0.487]
+E=1.04286 T= 25.8401 rung T/a - phi =  6.159 | FOLD at N = +1 (M = +1)      max |lambda| 1.2365 | angles/pi [-0.469  0.     0.     0.469]
+E=1.05714 T= 25.7524 rung T/a - phi =  6.138 | FOLD at N = +1 (M = +1)      max |lambda| 1.2723 | angles/pi [-0.452  0.     0.     0.452]
+E=1.07143 T= 25.6661 rung T/a - phi =  6.116 | FOLD at N = +1 (M = +1)      max |lambda| 1.3025 | angles/pi [-0.435  0.     0.     0.435]
+E=1.08571 T= 25.5813 rung T/a - phi =  6.095 | FOLD at N = +1 (M = +1)      max |lambda| 1.3284 | angles/pi [-0.417  0.     0.     0.417]
+E=1.10000 T= 25.4978 rung T/a - phi =  6.075 | FOLD at N = +1 (M = +1)      max |lambda| 1.3508 | angles/pi [-0.4  0.   0.   0.4]
+E=1.11429 T= 25.4157 rung T/a - phi =  6.055 | FOLD at N = +1 (M = +1)      max |lambda| 1.3701 | angles/pi [-0.383  0.     0.     0.383]
+E=1.12857 T= 25.3349 rung T/a - phi =  6.035 | FOLD at N = +1 (M = +1)      max |lambda| 1.3866 | angles/pi [-0.365  0.     0.     0.365]
+E=1.14286 T= 25.2553 rung T/a - phi =  6.015 | FOLD at N = +1 (M = +1)      max |lambda| 1.4003 | angles/pi [-0.347  0.     0.     0.347]
+E=1.15714 T= 25.1770 rung T/a - phi =  5.996 | FOLD at N = +1 (M = +1)      max |lambda| 1.4113 | angles/pi [-0.329  0.     0.     0.329]
+E=1.17143 T= 25.0999 rung T/a - phi =  5.977 | FOLD at N = +1 (M = +1)      max |lambda| 1.4196 | angles/pi [-0.31  0.    0.    0.31]
+E=1.18571 T= 25.0239 rung T/a - phi =  5.958 | FOLD at N = +1 (M = +1)      max |lambda| 1.4247 | angles/pi [-0.291  0.     0.     0.291]
+E=1.20000 T= 24.9491 rung T/a - phi =  5.940 | FOLD at N = +1 (M = +1)      max |lambda| 1.4263 | angles/pi [-0.271  0.     0.     0.271]
+E=1.21429 T= 24.8754 rung T/a - phi =  5.921 | FOLD at N = +1 (M = +1)      max |lambda| 1.4235 | angles/pi [-0.25  0.    0.    0.25]
+E=1.22857 T= 24.8028 rung T/a - phi =  5.904 | FOLD at N = +1 (M = +1)      max |lambda| 1.4148 | angles/pi [-0.227  0.     0.     0.227]
+E=1.24286 T= 24.7312 rung T/a - phi =  5.886 | FOLD at N = +1 (M = +1)      max |lambda| 1.3970 | angles/pi [-0.201  0.     0.     0.201]
+E=1.25714 T= 24.6607 rung T/a - phi =  5.869 | FOLD at N = +1 (M = +1)      max |lambda| 1.3626 | angles/pi [-0.171  0.     0.     0.171]
+E=1.27143 T= 24.5911 rung T/a - phi =  5.851 | FOLD at N = +1 (M = +1)      max |lambda| 1.2820 | angles/pi [-0.128  0.     0.     0.128]
+E=1.28571 T= 24.5225 rung T/a - phi =  5.834 | KREIN quadruplet             max |lambda| 1.2246 | angles/pi [-0.069 -0.069  0.069  0.069]
+E=1.30000 T= 24.4548 rung T/a - phi =  5.818 | KREIN quadruplet             max |lambda| 1.3683 | angles/pi [-0.08 -0.08  0.08  0.08]
+E=1.31429 T= 24.3881 rung T/a - phi =  5.801 | KREIN quadruplet             max |lambda| 1.4597 | angles/pi [-0.082 -0.082  0.082  0.082]
+E=1.32857 T= 24.3223 rung T/a - phi =  5.785 | KREIN quadruplet             max |lambda| 1.5324 | angles/pi [-0.083 -0.083  0.083  0.083]
+E=1.34286 T= 24.2573 rung T/a - phi =  5.769 | KREIN quadruplet             max |lambda| 1.5946 | angles/pi [-0.082 -0.082  0.082  0.082]
+E=1.35714 T= 24.1933 rung T/a - phi =  5.753 | KREIN quadruplet             max |lambda| 1.6497 | angles/pi [-0.08 -0.08  0.08  0.08]
+E=1.37143 T= 24.1300 rung T/a - phi =  5.738 | KREIN quadruplet             max |lambda| 1.6994 | angles/pi [-0.078 -0.078  0.078  0.078]
+E=1.38571 T= 24.0676 rung T/a - phi =  5.722 | KREIN quadruplet             max |lambda| 1.7448 | angles/pi [-0.075 -0.075  0.075  0.075]
+E=1.40000 T= 24.0059 rung T/a - phi =  5.707 | KREIN quadruplet             max |lambda| 1.7867 | angles/pi [-0.072 -0.072  0.072  0.072]
+E=1.41429 T= 23.9451 rung T/a - phi =  5.692 | KREIN quadruplet             max |lambda| 1.8256 | angles/pi [-0.069 -0.069  0.069  0.069]
+E=1.42857 T= 23.8850 rung T/a - phi =  5.677 | KREIN quadruplet             max |lambda| 1.8619 | angles/pi [-0.065 -0.065  0.065  0.065]
+E=1.44286 T= 23.8257 rung T/a - phi =  5.663 | KREIN quadruplet             max |lambda| 1.8958 | angles/pi [-0.062 -0.062  0.062  0.062]
+E=1.45714 T= 23.7670 rung T/a - phi =  5.648 | KREIN quadruplet             max |lambda| 1.9276 | angles/pi [-0.058 -0.058  0.058  0.058]
+E=1.47143 T= 23.7091 rung T/a - phi =  5.634 | KREIN quadruplet             max |lambda| 1.9574 | angles/pi [-0.053 -0.053  0.053  0.053]
+E=1.48571 T= 23.6519 rung T/a - phi =  5.620 | KREIN quadruplet             max |lambda| 1.9855 | angles/pi [-0.049 -0.049  0.049  0.049]
+E=1.50000 T= 23.5954 rung T/a - phi =  5.606 | KREIN quadruplet             max |lambda| 2.0119 | angles/pi [-0.044 -0.044  0.044  0.044]
+
+== E in [0.025, 0.05] (rung 14 Krein near 0.042, rung 15 parametric near 0.032) ==
+E=0.02500 T= 65.6698 rung T/a - phi = 15.977 | stable                       max |lambda| 1.0000 | angles/pi [-0.47  -0.238  0.238  0.47 ]
+E=0.02550 T= 65.3455 rung T/a - phi = 15.897 | stable                       max |lambda| 1.0000 | angles/pi [-0.429 -0.286  0.286  0.429]
+E=0.02601 T= 65.0227 rung T/a - phi = 15.817 | stable                       max |lambda| 1.0000 | angles/pi [-0.386 -0.334  0.334  0.386]
+E=0.02653 T= 64.7016 rung T/a - phi = 15.738 | stable                       max |lambda| 1.0000 | angles/pi [-0.374 -0.352  0.352  0.374]
+E=0.02706 T= 64.3821 rung T/a - phi = 15.659 | stable                       max |lambda| 1.0000 | angles/pi [-0.424 -0.308  0.308  0.424]
+E=0.02760 T= 64.0641 rung T/a - phi = 15.581 | stable                       max |lambda| 1.0000 | angles/pi [-0.47  -0.267  0.267  0.47 ]
+E=0.02815 T= 63.7477 rung T/a - phi = 15.503 | stable                       max |lambda| 1.0000 | angles/pi [-0.516 -0.227  0.227  0.516]
+E=0.02872 T= 63.4328 rung T/a - phi = 15.425 | stable                       max |lambda| 1.0000 | angles/pi [-0.561 -0.187  0.187  0.561]
+E=0.02929 T= 63.1196 rung T/a - phi = 15.348 | stable                       max |lambda| 1.0000 | angles/pi [-0.606 -0.147  0.147  0.606]
+E=0.02988 T= 62.8078 rung T/a - phi = 15.271 | stable                       max |lambda| 1.0000 | angles/pi [-0.651 -0.107  0.107  0.651]
+E=0.03048 T= 62.4976 rung T/a - phi = 15.195 | stable                       max |lambda| 1.0000 | angles/pi [-0.696 -0.068  0.068  0.696]
+E=0.03108 T= 62.1890 rung T/a - phi = 15.119 | stable                       max |lambda| 1.0000 | angles/pi [-0.74  -0.028  0.028  0.74 ]
+E=0.03171 T= 61.8818 rung T/a - phi = 15.043 | stable                       max |lambda| 1.0000 | angles/pi [-0.784 -0.007  0.007  0.784]
+E=0.03234 T= 61.5762 rung T/a - phi = 14.968 | stable                       max |lambda| 1.0000 | angles/pi [-0.828 -0.048  0.048  0.828]
+E=0.03299 T= 61.2721 rung T/a - phi = 14.893 | stable                       max |lambda| 1.0000 | angles/pi [-0.871 -0.086  0.086  0.871]
+E=0.03365 T= 60.9695 rung T/a - phi = 14.818 | stable                       max |lambda| 1.0000 | angles/pi [-0.915 -0.125  0.125  0.915]
+E=0.03432 T= 60.6684 rung T/a - phi = 14.744 | stable                       max |lambda| 1.0000 | angles/pi [-0.959 -0.163  0.163  0.959]
+E=0.03501 T= 60.3687 rung T/a - phi = 14.670 | FOLD at N = -1 (M = +1)      max |lambda| 1.0480 | angles/pi [-0.2  0.2  1.   1. ]
+E=0.03571 T= 60.0706 rung T/a - phi = 14.597 | stable                       max |lambda| 1.0000 | angles/pi [-0.962 -0.238  0.238  0.962]
+E=0.03642 T= 59.7739 rung T/a - phi = 14.524 | stable                       max |lambda| 1.0000 | angles/pi [-0.918 -0.275  0.275  0.918]
+E=0.03715 T= 59.4787 rung T/a - phi = 14.451 | stable                       max |lambda| 1.0000 | angles/pi [-0.876 -0.312  0.312  0.876]
+E=0.03789 T= 59.1849 rung T/a - phi = 14.378 | stable                       max |lambda| 1.0000 | angles/pi [-0.834 -0.35   0.35   0.834]
+E=0.03865 T= 58.8926 rung T/a - phi = 14.306 | stable                       max |lambda| 1.0000 | angles/pi [-0.793 -0.386  0.386  0.793]
+E=0.03942 T= 58.6018 rung T/a - phi = 14.235 | stable                       max |lambda| 1.0000 | angles/pi [-0.752 -0.423  0.423  0.752]
+E=0.04021 T= 58.3123 rung T/a - phi = 14.163 | stable                       max |lambda| 1.0000 | angles/pi [-0.71 -0.46  0.46  0.71]
+E=0.04102 T= 58.0244 rung T/a - phi = 14.092 | stable                       max |lambda| 1.0000 | angles/pi [-0.669 -0.498  0.498  0.669]
+E=0.04184 T= 57.7378 rung T/a - phi = 14.022 | stable                       max |lambda| 1.0000 | angles/pi [-0.626 -0.537  0.537  0.626]
+E=0.04267 T= 57.4526 rung T/a - phi = 13.951 | KREIN quadruplet             max |lambda| 1.0736 | angles/pi [-0.579 -0.579  0.579  0.579]
+E=0.04353 T= 57.1689 rung T/a - phi = 13.881 | KREIN quadruplet             max |lambda| 1.0412 | angles/pi [-0.577 -0.577  0.577  0.577]
+E=0.04440 T= 56.8865 rung T/a - phi = 13.812 | stable                       max |lambda| 1.0000 | angles/pi [-0.63  -0.521  0.521  0.63 ]
+E=0.04529 T= 56.6056 rung T/a - phi = 13.743 | stable                       max |lambda| 1.0000 | angles/pi [-0.667 -0.479  0.479  0.667]
+E=0.04619 T= 56.3260 rung T/a - phi = 13.674 | stable                       max |lambda| 1.0000 | angles/pi [-0.703 -0.44   0.44   0.703]
+E=0.04712 T= 56.0478 rung T/a - phi = 13.605 | stable                       max |lambda| 1.0000 | angles/pi [-0.738 -0.401  0.401  0.738]
+E=0.04806 T= 55.7710 rung T/a - phi = 13.537 | stable                       max |lambda| 1.0000 | angles/pi [-0.773 -0.362  0.362  0.773]
+E=0.04902 T= 55.4956 rung T/a - phi = 13.469 | stable                       max |lambda| 1.0000 | angles/pi [-0.808 -0.324  0.324  0.808]
+E=0.05000 T= 55.2215 rung T/a - phi = 13.401 | stable                       max |lambda| 1.0000 | angles/pi [-0.843 -0.286  0.286  0.843]
+
+high: unstable energies and their rung values:
+  E=1.01429 rung=6.204 FOLD at N = +1 (M = +1) |lambda|=1.1346
+  E=1.02857 rung=6.181 FOLD at N = +1 (M = +1) |lambda|=1.1928
+  E=1.04286 rung=6.159 FOLD at N = +1 (M = +1) |lambda|=1.2365
+  E=1.05714 rung=6.138 FOLD at N = +1 (M = +1) |lambda|=1.2723
+  E=1.07143 rung=6.116 FOLD at N = +1 (M = +1) |lambda|=1.3025
+  E=1.08571 rung=6.095 FOLD at N = +1 (M = +1) |lambda|=1.3284
+  E=1.10000 rung=6.075 FOLD at N = +1 (M = +1) |lambda|=1.3508
+  E=1.11429 rung=6.055 FOLD at N = +1 (M = +1) |lambda|=1.3701
+  E=1.12857 rung=6.035 FOLD at N = +1 (M = +1) |lambda|=1.3866
+  E=1.14286 rung=6.015 FOLD at N = +1 (M = +1) |lambda|=1.4003
+  E=1.15714 rung=5.996 FOLD at N = +1 (M = +1) |lambda|=1.4113
+  E=1.17143 rung=5.977 FOLD at N = +1 (M = +1) |lambda|=1.4196
+  E=1.18571 rung=5.958 FOLD at N = +1 (M = +1) |lambda|=1.4247
+  E=1.20000 rung=5.940 FOLD at N = +1 (M = +1) |lambda|=1.4263
+  E=1.21429 rung=5.921 FOLD at N = +1 (M = +1) |lambda|=1.4235
+  E=1.22857 rung=5.904 FOLD at N = +1 (M = +1) |lambda|=1.4148
+  E=1.24286 rung=5.886 FOLD at N = +1 (M = +1) |lambda|=1.3970
+  E=1.25714 rung=5.869 FOLD at N = +1 (M = +1) |lambda|=1.3626
+  E=1.27143 rung=5.851 FOLD at N = +1 (M = +1) |lambda|=1.2820
+  E=1.28571 rung=5.834 KREIN quadruplet |lambda|=1.2246
+  E=1.30000 rung=5.818 KREIN quadruplet |lambda|=1.3683
+  E=1.31429 rung=5.801 KREIN quadruplet |lambda|=1.4597
+  E=1.32857 rung=5.785 KREIN quadruplet |lambda|=1.5324
+  E=1.34286 rung=5.769 KREIN quadruplet |lambda|=1.5946
+  E=1.35714 rung=5.753 KREIN quadruplet |lambda|=1.6497
+  E=1.37143 rung=5.738 KREIN quadruplet |lambda|=1.6994
+  E=1.38571 rung=5.722 KREIN quadruplet |lambda|=1.7448
+  E=1.40000 rung=5.707 KREIN quadruplet |lambda|=1.7867
+  E=1.41429 rung=5.692 KREIN quadruplet |lambda|=1.8256
+  E=1.42857 rung=5.677 KREIN quadruplet |lambda|=1.8619
+  E=1.44286 rung=5.663 KREIN quadruplet |lambda|=1.8958
+  E=1.45714 rung=5.648 KREIN quadruplet |lambda|=1.9276
+  E=1.47143 rung=5.634 KREIN quadruplet |lambda|=1.9574
+  E=1.48571 rung=5.620 KREIN quadruplet |lambda|=1.9855
+  E=1.50000 rung=5.606 KREIN quadruplet |lambda|=2.0119
+
+low: unstable energies and their rung values:
+  E=0.03501 rung=14.670 FOLD at N = -1 (M = +1) |lambda|=1.0480
+  E=0.04267 rung=13.951 KREIN quadruplet |lambda|=1.0736
+  E=0.04353 rung=13.881 KREIN quadruplet |lambda|=1.0412
+DONE 41

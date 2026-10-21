@@ -1,0 +1,134 @@
+rh4_loiter.py: esc_E.npz, 100 energies x 64 seeds, tmax 3000.0, checkpoints every 50, seed amplitude 0.0001
+
+== per energy ==
+columns: E | T | escaped/64 | reached |w|>=1: n (censored; crossings extrapolated from the last checkpoint) | t_1 median [p10,p90] | ln(1/delta)/rate (diag Floquet) | loiter L: median [p25,p75] p90 time units | in periods | sector largest at escape
+E=0.05000 T= 55.221 |  0/64 |  2 ( 2;  0 extrapolated) | t1  1187.8 [ 754.8,1620.9] |     nan | L    nan [  nan,   nan] p90    nan |   nan T | {}
+E=0.05154 T= 54.805 |  0/64 |  6 ( 6;  0 extrapolated) | t1  1492.4 [1179.0,2444.0] |     nan | L    nan [  nan,   nan] p90    nan |   nan T | {}
+E=0.05312 T= 54.392 |  0/64 |  6 ( 6;  0 extrapolated) | t1  1492.4 [ 931.7,2317.9] |  9200.6 | L    nan [  nan,   nan] p90    nan |   nan T | {}
+E=0.05475 T= 53.982 |  0/64 |  5 ( 5;  0 extrapolated) | t1  2345.4 [1481.6,2583.7] |     nan | L    nan [  nan,   nan] p90    nan |   nan T | {}
+E=0.05643 T= 53.576 |  0/64 |  5 ( 5;  0 extrapolated) | t1  2018.2 [ 990.6,2364.6] |     nan | L    nan [  nan,   nan] p90    nan |   nan T | {}
+E=0.05817 T= 53.172 |  2/64 | 46 (44;  0 extrapolated) | t1  2281.4 [2043.6,2754.1] |     nan | L  567.0 [525.0, 609.1] p90  634.3 | 10.66 T | {'diagonal': 2}
+E=0.05995 T= 52.771 |  0/64 |  8 ( 8;  0 extrapolated) | t1  1637.1 [ 812.6,2562.1] |     nan | L    nan [  nan,   nan] p90    nan |   nan T | {}
+E=0.06180 T= 52.373 |  0/64 |  3 ( 3;  0 extrapolated) | t1  2149.8 [1942.0,2519.7] |     nan | L    nan [  nan,   nan] p90    nan |   nan T | {}
+E=0.06369 T= 51.979 |  0/64 |  5 ( 5;  0 extrapolated) | t1  1246.1 [ 853.5,2605.5] |     nan | L    nan [  nan,   nan] p90    nan |   nan T | {}
+E=0.06565 T= 51.587 |  0/64 |  8 ( 8;  0 extrapolated) | t1  1095.7 [ 578.9,2277.2] |     nan | L    nan [  nan,   nan] p90    nan |   nan T | {}
+E=0.06767 T= 51.198 |  0/64 |  3 ( 3;  0 extrapolated) | t1  1697.8 [1035.8,2095.5] |     nan | L    nan [  nan,   nan] p90    nan |   nan T | {}
+E=0.06975 T= 50.812 |  0/64 |  4 ( 4;  0 extrapolated) | t1  2230.6 [1794.7,2766.7] |     nan | L    nan [  nan,   nan] p90    nan |   nan T | {}
+E=0.07189 T= 50.429 |  0/64 |  2 ( 2;  0 extrapolated) | t1  1338.3 [ 784.3,1892.3] |     nan | L    nan [  nan,   nan] p90    nan |   nan T | {}
+E=0.07410 T= 50.049 |  0/64 | none reached |w| = 1
+E=0.07638 T= 49.672 |  0/64 | 14 (14;  0 extrapolated) | t1  2709.0 [1848.6,2867.4] |     nan | L    nan [  nan,   nan] p90    nan |   nan T | {}
+E=0.07872 T= 49.298 |  0/64 |  3 ( 3;  0 extrapolated) | t1  1049.4 [1047.3,1378.1] |     nan | L    nan [  nan,   nan] p90    nan |   nan T | {}
+E=0.08114 T= 48.926 |  0/64 |  7 ( 7;  0 extrapolated) | t1  1445.6 [1044.6,2225.2] |     nan | L    nan [  nan,   nan] p90    nan |   nan T | {}
+E=0.08363 T= 48.557 |  0/64 |  4 ( 4;  0 extrapolated) | t1  1837.9 [1176.5,2160.6] |     nan | L    nan [  nan,   nan] p90    nan |   nan T | {}
+E=0.08620 T= 48.192 |  0/64 |  4 ( 4;  0 extrapolated) | t1   867.3 [ 765.6,1308.0] |     nan | L    nan [  nan,   nan] p90    nan |   nan T | {}
+E=0.08885 T= 47.828 | 20/64 | 33 (13;  6 extrapolated) | t1  2255.2 [1945.1,2790.2] |  3331.1 | L   35.3 [  5.9,  77.6] p90  146.3 |  0.74 T | {'diagonal': 19, 'block 12': 1}
+E=0.09158 T= 47.468 | 53/64 | 58 ( 5; 23 extrapolated) | t1  1954.1 [1579.0,2739.2] |  1780.3 | L   29.8 [  0.0, 105.8] p90  428.1 |  0.63 T | {'diagonal': 50, 'block 12': 1, 'block 13': 1, 'block 23': 1}
+E=0.09439 T= 47.110 |  0/64 |  3 ( 3;  0 extrapolated) | t1  1412.4 [ 991.4,1838.8] |     nan | L    nan [  nan,   nan] p90    nan |   nan T | {}
+E=0.09729 T= 46.755 |  0/64 |  3 ( 3;  0 extrapolated) | t1   799.8 [ 718.2,1672.4] |     nan | L    nan [  nan,   nan] p90    nan |   nan T | {}
+E=0.10028 T= 46.403 |  0/64 |  2 ( 2;  0 extrapolated) | t1  2242.2 [1921.0,2563.4] |     nan | L    nan [  nan,   nan] p90    nan |   nan T | {}
+E=0.10336 T= 46.053 | 12/64 | 51 (39;  0 extrapolated) | t1  1541.0 [1234.8,2296.7] |     nan | L 1133.8 [728.7,1351.4] p90 1385.3 | 24.62 T | {'diagonal': 7, 'block 12': 4, 'block 23': 1}
+E=0.10654 T= 45.706 | 22/64 | 58 (36;  4 extrapolated) | t1  1498.7 [1143.2,2550.5] |     nan | L  718.0 [ 77.1,1322.7] p90 1443.7 | 15.71 T | {'diagonal': 15, 'block 12': 3, 'block 13': 3, 'block 23': 1}
+E=0.10981 T= 45.361 | 19/64 | 54 (35;  3 extrapolated) | t1  1692.7 [1279.5,2595.9] |     nan | L  554.0 [ 66.9, 969.0] p90 1158.5 | 12.21 T | {'diagonal': 15, 'block 12': 2, 'block 23': 2}
+E=0.11319 T= 45.020 |  0/64 | 21 (21;  0 extrapolated) | t1  2703.8 [2434.8,2961.7] |     nan | L    nan [  nan,   nan] p90    nan |   nan T | {}
+E=0.11666 T= 44.680 |  0/64 | none reached |w| = 1
+E=0.12025 T= 44.344 |  0/64 | none reached |w| = 1
+E=0.12394 T= 44.009 | 32/64 | 51 (19; 13 extrapolated) | t1  2261.1 [1689.8,2784.1] |  2495.7 | L   47.7 [  0.0, 415.0] p90  732.0 |  1.08 T | {'diagonal': 31, 'block 12': 1}
+E=0.12775 T= 43.678 |  0/64 |  2 ( 2;  0 extrapolated) | t1  1314.7 [1093.8,1535.7] |     nan | L    nan [  nan,   nan] p90    nan |   nan T | {}
+E=0.13168 T= 43.349 |  0/64 | none reached |w| = 1
+E=0.13572 T= 43.022 |  0/64 | none reached |w| = 1
+E=0.13989 T= 42.698 |  0/64 |  1 ( 1;  0 extrapolated) | t1  1945.0 [1945.0,1945.0] |     nan | L    nan [  nan,   nan] p90    nan |   nan T | {}
+E=0.14419 T= 42.376 |  0/64 | none reached |w| = 1
+E=0.14862 T= 42.056 |  0/64 | none reached |w| = 1
+E=0.15318 T= 41.740 | 55/64 | 64 ( 9;  3 extrapolated) | t1  1843.1 [1550.9,2381.5] |     nan | L  353.7 [ 90.4, 552.8] p90  893.9 |  8.47 T | {'diagonal': 36, 'block 12': 15, 'block 13': 1, 'block 23': 3}
+E=0.15789 T= 41.425 | 55/64 | 64 ( 9;  9 extrapolated) | t1  1486.3 [1208.6,2163.0] |     nan | L  244.3 [ 44.5, 682.1] p90 1003.8 |  5.90 T | {'diagonal': 44, 'block 12': 5, 'block 13': 3, 'block 23': 3}
+E=0.16274 T= 41.113 | 64/64 | 64 ( 0; 32 extrapolated) | t1   955.5 [ 587.1,1457.7] |   749.5 | L   21.1 [  0.0,  77.9] p90  216.4 |  0.51 T | {'diagonal': 59, 'block 12': 2, 'block 13': 2, 'block 23': 1}
+E=0.16774 T= 40.803 | 64/64 | 64 ( 0; 33 extrapolated) | t1   630.2 [ 463.4, 940.2] |   516.4 | L   22.9 [  0.0,  94.3] p90  230.2 |  0.56 T | {'diagonal': 60, 'block 12': 3, 'block 23': 1}
+E=0.17289 T= 40.495 | 64/64 | 64 ( 0; 38 extrapolated) | t1   612.2 [ 484.0, 901.0] |   463.2 | L    0.0 [  0.0,  38.8] p90   65.8 |  0.00 T | {'diagonal': 61, 'block 12': 2, 'block 23': 1}
+E=0.17821 T= 40.190 | 64/64 | 64 ( 0; 33 extrapolated) | t1   626.4 [ 472.3, 875.6] |   473.2 | L    7.2 [  0.0,  54.9] p90  164.7 |  0.18 T | {'diagonal': 61, 'block 12': 2, 'block 23': 1}
+E=0.18368 T= 39.887 | 64/64 | 64 ( 0; 38 extrapolated) | t1   773.5 [ 531.4,1193.8] |   566.6 | L    4.8 [  0.0,  52.9] p90  236.8 |  0.12 T | {'diagonal': 62, 'block 12': 2}
+E=0.18932 T= 39.587 | 64/64 | 64 ( 0; 29 extrapolated) | t1  1253.6 [ 951.4,1756.2] |  1352.7 | L   28.5 [  0.0, 196.6] p90  487.8 |  0.72 T | {'diagonal': 62, 'block 12': 2}
+E=0.19514 T= 39.288 |  0/64 | none reached |w| = 1
+E=0.20114 T= 38.992 |  0/64 | none reached |w| = 1
+E=0.20731 T= 38.698 |  0/64 | none reached |w| = 1
+E=0.21368 T= 38.407 |  0/64 | none reached |w| = 1
+E=0.22025 T= 38.117 |  0/64 | none reached |w| = 1
+E=0.22702 T= 37.830 | 62/64 | 64 ( 2;  7 extrapolated) | t1   856.1 [ 704.5,1222.9] |     nan | L  133.1 [ 51.6, 331.5] p90  487.9 |  3.52 T | {'diagonal': 45, 'block 12': 16, 'block 23': 1}
+E=0.23399 T= 37.545 | 64/64 | 64 ( 0; 10 extrapolated) | t1   729.9 [ 592.1, 947.1] |     nan | L  111.5 [ 44.1, 287.3] p90  472.6 |  2.97 T | {'diagonal': 55, 'block 12': 9}
+E=0.24118 T= 37.262 | 64/64 | 64 ( 0; 15 extrapolated) | t1   619.4 [ 543.7, 803.9] |   764.3 | L   66.4 [ 21.5, 190.2] p90  405.7 |  1.78 T | {'diagonal': 47, 'block 12': 17}
+E=0.24859 T= 36.981 | 64/64 | 64 ( 0; 27 extrapolated) | t1   563.3 [ 496.3, 817.7] |   621.1 | L   37.7 [  0.0, 100.2] p90  170.3 |  1.02 T | {'diagonal': 51, 'block 12': 13}
+E=0.25623 T= 36.702 | 64/64 | 64 ( 0; 27 extrapolated) | t1   617.7 [ 540.1, 959.2] |   683.3 | L   25.1 [  0.0,  64.5] p90  300.4 |  0.68 T | {'diagonal': 60, 'block 12': 4}
+E=0.26410 T= 36.426 | 64/64 | 64 ( 0; 18 extrapolated) | t1  1179.7 [1061.0,1462.3] |  1964.5 | L   49.8 [ 10.6, 153.2] p90  319.5 |  1.37 T | {'diagonal': 53, 'block 12': 10, 'block 23': 1}
+E=0.27221 T= 36.151 |  0/64 | none reached |w| = 1
+E=0.28057 T= 35.879 | 63/64 | 64 ( 1; 25 extrapolated) | t1  1723.1 [1391.7,2363.2] |     nan | L   44.1 [  0.0,  71.8] p90  168.8 |  1.23 T | {'diagonal': 53, 'block 13': 2, 'block 23': 8}
+E=0.28919 T= 35.608 | 64/64 | 64 ( 0; 21 extrapolated) | t1   712.2 [ 592.2, 946.1] |     nan | L   43.6 [  4.1,  86.2] p90  271.9 |  1.22 T | {'diagonal': 57, 'block 13': 1, 'block 23': 6}
+E=0.29808 T= 35.340 | 63/64 | 64 ( 1; 30 extrapolated) | t1   654.9 [ 502.6, 870.0] |     nan | L   28.6 [  0.0,  68.8] p90  133.4 |  0.81 T | {'diagonal': 54, 'block 12': 1, 'block 13': 1, 'block 23': 7}
+E=0.30724 T= 35.074 | 64/64 | 64 ( 0; 37 extrapolated) | t1   520.8 [ 461.3, 669.4] |     nan | L   14.8 [  0.0,  52.3] p90   98.5 |  0.42 T | {'diagonal': 59, 'block 12': 1, 'block 13': 2, 'block 23': 2}
+E=0.31668 T= 34.809 | 64/64 | 64 ( 0; 36 extrapolated) | t1   483.7 [ 412.5, 690.0] |   707.4 | L   12.5 [  0.0,  49.1] p90   72.6 |  0.36 T | {'diagonal': 58, 'block 23': 6}
+E=0.32640 T= 34.547 | 64/64 | 64 ( 0; 32 extrapolated) | t1   405.6 [ 258.0, 648.5] |   311.0 | L   22.0 [  0.0,  57.2] p90   98.7 |  0.64 T | {'diagonal': 59, 'block 12': 1, 'block 23': 4}
+E=0.33643 T= 34.287 | 64/64 | 64 ( 0; 34 extrapolated) | t1   327.9 [ 220.8, 473.5] |   236.7 | L   22.1 [  0.0,  49.7] p90   79.7 |  0.64 T | {'diagonal': 62, 'block 12': 2}
+E=0.34677 T= 34.028 | 64/64 | 64 ( 0; 37 extrapolated) | t1   250.3 [ 196.7, 375.3] |   201.9 | L   14.0 [  0.0,  42.3] p90   73.2 |  0.41 T | {'diagonal': 62, 'block 12': 1, 'block 23': 1}
+E=0.35742 T= 33.772 | 64/64 | 64 ( 0; 39 extrapolated) | t1   236.2 [ 180.2, 424.6] |   181.4 | L    2.3 [  0.0,  47.9] p90   87.5 |  0.07 T | {'diagonal': 62, 'block 12': 2}
+E=0.36840 T= 33.517 | 64/64 | 64 ( 0; 38 extrapolated) | t1   203.4 [ 159.5, 269.7] |   168.0 | L    9.1 [  0.0,  44.4] p90   73.8 |  0.27 T | {'diagonal': 62, 'block 12': 2}
+E=0.37972 T= 33.265 | 64/64 | 64 ( 0; 39 extrapolated) | t1   189.3 [ 158.7, 246.2] |   158.9 | L   11.9 [  4.7,  38.7] p90   75.2 |  0.36 T | {'diagonal': 60, 'block 12': 4}
+E=0.39139 T= 33.014 | 64/64 | 64 ( 0; 38 extrapolated) | t1   173.8 [ 152.5, 224.7] |   152.6 | L    9.2 [  0.0,  50.7] p90   73.8 |  0.28 T | {'diagonal': 62, 'block 12': 2}
+E=0.40341 T= 32.765 | 64/64 | 64 ( 0; 37 extrapolated) | t1   189.4 [ 127.4, 242.5] |   148.5 | L    9.4 [  0.0,  36.6] p90   55.4 |  0.29 T | {'diagonal': 60, 'block 12': 4}
+E=0.41581 T= 32.518 | 64/64 | 64 ( 0; 38 extrapolated) | t1   171.7 [ 125.4, 224.6] |   146.2 | L    6.1 [  0.0,  34.9] p90   61.9 |  0.19 T | {'diagonal': 63, 'block 12': 1}
+E=0.42858 T= 32.273 | 64/64 | 64 ( 0; 41 extrapolated) | t1   161.7 [ 133.3, 210.6] |   145.5 | L    2.9 [  0.0,  32.3] p90   50.9 |  0.09 T | {'diagonal': 62, 'block 12': 2}
+E=0.44175 T= 32.030 | 64/64 | 64 ( 0; 40 extrapolated) | t1   177.0 [ 124.0, 218.5] |   146.4 | L   11.4 [  0.0,  34.5] p90   60.2 |  0.36 T | {'diagonal': 61, 'block 12': 2, 'block 23': 1}
+E=0.45532 T= 31.789 | 64/64 | 64 ( 0; 39 extrapolated) | t1   158.3 [ 116.2, 202.5] |   149.4 | L   11.7 [  0.0,  41.6] p90  103.2 |  0.37 T | {'diagonal': 61, 'block 12': 3}
+E=0.46931 T= 31.549 | 64/64 | 64 ( 0; 39 extrapolated) | t1   176.2 [ 135.1, 254.2] |   155.3 | L   11.2 [  0.0,  41.0] p90   70.8 |  0.36 T | {'diagonal': 62, 'block 12': 2}
+E=0.48373 T= 31.311 | 64/64 | 64 ( 0; 38 extrapolated) | t1   167.2 [ 136.2, 239.7] |   167.2 | L    8.2 [  0.0,  42.5] p90  100.0 |  0.26 T | {'diagonal': 62, 'block 12': 1, 'block 23': 1}
+E=0.49859 T= 31.075 | 64/64 | 64 ( 0; 35 extrapolated) | t1   204.9 [ 136.8, 351.5] |   206.5 | L    6.4 [  0.0,  39.1] p90   72.1 |  0.21 T | {'diagonal': 60, 'block 12': 2, 'block 23': 2}
+E=0.51390 T= 30.841 | 64/64 | 64 ( 0; 32 extrapolated) | t1   151.3 [ 126.4, 212.2] |   197.9 | L   15.1 [  0.0,  34.9] p90   75.6 |  0.49 T | {'diagonal': 63, 'block 23': 1}
+E=0.52969 T= 30.609 | 64/64 | 64 ( 0; 50 extrapolated) | t1   149.2 [ 115.3, 273.1] |   161.0 | L    0.0 [  0.0,  13.4] p90   38.1 |  0.00 T | {'diagonal': 63, 'block 23': 1}
+E=0.54597 T= 30.378 | 64/64 | 64 ( 0; 32 extrapolated) | t1   125.3 [  89.8, 203.9] |   144.6 | L   14.5 [  0.0,  35.4] p90   92.1 |  0.48 T | {'diagonal': 62, 'block 12': 2}
+E=0.56274 T= 30.149 | 64/64 | 64 ( 0; 33 extrapolated) | t1   142.6 [  92.6, 170.0] |   120.8 | L   17.8 [  0.0,  45.8] p90   60.7 |  0.59 T | {'diagonal': 62, 'block 12': 2}
+E=0.58003 T= 29.922 | 64/64 | 64 ( 0; 32 extrapolated) | t1   104.8 [  67.2, 144.3] |    95.1 | L   17.6 [  0.0,  44.7] p90   76.8 |  0.59 T | {'diagonal': 64}
+E=0.59785 T= 29.696 | 64/64 | 64 ( 0; 45 extrapolated) | t1   106.5 [  81.7, 139.4] |    83.2 | L    3.2 [  0.0,  23.7] p90   55.3 |  0.11 T | {'diagonal': 63, 'block 12': 1}
+E=0.61622 T= 29.473 | 64/64 | 64 ( 0; 39 extrapolated) | t1    94.1 [  69.6, 142.3] |    75.3 | L   11.5 [  0.0,  41.9] p90   69.5 |  0.39 T | {'diagonal': 63, 'block 12': 1}
+E=0.63515 T= 29.250 | 64/64 | 64 ( 0; 46 extrapolated) | t1    73.7 [  66.8, 107.7] |    69.4 | L   13.7 [  4.2,  27.2] p90   44.5 |  0.47 T | {'diagonal': 63, 'block 23': 1}
+E=0.65466 T= 29.030 | 64/64 | 64 ( 0; 49 extrapolated) | t1    71.0 [  64.3, 107.5] |    64.8 | L   18.5 [  7.7,  27.9] p90   47.7 |  0.64 T | {'diagonal': 64}
+E=0.67477 T= 28.811 | 64/64 | 64 ( 0; 49 extrapolated) | t1    66.1 [  58.5,  91.4] |    61.0 | L   17.7 [  8.8,  30.8] p90   48.7 |  0.62 T | {'diagonal': 63, 'block 23': 1}
+E=0.69550 T= 28.594 | 64/64 | 64 ( 0; 44 extrapolated) | t1    66.1 [  56.6,  99.3] |    57.9 | L   20.3 [ 11.4,  37.0] p90   66.7 |  0.71 T | {'diagonal': 64}
+E=0.71687 T= 28.379 | 64/64 | 64 ( 0; 49 extrapolated) | t1    62.7 [  53.7,  89.4] |    55.2 | L   21.3 [ 11.6,  33.8] p90   74.0 |  0.75 T | {'diagonal': 59, 'block 12': 1, 'block 13': 2, 'block 23': 2}
+E=0.73890 T= 28.165 | 64/64 | 64 ( 0; 48 extrapolated) | t1    59.7 [  52.2,  75.2] |    52.9 | L   21.7 [ 13.4,  33.4] p90   55.7 |  0.77 T | {'diagonal': 62, 'block 13': 1, 'block 23': 1}
+E=0.76160 T= 27.952 | 64/64 | 64 ( 0; 44 extrapolated) | t1    59.1 [  51.3,  93.9] |    50.9 | L   20.6 [ 12.9,  34.9] p90   63.3 |  0.74 T | {'diagonal': 61, 'block 12': 2, 'block 23': 1}
+E=0.78499 T= 27.742 | 64/64 | 64 ( 0; 50 extrapolated) | t1    59.1 [  50.6,  76.5] |    49.1 | L   19.7 [ 10.3,  30.1] p90   47.8 |  0.71 T | {'diagonal': 64}
+E=0.80911 T= 27.533 | 64/64 | 64 ( 0; 46 extrapolated) | t1    56.8 [  50.8,  81.2] |    47.4 | L   21.8 [ 14.3,  33.9] p90   68.3 |  0.79 T | {'diagonal': 64}
+E=0.83397 T= 27.325 | 64/64 | 64 ( 0; 52 extrapolated) | t1    59.9 [  50.9,  90.3] |    46.0 | L   19.4 [  9.1,  28.7] p90   59.9 |  0.71 T | {'diagonal': 63, 'block 23': 1}
+E=0.85959 T= 27.119 | 64/64 | 64 ( 0; 49 extrapolated) | t1    62.8 [  50.6,  74.7] |    44.7 | L   16.8 [  9.1,  33.1] p90   47.5 |  0.62 T | {'diagonal': 63, 'block 12': 1}
+E=0.88600 T= 26.915 | 64/64 | 63 ( 0; 41 extrapolated) | t1    58.6 [  50.8,  85.3] |    43.5 | L   20.3 [ 14.3,  38.3] p90   77.1 |  0.76 T | {'diagonal': 62, 'block 12': 1}
+E=0.91322 T= 26.712 | 64/64 | 64 ( 0; 43 extrapolated) | t1    56.1 [  42.3,  61.4] |    42.4 | L   20.7 [ 14.1,  30.4] p90   60.3 |  0.77 T | {'diagonal': 62, 'block 12': 1, 'block 23': 1}
+E=0.94128 T= 26.511 | 64/64 | 64 ( 0; 32 extrapolated) | t1    53.7 [  35.8,  67.1] |    41.4 | L   22.7 [ 12.8,  30.9] p90   52.5 |  0.86 T | {'diagonal': 63, 'block 12': 1}
+E=0.97019 T= 26.311 | 64/64 | 62 ( 0; 34 extrapolated) | t1    51.7 [  31.9,  61.0] |    40.4 | L   19.5 [ 12.0,  26.9] p90   52.0 |  0.74 T | {'diagonal': 62}
+E=1.00000 T= 26.113 | 64/64 | 59 ( 0; 33 extrapolated) | t1    52.2 [  45.4,  61.7] |    39.5 | L   24.4 [ 13.6,  44.4] p90   96.7 |  0.93 T | {'diagonal': 57, 'block 12': 1, 'block 23': 1}
+
+loiters pooled: 4112 trajectories reached |w| = 1 (334 censored at tmax); escaped 3778
+INFO  loiters clamped to zero (extrapolated crossing later than the escape): 982 of 3778 escaped; the checkpoint spacing (50) and the extrapolation set the resolution of the shortest loiters
+
+== 3. does the loiter scale with the period? (energies with >= 20 escaped loiters) ==
+  61 energies; Spearman(E, median L in time units) = -0.322 (p 0.011); Spearman(E, median L in periods) = -0.093 (p 0.48)
+  median L over those energies: 19.5 time units (range 0.0-718.0); 0.63 periods (range 0.00-15.71)
+
+== 2. the loiter distribution beyond the resolution limit: exponential vs power-law tail (Kaplan-Meier with censoring) ==
+   (fits on the excess L - L_min conditional on L >= L_min; exponential S = exp(-x/tau), Pareto S = (1 + x/x0)^-gamma with x0 profiled;
+    'frac' = fraction of the trajectories that reached |w| = 1 whose loiter exceeds L_min)
+  -- loiter in time units, L_min = 50.0 --
+  E in [0.05, 0.20)  n= 616 of  982 (frac 0.63; cens 322) median L  275.46 | exponential tau=1565.56 ll=  -2456.7 | Pareto x0= 104.30 gamma= 0.27 ll=  -2389.0 (1 extra parameter; delta ll =  +67.7, AIC prefers power law) | Hill gamma (top 20 %) = 2.31 | p90/median of the excess =  4.88 (exp 3.32)
+  E in [0.20, 0.35)  n= 371 of  896 (frac 0.41; cens   4) median L  116.16 | exponential tau= 181.17 ll=  -2275.2 | Pareto x0=  99.64 gamma= 1.34 ll=  -2208.3 (1 extra parameter; delta ll =  +66.8, AIC prefers power law) | Hill gamma (top 20 %) = 2.09 | p90/median of the excess =  6.27 (exp 3.32)
+  E in [0.35, 0.60)  n= 197 of 1152 (frac 0.17; cens   0) median L   78.18 | exponential tau=  54.95 ll=   -986.3 | Pareto x0=  89.82 gamma= 2.65 ll=   -965.6 (1 extra parameter; delta ll =  +20.7, AIC prefers power law) | Hill gamma (top 20 %) = 2.29 | p90/median of the excess =  3.64 (exp 3.32)
+  E in [0.60, 1.00)  n= 144 of 1080 (frac 0.13; cens   0) median L   87.68 | exponential tau=  64.35 ll=   -743.7 | Pareto x0= 124.43 gamma= 2.85 ll=   -738.3 (1 extra parameter; delta ll =   +5.4, AIC prefers power law) | Hill gamma (top 20 %) = 2.04 | p90/median of the excess =  4.83 (exp 3.32)
+  all E              n=1328 of 4110 (frac 0.32; cens 326) median L  110.49 | exponential tau= 545.76 ll=  -7316.8 | Pareto x0=  27.04 gamma= 0.39 ll=  -6680.2 (1 extra parameter; delta ll = +636.6, AIC prefers power law) | Hill gamma (top 20 %) = 1.59 | p90/median of the excess =  8.73 (exp 3.32)
+  -- loiter in periods, L_min = 2.0 --
+  E in [0.05, 0.20)  n= 553 of  982 (frac 0.56; cens 321) median L    9.92 | exponential tau=  40.60 ll=  -1091.3 | Pareto x0=  13.59 gamma= 0.58 ll=  -1077.4 (1 extra parameter; delta ll =  +13.9, AIC prefers power law) | Hill gamma (top 20 %) = 2.77 | p90/median of the excess =  3.36 (exp 3.32)
+  E in [0.20, 0.35)  n= 276 of  896 (frac 0.31; cens   4) median L    4.40 | exponential tau=   5.93 ll=   -756.2 | Pareto x0=   6.02 gamma= 1.89 ll=   -722.3 (1 extra parameter; delta ll =  +33.9, AIC prefers power law) | Hill gamma (top 20 %) = 2.12 | p90/median of the excess =  5.30 (exp 3.32)
+  E in [0.35, 0.60)  n= 135 of 1152 (frac 0.12; cens   0) median L    3.03 | exponential tau=   1.99 ll=   -228.2 | Pareto x0=   3.80 gamma= 2.95 ll=   -214.7 (1 extra parameter; delta ll =  +13.6, AIC prefers power law) | Hill gamma (top 20 %) = 2.21 | p90/median of the excess =  3.73 (exp 3.32)
+  E in [0.60, 1.00)  n= 124 of 1080 (frac 0.11; cens   0) median L    3.51 | exponential tau=   2.51 ll=   -237.9 | Pareto x0=   6.52 gamma= 3.53 ll=   -235.1 (1 extra parameter; delta ll =   +2.9, AIC prefers power law) | Hill gamma (top 20 %) = 1.84 | p90/median of the excess =  4.75 (exp 3.32)
+  all E              n=1088 of 4110 (frac 0.26; cens 325) median L    4.45 | exponential tau=  15.22 ll=  -2840.4 | Pareto x0=   1.50 gamma= 0.45 ll=  -2573.1 (1 extra parameter; delta ll = +267.3, AIC prefers power law) | Hill gamma (top 20 %) = 2.13 | p90/median of the excess =  6.05 (exp 3.32)
+
+== 4. the sector largest at escape against the loiter length (uncensored, pooled; L in periods) ==
+  loiter unresolved (clamped to 0) : n= 982  {'diagonal': 933, 'block 12': 29, 'block 13': 5, 'block 23': 15}  off-diagonal-led  5.0 %
+  loiter (0, 1] period             : n=1320  {'diagonal': 1267, 'block 12': 33, 'block 13': 3, 'block 23': 17}  off-diagonal-led  4.0 %
+  loiter (1, 3] periods            : n= 941  {'diagonal': 862, 'block 12': 52, 'block 13': 4, 'block 23': 23}  off-diagonal-led  8.4 %
+  loiter > 3 periods               : n= 535  {'diagonal': 470, 'block 12': 47, 'block 13': 7, 'block 23': 11}  off-diagonal-led 12.1 %
+figure: results/rh4_loiter.png
