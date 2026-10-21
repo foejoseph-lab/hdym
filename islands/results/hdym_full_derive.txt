@@ -1,0 +1,26 @@
+[    0.0s] building the full homogeneous Lagrangian (12 functions)
+[    0.6s]    1425 terms
+[    0.6s] A_0 equations (Gauss law)
+[    5.4s]    temporal-gauge Lagrangian: 381 terms
+[    5.4s] Euler-Lagrange equations of the nine A^a_i
+CHECK 1 A'''' coefficient matrix is -I: PASS
+[    8.1s] Ostrogradsky energy
+[    8.6s] substituting symbols
+CHECK R, G, E contain only the 36 state symbols and c_j: PASS
+[   15.2s]    R: [152, 152, 152, 152, 152, 152, 152, 152, 152] terms; G: [132, 132, 132]; E: 426
+[   15.2s] check 2: diagonal reduction
+CHECK 2 off-diagonals = 0 reduces to the diagonal closed-form equations: PASS
+CHECK 6 Gauss law vanishes identically on the diagonal sector: PASS
+[   15.7s] lambdifying
+[   16.0s] check 4/5: dG/dt and dE/dt along the flow at random points
+CHECK 4 Gauss constraints conserved by the flow (worst relative 2.8e-18, tol 1e-9): PASS
+CHECK 5 energy conserved by the flow (worst relative 6.4e-18, tol 1e-9): PASS
+[   17.5s] check 3: Jacobian on the diagonal background vs rung1_system.pkl
+CHECK 3 Jacobian on the ghost-free diagonal background = rung1 K (worst relative 9.7e-16, tol 1e-9): PASS
+[   18.6s] writing full_system.pkl
+[   18.7s] generating C (cse)
+[   19.0s] wrote csrc/hdym_full_rhs.h (415/104/219 cse temporaries)
+CHECK 7 generated C agrees with sympy (worst relative 9.3e-16, tol 1e-12): PASS
+
+ALL CHECKS PASS
+DONE 20
