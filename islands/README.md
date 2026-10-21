@@ -54,6 +54,10 @@ code/
   channel_offdiag_monodromy.py  B002: the blocks on a frozen-depth channel background (x = D,
                        y,z = sqrt(2J/D) cos), monodromy over one transverse period vs (D, J), typed
                                                                                 (float; added 2026-10-19)
+  krein_b005.py        B005: the Krein signature of block 12's two ghost-sector pairs, measured: the symplectic form
+                       of the block from the Ostrogradsky structure of L2 (CHECK M^T Omega M = Omega), on the
+                       half-period map N = S~ Phi_T/2 (CHECK N^2 = M); classifies every meeting of the two pairs
+                                                                                (float; added 2026-10-21)
   offdiag_escape_nodal.py  overlays the linear prediction (nodal set of the unstable Floquet subspace, from the
                        block's left eigenvectors) on an orient map; prints corr(log t_esc, log |projection|)
                                                                                 (added 2026-10-21)
@@ -90,6 +94,7 @@ results/
   cert.json            p = 24 certificate (generator default), md5 b2dc3efca31bd6b848048b34cc8527bc;
                        no checker output committed
   twist_sym.log
+  krein_b005.txt                output of krein_b005.py (21 Oct, cloud session, python 3.13; 514 s)
   dr_offdiag_floquet.txt        output of dr_offdiag_floquet.py (12 Oct, cloud session)
   dr_offdiag_floquet_typed.txt  output of dr_offdiag_floquet_typed.py --ncores 20 (19 Oct, Joseph's machine,
                        python 3.12.5 numpy 2.2.6 sympy 1.13.1); a cloud run the same day agrees row for row
@@ -341,6 +346,21 @@ import.
       as in the paper's Figure 3). Parametric → nodal circle, Krein → nodal points: the typed classification seen
       nonlinearly. At escape the diagonal ghost is the largest sector in 93 % (E = 0.30) and 76 % (E = 0.156) of
       cells; the off-diagonal mode triggers, the diagonal ghost executes.*
+      *Status (2026-10-21, B005): the Krein signatures are measured, `code/krein_b005.py` → `results/krein_b005.txt`
+      (block 12, 400 energies; cloud run). The symplectic form of the block in (u, u′, u″, u‴) is built from the
+      Ostrogradsky momenta of L2 and verified by Mᵀ Ω M = Ω (1e-8 to 1e-11 in all three blocks); the half-period map
+      N = S̃ Φ_{T/2}, S̃ = diag(+1, −1) on (u12, u21), satisfies N² = M (9e-11) and Nᵀ Ω N = Ω (6e-9); the sign of each
+      unit-circle eigenvector is sign(i v*Ω v), imaginary part at rounding. Result: of the eleven energies where
+      the two pairs' multipliers coincide in M, six are true meetings in N and five are fake degeneracies (N has λ
+      and −λ: E = 0.054, 0.056, 0.094, 0.199, 0.283, 0.798). All six true meetings are the edges of the three
+      Krein bands, and at every one the pairs carry opposite Krein signature (ψ₁⁺ = −ψ₂⁺ to 0.03–0.09π) and meet at
+      N ≈ ±i, i.e. M = −1. There is no same-sign meeting in the scan. Every parametric event is one pair's own fold at
+      N = ±1 (M = +1). So, measured: on the DR orbit the off-diagonal ghost's Krein collisions are meetings of two
+      modes of opposite signature at the half-period map's ±i, its parametric instabilities are single-mode folds at
+      the half-period map's ±1, and the half-period symmetry forbids a fold at M = −1 (a + 2 ≥ 0 throughout). The
+      "pass-through at E ≈ 0.76" discussed after the 19 Oct review is the fake degeneracy at 0.798: nothing meets
+      there, so the sign-reassignment question does not arise. Not done: the segment-transfer-matrix localisation
+      (claim 4 of the review), which needs a positive norm adapted to the block.*
 - [ ] ε-crossover scan at E = 0.3: `hdym_island.py --eps 1e-9 … 1e-6`.
 - [ ] 3-dof: the DR orbit's z-direction Floquet trace (−1.53, float) is not certified; the
       island is sealed in 2-dof and leaks by Arnold diffusion in 3-dof (seen: 2.7 % at r = 2e-4).
