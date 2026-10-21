@@ -346,6 +346,12 @@ import.
       as in the paper's Figure 3). Parametric → nodal circle, Krein → nodal points: the typed classification seen
       nonlinearly. At escape the diagonal ghost is the largest sector in 93 % (E = 0.30) and 76 % (E = 0.156) of
       cells; the off-diagonal mode triggers, the diagonal ghost executes.*
+      *Status (2026-10-21, later, rabbit-hole session): the kernel now records per trajectory the first times at which
+      |w| reaches 0.1 and 1 and each off-diagonal sector norm reaches 1 (`tcross`, (N, 5), −1 = never), every section
+      stores it, the orient section keeps its `chk` array (float32; it had been computed and dropped, so the 0156/030
+      maps carry no growth curves), and a `--section phase` runs an ensemble over the phase of the seed's projection on
+      a Krein quadruplet at fixed |c| (rabbit holes 1, 4, 12; `rabbit_holes/ym/`). Kernel checks unchanged and passing
+      in the cloud smoke test; no sized run yet (queue in `rabbit_holes/ym/code/overnight_2026-10-21.md`).*
       *Status (2026-10-21, B005): the Krein signatures are measured, `code/krein_b005.py` → `results/krein_b005.txt`
       (block 12, 400 energies; cloud run). The symplectic form of the block in (u, u′, u″, u‴) is built from the
       Ostrogradsky momenta of L2 and verified by Mᵀ Ω M = Ω (1e-8 to 1e-11 in all three blocks); the half-period map

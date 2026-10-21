@@ -15,6 +15,7 @@
  *                -1 not escaped; 2 integrator failure (the -2 case)
  *   sector[n]    which group held the largest |A| or |A'| at escape: 0 diagonal (m = 0,4,8),
  *                1 block 12 (m = 1,3), 2 block 13 (m = 2,6), 3 block 23 (m = 5,7); -1 if not escaped
+ *   tcross[n*5 + c]              first crossing times (|w|>=1, |u_12|>=1, |u_13|>=1, |u_23|>=1, |w|>=0.1), -1 if never
  *   chk[n*nchk*6 + k*6 + g]   at checkpoint times t_k = tmax (k+1)/nchk (NaN after escape):
  *                g = 0..3 the norm sqrt(sum |A_m|^2 + |A'_m|^2) over the sector's components,
  *                g = 4 the diagonal ghost amplitude |q'' + grad V(q)| (zero on the ghost-free manifold),
@@ -119,14 +120,18 @@ static const double
     b1 = 35.0 / 384.0, b3 = 500.0 / 1113.0, b4 = 125.0 / 192.0, b5 = -2187.0 / 6784.0, b6 = 11.0 / 84.0,
     e1 = 71.0 / 57600.0, e3 = -71.0 / 16695.0, e4 = 71.0 / 1920.0, e5 = -17253.0 / 339200.0, e6 = 22.0 / 525.0, e7 = -1.0 / 40.0;
 
+/* tcross[5]: first times at which the diagonal-ghost amplitude |w| reaches 1, the off-diagonal sector norms of
+ * blocks 12, 13, 23 reach 1, and |w| reaches 0.1; -1 if never (added 2026-10-21, rabbit hole 4: the 50-unit
+ * checkpoints cannot resolve the loiter between |w| = 1 and the blow-up).  Evaluated after every accepted step. */
 static void one_trajectory(double *s, double cj, double tmax, double R, double rtol, double atol, double hmax,
-                           int nchk, double *tesc, int *sector, int *status, double *chk, double *diag)
+                           int nchk, double *tesc, int *sector, int *status, double *chk, double *diag, double *tcross)
 {
     double k1[NS], k2[NS], k3[NS], k4[NS], k5[NS], k6[NS], k7[NS], y[NS], ynew[NS];
     double t = 0.0, h = 1e-3, errold = 1e-4;
     double G[3], E0, E1;
     int kchk = 0;
     for (int k = 0; k < nchk * 6; ++k) chk[k] = NAN;
+    for (int k = 0; k < 5; ++k) tcross[k] = -1.0;
     hdym_full_energy_v(s, &E0, cj);
     hdym_full_gauss(s, G, cj);
     diag[0] = E0;
@@ -174,6 +179,13 @@ static void one_trajectory(double *s, double cj, double tmax, double R, double r
             t += h;
             for (int j = 0; j < NS; ++j) { y[j] = ynew[j]; k1[j] = k7[j]; }
             ++nstep;
+            if (tcross[0] < 0.0 || tcross[4] < 0.0) {
+                double ga = ghost_amp(y);
+                if (tcross[4] < 0.0 && ga >= 0.1) tcross[4] = t;
+                if (tcross[0] < 0.0 && ga >= 1.0) tcross[0] = t;
+            }
+            for (int g = 1; g < 4; ++g)
+                if (tcross[g] < 0.0 && sector_norm(y, g) >= 1.0) tcross[g] = t;
             if (kchk < nchk && fabs(t - tnext_chk) < 1e-12 * tmax) {
                 for (int g = 0; g < 4; ++g) chk[kchk * 6 + g] = sector_norm(y, g);
                 chk[kchk * 6 + 4] = ghost_amp(y);
@@ -203,7 +215,7 @@ static void one_trajectory(double *s, double cj, double tmax, double R, double r
 }
 
 void escape(double *S, int N, double cj, double tmax, double R, double rtol, double atol, double hmax,
-            int nchk, double *tesc, int *sector, int *status, double *chk, double *diag, int *thread_of)
+            int nchk, double *tesc, int *sector, int *status, double *chk, double *diag, double *tcross, int *thread_of)
 {
 #pragma omp parallel
     {
@@ -216,7 +228,7 @@ void escape(double *S, int N, double cj, double tmax, double R, double rtol, dou
             thread_of[n] = 0;
 #endif
             one_trajectory(S + (size_t)n * NS, cj, tmax, R, rtol, atol, hmax, nchk,
-                           tesc + n, sector + n, status + n, chk + (size_t)n * nchk * 6, diag + (size_t)n * 4);
+                           tesc + n, sector + n, status + n, chk + (size_t)n * nchk * 6, diag + (size_t)n * 4, tcross + (size_t)n * 5);
         }
     }
 }
@@ -243,10 +255,10 @@ void fp_mode_report(unsigned *out)
 /* a plain integrate-to-T for the cross-check against scipy (no escape test, no checkpoints) */
 void integrate_to(double *s, double cj, double T, double rtol, double atol, double hmax)
 {
-    double tesc, chk[6], diag[4];
+    double tesc, chk[6], diag[4], tcross[5];
     int sector, status;
     fp_mode_set();
-    one_trajectory(s, cj, T, 1e300, rtol, atol, hmax, 1, &tesc, &sector, &status, chk, diag);
+    one_trajectory(s, cj, T, 1e300, rtol, atol, hmax, 1, &tesc, &sector, &status, chk, diag, tcross);
 }
 
 int omp_threads(void)
