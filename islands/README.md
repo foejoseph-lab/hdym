@@ -54,6 +54,9 @@ code/
   channel_offdiag_monodromy.py  B002: the blocks on a frozen-depth channel background (x = D,
                        y,z = sqrt(2J/D) cos), monodromy over one transverse period vs (D, J), typed
                                                                                 (float; added 2026-10-19)
+  offdiag_escape_nodal.py  overlays the linear prediction (nodal set of the unstable Floquet subspace, from the
+                       block's left eigenvectors) on an orient map; prints corr(log t_esc, log |projection|)
+                                                                                (added 2026-10-21)
   offdiag_escape.py    NONLINEAR escape times of the full nine-component system seeded with off-diagonal
                        (and diagonal-ghost) perturbations of the DR orbit; sections E (energy x seeds) and
                        orient (2-d seed-direction map at fixed E); needs ym/hdym_full_derive.py run once;
@@ -324,6 +327,20 @@ import.
       it ever fails again. The controller is now the standard err^(−1/5) rule (was PI), so escape times from
       before this change are not bit-reproducible with the kernel after it (same accuracy class; the scipy
       cross-checks hold to the same tolerances).*
+      *Status (2026-10-21): the two orient maps with the fixed kernel, Joseph's machine, 128², both seeds 1e-4, one
+      diagonal seed per map, all checks PASS: `results/esc_orient_0156.*` (E = 0.156, block 12's Krein band; 19987 s;
+      88.7 % escape by 3000, median 1952, p10–p90 1527–2606) and `results/esc_orient_030.*` (E = 0.30, block 23's
+      parametric tongue; 38688 s; 100 % escape, median 631, p10–p90 525–886). The maps carry the mechanism as
+      geometry (`code/offdiag_escape_nodal.py`, figures `*_nodal.png`): a seed direction grows along an unstable
+      Floquet mode with amplitude |w·s|, w the mode's left eigenvector, so the directions where the escape is
+      delayed are the nodal set of the unstable subspace. At E = 0.30 that subspace is one-dimensional (real pair,
+      multiplier 1.552) and the predicted nodal great circle lies on the measured ridge of long escape times
+      (corr(log t_esc, log |proj|) = −0.44 over the map; lag-1 correlation of the map 0.28/0.20). At E = 0.156 it is
+      two-dimensional (quadruplet −1.272 ± 0.181i) and the nodal set is two antipodal points, which appear as bright
+      spots in the smoothed map at the predicted positions (corr −0.11, lag-1 0.09: the loiter dominates the texture,
+      as in the paper's Figure 3). Parametric → nodal circle, Krein → nodal points: the typed classification seen
+      nonlinearly. At escape the diagonal ghost is the largest sector in 93 % (E = 0.30) and 76 % (E = 0.156) of
+      cells; the off-diagonal mode triggers, the diagonal ghost executes.*
 - [ ] ε-crossover scan at E = 0.3: `hdym_island.py --eps 1e-9 … 1e-6`.
 - [ ] 3-dof: the DR orbit's z-direction Floquet trace (−1.53, float) is not certified; the
       island is sealed in 2-dof and leaks by Arnold diffusion in 3-dof (seen: 2.7 % at r = 2e-4).
