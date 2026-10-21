@@ -1,7 +1,15 @@
 # Overnight queue, 21 Oct 2026 (Joseph's machine, 24 threads) — holes 1, 4, 12
 
 Three runs, sequential, ~5 h in all. Each writes its npz after every row, so a killed run keeps what it has and
-`--resume` continues it. From the repo root (Spyder: prefix each with `!"{sys.executable}" -B -u ` as in
+`--resume` continues it. **For an unattended night use `overnight_2026-10-21.bat`** (same three commands, every one
+with `--resume` and `>>` on its log): after a reboot, launch the .bat again and each run continues from its last
+completed row — exposure is one row, 2.5–5 min. Registering the .bat in Task Scheduler "at log on" makes the
+resume automatic. Check `islands/results/overnight_2026-10-21.log` for the start/done stamps and exit codes.
+
+A note on the kernel edit and floats: the crossing-time code reads the accepted state and writes a separate array;
+it touches no state, no step size and no control flow, so trajectories are bit-identical to the previous kernel's
+(the 48-copy determinism CHECK and the scipy cross-check still run at every launch and would say otherwise). The only
+new arithmetic is `sqrt` on non-negative arguments, already used by `escaped()` and the checkpoints. From the repo root (Spyder: prefix each with `!"{sys.executable}" -B -u ` as in
 `offdiag_escape.py`'s docstring; `ym/hdym_full_derive.py` must have been run once in this checkout).
 
 ```
