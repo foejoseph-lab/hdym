@@ -64,10 +64,13 @@ def classify(M):
     off = np.abs(np.abs(g) - 1) > 1e-6
     if not off.any():
         return 'stable', 1.0
-    if off.sum() == 4:
+    if off.sum() == 4 and np.abs(g[off].imag).max() > 1e-6 * np.abs(g[off]).max():
         return 'Krein', np.abs(g).max()
     m = g[off][np.argmax(np.abs(g[off]))]
-    return ('fold+1' if m.real > 0 else 'fold-1'), np.abs(g).max()
+    tag = 'fold+1' if m.real > 0 else 'fold-1'
+    if off.sum() == 4:
+        tag = 'double ' + tag                                 # both pairs real at the same sign: two folds, not a collision
+    return tag, np.abs(g).max()
 
 
 def b001_intervals():
@@ -122,7 +125,7 @@ def main():
             amps.append(am)
         allres[mu] = (types, amps)
         print(f"\n== {a.dial} = {mu} ==")
-        nminus = sum(1 for ty in types if ty == 'fold-1')
+        nminus = sum(1 for ty in types if ty == 'fold-1')        # a 'double fold-1' is two pairs: allowed by the Lemma
         print(f"  CHECK no single-pair fold at -1 (Lemma, any mu): {nminus} found {'PASS' if nminus == 0 else 'FAIL'}")
         for lo, hi, ty in bands(grid, types):
             print(f"  [{lo:.4f}, {hi:.4f}] {ty:7s} max |mu| {max(am for E_, am, t_ in zip(grid, amps, types) if lo <= E_ <= hi):.4f}  width {np.log(hi / lo):.3f} in log E")

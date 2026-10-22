@@ -120,3 +120,31 @@ right zeroth order is the gauge-reduced four-dimensional block (two ghost pairs,
 two frequencies are near-degenerate below E ≈ 0.35 with the splitting δ(E) above; averaging the full
 eight-dimensional canonical form does not produce it. Sympy can build the reduced system from part A plus the
 constraint; that is the next sitting, before any more resonance theory.
+
+### Review, round 3 (21:15–21:35)
+
+7. **Gauss residual of the averaged modes** (t = 0; E = 0.1 / 0.3 / 0.6): hyperbolic pairs 0.5–1.2 (constraint-
+   contaminated, as the reviewer predicted); averaged mode 1 (1.7–2.4) **clean**, 0.01–0.02; averaged mode 0
+   (1.1–1.25) the **dirty** oscillatory one, 0.04 → 0.23 with E. The mode that tracked a measured pair was the
+   contaminated one. Orbit-averaged residual not yet computed.
+8. **Signature-oriented unwrapping** (`rh5_unwrap.py`, the reviewer's recipe): below E ≈ 0.22 both pairs advance at
+   the same rate — effective ω_A ≈ 0.78 / 0.76 / 0.82 and ω_B ≈ 0.83 / 0.79 / 0.81 in three windows — and split above
+   0.27 where Δ(E) grows. Positive-member identity switches at fold re-entries (E = 0.056, 0.109, 0.267 for A;
+   0.248, 0.730 for B), read as within-pair orientation flips.
+9. **The branch** (`rh5_branch.py`, Fourier spectrum of each Floquet solution over a period): the dominant lines of
+   both pairs lie in **0.75–1.25** at every E (0.9–1.15 typically; 0.75–0.83 for both at E = 0.36–0.55), never near
+   1.7–2.4 — the averaged clean mode is not pair B aliased. But the spectra are broad: the strongest line carries
+   15–50 % of the power, lines at ω ± kΩ up to |k| ≈ 8 are comparable (a "DC" line is ω − 8Ω at E = 0.05), so these
+   solutions are strongly modulated oscillations, not dressed single modes, and "the frequency" is defined only to
+   a few Ω. The slope-based 0.8 of item 8 is one branch of that.
+10. **c_j = 0.25, corrected** (`rh5_splitting_cj.py`, and the classifier of `rh27_mu_scan.py` fixed: four real
+    eigenvalues off the circle are a double +1 fold, not a collision): Δ is 0.47–0.57 π where the pairs are on the
+    circle, two narrow Krein bands survive ([0.151, 0.163], [0.304, 0.321] — the first at the same place as at
+    c_j = 1), and the giant band [0.41, 1.0] is a **double +1 fold** whose exponent is smooth and single-humped across
+    the band (ln|μ| 2.0 → 3.5 → 2.3, no rung structure): a static instability, ω_eff² < 0, as the reviewer
+    suggested. So Δ controls whether collisions occur; the c_j stability ordering is a static +1 phenomenon the
+    reduced block can address as ω_eff²(c_j) at fixed E.
+
+**Target for the reduced block, as it now stands:** two ghost pairs with multipliers degenerate (Δ ≲ 0.25 π)
+below E ≈ 0.22, physical lines in 0.75–1.25, strongly modulated; no mode at 1.7–2.4; ω_eff²(c_j) with a negative
+minimum near c_j ≈ 0.3–0.4 and marginal at c_j = 1. Checks against ωT mod 2π, not ω.
