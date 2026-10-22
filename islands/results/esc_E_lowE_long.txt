@@ -1,0 +1,37 @@
+offdiag_escape.py  python 3.12.5  numpy 2.2.6  sympy 1.13.1  (C:\Users\Owner\AppData\Local\Programs\Python\Python312\python.exe)
+run parameters: section=E tag=esc_E_lowE_long Emin=0.05 Emax=0.13 nE=20 nseed=64 E=0.412 n=96 block=all delta=0.0001 delta_diag=0.0001 R=10000.0 tmax=12000.0 rtol=1e-11 atol=1e-13 hmax=0.25 nchk=240 cj=1.0 seed=1 resume=True diag_orient=fixed nalpha=12 eta=0.3
+orbit: DR, X0=3.14640122769837 PX0=0.00179319341881 T_HALF=31.053330268585064 (E=1/2, scaled); diagonal ghost not seeded; seed Gauss-projected (linear G)
+CHECK kernel built with gcc with OpenMP, 24 threads: PASS
+INFO  FP state the threads had before the kernel pinned it: MXCSR control bits min 0x1F80 max 0x1F80 (status flags ignored); x87 control word min 0x001F max 0x001F (Windows only; 0 elsewhere).  Now MXCSR 0x1F80, x87 53-bit, in every thread; the step controller no longer calls the C library.
+CHECK integrator vs scipy DOP853 at E=0.412, t = 2T = 65.19: relative difference 2.0e-09 (whole state), 4.2e-09 (off-diagonal part, |u| = 2.18e-02) (tol 1e-6) PASS
+CHECK energy drift over 2T: 2.4e-10 (tol 1e-8) PASS
+CHECK Gauss residual of the seed: 7.4e-09 (O(delta^2) = 1e-08; tol 100 delta^2) PASS; after 2T: 7.4e-09
+CHECK escape time vs scipy DOP853 (rtol 1e-12) at E=0.549, both seeds 1e-04: kernel 112.606, scipy 112.515, relative 8.1e-04 (tol 1e-3) PASS
+CHECK parallel kernel is deterministic (48 identical copies, E=0.549 to t=300): t_esc spread 0.000e+00, final-state spread 0.000e+00 PASS
+CHECK unseeded DR orbit closes after one period in the full system: 2.7e-10 (tol 1e-7) PASS
+E=0.05000 T= 55.221  escaped   0/64  t_esc median      nan min      nan  sectors []  diag-ghost rate -0.0000  max |dE/E| 9.9e-08  max |G|_end 2.3e-08  (17s)
+C:\GitHub\hdym\islands\code\offdiag_escape.py:269: RuntimeWarning: All-NaN slice encountered
+  okk = ~np.isnan(ch[n, :, 5]) & (np.nanmax(ch[n, :, :5], axis=1) < lin)
+E=0.05258 T= 54.532  escaped   9/64  t_esc median   8966.1 min   5217.3  sectors [diagonal:3,block 12:3,block 13:1,block 23:2]  diag-ghost rate 0.0018  max |dE/E| 4.2e-07  max |G|_end 1.6e+04  (80s)
+E=0.05529 T= 53.850  escaped   0/64  t_esc median      nan min      nan  sectors []  diag-ghost rate -0.0000  max |dE/E| 1.9e-07  max |G|_end 3.2e-07  (128s)
+E=0.05814 T= 53.177  escaped  55/64  t_esc median   6168.8 min   2958.8  sectors [diagonal:25,block 12:17,block 13:6,block 23:7]  diag-ghost rate -0.0000  max |dE/E| 2.9e-07  max |G|_end 7.4e+05  (1183s)
+E=0.06114 T= 52.513  escaped   0/64  t_esc median      nan min      nan  sectors []  diag-ghost rate -0.0000  max |dE/E| 2.0e-06  max |G|_end 1.5e-06  (1231s)
+E=0.06429 T= 51.857  escaped   0/64  t_esc median      nan min      nan  sectors []  diag-ghost rate -0.0000  max |dE/E| 1.1e-07  max |G|_end 2.6e-08  (1252s)
+E=0.06761 T= 51.209  escaped   0/64  t_esc median      nan min      nan  sectors []  diag-ghost rate -0.0000  max |dE/E| 2.6e-07  max |G|_end 2.9e-08  (1293s)
+E=0.07110 T= 50.569  escaped   0/64  t_esc median      nan min      nan  sectors []  diag-ghost rate -0.0000  max |dE/E| 4.5e-08  max |G|_end 2.3e-08  (1309s)
+E=0.07476 T= 49.937  escaped   0/64  t_esc median      nan min      nan  sectors []  diag-ghost rate -0.0000  max |dE/E| 2.2e-07  max |G|_end 1.5e-08  (1337s)
+E=0.07862 T= 49.314  escaped   1/64  t_esc median  11254.4 min  11254.4  sectors [diagonal:1]  diag-ghost rate -0.0000  max |dE/E| 2.4e-07  max |G|_end 7.9e-03  (1364s)
+E=0.08268 T= 48.697  escaped   0/64  t_esc median      nan min      nan  sectors []  diag-ghost rate -0.0000  max |dE/E| 6.4e-07  max |G|_end 2.7e-06  (1432s)
+E=0.08694 T= 48.089  escaped   0/64  t_esc median      nan min      nan  sectors []  diag-ghost rate -0.0000  max |dE/E| 4.6e-08  max |G|_end 1.4e-08  (1450s)
+E=0.09142 T= 47.488  escaped  64/64  t_esc median   2257.7 min   1498.5  sectors [diagonal:58,block 12:3,block 13:3]  diag-ghost rate 0.0053  max |dE/E| 7.7e-07  max |G|_end 4.5e+06  (1598s)
+E=0.09614 T= 46.895  escaped   0/64  t_esc median      nan min      nan  sectors []  diag-ghost rate -0.0000  max |dE/E| 2.7e-08  max |G|_end 1.7e-08  (1614s)
+E=0.10110 T= 46.309  escaped   1/64  t_esc median  10842.8 min  10842.8  sectors [block 23:1]  diag-ghost rate -0.0000  max |dE/E| 6.6e-07  max |G|_end 9.7e+01  (1683s)
+E=0.10631 T= 45.730  escaped  64/64 (1 singular)  t_esc median   3272.6 min   1760.6  sectors [diagonal:48,block 12:7,block 13:5,block 23:4]  diag-ghost rate -0.0000  max |dE/E| 2.1e-06  max |G|_end 1.1e+06  (1759s)
+E=0.11179 T= 45.159  escaped  64/64 (1 singular)  t_esc median   4046.5 min   2181.9  sectors [diagonal:37,block 12:13,block 13:7,block 23:7]  diag-ghost rate -0.0000  max |dE/E| 8.0e-06  max |G|_end 4.8e+05  (2365s)
+E=0.11756 T= 44.595  escaped   2/64  t_esc median  10877.9 min  10128.7  sectors [diagonal:2]  diag-ghost rate -0.0000  max |dE/E| 5.6e-08  max |G|_end 3.6e+03  (2401s)
+E=0.12362 T= 44.038  escaped  64/64  t_esc median   2861.5 min   1794.6  sectors [diagonal:59,block 12:1,block 13:1,block 23:3]  diag-ghost rate 0.0038  max |dE/E| 1.4e-07  max |G|_end 5.3e+04  (6525s)
+E=0.13000 T= 43.488  escaped   0/64  t_esc median      nan min      nan  sectors []  diag-ghost rate -0.0000  max |dE/E| 2.9e-08  max |G|_end 2.2e-08  (6542s)
+
+CHECK no integrator failures: 0 PASS
+ALL CHECKS PASS
+DONE 6559

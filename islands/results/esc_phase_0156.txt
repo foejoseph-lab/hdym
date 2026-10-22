@@ -1,0 +1,42 @@
+offdiag_escape.py  python 3.12.5  numpy 2.2.6  sympy 1.13.1  (C:\Users\Owner\AppData\Local\Programs\Python\Python312\python.exe)
+run parameters: section=phase tag=esc_phase_0156 Emin=0.05 Emax=1.0 nE=100 nseed=256 E=0.156 n=96 block=12 delta=0.0001 delta_diag=0.0001 R=10000.0 tmax=3000.0 rtol=1e-11 atol=1e-13 hmax=0.25 nchk=60 cj=1.0 seed=1 resume=True diag_orient=fixed nalpha=12 eta=0.3
+orbit: DR, X0=3.14640122769837 PX0=0.00179319341881 T_HALF=31.053330268585064 (E=1/2, scaled); diagonal ghost not seeded; seed Gauss-projected (linear G)
+CHECK kernel built with gcc with OpenMP, 24 threads: PASS
+INFO  FP state the threads had before the kernel pinned it: MXCSR control bits min 0x1F80 max 0x1F80 (status flags ignored); x87 control word min 0x001F max 0x001F (Windows only; 0 elsewhere).  Now MXCSR 0x1F80, x87 53-bit, in every thread; the step controller no longer calls the C library.
+CHECK integrator vs scipy DOP853 at E=0.156, t = 2T = 83.10: relative difference 2.3e-09 (whole state), 2.3e-09 (off-diagonal part, |u| = 3.33e-03) (tol 1e-6) PASS
+CHECK energy drift over 2T: 2.2e-10 (tol 1e-8) PASS
+CHECK Gauss residual of the seed: 5.0e-09 (O(delta^2) = 1e-08; tol 100 delta^2) PASS; after 2T: 5.0e-09
+CHECK escape time vs scipy DOP853 (rtol 1e-12) at E=0.549, both seeds 1e-04: kernel 112.606, scipy 112.515, relative 8.1e-04 (tol 1e-3) PASS
+CHECK parallel kernel is deterministic (48 identical copies, E=0.549 to t=300): t_esc spread 0.000e+00, final-state spread 0.000e+00 PASS
+CHECK unseeded DR orbit closes after one period in the full system: 2.2e-10 (tol 1e-7) PASS
+--section phase: block 12 at E=0.156 has multipliers [-1.2721+0.1805j -1.2721-0.1805j  1.    +0.j      1.    -0.j    ]: not a Krein quadruplet
+offdiag_escape.py  python 3.12.5  numpy 2.2.6  sympy 1.13.1  (C:\Users\Owner\AppData\Local\Programs\Python\Python312\python.exe)
+run parameters: section=phase tag=esc_phase_0156 Emin=0.05 Emax=1.0 nE=100 nseed=256 E=0.156 n=96 block=12 delta=0.0001 delta_diag=0.0001 R=10000.0 tmax=3000.0 rtol=1e-11 atol=1e-13 hmax=0.25 nchk=60 cj=1.0 seed=1 resume=True diag_orient=fixed nalpha=12 eta=0.3
+orbit: DR, X0=3.14640122769837 PX0=0.00179319341881 T_HALF=31.053330268585064 (E=1/2, scaled); diagonal ghost not seeded; seed Gauss-projected (linear G)
+CHECK kernel built with gcc with OpenMP, 24 threads: PASS
+INFO  FP state the threads had before the kernel pinned it: MXCSR control bits min 0x1F80 max 0x1F80 (status flags ignored); x87 control word min 0x001F max 0x001F (Windows only; 0 elsewhere).  Now MXCSR 0x1F80, x87 53-bit, in every thread; the step controller no longer calls the C library.
+CHECK integrator vs scipy DOP853 at E=0.156, t = 2T = 83.10: relative difference 2.3e-09 (whole state), 2.3e-09 (off-diagonal part, |u| = 3.33e-03) (tol 1e-6) PASS
+CHECK energy drift over 2T: 2.2e-10 (tol 1e-8) PASS
+CHECK Gauss residual of the seed: 5.0e-09 (O(delta^2) = 1e-08; tol 100 delta^2) PASS; after 2T: 5.0e-09
+CHECK escape time vs scipy DOP853 (rtol 1e-12) at E=0.549, both seeds 1e-04: kernel 112.606, scipy 112.515, relative 8.1e-04 (tol 1e-3) PASS
+CHECK parallel kernel is deterministic (48 identical copies, E=0.549 to t=300): t_esc spread 0.000e+00, final-state spread 0.000e+00 PASS
+CHECK unseeded DR orbit closes after one period in the full system: 2.2e-10 (tol 1e-7) PASS
+phase section: block 12, E=0.156, T=41.550, Krein multiplier (-1.27207+0.18053j) (rate 0.0060); eigenvector Gauss residual 1.3e-13; orbit closure 2.1e-13; eta=0.3
+C:\GitHub\hdym\islands\code\offdiag_escape.py:269: RuntimeWarning: All-NaN slice encountered
+  okk = ~np.isnan(ch[n, :, 5]) & (np.nanmax(ch[n, :, :5], axis=1) < lin)
+alpha=0.0000 (1/12): escaped 233/256 (0 singular, 0 failed), t_esc median 1829.8 [1292.3, 2970.1], |c| 0.594+-0.199, arg c - alpha sd 0.452, max |dE/E| 1.6e-07  (332s)
+alpha=0.5236 (2/12): escaped 236/256 (0 singular, 0 failed), t_esc median 1907.8 [1369.8, 2988.6], |c| 0.649+-0.147, arg c - alpha sd 0.436, max |dE/E| 3.4e-07  (528s)
+alpha=1.0472 (3/12): escaped 236/256 (0 singular, 0 failed), t_esc median 1851.3 [1236.0, 2990.7], |c| 0.862+-0.132, arg c - alpha sd 0.344, max |dE/E| 4.2e-07  (790s)
+alpha=1.5708 (4/12): escaped 246/256 (0 singular, 0 failed), t_esc median 1716.1 [1283.6, 2990.0], |c| 1.207+-0.173, arg c - alpha sd 0.196, max |dE/E| 3.7e-07  (1368s)
+alpha=2.0944 (5/12): escaped 235/256 (0 singular, 0 failed), t_esc median 1853.8 [1233.9, 2982.2], |c| 0.894+-0.252, arg c - alpha sd 0.200, max |dE/E| 2.0e-07  (1497s)
+alpha=2.6180 (6/12): escaped 230/256 (0 singular, 0 failed), t_esc median 1878.7 [1320.2, 2991.8], |c| 0.657+-0.254, arg c - alpha sd 0.357, max |dE/E| 2.3e-07  (1864s)
+alpha=3.1416 (7/12): escaped 232/256 (0 singular, 0 failed), t_esc median 1885.5 [1310.3, 2987.2], |c| 0.565+-0.212, arg c - alpha sd 0.514, max |dE/E| 2.4e-07  (1980s)
+alpha=3.6652 (8/12): escaped 237/256 (0 singular, 0 failed), t_esc median 1839.0 [1296.5, 2957.4], |c| 0.645+-0.146, arg c - alpha sd 0.461, max |dE/E| 2.0e-07  (2137s)
+alpha=4.1888 (9/12): escaped 231/256 (0 singular, 0 failed), t_esc median 1860.8 [1295.7, 2987.3], |c| 0.840+-0.122, arg c - alpha sd 0.310, max |dE/E| 1.8e-07  (2257s)
+alpha=4.7124 (10/12): escaped 245/256 (0 singular, 0 failed), t_esc median 1788.1 [1187.0, 2966.8], |c| 1.174+-0.165, arg c - alpha sd 0.190, max |dE/E| 2.0e-07  (2415s)
+alpha=5.2360 (11/12): escaped 231/256 (1 singular, 0 failed), t_esc median 1854.2 [1279.2, 2905.9], |c| 0.867+-0.268, arg c - alpha sd 0.200, max |dE/E| 3.5e-07  (2570s)
+alpha=5.7596 (12/12): escaped 232/256 (0 singular, 0 failed), t_esc median 1931.1 [1169.7, 2949.1], |c| 0.601+-0.263, arg c - alpha sd 0.415, max |dE/E| 1.5e-06  (2781s)
+
+CHECK no integrator failures: 0 PASS
+ALL CHECKS PASS
+DONE 2802
