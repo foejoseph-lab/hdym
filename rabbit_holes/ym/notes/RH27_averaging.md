@@ -131,12 +131,16 @@ constraint; that is the next sitting, before any more resonance theory.
    the same rate — effective ω_A ≈ 0.78 / 0.76 / 0.82 and ω_B ≈ 0.83 / 0.79 / 0.81 in three windows — and split above
    0.27 where Δ(E) grows. Positive-member identity switches at fold re-entries (E = 0.056, 0.109, 0.267 for A;
    0.248, 0.730 for B), read as within-pair orientation flips.
-9. **The branch** (`rh5_branch.py`, Fourier spectrum of each Floquet solution over a period): the dominant lines of
-   both pairs lie in **0.75–1.25** at every E (0.9–1.15 typically; 0.75–0.83 for both at E = 0.36–0.55), never near
-   1.7–2.4 — the averaged clean mode is not pair B aliased. But the spectra are broad: the strongest line carries
-   15–50 % of the power, lines at ω ± kΩ up to |k| ≈ 8 are comparable (a "DC" line is ω − 8Ω at E = 0.05), so these
-   solutions are strongly modulated oscillations, not dressed single modes, and "the frequency" is defined only to
-   a few Ω. The slope-based 0.8 of item 8 is one branch of that.
+9. **The branch** (`rh5_branch.py`, revised): the first version FFT'd x(t) over one period with a rectangular window —
+   Joseph's spectral-leakage objection: e^{iωt}p(t) is not periodic over [0, T), and the phase jump at the wrap leaks
+   a single line into 1/k sidebands, which is what the "sidebands to ±8Ω" of the first run were. Revised: divide out
+   the Floquet phase (principal branch), FFT the periodic part (periodicity residual ≤ 2 × 10⁻²). Result: the spectra
+   are genuinely **two-line** — a line at |f| ≈ 0.85–1.2 (0.93 at E = 0.05, 1.1 at 0.1–0.3, 0.84–0.87 at 0.36–0.55,
+   1.15–1.2 at E ≥ 0.85; the dressed Lee–Wick mass) and a quasi-static line at |f| ≲ 0.1, each with 20–50 % of the
+   power, plus a weaker line at ±(1–2)Ω; nothing near 1.7–2.4. Both pairs carry the same lines. So the physical
+   frequency of the doublet is ≈ 1, E-dependent at the 20 % level, riding on a large quasi-static component; the
+   slope-derived 0.8 of item 8 was a branch artefact, and the dirty averaged mode's 1.1–1.25 was close to the real
+   line after all.
 10. **c_j = 0.25, corrected** (`rh5_splitting_cj.py`, and the classifier of `rh27_mu_scan.py` fixed: four real
     eigenvalues off the circle are a double +1 fold, not a collision): Δ is 0.47–0.57 π where the pairs are on the
     circle, two narrow Krein bands survive ([0.151, 0.163], [0.304, 0.321] — the first at the same place as at
@@ -146,5 +150,5 @@ constraint; that is the next sitting, before any more resonance theory.
     reduced block can address as ω_eff²(c_j) at fixed E.
 
 **Target for the reduced block, as it now stands:** two ghost pairs with multipliers degenerate (Δ ≲ 0.25 π)
-below E ≈ 0.22, physical lines in 0.75–1.25, strongly modulated; no mode at 1.7–2.4; ω_eff²(c_j) with a negative
+below E ≈ 0.22, each a line near 1 (0.85–1.2) plus a comparable quasi-static line; no mode at 1.7–2.4; ω_eff²(c_j) with a negative
 minimum near c_j ≈ 0.3–0.4 and marginal at c_j = 1. Checks against ωT mod 2π, not ω.

@@ -1,4 +1,8 @@
-"""rh5_branch.py -- which branch?  A Floquet exponent from M is defined mod Omega = 2 pi / T; the reviewer's test to fix
+"""rh5_branch.py -- which branch?  (REVISED 21:40: the first version took the FFT of x(t) over one period with a rectangular
+window; x(t) = e^{i omega t} p(t) is not periodic over [0, T) unless omega T = 0 mod 2 pi, and the phase jump at the wrap
+leaks the line into 1/k sidebands -- Joseph's spectral-leakage point.  Now the Floquet phase is divided out first,
+p(t) = e^{-i omega t} x(t) with e^{i omega T} = mu on the principal branch, which IS periodic; its FFT has no leakage, and
+the physical frequency is omega + k Omega for the dominant harmonic k of p.)  A Floquet exponent from M is defined mod Omega = 2 pi / T; the reviewer's test to fix
 the physical branch of each ghost pair: integrate the Floquet solution x(t) = Phi_t v over one period, Fourier-analyse
 it, and read the dominant frequency.  The solution e^{i omega t} p(t) has lines at omega + k Omega weighted by p's
 harmonics; the strongest line is the physical frequency.  Spectrum = sum over the 8 block components of |FFT|^2
@@ -54,13 +58,17 @@ def spectrum(Kf, E, nsamp=4096):
     freqs = np.fft.fftfreq(nsamp, d=T / nsamp) * 2 * np.pi
     for k in range(nv):
         x = X[k] + 1j * X[nv + k]                                  # (8, nsamp) complex solution
-        # field-level components only (u, u'): weight by the Euclidean norm of (u12, u21, u12', u21')
-        P = np.abs(np.fft.fft(x[:4], axis=1)) ** 2
-        P = P.sum(axis=0)
+        mu_k = g[sel[k]]
+        om = np.log(mu_k) / (1j * T)                               # principal-branch Floquet exponent (complex if off circle)
+        pper = x * np.exp(-1j * om * te)[None, :]                  # periodic part
+        wrap = np.abs(pper[:4, -1] * np.exp(-1j * om * (T / nsamp)) - pper[:4, 0]).max() / np.abs(pper[:4]).max()
+        P = (np.abs(np.fft.fft(pper[:4], axis=1)) ** 2).sum(axis=0)
+        kk = np.fft.fftfreq(nsamp, d=1.0 / nsamp)                  # harmonic index
         order = np.argsort(-P)
-        f1, f2, f3 = freqs[order[0]], freqs[order[1]], freqs[order[2]]
+        k1, k2, k3 = int(kk[order[0]]), int(kk[order[1]]), int(kk[order[2]])
         w1, w2 = P[order[0]] / P.sum(), P[order[1]] / P.sum()
-        out.append((g[sel[k]], f1, w1, f2, w2, f3))
+        Om = 2 * np.pi / T
+        out.append((mu_k, (om + k1 * Om).real, w1, (om + k2 * Om).real, w2, (om + k3 * Om).real, wrap))
     return T, out
 
 
@@ -73,14 +81,14 @@ def main():
     Kf = base.load_K()
     grid = np.logspace(np.log10(a.emin), np.log10(a.emax), a.nE)
     print("rh5_branch.py: dominant Fourier line of each ghost pair's Floquet solution over one period (field components u, u')")
-    print(" E       Omega   | pair 1 (smaller |arg mu|): mu-angle/pi  f_dom  (weight)  f_2nd (weight)  f_3rd | pair 2: same")
+    print(" E       Omega   | pair 1 (smaller |arg mu|): mu-angle/pi  f_dom (weight)  f_2nd (weight)  f_3rd  periodicity-residual | pair 2: same")
     rows = []
     for E in grid:
         T, out = spectrum(Kf, E)
         Om = 2 * np.pi / T
         s = f"{E:.4f}  {Om:.4f}  |"
-        for (m, f1, w1, f2, w2, f3) in out:
-            s += f" {np.angle(m) / np.pi:+.3f}  {f1:+.3f} ({w1:.2f})  {f2:+.3f} ({w2:.2f})  {f3:+.3f} |"
+        for (m, f1, w1, f2, w2, f3, wrap) in out:
+            s += f" {np.angle(m) / np.pi:+.3f}  {f1:+.3f} ({w1:.2f})  {f2:+.3f} ({w2:.2f})  {f3:+.3f}  {wrap:.0e} |"
         print(s)
         rows.append((E, T, [(o[1], o[2], o[3], o[4]) for o in out]))
     np.savez(os.path.join(RES, 'rh5_branch.npz'), E=grid, T=np.array([r[1] for r in rows]),
