@@ -1,0 +1,65 @@
+rh_overnight_2026-10-22.py
+
+== hole 1: phase ensemble at E = 0.156, block 12 Krein; 3072 cells, 2824 escape by 3000 (91.9 %), median t_esc 1848 ==
+  |c| per cell: 0.05-1.61 (design flaw: varies with alpha); corr(log t, log |c|) = -0.163, slope -0.076, residual sd 0.084 dex
+  per nominal alpha: escape %, median t_esc, mean |c|:
+    alpha/pi = 0.000:  91.0 %   1829.8  |c| 0.59
+    alpha/pi = 0.167:  92.2 %   1907.8  |c| 0.65
+    alpha/pi = 0.333:  92.2 %   1851.3  |c| 0.86
+    alpha/pi = 0.500:  96.1 %   1716.1  |c| 1.21
+    alpha/pi = 0.667:  91.8 %   1853.8  |c| 0.89
+    alpha/pi = 0.833:  89.8 %   1878.7  |c| 0.66
+    alpha/pi = 1.000:  90.6 %   1885.5  |c| 0.56
+    alpha/pi = 1.167:  92.6 %   1839.0  |c| 0.64
+    alpha/pi = 1.333:  90.2 %   1860.8  |c| 0.84
+    alpha/pi = 1.500:  95.7 %   1788.1  |c| 1.17
+    alpha/pi = 1.667:  90.2 %   1854.2  |c| 0.87
+    alpha/pi = 1.833:  90.6 %   1931.1  |c| 0.60
+  -- arg c over [0, 2pi), 12 bins, permutation null (cells independent) --
+     escape fraction by bin [96.  87.9 95.8 92.7 91.9 90.  92.  91.1 92.5 93.3 88.3 91.5] %: range 8.2 pts vs null 5.6 +- 1.4  z = +1.8
+     median t_esc by bin [1819. 1979. 1755. 1816. 1873. 1809. 1876. 1862. 1868. 1817. 1893. 1890.]: range 0.052 dex vs null 0.024 +- 0.006  z = +5.0
+     median residual by bin [-0.021  0.008 -0.023 -0.003 -0.002 -0.022 -0.01  -0.005  0.    -0.012
+  0.001 -0.006]: range 0.031 vs null 0.024 +- 0.005  z = +1.3
+  -- arg c mod pi, 6 bins, permutation null (cells independent) --
+     escape fraction by bin [94.1 89.4 94.1 92.9 90.3 90.8] %: range 4.7 pts vs null 3.1 +- 1.1  z = +1.4
+     median t_esc by bin [1837. 1904. 1818. 1816. 1884. 1843.]: range 0.021 dex vs null 0.013 +- 0.005  z = +1.7
+     median residual by bin [-0.017 -0.    -0.011 -0.006 -0.001 -0.014]: range 0.017 vs null 0.014 +- 0.005  z = +0.7
+
+== hole 4: loiter from the crossing times (section E, 20 energies x 64) ==
+  E | T | escaped | reached |w|=1 (censored) | growth 0.1 -> 1: median t_cross(1)-t_cross(0.1) vs ln(10)/rate | loiter L = t_esc - t_cross(1): median [p25, p75] p90, in periods | sector first to cross 1 (counts)
+  0.0500  55.22  0/64   3 ( 3)  growth  650.4 vs    nan  L    nan [  nan,   nan] p90    nan    nan T  {'diagonal': 2, 'block 13': 1}
+  0.0585  53.09  3/64  56 (53)  growth  483.1 vs    nan  L  847.3 [632.8, 851.9] p90  854.7  15.96 T  {'diagonal': 5, 'block 12': 51}
+  0.0685  51.04  0/64   3 ( 3)  growth  134.9 vs    nan  L    nan [  nan,   nan] p90    nan    nan T  {'diagonal': 2, 'block 12': 1}
+  0.0802  49.06  0/64   2 ( 2)  growth  261.9 vs    nan  L    nan [  nan,   nan] p90    nan    nan T  {'diagonal': 2}
+  0.0939  47.17  0/64   3 ( 3)  growth  186.4 vs    nan  L    nan [  nan,   nan] p90    nan    nan T  {'diagonal': 1, 'block 12': 1, 'block 13': 1}
+  0.1100  45.34 17/64  62 (45)  growth  127.7 vs    nan  L  948.6 [125.5,1289.5] p90 1522.3  20.92 T  {'diagonal': 42, 'block 12': 18, 'block 13': 2}
+  0.1288  43.59  0/64   1 ( 1)  growth  702.9 vs    nan  L    nan [  nan,   nan] p90    nan    nan T  {'diagonal': 1}
+  0.1508  41.91  0/64  none reached |w| = 1
+  0.1765  40.29 63/64  64 ( 1)  growth   93.3 vs  115.9  L   20.9 [ 13.7,  51.3] p90   83.3   0.52 T  {'diagonal': 64}
+  0.2067  38.73  0/64  none reached |w| = 1
+  0.2419  37.23 64/64  64 ( 0)  growth   41.6 vs  183.1  L   65.8 [ 24.5, 174.9] p90  326.3   1.77 T  {'diagonal': 49, 'block 12': 15}
+  0.2833  35.79 63/64  64 ( 1)  growth   57.7 vs    nan  L   39.7 [ 15.8,  79.0] p90  189.3   1.11 T  {'diagonal': 48, 'block 12': 14, 'block 23': 2}
+  0.3316  34.41 64/64  64 ( 0)  growth   68.7 vs   65.9  L   15.7 [ 10.2,  30.0] p90   58.3   0.46 T  {'diagonal': 62, 'block 12': 2}
+  0.3883  33.08 64/64  64 ( 0)  growth   37.2 vs   38.5  L   13.8 [ 10.5,  22.5] p90   54.0   0.42 T  {'diagonal': 62, 'block 12': 2}
+  0.4546  31.80 64/64  64 ( 0)  growth   23.7 vs   37.3  L   16.2 [ 10.6,  33.8] p90   51.0   0.51 T  {'diagonal': 64}
+  0.5322  30.57 64/64  64 ( 0)  growth   17.3 vs   39.4  L   13.1 [  9.9,  25.7] p90   68.7   0.43 T  {'diagonal': 64}
+  0.6231  29.39 64/64  64 ( 0)  growth   13.6 vs   18.2  L   14.1 [ 11.0,  26.0] p90   52.5   0.48 T  {'diagonal': 64}
+  0.7295  28.25 64/64  64 ( 0)  growth   20.4 vs   13.5  L   16.7 [ 11.3,  28.9] p90   53.8   0.59 T  {'diagonal': 63, 'block 12': 1}
+  0.8541  27.16 64/64  64 ( 0)  growth   10.8 vs   11.2  L   16.7 [ 11.4,  43.4] p90  109.7   0.62 T  {'diagonal': 64}
+  1.0000  26.11 64/64  64 ( 0)  growth   13.0 vs    9.9  L   15.0 [  9.4,  29.5] p90   64.9   0.57 T  {'diagonal': 64}
+  pooled: 834 loiters (112 censored); uncensored median 18.0 time units, 0.58 periods; min 6.6
+  scaling over 11 energies with >= 20 escaped loiters: Spearman(E, median L) = -0.46 (time units), -0.05 (periods)
+  survival of L in periods, no clamping (fits on L > 0.02 periods):
+    E in [0.05, 0.20): n= 191 (cens 108) median 0.67 T; exponential tau=31.79 ll=-370.1 | Pareto x0=0.30 gamma=0.14 ll=-295.7 (delta ll +74.4); p90/median 33.27 (exp 3.32)
+    E in [0.20, 0.35): n= 192 (cens 1) median 0.90 T; exponential tau=2.46 ll=-362.9 | Pareto x0=2.31 gamma=1.86 ll=-332.7 (delta ll +30.2); p90/median 5.69 (exp 3.32)
+    E in [0.35, 0.60): n= 192 (cens 0) median 0.43 T; exponential tau=0.83 ll=-156.2 | Pareto x0=6.51 gamma=8.88 ll=-154.2 (delta ll +2.0); p90/median 4.28 (exp 3.32)
+    E in [0.60, 1.00): n= 256 (cens 0) median 0.57 T; exponential tau=1.27 ll=-317.2 | Pareto x0=2.87 gamma=3.34 ll=-293.7 (delta ll +23.5); p90/median 4.26 (exp 3.32)
+
+== hole 4 bis: loiter at the two bands (phase ensemble = Krein, E = 0.156; n64 map = parametric, E = 0.30) ==
+  Krein E=0.156: 2824 escaped cells with |w| = 1 crossed; loiter median 343.4 (8.26 T), p10 25.8, p90 1126.0 (27.10 T); t_cross(1) median 1358
+     first sector to reach norm 1: {diagonal: 2016, block 12: 808}
+  parametric E=0.30: 4095 escaped cells with |w| = 1 crossed; loiter median 26.1 (0.74 T), p10 9.7, p90 178.9 (5.07 T); t_cross(1) median 583
+     first sector to reach norm 1: {diagonal: 3657, block 12: 328, block 23: 110}
+
+== hole 12 ==
+  chk stores sector norms only; the rotating-vs-directional question needs state snapshots and is not answerable from these files.
