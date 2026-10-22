@@ -173,3 +173,21 @@ minimum near c_j ≈ 0.3–0.4 and marginal at c_j = 1. Checks against ωT mod 2
     exact 4-dim fold exponent; then the harmonics at n = 12–19 (≈ 2ω ≈ 2, which a swept stiffness supplies); then the
     Krein width at [0.151, 0.163] across c_j as the one first-order test. Tools: the energy-weighted phase rate here
     is one estimator; a fractional Fourier transform (Joseph's SAR practice) would sharpen the sweep's shape.
+
+### Closing (21:50), the reviewer's two parting observations, recorded as the shape of the next sitting
+
+- **S̃ made visible.** If Φ_{T/2} were sector-diagonal (sector 1 by a, sector 2 by b), N = S̃Φ_{T/2} with S̃ the swap
+  has eigenvalues ±√(ab): antipodal in N, degenerate in M — the low-E doublet with θ_A + θ_B = π — and the orientation
+  reversal that makes the ±i meetings Krein-unstable comes with it. **Δ(E) is then the off-diagonal part of Φ_{T/2}
+  in the sector basis: the inter-sector mixing within one half period**, a zeroth order of its own, computable from
+  the reduced block without averaging; Δ growing with E is the bounce getting harder. (Hole 5 restated: "why block
+  12" = "how much does the bounce mix the sectors".)
+- **Bounce transfer matrix.** Plain WKB fails at the soft points t = T/4, 3T/4 (turning points: the phase advance is
+  not ∫ω dt, and the connection is where the sectors can exchange amplitude). Model of N: quiet-phase WKB propagation
+  × bounce transfer matrix (a 4 × 4 symplectic map across one soft point) × S̃. That matrix carries Δ, the Krein
+  widths and, at c_j = 0.25, the static instability if the stiffness goes negative rather than merely soft. Fifth
+  output of the reduced block, after the four listed above: integrate H_red across a window around one bounce and
+  read its sector-mixing entries as a function of c_j.
+- Cross-reference, off this list by design (CONTEXT items 4–5): Joseph notes that a ghost going soft at the bounce
+  is what the spin-2 ghost does on Bianchi IX (`bianchi9/`). Two backgrounds, one behaviour; the bounce transfer
+  matrix is the object that would say whether that is the mechanism or a coincidence.
