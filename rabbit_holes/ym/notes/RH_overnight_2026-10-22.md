@@ -52,3 +52,25 @@ these files; a kernel addition of the same size as `tcross` if wanted.
 Hole 4's bullets are the paragraph: loiter ≈ 0.6 orbits median, scaling with the period, stretched tail, the
 linear phase as the clock, the off-diagonal trigger pumping the diagonal executor, and a low-energy regime where
 an order-one ghost sits for tens of orbits without escaping. Hole 1 becomes one negative sentence.
+
+## The day run (22 Oct): the low-E regime at tmax = 12000 — a slow tail, not a stuck state
+
+`esc_E_lowE_long` (20 energies in [0.05, 0.13] × 64, tmax 12000, all checks PASS, 6559 s), read by
+`code/rh4_lowE_long.py` → `results/rh4_lowE_long.txt`.
+
+- **In the off-diagonal-led bands the loiter is a Poisson process with a long time constant.** E = 0.0581: 64 cells
+  reach |w| = 1 (median t = 2376), 55 escape by 12000, loiter median 3846 = 72 periods, censored-MLE τ = 106 periods;
+  Kaplan–Meier survival 0.97 / 0.84 / 0.55 / 0.37 / 0.17 at L = 1000 / 2000 / 4000 / 6000 / 8000 against the exponential's
+  0.84 / 0.70 / 0.49 / 0.35 / 0.24 — exponential after a dead time of ~1000. E = 0.1063 and 0.1118: all 64 escape,
+  median 36–38 periods, τ = 43–45 periods, Kaplan–Meier on the exponential to ±0.1 everywhere. Against the
+  diagonal-ghost tongues at E = 0.0914 and 0.1236 (loiter median 1.3–1.7 periods): the escape after the ghost reaches
+  order one is memoryless in both classes, with a rate that differs by a factor 30–100 depending on which sector did
+  the pumping. Last night's "16–21-period censored loiters" were the first 3000 units of these.
+- **At Floquet-stable energies (between the bands) a few cells reach |w| = 1 by transient growth (hole 8) and then
+  none escape in 12000**: 3–13 cells per energy, loiters ≥ 55–140 periods (median of the censored ≥ 150–230 periods).
+  That is the genuinely stuck regime — an order-one ghost that sits for hundreds of orbits — and it is the
+  linearly-stable one, not the slowly-unstable one.
+- The paper sentence this supports: after the ghost reaches order one the runaway is a memoryless event whose rate
+  is set by the linear mechanism that pumped it — of order one per orbit when the diagonal ghost is itself unstable,
+  of order 10⁻² per orbit when an off-diagonal band did the pumping — and at linearly stable energies a transiently
+  pumped ghost does not run away on any time scale reached here (≥ 200 orbits).

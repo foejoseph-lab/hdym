@@ -1,0 +1,27 @@
+rh4_lowE_long.py: esc_E_lowE_long.npz, tmax 12000
+ E      T     reached|w|=1 escaped cens | t_cross(1) med | loiter of escaped: median p25 p75 p90 [med/T] | censored loiters >= min/median (periods) | tau (periods)
+0.0500  55.22    9        0      9 |    3029 |     nan    nan    nan    nan [  nan] |  78.8 162.5 |    nan
+0.0526  54.53   64        9     55 |    4691 |    4040   3173   4375   5131 [ 74.1] |  23.2 135.5 |  875.5
+0.0553  53.85   13        0     13 |    1831 |     nan    nan    nan    nan [  nan] |  73.9 188.8 |    nan
+0.0581  53.18   64       55      9 |    2376 |    3846   2328   6231   7075 [ 72.3] |  93.1 182.4 |  106.4
+0.0611  52.51   10        0     10 |    3034 |     nan    nan    nan    nan [  nan] | 122.6 170.7 |    nan
+0.0643  51.86    9        0      9 |    2645 |     nan    nan    nan    nan [  nan] |  21.7 180.4 |    nan
+0.0676  51.21   12        0     12 |    1756 |     nan    nan    nan    nan [  nan] | 139.9 200.0 |    nan
+0.0711  50.57    3        0      3 |    3733 |     nan    nan    nan    nan [  nan] | 116.0 163.5 |    nan
+0.0748  49.94    6        0      6 |    4327 |     nan    nan    nan    nan [  nan] | 104.9 153.7 |    nan
+0.0786  49.31   10        1      9 |    1999 |    9352   9352   9352   9352 [189.6] | 135.9 200.9 | 1900.1
+0.0827  48.70    6        0      6 |    1687 |     nan    nan    nan    nan [  nan] | 137.6 211.8 |    nan
+0.0869  48.09    3        0      3 |    3130 |     nan    nan    nan    nan [  nan] |  55.7 184.4 |    nan
+0.0914  47.49   64       64      0 |    1829 |      63     20    599   1877 [  1.3] |   nan   nan |   15.6
+0.0961  46.89    0
+0.1011  46.31    2        1      1 |    1913 |    8207   8207   8207   8207 [177.2] | 233.4 233.4 |  410.6
+0.1063  45.73   64       64      0 |    1478 |    1731    832   2752   4490 [ 37.9] |   nan   nan |   45.0
+0.1118  45.16   64       64      0 |    2055 |    1642    870   2414   3499 [ 36.4] |   nan   nan |   43.2
+0.1176  44.59    2        2      0 |    2491 |    8386   7809   8964   9310 [188.1] |   nan   nan |  188.1
+0.1236  44.04   64       64      0 |    2293 |      76     15   1020   1726 [  1.7] |   nan   nan |   18.3
+0.1300  43.49    0
+
+survival of the loiter at the three off-diagonal-led energies (Kaplan-Meier vs exponential with the censored-MLE tau):
+  E=0.0581: n=64, censored 9, tau = 5656 = 106 periods; S(L) at L = [500, 1000, 2000, 4000, 6000, 8000]: KM [1.0, np.float64(0.97), np.float64(0.84), np.float64(0.55), np.float64(0.37), np.float64(0.17)]  exp [0.92, 0.84, 0.7, 0.49, 0.35, 0.24]
+  E=0.1063: n=64, censored 0, tau = 2059 = 45 periods; S(L) at L = [500, 1000, 2000, 4000, 6000, 8000]: KM [np.float64(0.91), np.float64(0.7), np.float64(0.42), np.float64(0.12), np.float64(0.02), np.float64(0.0)]  exp [0.78, 0.62, 0.38, 0.14, 0.05, 0.02]
+  E=0.1118: n=64, censored 0, tau = 1949 = 43 periods; S(L) at L = [500, 1000, 2000, 4000, 6000, 8000]: KM [np.float64(0.84), np.float64(0.72), np.float64(0.41), np.float64(0.08), np.float64(0.03), np.float64(0.02)]  exp [0.77, 0.6, 0.36, 0.13, 0.05, 0.02]
