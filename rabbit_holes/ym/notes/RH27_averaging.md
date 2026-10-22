@@ -152,3 +152,24 @@ constraint; that is the next sitting, before any more resonance theory.
 **Target for the reduced block, as it now stands:** two ghost pairs with multipliers degenerate (Δ ≲ 0.25 π)
 below E ≈ 0.22, each a line near 1 (0.85–1.2) plus a comparable quasi-static line; no mode at 1.7–2.4; ω_eff²(c_j) with a negative
 minimum near c_j ≈ 0.3–0.4 and marginal at c_j = 1. Checks against ωT mod 2π, not ω.
+
+### Review, round 4 (21:40–21:50): sweep, not beat
+
+11. **Instantaneous frequency** (`rh5_instfreq.py`, energy-weighted phase rate of the field components along one
+    period; figure `rh5_instfreq.png`): at E = 0.3 pair 2 sits near |ω| ≈ 1 for most of the period and **sweeps to 0
+    twice per period, at t = T/4 and 3T/4 — where x crosses zero and |y| peaks** (the ghost goes soft at the bounce);
+    pair 1 is complementary (peaks where pair 2 dips): the two reflection sectors trading roles every half period.
+    At E = 0.1 the same with pair 1 mostly soft (0.2–0.3) and spiking to ≈ 1 twice per period; at E = 0.6 pair 2
+    sweeps 0–1 four times (pair 1 is real there: inside the parametric band). So the two-line spectrum of item 9 is a
+    **swept oscillator**, not a superposition: the zeroth order is adiabatic/WKB with a stiffness that drops to zero at
+    the bounce, the phase advance per period is ∫ω_inst dt, and that is where the frequency of ⟨H⟩ goes wrong.
+    Reviewer's further points, accepted: the ladder was never branch-sensitive (ω → ω + kΩ shifts ωT by 2πk: rung
+    positions, count and parity unchanged, only the label n moves), so it cannot determine the physical frequency —
+    the spectrum of item 9 and the sweep here are the first things in this work that do; the quasi-static line is
+    intrinsic (the eigenvector is Gauss-clean, no zero-mode admixture) and the reduction will keep it; the ±(1–2)Ω lines
+    at the few-percent level are at the 10⁻² periodicity floor and carry no weight yet. The reduced-block plan is
+    reorganised accordingly: first output the instantaneous eigenfrequencies of H_red(t) along the orbit at c_j =
+    0.25, 0.5, 1 (origin of the sweep; mean-stiffness-negative versus transient-negative at c_j = 0.25); then the
+    exact 4-dim fold exponent; then the harmonics at n = 12–19 (≈ 2ω ≈ 2, which a swept stiffness supplies); then the
+    Krein width at [0.151, 0.163] across c_j as the one first-order test. Tools: the energy-weighted phase rate here
+    is one estimator; a fractional Fourier transform (Joseph's SAR practice) would sharpen the sweep's shape.
