@@ -1,0 +1,30 @@
+rh11_weakcell.py: B002's weak Krein cell D=3.8946, J=0.0315, psi=0.0, c_j=1.0
+
+== A. eps scaling in the frozen model (block 12) ==
+ J        eps      Jordan split |mu-1|min   ghost-sector eigenvalues (drop-4)                      type   |mu|max-1
+ 0.00394  2.63e-03  7.248e-02             [-0.0441-0.999j  -0.0441+0.999j   0.9793-0.2026j  0.9793+0.2026j]  stable -9.99e-16
+ 0.00788  5.26e-03  1.024e-01             [-0.0458-0.999j  -0.0458+0.999j   0.9792-0.2028j  0.9792+0.2028j]  stable +6.66e-16
+ 0.01575  1.05e-02  1.446e-01             [-0.049 -0.9988j -0.049 +0.9988j  0.9791-0.2032j  0.9791+0.2032j]  stable -2.22e-16
+ 0.03150  2.11e-02  2.042e-01             [-0.0556-0.9985j -0.0556+0.9985j  0.979 -0.2037j  0.979 +0.2037j]  stable +1.33e-15
+ 0.06300  4.21e-02  2.069e-01             [-0.0689-0.9976j -0.0689+0.9976j  0.9583+0.2859j  0.9583-0.2859j]  stable +1.11e-15
+ 0.12600  8.42e-02  2.102e-01             [ 0.9172-0.3984j  0.9172+0.3984j -0.0957+0.9954j -0.0957-0.9954j]  stable -1.11e-16
+
+== B. exact background over one transverse period (block 12 and 13) ==
+  background after one period: x 3.8946 -> 3.8127 (drift -2.10e-02, eps model 2.11e-02); y 0.1272 -> 0.1284
+  block 12: exact-background transfer matrix, det-1 = 4.4e-16; eigenvalues by |.|: [ 1.0348-0.2114j  1.0348+0.2114j -0.0527+0.9988j -0.0527-0.9988j
+  0.9513-0.2352j  0.9513+0.2352j  0.955 +0.1457j  0.955 -0.1457j]
+           Gauss residual of each eigenvector at t=0: [1.154 1.154 0.012 0.012 0.604 0.604 0.694 0.694]
+           Gauss-conservation of the flow (leak of ker G(0) off ker G(T)): 5.8e-15; frozen background: 3.9e-01
+           singular values of the Gauss-clean restriction over one period: exact [3.3854 1.6565 1.3806 1.0009 0.6998 0.5741 0.3024];  frozen [3.3239 1.7894 1.3581 0.9971 0.729  0.5586 0.2985]
+  block 13: exact-background transfer matrix, det-1 = 6.7e-16; eigenvalues by |.|: [ 1.0348-0.2114j  1.0348+0.2114j -0.0527+0.9988j -0.0527-0.9988j
+  0.9513-0.2352j  0.9513+0.2352j  0.955 +0.1457j  0.955 -0.1457j]
+           Gauss residual of each eigenvector at t=0: [1.154 1.154 0.012 0.012 0.604 0.604 0.694 0.694]
+           Gauss-conservation of the flow (leak of ker G(0) off ker G(T)): 5.7e-15; frozen background: 3.9e-01
+           singular values of the Gauss-clean restriction over one period: exact [3.3854 1.6565 1.3806 1.0009 0.6998 0.5741 0.3024];  frozen [3.3239 1.7894 1.3581 0.9971 0.729  0.5586 0.2985]
+  block 23: exact-background transfer matrix, det-1 = 3.9e-14; eigenvalues by |.|: [1.2219+0.2832j 1.2219-0.2832j 1.1963+0.3064j 1.1963-0.3064j
+ 0.7565+0.2887j 0.7565-0.2887j 0.7517+0.2656j 0.7517-0.2656j]
+           Gauss residual of each eigenvector at t=0: [0.    0.    0.03  0.03  0.014 0.014 0.    0.   ]
+           Gauss-conservation of the flow (leak of ker G(0) off ker G(T)): 1.5e-16; frozen background: 2.4e-04
+           singular values of the Gauss-clean restriction over one period: exact [1.900334e+02 1.899881e+02 1.231920e+01 9.667000e-01 8.120000e-02
+ 5.400000e-03 5.300000e-03];  frozen [1.991577e+02 1.989155e+02 1.251570e+01 9.852000e-01 7.990000e-02
+ 5.000000e-03 5.000000e-03]
