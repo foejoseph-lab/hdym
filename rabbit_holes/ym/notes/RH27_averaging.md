@@ -69,3 +69,54 @@ rungs Krein. Hole 7's third rule has its model (mode-0 period doubling dressed b
 coupling), pending the second-order calculation. The paper sentence: "the band centres of block 12 are the
 resonances ω₀(E) T(E) = nπ of the ghost mode of the time-averaged block, parametric at even n and, by the
 half-period symmetry, Krein at odd n".
+
+---
+
+## Review (21 Oct, 20:50–21:10): an outside reader's objections, and what the data said
+
+An AI reader with only the four-paragraph summary (no code, no paper) was asked to judge the "odd n = Krein"
+claim. Its objections, and the checks they prompted (`results/rh27_cj_scan.txt`, `rh27_mu_scan.txt`,
+`rh5_splitting.txt`, and the scratch nulls recorded here):
+
+1. **"The parity is a theorem, not a prediction."** Accepted. Given an instability at every odd rung, the lemma
+   makes it two-pair; the content is the existence of a band at every odd rung, and the one non-trivial
+   observation is that no Krein collision happens at +1.
+2. **"Within 8 % is not evidence."** Confirmed, worse than it guessed: the half-integer rungs ω₀T = (n + ½)π also
+   fall within 8 % of a band 7 times in 9, because bands plus an 8 % halo cover 79 % of the log-E range; inside-
+   band hits for the integer rungs are 4 of 9 against 44 % coverage. **Rung 11 lands at E = 1.049 inside the
+   parametric band [1.014, 1.271]: the parity fails at the ninth rung.** What survives of the positional claim is
+   the slope d(ω₀T)/dE and the count (nine rungs, nine bands): one number and an anchor.
+3. **"Odd rungs are first order in the 0–1 coupling, not second order."** Accepted; the width comparison in part C
+   was against the wrong matrix element. But the two-mode combination resonances with the averaged ω₁ do not
+   locate the Krein bands either, and the averaged mode 0 tracks only one of the two measured pairs' phases
+   (correlation 0.62, mean error 0.10 π over 400 energies) while the averaged mode 1 tracks nothing (−0.36 / 0.08).
+   The time-averaged Hamiltonian is a correct zeroth order for one pair and not the other.
+4. **Its test 4 (scale the component cross-coupling by μ).** Run, and invalid as posed: at μ < 1 the block grows by
+   |μ| ~ 10²–10³ per period, but the unstable eigenvectors violate the linearised Gauss law at the 0.9 level — the
+   deformation breaks the gauge structure (B002's F118 trap). The gauge-consistent dial is c_j itself (Gauss
+   violation 10⁻¹² at every c_j): at **c_j = 0.25 the block is far more unstable than at c_j = 1** (|μ| up to 34, a
+   Krein band over [0.41, 1.0]), at 0.5 still more than at 1 (|μ| 6.5 over [0.65, 1.0]), and the band positions move
+   with c_j. So the c_j = 1 theory is the *least* unstable member of the family except c_j = 0 (pure YM, stable):
+   the Krein bands at c_j = 1 are what remains after a strong cancellation, and nothing about them is
+   perturbative in the ghost–background coupling. The reviewer's dichotomy ("pinned at the rung = kinematic,
+   drifting = coupling-shifted") comes out on the drifting side.
+5. **Its second note: "the pairs are mirror-related, φ_B ≈ π − φ_A in M".** Measured (`rh5_splitting.py`): the
+   splitting Δ(E) = (φ_A + φ_B) mod 2π is **0.07–0.25 π over E = 0.05–0.35** — the pairs are near-degenerate as
+   sets, the decoupled-symmetric-model structure of RH7 (N-angles summing to π), not mirror-related — grows
+   through the wide Krein band to 0.5–0.8 π at E = 0.5–0.72, passes **exactly through 0 at E = 0.80** (B005's fake
+   degeneracy: λ and −λ in N, no interaction), and reaches 0.95 π at E = 1, where the mirror relation does hold and
+   the parametric bands alternate between the pairs as the reviewer predicted (rung 11). This curve is hole 5's
+   δ(E), the quantity RH6 said to tabulate; it is also why the ladder works below E ≈ 0.35 and breaks above:
+   the rungs locate the bands only while the pairs are degenerate to a fraction of a rung.
+6. **Signatures at the collisions.** Already in B005: at every true meeting the colliding members carry opposite
+   Krein sign (ψ₁⁺ = −ψ₂⁺), so the reviewer's "either B is positive-energy or S̃ reverses an orientation" is
+   answered by measurement; the averaged system calls both modes negative-energy, consistent with the second
+   branch.
+
+**Standing after review.** Exact: the lemma, the canonical form, the normal form. Measured: the ladder in T
+(slope and count), δ(E), the Krein signatures, the c_j family. Withdrawn: "mode 0's rungs predict the bands" as
+more than slope-plus-count, and "odd n = Krein" as a prediction. The open problem is now stated correctly: the
+right zeroth order is the gauge-reduced four-dimensional block (two ghost pairs, no constraint sector), whose
+two frequencies are near-degenerate below E ≈ 0.35 with the splitting δ(E) above; averaging the full
+eight-dimensional canonical form does not produce it. Sympy can build the reduced system from part A plus the
+constraint; that is the next sitting, before any more resonance theory.

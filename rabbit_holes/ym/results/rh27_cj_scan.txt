@@ -1,0 +1,68 @@
+rh27_mu_scan.py: block 12, dial = cj (c_j, the ghost-background coupling of the Lagrangian) in [0.25, 0.5, 0.75, 1.0]; nE=120 in [0.04, 1.0]; RT={'method': 'DOP853', 'rtol': 1e-12, 'atol': 1e-13}
+
+== cj = 0.25 ==
+  CHECK no single-pair fold at -1 (Lemma, any mu): 0 found PASS
+  [0.0446, 0.0446] fold+1  max |mu| 1.3252  width 0.000 in log E
+  [0.0977, 0.1088] fold+1  max |mu| 1.7811  width 0.108 in log E
+  [0.1180, 0.1280] fold+1  max |mu| 1.7228  width 0.081 in log E
+  [0.1506, 0.1633] Krein   max |mu| 1.6515  width 0.081 in log E
+  [0.1920, 0.2083] fold+1  max |mu| 2.3143  width 0.081 in log E
+  [0.2140, 0.2259] Krein   max |mu| 2.8822  width 0.054 in log E
+  [0.2321, 0.2586] fold+1  max |mu| 3.0865  width 0.108 in log E
+  [0.3042, 0.3211] Krein   max |mu| 1.5423  width 0.054 in log E
+  [0.3578, 0.3986] fold+1  max |mu| 9.4132  width 0.108 in log E
+  [0.4096, 1.0000] Krein   max |mu| 34.1780  width 0.893 in log E
+
+== cj = 0.5 ==
+  CHECK no single-pair fold at -1 (Lemma, any mu): 0 found PASS
+  [0.0422, 0.0422] Krein   max |mu| 1.1794  width 0.000 in log E
+  [0.0524, 0.0524] fold+1  max |mu| 1.1678  width 0.000 in log E
+  [0.0569, 0.0569] fold+1  max |mu| 1.2505  width 0.000 in log E
+  [0.0900, 0.0900] fold+1  max |mu| 1.1800  width 0.000 in log E
+  [0.1003, 0.1031] fold+1  max |mu| 1.2990  width 0.027 in log E
+  [0.1315, 0.1351] Krein   max |mu| 1.2557  width 0.027 in log E
+  [0.1819, 0.1869] fold+1  max |mu| 1.1090  width 0.027 in log E
+  [0.1973, 0.2140] fold+1  max |mu| 1.6852  width 0.081 in log E
+  [0.2805, 0.3125] Krein   max |mu| 1.6322  width 0.108 in log E
+  [0.4564, 0.4689] Krein   max |mu| 1.5873  width 0.027 in log E
+  [0.4817, 0.5085] fold+1  max |mu| 1.6705  width 0.054 in log E
+  [0.6487, 1.0000] Krein   max |mu| 6.5059  width 0.433 in log E
+
+== cj = 0.75 ==
+  CHECK no single-pair fold at -1 (Lemma, any mu): 0 found PASS
+  [0.0470, 0.0483] fold+1  max |mu| 1.1952  width 0.027 in log E
+  [0.0808, 0.0853] fold+1  max |mu| 1.3826  width 0.054 in log E
+  [0.1031, 0.1031] Krein   max |mu| 1.0767  width 0.000 in log E
+  [0.1280, 0.1426] fold+1  max |mu| 1.7693  width 0.108 in log E
+  [0.1633, 0.1678] fold+1  max |mu| 1.0966  width 0.027 in log E
+  [0.2730, 0.3578] fold+1  max |mu| 2.9657  width 0.270 in log E
+  [0.4096, 0.4817] fold+1  max |mu| 1.7271  width 0.162 in log E
+  [0.5822, 0.7035] Krein   max |mu| 1.9537  width 0.189 in log E
+  [0.7839, 1.0000] fold+1  max |mu| 4.0505  width 0.243 in log E
+
+== cj = 1.0 ==
+  CHECK no single-pair fold at -1 (Lemma, any mu): 0 found PASS
+  [0.0434, 0.0434] Krein   max |mu| 1.1377  width 0.000 in log E
+  [0.0584, 0.0584] fold+1  max |mu| 1.2124  width 0.000 in log E
+  [0.0766, 0.0766] Krein   max |mu| 1.1109  width 0.000 in log E
+  [0.1031, 0.1059] fold+1  max |mu| 1.3663  width 0.027 in log E
+  [0.1088, 0.1088] Krein   max |mu| 1.2744  width 0.000 in log E
+  [0.1118, 0.1118] fold+1  max |mu| 1.2054  width 0.000 in log E
+  [0.1547, 0.1589] Krein   max |mu| 1.2598  width 0.027 in log E
+  [0.2259, 0.2321] fold+1  max |mu| 1.7042  width 0.027 in log E
+  [0.2384, 0.2450] Krein   max |mu| 1.8164  width 0.027 in log E
+  [0.2517, 0.2657] fold+1  max |mu| 1.7275  width 0.054 in log E
+  [0.3482, 0.4817] Krein   max |mu| 2.8680  width 0.325 in log E
+  [0.5822, 0.7228] fold+1  max |mu| 2.4307  width 0.216 in log E
+
+== measured block 12 (B001, mu = 1) ==
+  [0.0547, 0.0551] REAL
+  [0.0577, 0.0594] REAL
+  [0.0761, 0.0773] CPLX
+  [0.1020, 0.1133] REAL
+  [0.1519, 0.1613] CPLX
+  [0.2228, 0.2648] REAL
+  [0.2811, 0.4937] CPLX
+  [0.5694, 0.7241] REAL
+figure: results/rh27_mu_scan.png
+DONE 258
