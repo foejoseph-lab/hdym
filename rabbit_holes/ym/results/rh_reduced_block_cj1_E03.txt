@@ -1,0 +1,24 @@
+rh_reduced_block.py: gauge-reduced block 12, numerical first cut.  Constant gauge fixing is NOT admissible on the DR orbit
+  (the unit gauge direction v_G(t) sweeps the whole 8-space: singular values of its orbit samples 0.74/0.39/.../0.09 at E=0.1,
+  and the best fixed f has min |f.v_G| ~ 1e-3), so the moving gauge f(t) = v_G(t) is used, with the connection term from the
+  exact orbit derivatives of Omega and g (sympy).
+
+== E = 0.3, c_j = 1.0, T = 35.283: first reduction (Gauss + gauge), 6-dim ==
+  CHECK off-surface components conserved over one period: 1.8e-11 (tol 1e-7) PASS; surface invariant: leak 1.5e-14 PASS
+  CHECK A: the four ghost multipliers of the full block are reduced multipliers, worst distance 6.3e-12 PASS; the other two: [1.-9.e-06j 1.+9.e-06j]
+  -- second reduction (colour rotation + its charge), 4-dim --
+  CHECK conserved off-surface functionals 1.9e-12, surface invariant leak 1.3e-13 (tol 1e-7) PASS
+  CHECK A4: 4-dim reduced multipliers [ 0.317743+0.948177j  0.317743-0.948177j -0.180913+0.983499j
+ -0.180913-0.983499j] = the ghost multipliers to 6.8e-12 PASS
+  reduced symplectic form (4x4) at t=0: antisymmetric to 1.3e-16, rank 4; Mred^T Om Mred = Om to 2.6e-13
+  instantaneous (frozen) eigenvalues of the restricted 4-dim generator along the orbit, t/T = 0, 1/8, ..., 7/8:
+     t/T=0.000: [-0.0002-0.3418j -0.0002+0.3418j -0.0001-1.2917j -0.0001+1.2917j]
+     t/T=0.125: [-0.1444-1.8657j -0.1444+1.8657j -0.0614-0.313j  -0.0614+0.313j ]
+     t/T=0.251: [-0.0242-1.5743j -0.0242+1.5743j  0.0131-0.6163j  0.0131+0.6163j]
+     t/T=0.376: [0.0556-0.2869j 0.0556+0.2869j 0.0559-1.8355j 0.0559+1.8355j]
+     t/T=0.501: [0.0411-0.3277j 0.0411+0.3277j 0.1041-1.2931j 0.1041+1.2931j]
+     t/T=0.627: [-0.2162-1.8635j -0.2162+1.8635j -0.0541-0.3616j -0.0541+0.3616j]
+     t/T=0.752: [-0.0844-1.5667j -0.0844+1.5667j  0.0545-0.6165j  0.0545+0.6165j]
+     t/T=0.877: [-0.0082-1.8026j -0.0082+1.8026j  0.0383-0.2759j  0.0383+0.2759j]
+  fraction of the period with a real (hyperbolic) frozen eigenvalue: 1.00
+  averaged generator (transported frame) eigenvalues: [-0.0011-1.4288j -0.0011+1.4288j  0.0011-1.3116j  0.0011+1.3116j]   (frequencies = imaginary parts; compare the measured lines 0.85-1.2 and the quasi-static one)

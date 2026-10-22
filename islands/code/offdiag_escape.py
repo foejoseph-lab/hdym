@@ -531,13 +531,30 @@ def run_phase(a, kern, model, rng, out):
         for kk, arr in (('tesc', tesc), ('sector', sector), ('status', status), ('diag', diag), ('chk', chk), ('tcross', tcross), ('cproj', cproj)):
             arr[:start] = old[kk][:start]
     t0 = time.time()
+    # 2026-10-22: seed at EQUAL |c| for every alpha.  Re(e^{i alpha} v) has w.d = e^{i alpha}/2 exactly (w.conj v = 0)
+    # but an alpha-dependent norm, so normalising the direction made |c| = |w . s| run 0.56-1.21 with alpha in the
+    # 21-22 Oct run (esc_phase_0156; the analysis had to regress it out).  Now the random admixture r is taken orthogonal
+    # to the unstable plane (to Re v, Im v and to Re w, Im w, so it changes neither w.s nor the plane component) and
+    # scaled so that |d + r| = Nrm for every alpha, Nrm = max_alpha |d(alpha)| sqrt(1 + eta^2): then
+    # c = w.s/delta = e^{i alpha}/(2 Nrm) exactly -- fixed modulus, exact phase; eta is the admixture at the largest |d|.
+    dirs = [P @ np.real(np.exp(1j * al) * v24) for al in alphas]
+    Nrm = max(np.linalg.norm(dd) for dd in dirs) * np.sqrt(1 + a.eta ** 2)
+    # the functionals w.x restricted to range(P) are represented by P w (P is an orthogonal projector), so projecting r
+    # off P Re w, P Im w keeps r in ker G_lin and makes w.r = 0 exactly; Gram-Schmidt over the four vectors
+    plane = []
+    for wv in (P @ v24.real, P @ v24.imag, P @ w24.real, P @ w24.imag):
+        for q in plane:
+            wv = wv - (wv @ q) * q
+        plane.append(wv / np.linalg.norm(wv))
     for i, al in enumerate(alphas):
-        d24 = P @ np.real(np.exp(1j * al) * v24)
+        d24 = dirs[i]
         S0 = np.empty((N, 36))
         for n in range(N):
             r = P @ rng.normal(size=24)
-            r /= np.linalg.norm(r)
-            v = d24 / np.linalg.norm(d24) + a.eta * r
+            for q in plane:
+                r -= (r @ q) * q
+            r *= np.sqrt(max(Nrm ** 2 - d24 @ d24, 0.0)) / np.linalg.norm(r)
+            v = d24 + r
             v *= a.delta / np.linalg.norm(v)
             cproj[i, n] = w24 @ v / a.delta
             S0[n] = seed_diag_ghost(seeded_state(s_diag, v), a.delta_diag, rng)

@@ -1,0 +1,44 @@
+rh_reduced_block.py: gauge-reduced block 12, numerical first cut.  Constant gauge fixing is NOT admissible on the DR orbit
+  (the unit gauge direction v_G(t) sweeps the whole 8-space: singular values of its orbit samples 0.74/0.39/.../0.09 at E=0.1,
+  and the best fixed f has min |f.v_G| ~ 1e-3), so the moving gauge f(t) = v_G(t) is used, with the connection term from the
+  exact orbit derivatives of Omega and g (sympy).
+
+== E = 0.3, c_j = 0.5, T = 35.283: first reduction (Gauss + gauge), 6-dim ==
+  CHECK off-surface components conserved over one period: 2.0e-11 (tol 1e-7) PASS; surface invariant: leak 2.1e-14 PASS
+  CHECK A: the four ghost multipliers of the full block are reduced multipliers, worst distance 6.1e-12 PASS; the other two: [1.-6.e-06j 1.+6.e-06j]
+  -- second reduction (colour rotation + its charge), 4-dim --
+  CHECK conserved off-surface functionals 1.5e-12, surface invariant leak 1.1e-13 (tol 1e-7) PASS
+  CHECK A4: 4-dim reduced multipliers [-1.558321+0.44834j  -1.558321-0.44834j  -0.592659+0.170512j
+ -0.592659-0.170512j] = the ghost multipliers to 5.7e-12 PASS
+  reduced symplectic form (4x4) at t=0: antisymmetric to 1.7e-16, rank 4; Mred^T Om Mred = Om to 2.9e-13
+  instantaneous (frozen) eigenvalues of the restricted 4-dim generator along the orbit, t/T = 0, 1/8, ..., 7/8:
+     t/T=0.000: [-0.0002-0.3819j -0.0002+0.3819j -0.0001-0.9529j -0.0001+0.9529j]
+     t/T=0.125: [-0.0796-1.4075j -0.0796+1.4075j -0.0763-0.2169j -0.0763+0.2169j]
+     t/T=0.251: [-0.0233-1.2824j -0.0233+1.2824j  0.0133-0.6229j  0.0133+0.6229j]
+     t/T=0.376: [-0.0203-1.3681j -0.0203+1.3681j  0.0817-0.1886j  0.0817+0.1886j]
+     t/T=0.501: [0.0661-0.3593j 0.0661+0.3593j 0.0822-0.9495j 0.0822+0.9495j]
+     t/T=0.627: [-0.1601-1.4176j -0.1601+1.4176j -0.0589-0.2832j -0.0589+0.2832j]
+     t/T=0.752: [-0.0819-1.276j  -0.0819+1.276j   0.0558-0.6229j  0.0558+0.6229j]
+     t/T=0.877: [-0.0907-1.3226j -0.0907+1.3226j  0.0711-0.196j   0.0711+0.196j ]
+  fraction of the period with a real (hyperbolic) frozen eigenvalue: 1.00
+  averaged generator (transported frame) eigenvalues: [-0.0001-1.0339j -0.0001+1.0339j  0.0001-0.9837j  0.0001+0.9837j]   (frequencies = imaginary parts; compare the measured lines 0.85-1.2 and the quasi-static one)
+
+== E = 0.6, c_j = 0.5, T = 29.670: first reduction (Gauss + gauge), 6-dim ==
+  CHECK off-surface components conserved over one period: 2.2e-11 (tol 1e-7) PASS; surface invariant: leak 9.5e-15 PASS
+  CHECK A: the four ghost multipliers of the full block are reduced multipliers, worst distance 1.2e-11 PASS; the other two: [1.000008+0.j 0.999992+0.j]
+  -- second reduction (colour rotation + its charge), 4-dim --
+  CHECK conserved off-surface functionals 6.5e-13, surface invariant leak 3.3e-14 (tol 1e-7) PASS
+  CHECK A4: 4-dim reduced multipliers [-0.506043-0.862508j -0.506043+0.862508j  0.040339-0.999186j
+  0.040339+0.999186j] = the ghost multipliers to 1.2e-11 PASS
+  reduced symplectic form (4x4) at t=0: antisymmetric to 2.2e-16, rank 4; Mred^T Om Mred = Om to 4.9e-13
+  instantaneous (frozen) eigenvalues of the restricted 4-dim generator along the orbit, t/T = 0, 1/8, ..., 7/8:
+     t/T=0.000: [-0.0003-0.1926j -0.0003+0.1926j -0.0002-0.7939j -0.0002+0.7939j]
+     t/T=0.125: [-1.2869+0.j     -0.0582-1.3157j -0.0582+1.3157j  0.6502+0.j    ]
+     t/T=0.251: [-0.0502-1.2567j -0.0502+1.2567j  0.0393-0.7539j  0.0393+0.7539j]
+     t/T=0.376: [-0.6892+0.j     -0.1776-1.1831j -0.1776+1.1831j  1.3497+0.j    ]
+     t/T=0.501: [-0.0558+0.j      0.1098-0.7986j  0.1098+0.7986j  0.2304+0.j    ]
+     t/T=0.627: [-1.1258+0.j     -0.2652-1.3503j -0.2652+1.3503j  0.6394+0.j    ]
+     t/T=0.752: [-0.1766-1.2352j -0.1766+1.2352j  0.1815-0.7288j  0.1815+0.7288j]
+     t/T=0.877: [-0.7787+0.j     -0.303 -1.0219j -0.303 +1.0219j  1.3   +0.j    ]
+  fraction of the period with a real (hyperbolic) frozen eigenvalue: 1.00
+  averaged generator (transported frame) eigenvalues: [-0.-0.8944j -0.+0.8944j  0.-0.7924j  0.+0.7924j]   (frequencies = imaginary parts; compare the measured lines 0.85-1.2 and the quasi-static one)

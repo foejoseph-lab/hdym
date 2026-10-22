@@ -1,0 +1,64 @@
+rh_reduced_block.py: gauge-reduced block 12, numerical first cut.  Constant gauge fixing is NOT admissible on the DR orbit
+  (the unit gauge direction v_G(t) sweeps the whole 8-space: singular values of its orbit samples 0.74/0.39/.../0.09 at E=0.1,
+  and the best fixed f has min |f.v_G| ~ 1e-3), so the moving gauge f(t) = v_G(t) is used, with the connection term from the
+  exact orbit derivatives of Omega and g (sympy).
+
+== E = 0.1, c_j = 1.0, T = 46.436: first reduction (Gauss + gauge), 6-dim ==
+  CHECK off-surface components conserved over one period: 6.3e-12 (tol 1e-7) PASS; surface invariant: leak 1.2e-14 PASS
+  CHECK A: the four ghost multipliers of the full block are reduced multipliers, worst distance 4.7e-12 PASS; the other two: [1.-2.e-06j 1.+2.e-06j]
+  -- second reduction (colour rotation + its charge), 4-dim --
+  CHECK conserved off-surface functionals 8.6e-13, surface invariant leak 1.1e-13 (tol 1e-7) PASS
+  CHECK A4: 4-dim reduced multipliers [0.951429-0.307869j 0.951429+0.307869j 0.69434 -0.719647j
+ 0.69434 +0.719647j] = the ghost multipliers to 5.1e-12 PASS
+  reduced symplectic form (4x4) at t=0: antisymmetric to 7.1e-17, rank 4; Mred^T Om Mred = Om to 3.4e-13
+  instantaneous (frozen) eigenvalues of the restricted 4-dim generator along the orbit, t/T = 0, 1/8, ..., 7/8:
+     t/T=0.000: [-0.0001-0.7051j -0.0001+0.7051j  0.0001-1.6992j  0.0001+1.6992j]
+     t/T=0.125: [-0.0937-1.6531j -0.0937+1.6531j -0.0081-0.834j  -0.0081+0.834j ]
+     t/T=0.251: [-0.0079-1.4351j -0.0079+1.4351j  0.0034-0.8065j  0.0034+0.8065j]
+     t/T=0.376: [0.0108-0.8356j 0.0108+0.8356j 0.0732-1.6489j 0.0732+1.6489j]
+     t/T=0.501: [0.0219-0.7053j 0.0219+0.7053j 0.0444-1.703j  0.0444+1.703j ]
+     t/T=0.627: [-0.1103-1.6462j -0.1103+1.6462j -0.0046-0.8353j -0.0046+0.8353j]
+     t/T=0.752: [-0.0276-1.4331j -0.0276+1.4331j  0.0122-0.8074j  0.0122+0.8074j]
+     t/T=0.877: [0.0108-0.8376j 0.0108+0.8376j 0.0575-1.6488j 0.0575+1.6488j]
+  fraction of the period with a real (hyperbolic) frozen eigenvalue: 1.00
+  averaged generator (transported frame) eigenvalues: [-0.0002-1.1596j -0.0002+1.1596j  0.0002-1.6117j  0.0002+1.6117j]   (frequencies = imaginary parts; compare the measured lines 0.85-1.2 and the quasi-static one)
+
+== E = 0.3, c_j = 1.0, T = 35.283: first reduction (Gauss + gauge), 6-dim ==
+  CHECK off-surface components conserved over one period: 1.6e-11 (tol 1e-7) PASS; surface invariant: leak 1.5e-14 PASS
+  CHECK A: the four ghost multipliers of the full block are reduced multipliers, worst distance 6.9e-12 PASS; the other two: [1.-7.e-06j 1.+7.e-06j]
+  -- second reduction (colour rotation + its charge), 4-dim --
+  CHECK conserved off-surface functionals 2.0e-12, surface invariant leak 1.3e-13 (tol 1e-7) PASS
+  CHECK A4: 4-dim reduced multipliers [ 0.317743+0.948177j  0.317743-0.948177j -0.180913+0.983499j
+ -0.180913-0.983499j] = the ghost multipliers to 6.8e-12 PASS
+  reduced symplectic form (4x4) at t=0: antisymmetric to 1.3e-16, rank 4; Mred^T Om Mred = Om to 2.7e-13
+  instantaneous (frozen) eigenvalues of the restricted 4-dim generator along the orbit, t/T = 0, 1/8, ..., 7/8:
+     t/T=0.000: [-0.0002-0.3418j -0.0002+0.3418j -0.0001-1.2917j -0.0001+1.2917j]
+     t/T=0.125: [-0.1444-1.8657j -0.1444+1.8657j -0.0614-0.313j  -0.0614+0.313j ]
+     t/T=0.251: [-0.0242-1.5743j -0.0242+1.5743j  0.0131-0.6163j  0.0131+0.6163j]
+     t/T=0.376: [0.0556-0.2869j 0.0556+0.2869j 0.0559-1.8355j 0.0559+1.8355j]
+     t/T=0.501: [0.0411-0.3277j 0.0411+0.3277j 0.1041-1.2931j 0.1041+1.2931j]
+     t/T=0.627: [-0.2162-1.8635j -0.2162+1.8635j -0.0541-0.3616j -0.0541+0.3616j]
+     t/T=0.752: [-0.0844-1.5667j -0.0844+1.5667j  0.0545-0.6165j  0.0545+0.6165j]
+     t/T=0.877: [-0.0082-1.8026j -0.0082+1.8026j  0.0383-0.2759j  0.0383+0.2759j]
+  fraction of the period with a real (hyperbolic) frozen eigenvalue: 1.00
+  averaged generator (transported frame) eigenvalues: [-0.0011-1.4288j -0.0011+1.4288j  0.0011-1.3116j  0.0011+1.3116j]   (frequencies = imaginary parts; compare the measured lines 0.85-1.2 and the quasi-static one)
+
+== E = 0.6, c_j = 1.0, T = 29.670: first reduction (Gauss + gauge), 6-dim ==
+  CHECK off-surface components conserved over one period: 5.0e-11 (tol 1e-7) PASS; surface invariant: leak 2.0e-14 PASS
+  CHECK A: the four ghost multipliers of the full block are reduced multipliers, worst distance 6.5e-12 PASS; the other two: [1.000007+0.j 0.999993+0.j]
+  -- second reduction (colour rotation + its charge), 4-dim --
+  CHECK conserved off-surface functionals 7.9e-13, surface invariant leak 2.4e-14 (tol 1e-7) PASS
+  CHECK A4: 4-dim reduced multipliers [ 2.132348+0.j       -0.74372 +0.668491j -0.74372 -0.668491j
+  0.468967+0.j      ] = the ghost multipliers to 8.9e-12 PASS
+  reduced symplectic form (4x4) at t=0: antisymmetric to 1.5e-16, rank 4; Mred^T Om Mred = Om to 2.5e-13
+  instantaneous (frozen) eigenvalues of the restricted 4-dim generator along the orbit, t/T = 0, 1/8, ..., 7/8:
+     t/T=0.000: [-0.0002-0.1286j -0.0002+0.1286j -0.0002-1.0192j -0.0002+1.0192j]
+     t/T=0.125: [-1.17  +0.j     -0.1527-1.9415j -0.1527+1.9415j  0.6629+0.j    ]
+     t/T=0.251: [-0.051 -1.6414j -0.051 +1.6414j  0.0396-0.7324j  0.0396+0.7324j]
+     t/T=0.376: [-0.7293+0.j     -0.06  -1.8441j -0.06  +1.8441j  1.2126+0.j    ]
+     t/T=0.501: [-0.064 +0.j      0.1415-1.0183j  0.1415+1.0183j  0.1699+0.j    ]
+     t/T=0.627: [-1.0383+0.j     -0.3361-1.9526j -0.3361+1.9526j  0.6195+0.j    ]
+     t/T=0.752: [-0.1772-1.6202j -0.1772+1.6202j  0.1798-0.7063j  0.1798+0.7063j]
+     t/T=0.877: [-0.809 +0.j     -0.1898-1.7314j -0.1898+1.7314j  1.1666+0.j    ]
+  fraction of the period with a real (hyperbolic) frozen eigenvalue: 1.00
+  averaged generator (transported frame) eigenvalues: [-0.0001-1.1247j -0.0001+1.1247j  0.0001-1.4968j  0.0001+1.4968j]   (frequencies = imaginary parts; compare the measured lines 0.85-1.2 and the quasi-static one)
