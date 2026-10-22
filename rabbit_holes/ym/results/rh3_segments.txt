@@ -1,0 +1,43 @@
+rh3_segments.py: growth per quarter-period segment of the exact 4-dim reduced ghost block, in Darboux frames
+
+== E = 0.156, c_j = 1.0, T = 41.550 ==
+  TP1 [-T/8, T/8]  (turning point, x extremal)    : max singular value   1.582  (ln +0.458), all [1.582 1.166 0.858 0.632]; symplectic to 8.1e-13
+  B1  [T/8, 3T/8]  (bounce, x = 0)                : max singular value   1.420  (ln +0.351), all [1.42  1.077 0.929 0.704]; symplectic to 1.0e-12
+  TP2 [3T/8, 5T/8] (turning point)                : max singular value   1.582  (ln +0.458), all [1.582 1.166 0.858 0.632]; symplectic to 5.2e-13
+  B2  [5T/8, 7T/8] (bounce)                       : max singular value   1.420  (ln +0.351), all [1.42  1.077 0.929 0.704]; symplectic to 5.0e-13
+  product of the four segments: multipliers [-1.27207+0.18053j -1.27207-0.18053j -0.7706 +0.10936j -0.7706 -0.10936j]  ->  ln|mu|max = +0.251; sum of segment ln(max sv) = +1.618
+  CHECK the product reproduces the ghost multipliers [-1.27207-0.18053j -1.27207+0.18053j -0.7706 -0.10936j -0.7706 +0.10936j]: worst distance 1.3e-11 PASS
+  turning-point windows: total ln gain +0.917;  bounce windows: +0.701   (max-singular-value gains are upper bounds on any vector's growth per segment)
+  unstable mode (Re v): ln growth per segment TP1 -0.112  B1 -0.004  TP2 +0.175  B2 +0.178   (sum +0.237 vs ln|mu| +0.251)
+  unstable mode (Im v): ln growth per segment TP1 +0.170  B1 +0.199  TP2 -0.121  B2 +0.024   (sum +0.272 vs ln|mu| +0.251)
+
+== E = 0.3, c_j = 1.0, T = 35.283 ==
+  TP1 [-T/8, T/8]  (turning point, x extremal)    : max singular value   1.912  (ln +0.648), all [1.912 1.664 0.601 0.523]; symplectic to 3.7e-13
+  B1  [T/8, 3T/8]  (bounce, x = 0)                : max singular value   2.246  (ln +0.809), all [2.246 1.558 0.642 0.445]; symplectic to 1.5e-13
+  TP2 [3T/8, 5T/8] (turning point)                : max singular value   1.912  (ln +0.648), all [1.912 1.664 0.601 0.523]; symplectic to 1.8e-13
+  B2  [5T/8, 7T/8] (bounce)                       : max singular value   2.246  (ln +0.809), all [2.246 1.558 0.642 0.445]; symplectic to 2.6e-14
+  product of the four segments: multipliers [ 0.31774+0.94818j  0.31774-0.94818j -0.18091+0.9835j  -0.18091-0.9835j ]  ->  ln|mu|max = -0.000; sum of segment ln(max sv) = +2.914
+  CHECK the product reproduces the ghost multipliers [ 0.31774+0.94818j  0.31774-0.94818j -0.18091+0.9835j  -0.18091-0.9835j ]: worst distance 3.9e-11 PASS
+  turning-point windows: total ln gain +1.296;  bounce windows: +1.618   (max-singular-value gains are upper bounds on any vector's growth per segment)
+  no unstable mode at this E
+
+== E = 0.412, c_j = 1.0, T = 32.593 ==
+  TP1 [-T/8, T/8]  (turning point, x extremal)    : max singular value   4.193  (ln +1.433), all [4.193 4.092 0.244 0.238]; symplectic to 5.6e-13
+  B1  [T/8, 3T/8]  (bounce, x = 0)                : max singular value   9.849  (ln +2.287), all [9.849 6.143 0.163 0.102]; symplectic to 1.7e-12
+  TP2 [3T/8, 5T/8] (turning point)                : max singular value   4.193  (ln +1.433), all [4.193 4.092 0.244 0.238]; symplectic to 3.0e-13
+  B2  [5T/8, 7T/8] (bounce)                       : max singular value   9.849  (ln +2.287), all [9.849 6.143 0.163 0.102]; symplectic to 1.1e-13
+  product of the four segments: multipliers [-2.4568 +1.48289j -2.4568 -1.48289j -0.29834+0.18008j -0.29834-0.18008j]  ->  ln|mu|max = +1.054; sum of segment ln(max sv) = +7.442
+  CHECK the product reproduces the ghost multipliers [-2.4568 -1.48289j -2.4568 +1.48289j -0.29834-0.18008j -0.29834+0.18008j]: worst distance 3.9e-10 PASS
+  turning-point windows: total ln gain +2.867;  bounce windows: +4.575   (max-singular-value gains are upper bounds on any vector's growth per segment)
+  unstable mode (Re v): ln growth per segment TP1 -0.951  B1 +1.401  TP2 -1.095  B2 +1.578   (sum +0.933 vs ln|mu| +1.054)
+  unstable mode (Im v): ln growth per segment TP1 -1.105  B1 +1.718  TP2 -0.942  B2 +1.508   (sum +1.180 vs ln|mu| +1.054)
+
+== E = 0.642, c_j = 1.0, T = 29.172 ==
+  TP1 [-T/8, T/8]  (turning point, x extremal)    : max singular value   3.282  (ln +1.188), all [3.282 2.677 0.374 0.305]; symplectic to 4.8e-13
+  B1  [T/8, 3T/8]  (bounce, x = 0)                : max singular value   7.092  (ln +1.959), all [7.092 4.005 0.25  0.141]; symplectic to 6.4e-13
+  TP2 [3T/8, 5T/8] (turning point)                : max singular value   3.282  (ln +1.188), all [3.282 2.677 0.374 0.305]; symplectic to 2.3e-13
+  B2  [5T/8, 7T/8] (bounce)                       : max singular value   7.092  (ln +1.959), all [7.092 4.005 0.25  0.141]; symplectic to 7.7e-14
+  product of the four segments: multipliers [ 2.44204+0.j      -0.51743+0.85573j -0.51743-0.85573j  0.40949+0.j     ]  ->  ln|mu|max = +0.893; sum of segment ln(max sv) = +6.295
+  CHECK the product reproduces the ghost multipliers [ 2.44204+0.j      -0.51743-0.85573j -0.51743+0.85573j  0.40949+0.j     ]: worst distance 1.8e-10 PASS
+  turning-point windows: total ln gain +2.377;  bounce windows: +3.918   (max-singular-value gains are upper bounds on any vector's growth per segment)
+  unstable mode (Re v): ln growth per segment TP1 +0.166  B1 +0.280  TP2 +0.166  B2 +0.280   (sum +0.893 vs ln|mu| +0.893)
