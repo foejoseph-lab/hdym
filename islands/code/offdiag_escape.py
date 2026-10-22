@@ -501,9 +501,10 @@ def run_phase(a, kern, model, rng, out):
     M = Ms[a.block]
     mu, V = np.linalg.eig(M)
     W = np.linalg.inv(V)
-    unst = np.where(np.abs(mu) > 1 + 1e-6)[0]
+    ghost = np.argsort(np.abs(mu - 1.0))[4:]                   # drop the zero-mode sector (a defective 1, split by ~1e-5 in floating point), as B001 does
+    unst = np.array([k for k in ghost if abs(mu[k]) > 1 + 1e-6])
     if len(unst) != 2 or np.abs(mu[unst].imag).max() < 1e-6:
-        raise SystemExit(f"--section phase: block {a.block} at E={a.E} has multipliers {np.round(mu[unst], 4)}: not a Krein quadruplet")
+        raise SystemExit(f"--section phase: block {a.block} at E={a.E} has ghost multipliers {np.round(mu[ghost], 4)}: not a Krein quadruplet")
     k = unst[np.argmax(mu[unst].imag)]
     v8, w8 = V[:, k], W[k]
     idx = base.block_idx(a.block)
