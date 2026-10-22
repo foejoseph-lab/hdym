@@ -1,0 +1,23 @@
+C pair kernel compiled with gcc, with OpenMP, -ffp-contract=off
+island_E0.3_eps1e-7: DR copy 0: q*=[2.76918465 0.         0.        ], P*=[0.001389   0.77459542 0.        ], E check=0.300000; ghost amplitude sqrt(2 eps E)=2.45e-04; tmax=5000; FTLE checkpoints t=[35.3, 176.5, 705.7]
+  island half-width (2-dof, E=1/2) ~ 2e-4 in x; scaled ~ 1.8e-04
+         r=1e-06  n= 200  escaped 0.210  t_esc med    861.8 [p10   653.1, p90   1356.4] log10 spread  0.32   FTLE@35.2796   0.0006  @705.706   0.0004
+      (2s)
+         r=1e-05  n= 200  escaped 0.250  t_esc med    844.2 [p10   640.9, p90   1244.3] log10 spread  0.29   FTLE@35.2796   0.0008  @705.706   0.0004
+      (4s)
+         r=5e-05  n= 200  escaped 0.220  t_esc med    950.9 [p10   629.9, p90   1676.7] log10 spread  0.43   FTLE@35.2796   0.0010  @705.706   0.0005
+      (6s)
+         r=1e-04  n= 200  escaped 0.220  t_esc med    891.9 [p10   575.4, p90   1868.9] log10 spread  0.51   FTLE@35.2796   0.0004  @705.706   0.0005
+      (8s)
+         r=2e-04  n= 200  escaped 0.270  t_esc med    783.6 [p10   578.3, p90   1216.7] log10 spread  0.32   FTLE@35.2796   0.0014  @705.706   0.0004
+      (10s)
+         r=5e-04  n= 200  escaped 0.595  t_esc med    879.6 [p10   545.5, p90   1544.6] log10 spread  0.45   FTLE@35.2796   0.0026  @705.706   0.0011
+      (11s)
+         r=1e-03  n= 200  escaped 0.810  t_esc med    755.7 [p10   483.0, p90   1304.2] log10 spread  0.43   FTLE@35.2796   0.0100  @705.706   0.0334
+      (12s)
+         r=1e-02  n= 200  escaped 0.995  t_esc med    491.1 [p10   335.8, p90    828.1] log10 spread  0.39   FTLE@35.2796   0.1113  @705.706   0.0367
+      (13s)
+     sea control  n= 200  escaped 1.000  t_esc med    431.7 [p10   315.6, p90    624.8] log10 spread  0.30   FTLE@35.2796   0.2931  @705.706   0.0333
+wrote islands\results\island_E0.3_eps1e-7.json
+
+Reading guide: island => FTLE ~ 0 and (tongue) short smooth t_esc / (off-tongue) unescaped;  halo => FTLE between island and sea, widest t_esc spread;  sea => FTLE ~ lambda_YM ~ 0.38 E^1/4 and the paper's t_esc distribution.
