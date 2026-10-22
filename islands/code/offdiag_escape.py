@@ -43,7 +43,8 @@ an escape at the last resolved time and is flagged status = 1 ("singular"; the L
 finite-time singularity, cf. hdym_core.confirm_runaway); status = 2 is a real integrator failure and fails the run.
 
 Since 2026-10-21 every section also stores tcross (N, 5): the first times |w| >= 1, |u_12|, |u_13|, |u_23| >= 1 and
-|w| >= 0.1 (-1 = never; rabbit hole 4), and the orient section keeps its chk array (float32; rabbit hole 12).
+|w| >= 0.1 (-1 = never; rabbit hole 4), and the orient section keeps its chk array (float32); since 2026-10-22 also
+snap (N, 5, 36), float32: the full state at each of those crossings (rabbit hole 12: the runaway's direction).
 Output: <results>/<tag>.npz, written after every row (E value, or theta row) so a killed run keeps what
 it has (a partial file carries rows_done < rows); `--resume` with the same parameters continues it from there
 exactly (the seed basis, the fixed diagonal seed and the per-cell seeds are all regenerated from --seed).  Use
@@ -116,7 +117,7 @@ class Kernel:
         self.lib = ctypes.CDLL(lib)
         dp, ip = ctypes.POINTER(ctypes.c_double), ctypes.POINTER(ctypes.c_int)
         self.lib.escape.argtypes = [dp, ctypes.c_int, ctypes.c_double, ctypes.c_double, ctypes.c_double,
-                                    ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_int, dp, ip, ip, dp, dp, dp, ip]
+                                    ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_int, dp, ip, ip, dp, dp, dp, dp, ip]
         self.lib.integrate_to.argtypes = [dp, ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double]
         self.lib.omp_threads.restype = ctypes.c_int
         self.lib.fp_mode_report.argtypes = [ctypes.POINTER(ctypes.c_uint)]
@@ -139,12 +140,14 @@ class Kernel:
         chk = np.zeros((N, nchk, 6))
         diag = np.zeros((N, 4))
         tcross = np.zeros((N, 5))                               # first crossings: |w|>=1, |u_12|>=1, |u_13|>=1, |u_23|>=1, |w|>=0.1 (-1 = never)
+        snap = np.full((N, 5, 36), np.nan)                      # the full state at each crossing (rabbit hole 12)
         dp, ip = ctypes.POINTER(ctypes.c_double), ctypes.POINTER(ctypes.c_int)
         self.lib.escape(S.ctypes.data_as(dp), N, cj, tmax, R, rtol, atol, hmax, nchk,
                         tesc.ctypes.data_as(dp), sector.ctypes.data_as(ip), status.ctypes.data_as(ip), chk.ctypes.data_as(dp), diag.ctypes.data_as(dp),
-                        tcross.ctypes.data_as(dp), thread_of.ctypes.data_as(ip))
+                        tcross.ctypes.data_as(dp), snap.ctypes.data_as(dp), thread_of.ctypes.data_as(ip))
         self.last_thread_of = thread_of
         self.last_tcross = tcross                               # (N, 5); the sections save it as 'tcross'
+        self.last_snap = snap.astype(np.float32)                # (N, 5, 36); saved as 'snap' (float32)
         return tesc, sector, chk, diag, S, status
 
     def integrate_to(self, s0, cj, T, rtol, atol, hmax):
@@ -385,13 +388,14 @@ def run_E(a, kern, model, rng, out):
     chk = np.full((a.nE, N, a.nchk, 6), np.nan)
     diag = np.full((a.nE, N, 4), np.nan)
     tcross = np.full((a.nE, N, 5), -1.0)
+    snapE = np.full((a.nE, N, 5, 36), np.nan, dtype=np.float32)
     Tper = np.zeros(a.nE)
     rate_diag = np.full(a.nE, np.nan)
     start = 0
     old = resume_from(out, a, ('nE', 'nseed', 'Emin', 'Emax', 'delta', 'delta_diag', 'block', 'tmax', 'rtol', 'seed', 'nchk'))
     if old is not None:
         start = int(old['rows_done'])
-        for k, arr in (('tesc', tesc), ('sector', sector), ('chk', chk), ('diag', diag), ('T', Tper), ('rate_diag', rate_diag), ('status', status), ('tcross', tcross)):
+        for k, arr in (('tesc', tesc), ('sector', sector), ('chk', chk), ('diag', diag), ('T', Tper), ('rate_diag', rate_diag), ('status', status), ('tcross', tcross), ('snap', snapE)):
             if k in old.files:
                 arr[:start] = old[k][:start]
     t0 = time.time()
@@ -409,6 +413,7 @@ def run_E(a, kern, model, rng, out):
         te, se, ch, dg, _, st = kern.escape(S0, a.cj, a.tmax, a.R, a.rtol, a.atol, a.hmax, a.nchk)
         tesc[i], sector[i], chk[i], diag[i], status[i] = te, se, ch, dg, st
         tcross[i] = kern.last_tcross
+        snapE[i] = kern.last_snap
         rate_diag[i] = diag_ghost_rate(E)
         esc = te > 0
         drift = pre_escape_drift(ch, dg)
@@ -418,7 +423,7 @@ def run_E(a, kern, model, rng, out):
         print(f"E={E:.5f} T={T:7.3f}  escaped {esc.sum():3d}/{N}{' (%d singular)' % sing if sing else ''}  t_esc median {np.median(te[esc]) if esc.any() else float('nan'):8.1f} "
               f"min {te[esc].min() if esc.any() else float('nan'):8.1f}  sectors [{secs}]  diag-ghost rate {rate_diag[i]:.4f}  max |dE/E| {drift.max():.1e}  "
               f"max |G|_end {dg[:, 3].max():.1e}{'  INTEGRATOR-FAIL x%d' % fail if fail else ''}  ({time.time() - t0:.0f}s)", flush=True)
-        np.savez(out, section='E', E=Es, T=Tper, tesc=tesc, sector=sector, status=status, chk=chk, diag=diag, tcross=tcross, rate_diag=rate_diag, rows_done=i + 1, rows=a.nE,
+        np.savez(out, section='E', E=Es, T=Tper, tesc=tesc, sector=sector, status=status, chk=chk, diag=diag, tcross=tcross, snap=snapE, rate_diag=rate_diag, rows_done=i + 1, rows=a.nE,
                  nE=a.nE, nseed=a.nseed, Emin=a.Emin, Emax=a.Emax,
                  delta=a.delta, delta_diag=a.delta_diag, R=a.R, tmax=a.tmax, rtol=a.rtol, atol=a.atol, block=a.block, cj=a.cj, nchk=a.nchk, seed=a.seed)
     return tesc, sector
@@ -449,11 +454,12 @@ def run_orient(a, kern, model, rng, out):
     diag = np.full((a.n, a.n, 4), np.nan)
     chk = np.full((a.n, a.n, a.nchk, 6), np.nan, dtype=np.float32)   # kept since 2026-10-21 (rabbit hole 12); float32 to halve the file
     tcross = np.full((a.n, a.n, 5), -1.0)
+    snapO = np.full((a.n, a.n, 5, 36), np.nan, dtype=np.float32)
     start = 0
     old = resume_from(out, a, ('n', 'E', 'delta', 'delta_diag', 'block', 'tmax', 'rtol', 'seed', 'diag_orient'))
     if old is not None:
         start = int(old['rows_done'])
-        for k, arr in (('tesc', tesc), ('sector', sector), ('status', status), ('diag', diag), ('chk', chk), ('tcross', tcross)):
+        for k, arr in (('tesc', tesc), ('sector', sector), ('status', status), ('diag', diag), ('chk', chk), ('tcross', tcross), ('snap', snapO)):
             if k in old.files:
                 arr[:start] = old[k][:start]
     t0 = time.time()
@@ -475,10 +481,11 @@ def run_orient(a, kern, model, rng, out):
         tesc[i], sector[i], diag[i], status[i] = te, se, dg, st
         chk[i] = ch
         tcross[i] = kern.last_tcross
+        snapO[i] = kern.last_snap
         esc = te > 0
         print(f"theta={t_:.4f} ({i + 1}/{a.n}): escaped {esc.sum()}/{a.n} ({(st == 1).sum()} singular, {(st == 2).sum()} failed), t_esc in [{te[esc].min() if esc.any() else float('nan'):.1f}, "
               f"{te[esc].max() if esc.any() else float('nan'):.1f}], max |dE/E| {pre_escape_drift(ch, dg).max():.1e}  ({time.time() - t0:.0f}s)", flush=True)
-        np.savez(out, section='orient', E=a.E, T=T, theta=th, phi=ph, basis=np.array(basis), tesc=tesc, sector=sector, status=status, diag=diag, chk=chk, tcross=tcross, n=a.n,
+        np.savez(out, section='orient', E=a.E, T=T, theta=th, phi=ph, basis=np.array(basis), tesc=tesc, sector=sector, status=status, diag=diag, chk=chk, tcross=tcross, snap=snapO, n=a.n,
                  rows_done=i + 1, rows=a.n, delta=a.delta, delta_diag=a.delta_diag, diag_orient=a.diag_orient, R=a.R, tmax=a.tmax, rtol=a.rtol, atol=a.atol, block=a.block, cj=a.cj, seed=a.seed)
     return tesc, sector
 
@@ -523,13 +530,15 @@ def run_phase(a, kern, model, rng, out):
     diag = np.full((a.nalpha, N, 4), np.nan)
     chk = np.full((a.nalpha, N, a.nchk, 6), np.nan, dtype=np.float32)
     tcross = np.full((a.nalpha, N, 5), -1.0)
+    snapP = np.full((a.nalpha, N, 5, 36), np.nan, dtype=np.float32)
     cproj = np.full((a.nalpha, N), np.nan, dtype=complex)
     start = 0
     old = resume_from(out, a, ('nalpha', 'nseed', 'E', 'eta', 'delta', 'delta_diag', 'block', 'tmax', 'rtol', 'seed'))
     if old is not None:
         start = int(old['rows_done'])
-        for kk, arr in (('tesc', tesc), ('sector', sector), ('status', status), ('diag', diag), ('chk', chk), ('tcross', tcross), ('cproj', cproj)):
-            arr[:start] = old[kk][:start]
+        for kk, arr in (('tesc', tesc), ('sector', sector), ('status', status), ('diag', diag), ('chk', chk), ('tcross', tcross), ('cproj', cproj), ('snap', snapP)):
+            if kk in old.files:
+                arr[:start] = old[kk][:start]
     t0 = time.time()
     # 2026-10-22: seed at EQUAL |c| for every alpha.  Re(e^{i alpha} v) has w.d = e^{i alpha}/2 exactly (w.conj v = 0)
     # but an alpha-dependent norm, so normalising the direction made |c| = |w . s| run 0.56-1.21 with alpha in the
@@ -562,11 +571,12 @@ def run_phase(a, kern, model, rng, out):
             continue
         te, se, ch, dg, _, st = kern.escape(S0, a.cj, a.tmax, a.R, a.rtol, a.atol, a.hmax, a.nchk)
         tesc[i], sector[i], diag[i], status[i], chk[i], tcross[i] = te, se, dg, st, ch, kern.last_tcross
+        snapP[i] = kern.last_snap
         esc = te > 0
         print(f"alpha={al:.4f} ({i + 1}/{a.nalpha}): escaped {esc.sum()}/{N} ({(st == 1).sum()} singular, {(st == 2).sum()} failed), t_esc median {np.median(te[esc]) if esc.any() else float('nan'):.1f} "
               f"[{te[esc].min() if esc.any() else float('nan'):.1f}, {te[esc].max() if esc.any() else float('nan'):.1f}], |c| {np.abs(cproj[i]).mean():.3f}+-{np.abs(cproj[i]).std():.3f}, "
               f"arg c - alpha sd {np.std(np.angle(cproj[i] * np.exp(-1j * al))):.3f}, max |dE/E| {pre_escape_drift(ch, dg).max():.1e}  ({time.time() - t0:.0f}s)", flush=True)
-        np.savez(out, section='phase', E=a.E, T=T, alpha=alphas, mu=mu[k], v24=v24, w24=w24, cproj=cproj, tesc=tesc, sector=sector, status=status, diag=diag, chk=chk, tcross=tcross,
+        np.savez(out, section='phase', E=a.E, T=T, alpha=alphas, mu=mu[k], v24=v24, w24=w24, cproj=cproj, tesc=tesc, sector=sector, status=status, diag=diag, chk=chk, tcross=tcross, snap=snapP,
                  rows_done=i + 1, rows=a.nalpha, nalpha=a.nalpha, nseed=a.nseed, eta=a.eta, delta=a.delta, delta_diag=a.delta_diag, R=a.R, tmax=a.tmax, rtol=a.rtol, atol=a.atol,
                  block=a.block, cj=a.cj, nchk=a.nchk, seed=a.seed)
     return tesc, sector
