@@ -1,0 +1,38 @@
+rh12_direction.py: direction of the block-12 off-diagonal state between the |w| = 0.1 and |w| = 1 crossings, nonlinear vs linear
+
+== esc_E_snap_krein: 4 energies x 128 seeds ==
+  E=0.1520 (Krein quadruplet, |mu| = 1.071, arg/pi = [ 0.954 -0.954]): 32 trajectories; elapsed between crossings median 16.3 periods
+     angle(d_0.1, d_1) nonlinear: median  69.7 deg [p10  19.4, p90  80.3]   linear prediction: median  70.5 [ 40.2,  87.8]
+     angle(nonlinear end, linear end): median  75.4 deg [p10  26.5, p90  88.8]   angle(nonlinear end, unstable subspace at that phase): median  37.0 [ 17.9,  59.3]
+  E=0.1549 (Krein quadruplet, |mu| = 1.267, arg/pi = [ 0.955 -0.955]): 48 trajectories; elapsed between crossings median 2.1 periods
+     angle(d_0.1, d_1) nonlinear: median  63.2 deg [p10  20.2, p90  83.0]   linear prediction: median  69.2 [ 36.1,  86.2]
+     angle(nonlinear end, linear end): median  75.5 deg [p10  43.7, p90  88.7]   angle(nonlinear end, unstable subspace at that phase): median  36.4 [ 19.7,  56.4]
+  E=0.1579 (Krein quadruplet, |mu| = 1.278, arg/pi = [ 0.956 -0.956]): 47 trajectories; elapsed between crossings median 2.5 periods
+     angle(d_0.1, d_1) nonlinear: median  45.2 deg [p10  18.8, p90  84.4]   linear prediction: median  71.4 [ 47.7,  87.1]
+     angle(nonlinear end, linear end): median  73.5 deg [p10  43.9, p90  87.8]   angle(nonlinear end, unstable subspace at that phase): median  37.8 [ 17.3,  56.4]
+  E=0.1610 (Krein quadruplet, |mu| = 1.143, arg/pi = [ 0.957 -0.957]): 48 trajectories; elapsed between crossings median 3.0 periods
+     angle(d_0.1, d_1) nonlinear: median  61.6 deg [p10  14.1, p90  86.1]   linear prediction: median  72.6 [ 46.7,  86.6]
+     angle(nonlinear end, linear end): median  74.5 deg [p10  44.7, p90  87.2]   angle(nonlinear end, unstable subspace at that phase): median  32.1 [ 15.5,  54.3]
+
+== esc_E_snap_param: 4 energies x 128 seeds ==
+  E=0.2260 (real pair, |mu| = 1.482, arg/pi = [0.]): 48 trajectories; elapsed between crossings median 1.2 periods
+     angle(d_0.1, d_1) nonlinear: median  66.4 deg [p10  19.6, p90  86.0]   linear prediction: median  70.4 [ 24.7,  85.9]
+     angle(nonlinear end, linear end): median  73.3 deg [p10  36.2, p90  86.7]   angle(nonlinear end, unstable subspace at that phase): median  66.4 [ 44.9,  83.4]
+rh12_direction.py: direction of the block-12 off-diagonal state between the |w| = 0.1 and |w| = 1 crossings, nonlinear vs linear
+
+== esc_E_snap_param: 4 energies x 128 seeds ==
+  E=0.2260 (real pair, |mu| = 1.482, arg/pi = [0.]): 48 trajectories; elapsed between crossings median 1.2 periods
+     angle(d_0.1, d_1) nonlinear: median  66.4 deg [p10  19.6, p90  86.0]   linear prediction: median  70.4 [ 24.7,  85.9]
+     angle(nonlinear end, linear end): median  73.3 deg [p10  36.2, p90  86.7]   angle(nonlinear end, unstable subspace at that phase): median  66.4 [ 44.9,  83.4]
+  E=0.2374 (2 unstable, |mu| = 1.800, arg/pi = [0. 0.]): 48 trajectories; elapsed between crossings median 1.6 periods
+     angle(d_0.1, d_1) nonlinear: median  61.4 deg [p10  26.5, p90  86.0]   linear prediction: median  75.4 [ 46.6,  87.2]
+     angle(nonlinear end, linear end): median  78.4 deg [p10  46.6, p90  88.8]   angle(nonlinear end, unstable subspace at that phase): median  53.0 [ 38.2,  72.7]
+  E=0.2494 (real pair, |mu| = 1.769, arg/pi = [0.]): 48 trajectories; elapsed between crossings median 1.0 periods
+     angle(d_0.1, d_1) nonlinear: median  76.0 deg [p10  33.3, p90  87.3]   linear prediction: median  72.6 [ 41.9,  85.2]
+     angle(nonlinear end, linear end): median  70.6 deg [p10  46.3, p90  88.9]   angle(nonlinear end, unstable subspace at that phase): median  71.1 [ 42.6,  86.3]
+  E=0.2620 (real pair, |mu| = 1.377, arg/pi = [0.]): 48 trajectories; elapsed between crossings median 1.3 periods
+     angle(d_0.1, d_1) nonlinear: median  70.7 deg [p10  17.2, p90  85.5]   linear prediction: median  71.0 [ 45.9,  85.5]
+     angle(nonlinear end, linear end): median  75.1 deg [p10  40.3, p90  88.0]   angle(nonlinear end, unstable subspace at that phase): median  71.5 [ 48.3,  85.4]
+
+reading: 'nonlinear end vs linear end' small => the runaway follows the linear mode's direction (rotating if the mode is a quadruplet, which the
+linear angle itself shows); large => the nonlinear state has left the unstable subspace by the time |w| = 1 (the diagonal ghost has taken over).
