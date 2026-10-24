@@ -109,14 +109,19 @@ resonance but the averaged 8-dim block is the wrong object to feed it.
     period; at E = 0.1 the same with one pair mostly soft (0.2–0.3) and spiking to ≈ 1 twice; at E = 0.6 one pair
     sweeps 0–1 four times (the other is real there, inside the parametric band). So the two-line spectrum is a
     swept oscillator; the zeroth order is adiabatic/WKB with a stiffness that drops once per half period, the phase
-    advance per period is ∫ω_inst dt, and that is where the frequency of ⟨H⟩ goes wrong. **Where the soft point
-    is**: this estimator puts the dips at t = T/4 and 3T/4, where x crosses zero and |y| peaks (the bounce); the
-    frozen spectrum of the exact reduced block puts the light mode's softening at t = 0 and T/2, the turning points
-    (x extremal, y = 0), with both reduced modes stiffest at the bounce, and the per-segment growth of RH3 (growth at
-    the bounces, decay at the turning points) agrees with the reduced block. The two measure different things — the
-    phase rate of a Floquet solution's field components against the eigenfrequencies of the frozen reduced
-    generator — and the discrepancy is not resolved here. The paper text uses "turning points" (watch-list items
-    1 and 8).
+    advance per period is ∫ω_inst dt, and that is where the frequency of ⟨H⟩ goes wrong. **Where the soft point is** (resolved 23 Oct,
+    `code/rh_reduced_block_hyp.py` → `results/rh_reduced_block_hyp.txt`): this estimator puts pair 2's dip at
+    t = T/4 and 3T/4 (x ≈ −0.7, |y| ≈ 1.1: the bounce, where V ≈ E); the frozen spectrum of the exact reduced block is
+    stiffest there (0.61 and 1.56 at E = 0.3) and soft-to-hyperbolic on the arms around the turning points (x extremal,
+    y = 0, where V = 0), for 22 % of the period at E = 0.3 and 44 % at 0.6. The two measure different objects — the
+    phase rate of one Floquet solution against the eigenfrequencies of the generator — and where adiabatic following
+    holds they agree (frozen light 0.342 vs pair 1's 0.344 at E = 0.3, t = 0); pair 2's zero phase rate at the bounce
+    is where it fails: a non-adiabatic exchange between the sectors (the "trading roles" above), not a soft
+    stiffness. So this item's "the stiffness drops to zero at the bounce" was the wrong inference; the sweep is
+    real, its soft points are the arms, and the bounce is where the sectors mix. RH3's per-segment growth (at the
+    bounces, decay at the turning points) is then growth where the generator is *elliptic* — consistent with the
+    hyperbolic arms not deciding stability (`RH_reduced_block.md`, c_j family). The paper text uses "turning points"
+    (watch-list items 1 and 8).
 
 ## E. What this set as the target, and what the reduced block did with it
 
@@ -130,10 +135,11 @@ even on the exact reduced block (ωT mod 2π off by up to a half-turn). Two stru
 over as its open items: if Φ_{T/2} were sector-diagonal, N = S̃Φ_{T/2} would have eigenvalues ±√(ab) — antipodal in N,
 degenerate in M, the low-E doublet with the orientation reversal that makes the ±i meetings Krein-unstable — so
 **Δ(E) is the off-diagonal part of Φ_{T/2} in the sector basis, the inter-sector mixing within one half period**,
-computable from the reduced block without averaging; and the natural model of N is quiet-phase WKB propagation ×
-a transfer matrix across the soft point × S̃, with that 4 × 4 symplectic matrix carrying Δ, the Krein widths and, at
-low c_j, the static instability.
+computable from the reduced block without averaging; and the natural model of N is WKB propagation on the elliptic stretches ×
+a transfer matrix across each hyperbolic arm × S̃, with that 4 × 4 symplectic matrix carrying Δ, the Krein widths and,
+at low c_j, the static instability.
 
-Cross-reference, off this list by design: a ghost going soft at a bounce is what the spin-2 ghost does on Bianchi IX
-(`bianchi9/README.md`). Two backgrounds, one behaviour; the transfer matrix is the object that would say whether that
-is the mechanism or a coincidence.
+Cross-reference, off this list by design: on Bianchi IX the spin-2 ghost's coupling to the background dips at the
+bounce and the ghost wakes in the Kasner epoch between bounces (`bianchi9/README.md`). With the soft points here now
+located on the arms rather than at the bounce, the analogy is "the ghost is excited between bounces, not by them"
+in both systems; the transfer matrix across an arm is the object that would say whether that is the same mechanism.

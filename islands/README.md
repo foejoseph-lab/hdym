@@ -39,7 +39,7 @@ the paper's off-diagonal table) while the diagonal ghost is Floquet-stable there
 23 Oct): with the off-diagonal components seeded at 10⁻⁸ every core shell r = 10⁻⁶ … 10⁻⁴ of the E = 0.3 island
 escapes, 200 of 200 per shell, median t_esc 1340–1360 (ln(10⁸)/0.0125 ≈ 1500), the diagonal ghost the escaping
 sector in 91–96 % of cells and block 23 in the rest; with no off-diagonal seed (`_od0`) the island is intact, 0 of 200
-in the four core shells. The reading is not yet written up (`rabbit_holes/ym/README.md`, row 9).
+in the four core shells, and the halo and sea match hole 10's table (`rabbit_holes/ym/notes/RH9_island_full.md`).
 
 **The typed instabilities and the half-period lemma.** Every unstable multiplier is either a real pair leaving the
 circle at +1 (parametric) or a complex quadruplet (a Krein collision of two unit-circle pairs of opposite
@@ -153,8 +153,9 @@ results/
   esc_E.{txt,npz}              section E, 100 x 64, 20 Oct, 24 threads, 16893 s (see NOTE_esc_E_kernel_2026-10-20.md)
   esc_orient_0412.*            128^2 at E = 0.412, 32975 s (same kernel as esc_E)
   esc_orient_0156.*, esc_orient_030.*   128^2 at E = 0.156 (19987 s) and 0.30 (38688 s), 21 Oct, fixed kernel, one
-                               diagonal seed per map; no chk arrays
-  esc_orient_0642.*            E = 0.642, partial (83 of 128 rows, no DONE line)
+                               diagonal seed per map; no chk arrays. (An E = 0.642 map started on the pre-fix kernel
+                               with the diagonal ghost unseeded was stopped at 83 of 128 rows on 21 Oct and deleted on
+                               23 Oct; every row had escaped 128/128 — above E ≈ 0.33 the diagonal ghost leads regardless.)
   esc_phase_0156.*             phase ensemble, 12 x 256, 21–22 Oct night, 2802 s         (rabbit hole 1)
   esc_orient_030_n64.*         64^2 at E = 0.30 with chk, 13948 s                       (rabbit hole 12, superseded by snap)
   esc_E_cross.*                section E with crossing times, 20 x 64, 3162 s           (rabbit hole 4)
@@ -216,7 +217,6 @@ tests 2 and 3 fail on the checker of 10 Oct and pass since 11 Oct.
 - [ ] Second certificate at E = 0.3 (ghost Floquet-STABLE on the orbit).
 - [ ] 3-dof: the z-direction Floquet trace (−1.53, float) is not certified; the 3-dof island leaks by Arnold diffusion.
 - [ ] Independent float fit of the twist's return-map coefficients (twist review, not resolved).
-- [ ] Hole 9's closing note (the logs are read above and in `rabbit_holes/ym/README.md`).
 - [ ] Reduced-block items and the δ-crossover scan: `rabbit_holes/ym/README.md`, Open.
 
 ## Conventions

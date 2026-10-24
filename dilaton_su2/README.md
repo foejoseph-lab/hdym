@@ -19,7 +19,7 @@ Working notes 16–17 Oct 2026; rewritten 23 Oct 2026 from the state at that dat
 | `results/dilaton_derive.txt` | output (73 s, sympy 1.14), all PASS. |
 | `results/dilaton_iso.txt` | output (11 min, Python 3.13, scipy 1.18, sympy 1.14). |
 
-Runs: flat space, g = M = 1, gQ_amp = M/100, Θ = e^{δ_a cos ωt}; run from `code/`.
+Runs: flat space, g = M = 1, Q_amp = ω/100 (so gQ_amp = M/100 at ω = 1), Θ = e^{δ_a cos ωt}; "periods" and "T" in the logs are those of the undriven background orbit, T = 4K(½)/(√2 Q_amp) ≈ 524/ω; run from `code/`.
 
 ## Derivation (16 Oct)
 
@@ -34,7 +34,7 @@ Runs: flat space, g = M = 1, gQ_amp = M/100, Θ = e^{δ_a cos ωt}; run from `co
 
 Checks: A's rhs against `probe_core.rhs`, Θ on, 10⁻¹⁶; B equals A at Θ = 1, conserves energy at constant Θ, 10⁻¹⁴; monodromy against the Mathieu heuristics, three digits.
 
-**A — isotropic background** (ω = 0.5–3.0, δ_a = 0.1, 0.3, 1.0, 8 periods; then 60 at ω = 2.4, 3.0, three seeds). Lost at |Q| = 10 Q_amp within 0.08–2.8 T: ω = 2.0 for all δ_a (A and B); ω = 2.4, δ_a = 1 (A and B); ω = 1.5 and 3.0 at δ_a = 1 (B only). Every lost row sits in its column's tongue (map B); every other row is steady, |Q|max/Q_amp = 1.00 for 60 periods, seeds identical, E_heavy bounded (max 0.09, 0.07, 1.9 E_bg at (2.4, 0.3), (3.0, 0.3), (3.0, 1.0) in A). Mechanism: the w equation's homogeneous part is the anisotropic Mathieu equation (6Q² ≈ 10⁻³), sourced by the drive, fed back through Q″ = w − 2Q³. No threshold: at ω = 2 the loss at δ_a = 0.1 (2.8 T) is as fast as the tongue rate predicts (δ_a/4 = 0.025 per unit time, 2.8 T ≈ 600 time units ≈ 15 e-folds, as logged). M → ∞ steady in every row, as ⟨Θ²⟩_τ = 1 requires. B is lost in more rows, same reason; an averaged equation is moot.
+**A — isotropic background** (ω = 0.5–3.0, δ_a = 0.1, 0.3, 1.0, 8 periods; then 60 at ω = 2.4, 3.0, three seeds). Lost at |Q| = 10 Q_amp within 0.08–2.8 T: ω = 2.0 for all δ_a (A and B); ω = 2.4, δ_a = 1 (A and B); ω = 1.5 and 3.0 at δ_a = 1 (B only). Every lost row sits in its column's tongue (map B); every other row is steady, |Q|max/Q_amp = 1.00 for 60 periods, seeds identical, E_heavy bounded (max 0.09, 0.07, 1.9 E_bg at (2.4, 0.3), (3.0, 0.3), (3.0, 1.0) in A). Mechanism: the w equation's homogeneous part is the anisotropic Mathieu equation (6Q² ≈ 10⁻³), sourced by the drive, fed back through Q″ = w − 2Q³. No threshold: at ω = 2 the loss at δ_a = 0.1 (2.8 T) is as fast as the tongue rate predicts: T here is the period of the undriven background oscillation, T = 4K(½)/(√2 Q_amp) = 262 time units at ω = 2 (Q_amp = ω/100), not the drive period 2π/ω, so 2.8 T = 734 time units, and at δ_a/4 = 0.025 per unit time that is 18 e-folds (the 17 Oct text rounded this to "≈ 600 time units ≈ 15 e-folds"). M → ∞ steady in every row, as ⟨Θ²⟩_τ = 1 requires. B is lost in more rows, same reason; an averaged equation is moot.
 
 **B — anisotropic map** (one-period monodromy, ω = 0.3–3.2; rates per unit time, heuristic bracketed):
 

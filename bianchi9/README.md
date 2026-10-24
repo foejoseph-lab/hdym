@@ -1,6 +1,6 @@
 # bianchi9/ — Weyl ghost in Bianchi IX minisuperspace of quadratic gravity
 
-Working notes 5–6 Oct 2026, closure 10 Oct; rewritten 23 Oct 2026 from the state at that date. Status: closed 10 Oct for the one-ghost theory (single wall, one trajectory family, θ = π, 2.9, 2.6, 2.3, 2.0); two-ghost case unfinished; README-vs-code mismatches of 12 Oct held.
+Working notes 5–6 Oct 2026, closure 10 Oct; rewritten 23 Oct 2026 from the state at that date. Status: closed 10 Oct for the one-ghost theory (single wall, one trajectory family, θ = π, 2.9, 2.6, 2.3, 2.0); two-ghost case unfinished; the README-vs-code mismatches of 12 Oct verified against the scripts on 23 Oct (all stand; the Dirac one resolved in substance) and held.
 
 ## Question and answer
 
@@ -85,7 +85,7 @@ B = ∫ C e^{−iφ} dτ, C = iE₋ᴴ Ω Ė₊, in a parallel-transported, symp
 
 ### 4. Bounce, healthy probes as control (`bianchi9_fields.py`, 6 Oct)
 
-Massive scalar (sees only the volume at k = 0) and massive Dirac field (sees the anisotropy through the spin connection, the square roots of the walls), homogeneous, no back-reaction. Dirac axial coefficient recorded both as A = ¼(a/bc + b/ca + c/ab) and as A = ⅛Σ a/bc (differ by 2; held, Open). Checks: Hermiticity of H_D for χ = e^{3α/2}ψ (4e-16; the wrong Clifford convention gives 2.0 and n ≡ ½), E = √(m² + A²). Observable: adiabatic particle number n at α = −0.5.
+Massive scalar (sees only the volume at k = 0) and massive Dirac field (sees the anisotropy through the spin connection, the square roots of the walls), homogeneous, no back-reaction. Dirac axial coupling A = ¼(a/bc + b/ca + c/ab): the committed `fields.log` has H_D eigenvalues ±1.33972 at τ = 0 (m = 1), which is √(1 + A²) with A = ¼Σ exactly (0.89156) and not with ⅛Σ (the log's own check line, written by an earlier printout, says "A = (1/8) sum a/bc = 1.09486" and so appears to fail; the script now prints √(1 + 4·Aax²) with `Aax` = Σ/8, the half-coupling it stores, and the Dirac integration itself uses the spin connection, not `Aax`). The ⅛ form that appeared in the parallel-branch section was that variable. Checks: Hermiticity of H_D for χ = e^{3α/2}ψ (4e-16; the wrong Clifford convention gives 2.0 and n ≡ ½), E = √(m² + A²). Observable: adiabatic particle number n at α = −0.5.
 
 | m/H_b | 0.099 | 0.071 | 0.050 | 0.035 | 0.025 |
 |---|---|---|---|---|---|
@@ -137,17 +137,19 @@ S = ∫√−g [R/2 − (k₂/4)C² − (k₄/4)C□C], k₂ = 1/M₁² + 1/M₂
 * Comparison of the Cotsakis–Demaret–De Rop–Querella / Barrow–Cotsakis minisuperspace Lagrangian with `L` in the pkl (literature read 10 Oct; comparison not recorded).
 * Independent review of the conclusion by a reader who has not seen the work.
 
-### Known README-vs-code mismatches (found 12 Oct, held)
+### Known README-vs-code mismatches (found 12 Oct, held; verified 23 Oct)
 
-* six figures in results/ with no writer;
-* `bianchi9_bogoliubov.py` default `--out bogoliubov.npz` vs `bog.npz`, and no endpoint term removed vs the README's estimator;
-* `bianchi9_symp.py` checks Ω without the constraint projection;
-* Dirac axial coefficient ¼ (README, docstring) vs Σ/8 stored;
-* `bianchi9_kasner.py` integrates x = 60→0.02 vs README 200→0.01;
-* `bianchi9_kasner_check.py` fixes θ = π vs README "all θ";
-* the Frobenius σ table file was overwritten (`bianchi9_kasner_transfer.py` still calls itself `bianchi9_kasner.py`);
-* `bianchi9_six.py` has no Noether check and no β⁽⁶⁾ printout;
-* `kasner_linear.pkl` is written by `bianchi9_kasner.py` and read by nothing.
+Each checked against the committed scripts on 23 Oct; all nine stand as written. Not fixed (held by the decision of 12 Oct).
+
+* six figures in results/ with no writer — `savefig` occurs only in `bianchi9_kasner.py` (`kasner_onset.png`); `action_sweep.png`, `action_sweep_wkb.png`, `bog_diag.png`, `fields_n.png`, `seed_growth.png`, `sweep_first_look.png` were made outside the committed scripts;
+* `bianchi9_bogoliubov.py` default `--out bogoliubov.npz` vs the committed `bog.npz` (renamed on save), and no endpoint term removed — the script is the plain first-order quadrature; the "first endpoint term removed" estimator mentioned under Results 2 is not in the repository;
+* `bianchi9_symp.py` computes the Ω-conservation residual JᵀΩ + ΩJ + dΩ/dt for the full 10-d Jacobian at a point, with no restriction to dH·v = 0, so the Derivation's "1.4e-9 for tangent vectors in the constraint surface" is not what the committed script tests;
+* Dirac axial coefficient: ¼ is the coupling and Σ/8 the stored half-variable `Aax`; the committed `fields.log` check line is from an earlier printout and reads as a failure — resolved above (Results 4), log not regenerated;
+* `bianchi9_kasner.py` integrates x = 60 → 0.02 (`run()` defaults, no command-line override) vs the 200 → 0.01 quoted under Results 5;
+* `bianchi9_kasner_check.py` fixes θ = π; `bianchi9_kasner.py` itself loops over θ = π, π/2, 0, π/3 (the "all four" of Results 5), so "all θ" means those four and the check script one of them;
+* the Frobenius σ table (Results 5) has no writer: the script that produced it was overwritten by the exponent version of `bianchi9_kasner.py`, and the restored `bianchi9_kasner_transfer.py` still calls itself `bianchi9_kasner.py` in its docstring and run line;
+* `bianchi9_six.py` has no Noether check (the identity α′E_α + β′·E_β = d(Con)/dt was verified in the derivation session, not in the script) and solves for β⁽⁶⁾ numerically without printing its coefficient;
+* `kasner_linear.pkl` is written by `bianchi9_kasner.py` (line 101) and read by nothing.
 
 ## History
 

@@ -58,10 +58,23 @@ down by the sweep.
 c_j = 0.25 family is **not** a mean-stiffness effect: the averaged generator at c_j = 0.25 has purely imaginary
 spectrum (0.59, 0.66 at E = 0.6; 0.82, 0.85 at 0.3; 0.98, 1.07 at 0.1) while the exact multipliers are 34 and 16.5.
 Of the two alternatives — negative mean stiffness, or transient-negative stiffness (a Kapitza-type effect the averaged
-block cannot see) — the second is the one that holds: the +1 instability at low c_j is the light mode being hyperbolic for a fraction of each period,
-and the physical c_j = 1 is where that fraction is smallest. At c_j = 1 the frozen spectrum is hyperbolic at E = 0.6
-only; at c_j = 0.25 at every E (fraction of the period with a real eigenvalue: 1.0 in all logs, because the gauge
-terms give small real parts everywhere — the hyperbolic *light-mode* fraction is the quantity to extract next).
+block cannot see) — only the second is compatible with the data, and it is not the whole story. The hyperbolic
+fraction of the light mode and its strength both grow as c_j falls (`rh_reduced_block_hyp.txt`; the criterion is
+|Im| < 10⁻³ and |Re| > 0.1, the gauge terms' real parts staying below 0.1 where the spectrum is elliptic):
+
+| E | c_j | hyperbolic fraction | max Re | ∫Re dt over the hyperbolic stretches | measured ln\|μ\| per period |
+|---|---|---|---|---|---|
+| 0.1 | 0.25 / 1 | 0 / 0 | 0.30 / 0.26 | 0 / 0 | 0 / 0 |
+| 0.3 | 0.25 / 0.5 / 1 | 0.29 / 0.24 / 0.22 | 2.03 / 1.52 / 0.90 | 11.6 / 7.4 / 5.1 | 0 / 0 / 0 (stable at all three) |
+| 0.6 | 0.25 / 0.5 / 1 | 0.48 / 0.47 / 0.44 | 4.04 / 3.74 / 2.84 | 27.2 / 24.5 / 17.3 | 3.5 / ≈ 0 / 0.9 |
+
+So the frozen hyperbolicity is an order of magnitude too large to be the growth: at E = 0.3 the generator is
+hyperbolic for a fifth to a third of every period, with ∫Re dt = 5–12, and the block is stable at every c_j; at
+E = 0.6, c_j = 0.5, the integral is 24 and the block is (just) stable. What the frozen stretches expand, the rest of
+the period undoes — RH3's lesson (large per-segment stretching does not decide stability) at the level of the
+generator. The c_j ordering of the static instability does correlate with the hyperbolic strength (max Re 0.90 →
+2.03 at E = 0.3, 2.84 → 4.04 at 0.6), but the mechanism is in how much of the arm's expansion survives the bounce,
+which is the transfer matrix (open item (ii) below), not the frozen spectrum.
 
 **Averaged block (parallel-transported frame).** Not Floquet-accurate: at c_j = 1 the averaged
 frequencies (1.16/1.61, 1.43/1.31, 1.12/1.50 at E = 0.1/0.3/0.6) give ωT mod 2π at 1.14/1.82, 0.05/0.73, 0.62/0.14 π
@@ -72,10 +85,12 @@ the exact reduced block; the frozen spectrum and the bounce transfer matrix are 
 
 - Settled: the 4-dim block exists, is exact, and carries two modes — light (swept, soft at the turning points) and
   heavy (≈ 1–1.7). The "near 1" line of the spectra is the heavy mode; the quasi-static line the light one.
-- Settled: the low-c_j static instability is transient hyperbolicity of the light mode, not negative mean stiffness.
-- Open, now well-posed: (i) the hyperbolic fraction of the light mode per period as a function of (E, c_j) — one
-  number per case, from the saved frozen spectra; (ii) the bounce/turning-point transfer matrix: integrate the 4-dim
-  reduced flow across a window around t = 0 (where the light mode is soft) and read its sector-mixing entries
-  (`RH27_averaging.md`, part E), with the soft point located at the turning point; (iii) the Krein width at
+- Settled: the low-c_j static instability is not negative mean stiffness; the light mode is hyperbolic on the arms
+  for 22–48 % of the period at E ≥ 0.3, more strongly at lower c_j, but the frozen expansion overshoots the measured
+  growth by an order of magnitude and does not by itself decide stability (table above).
+- Done (23 Oct): (i) the hyperbolic fraction and strength per (E, c_j), `results/rh_reduced_block_hyp.txt`.
+- Open, now well-posed: (ii) the arm/turning-point transfer matrix: integrate the 4-dim
+  reduced flow across one hyperbolic arm (t/T ∈ [−0.13, 0.13], say) and across one bounce, and read how much of the
+  arm's expansion the bounce returns and how the sectors mix (`RH27_averaging.md`, part E); (iii) the Krein width at
   [0.151, 0.163] across c_j as the one first-order test; (iv) a proper Hamiltonian form H_red(t) = −Ω_red K_red in a
   symplectic frame (the current frame is orthonormal, which is why the frozen generator is not exactly Hamiltonian).

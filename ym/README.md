@@ -58,7 +58,8 @@ the plotting script is not in the repository.
 ### Known README-vs-code mismatches (found 12 Oct, held)
 
 Found by a README-against-code pass on 12 Oct (repository at 8b866214) and held, not started, by decision of that day;
-when one is taken up, fix it in its home and strike it here. Code that a paper claim or note depends on:
+when one is taken up, fix it in its home and strike it here. (The bianchi9 list of the same pass is in `bianchi9/README.md`,
+verified against its scripts on 23 Oct; these `ym/` items were not re-verified.) Code that a paper claim or note depends on:
 `hdym_uncertainty.py` default thresholds 2/5/10 vs the committed 5/10/20 (a README rerun would plot threshold 5 as
 "> 10"; feeds α); `hdym_rung1_lyap.py` `load_K` leaves c_j free and cannot run (`NOTE_rung1` CPU spectra; the paper's
 table is from `hdym_rung1_gpu.py`, own K); `make_fig1.py` / `make_fig_Q.py` hard-code points and run lengths although

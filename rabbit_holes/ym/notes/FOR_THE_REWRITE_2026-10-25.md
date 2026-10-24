@@ -12,16 +12,19 @@ hole-by-hole account is `../README.md`.
    mode count after eq. L2). Keep the count (one gauge zero mode, one Gauss charge, one YM-type and two ghost
    degrees of freedom per block). Retire the polarisation label: on the DR orbit the two ghost pairs are the same
    sector mode twice, split by a phase δ(E) (`rh5_splitting.txt`; `RH6_polarisation.md`), and the exact gauge-
-   reduced block shows the two physical ghost modes to be a light one, soft at the turning points, and a heavy one
-   at 1–1.7 (`rh_reduced_block_cj1.txt`). The channel-limit frequencies 1 and √(1 + x²) stand as the channel limit.
+   reduced block shows the two physical ghost modes to be a light one — soft at the turning points and hyperbolic
+   on the arms around them for 22 % (E = 0.3) to 44 % (E = 0.6) of the period, elliptic throughout at E = 0.1 — and a
+   heavy one at 1–1.7 (`rh_reduced_block_cj1.txt`, `rh_reduced_block_hyp.txt`). The channel-limit frequencies 1 and √(1 + x²) stand as the channel limit.
    If the new text says "longitudinal", flag it.
 
 2. **"a transiently tachyonic mass is not an instability on a periodic orbit"** (Sec. landing points, DR orbit).
    True as stated for the diagonal ghost at the energies given. Do not let it generalise: in the c_j family of the
-   off-diagonal block the +1 instability at c_j = 0.25–0.5 *is* transient hyperbolicity of the light reduced mode
-   (frozen spectrum real for part of each period; the averaged block is purely oscillatory while the exact
-   multipliers reach 34), `rh_reduced_block_cj025.txt`, `RH_reduced_block.md`. If the new text turns the sentence
-   into a principle, flag it.
+   off-diagonal block the +1 instability at c_j = 0.25–0.5 goes with the light reduced mode being hyperbolic for
+   29–48 % of each period (the averaged block is purely oscillatory while the exact multipliers reach 34), though the
+   frozen expansion overshoots the measured growth by an order of magnitude and the physical block is stable at E = 0.3
+   with the same mode hyperbolic for 22 % of the period — so "transiently tachyonic" is neither a guarantee of
+   stability nor of instability on a periodic orbit (`rh_reduced_block_cj025.txt`, `rh_reduced_block_hyp.txt`,
+   `RH_reduced_block.md`). If the new text turns the sentence into a principle either way, flag it.
 
 3. **"The only candidate for a positive-measure set on which the ghost stays bounded is the regular islands … whether
    any survive … is open"** and open item (iii). Still open as a positive-measure statement, but two measured facts
@@ -29,7 +32,7 @@ hole-by-hole account is `../README.md`.
    homogeneous theory — linearly (islands/README, off-diagonal item) and now nonlinearly throughout its core:
    with the six off-diagonal components seeded at 10⁻⁸ every core shell r = 10⁻⁶ … 10⁻⁴ escapes, 200/200, median
    t ≈ 1340–1360, the diagonal ghost the escaping sector in 91–96 % of cells, while the exactly-diagonal control
-   keeps the island intact, 0/200 (`islands/results/island_full_E0.3_eps1e-8.txt`, `_od0.txt`, 23 Oct); and at
+   keeps the island intact, 0/200 (`islands/results/island_full_E0.3_eps1e-8.txt`, `_od0.txt`, 23 Oct; `RH9_island_full.md`); and at
    linearly stable energies between the off-diagonal bands a transiently pumped ghost of order one sits for
    hundreds of orbits without escaping (`rh4_lowE_long.txt`, E = 0.050–0.087 excluding the two bands, 3–13 cells per
    energy, all but one censored at tmax = 12000 with loiters ≥ 22–140 periods and medians ≥ 154–212; the one escape,
@@ -76,8 +79,9 @@ hole-by-hole account is `../README.md`.
    gauge f(t) = v_G(t) with the exact connection term is used; the second reduction is by the colour-rotation zero
    mode z = (−y, x, …) and its charge Ωz. The 4-dim reduced monodromy reproduces the four ghost multipliers to
    ≤ 8 × 10⁻¹¹ at every E and c_j ∈ {0.25, 0.5, 1} (`rh_reduced_block_cj*.txt`). Its frozen spectrum: a light mode
-   soft at the turning points (0.13–0.7, hyperbolic at E = 0.6 for c_j = 1 and at every E for c_j = 0.25) and a heavy
-   mode at 1.0–1.7. First-order averaging of the exact block is not Floquet-accurate (ωT mod 2π off by up to a
+   soft at the turning points (0.13–0.7 at t = 0) and hyperbolic on the arms around them — for 22 % / 44 % of the
+   period at E = 0.3 / 0.6 for c_j = 1, 29 % / 48 % for c_j = 0.25, never at E = 0.1, never at the bounce
+   (`rh_reduced_block_hyp.txt`) — and a heavy mode at 1.0–1.7. First-order averaging of the exact block is not Floquet-accurate (ωT mod 2π off by up to a
    half-turn): state this, do not quote averaged frequencies as predictions. Ω must keep c_j symbolic.
 
 9. **The c_j family** (appendix, with 8): the physical c_j = 1 block is the least unstable member of the family

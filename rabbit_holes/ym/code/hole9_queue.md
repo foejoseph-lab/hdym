@@ -2,7 +2,7 @@
 
 Both runs done 23 Oct, all checks PASS, logs committed (`islands/results/island_full_E0.3_eps1e-8.{txt,npz}`, `_od0.{txt,npz}`).
 The reading (`../README.md`, row 9): with the off-diagonal seed every core shell escapes, 200/200, median t ≈ 1340–1360,
-block 23 the trigger and the diagonal ghost the executor; without it the island is intact, 0/200. Closing note pending.
+block 23 the trigger and the diagonal ghost the executor; without it the island is intact, 0/200. Closing note: `../notes/RH9_island_full.md`.
 
 Two runs, ~10–20 min each on 24 threads (1800 trajectories, tmax 5000):
 

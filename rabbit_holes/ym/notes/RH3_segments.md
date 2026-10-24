@@ -36,6 +36,11 @@ value gains, which are worst-case bounds, are in the log):
   stability, and the bounce stretches more at every E, unstable or not. Segment gains alone (what the 19 Oct attempt
   measured) cannot answer the question; the eigenvector's per-segment growth can.
 
+Seen against the frozen spectrum of the same block (`RH_reduced_block.md`): the bounce segments, where the Krein
+mode grows, are where the frozen generator is elliptic and stiff; the turning-point segments, where it shrinks, are
+where the generator is hyperbolic (real eigenvalue up to 0.9 at E = 0.3). Growth of the unstable mode and frozen
+hyperbolicity sit on opposite halves of the orbit.
+
 Caveat: the canonical norm between two *different* Darboux frames is not frame-invariant for a single vector (the
 singular values are; a vector's growth is not), so the per-segment eigenvector numbers carry a frame convention —
 the same convention at every boundary, which the TP1 = TP2 and B1 = B2 symmetry confirms is applied consistently.
