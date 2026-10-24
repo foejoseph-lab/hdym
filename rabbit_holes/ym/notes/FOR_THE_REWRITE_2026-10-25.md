@@ -1,12 +1,12 @@
-# For the rewrite instance (Saturday 25 Oct 2026): what the rabbit-hole session changed, in watch-list form
+# Watch-list for the rewrite of `paper/main.tex`: what the work of 21–23 Oct 2026 changed
 
-You are helping Joseph rewrite `paper/main.tex` in his own words: grammar, flow, missing-content checks, placing
-formulas and tables in TeX. You will see the submitted paper and his new text. You will not see the session that
-produced the results below; this file is your only source for them. Every number here comes from a committed log
-in `rabbit_holes/ym/results/` or `islands/results/` (named per item) — quote those, not memory. Nothing in the
-submitted paper is contradicted by this work; the entries are refinements, additions and three labels to retire.
+Written 22 Oct 2026 for the rewrite of the paper (planned for 25 Oct or the first free weekend after; the paper has
+not been submitted anywhere as of 23 Oct, and `paper/main.tex` is the text of 10 Oct). Every number here comes from
+a committed log in `rabbit_holes/ym/results/` or `islands/results/` (named per item); quote those. Nothing in the
+10 Oct text is contradicted by this work; the entries are refinements, additions and three labels to retire. The
+hole-by-hole account is `../README.md`.
 
-## A. Claims in the submitted paper to watch for, and what they should become
+## A. Claims in the 10 Oct text to watch for, and what they should become
 
 1. **"the second ghost being the longitudinal polarisation of the massive vector"** (Sec. off-diagonal sector, the
    mode count after eq. L2). Keep the count (one gauge zero mode, one Gauss charge, one YM-type and two ghost
@@ -26,9 +26,14 @@ submitted paper is contradicted by this work; the entries are refinements, addit
 3. **"The only candidate for a positive-measure set on which the ghost stays bounded is the regular islands … whether
    any survive … is open"** and open item (iii). Still open as a positive-measure statement, but two measured facts
    bound it now and should appear if the passage is rewritten: the E = 0.3 island is not a refuge in the full
-   homogeneous theory (islands/README, off-diagonal item, pre-session); and at linearly stable energies between the
-   off-diagonal bands a transiently pumped ghost of order one sits for ≥ 150–230 orbits without escaping
-   (`rh4_lowE_long.txt`, E = 0.0611–0.0869, 3–13 cells per energy, all censored at tmax = 12000).
+   homogeneous theory — linearly (islands/README, off-diagonal item) and now nonlinearly throughout its core:
+   with the six off-diagonal components seeded at 10⁻⁸ every core shell r = 10⁻⁶ … 10⁻⁴ escapes, 200/200, median
+   t ≈ 1340–1360, the diagonal ghost the escaping sector in 91–96 % of cells, while the exactly-diagonal control
+   keeps the island intact, 0/200 (`islands/results/island_full_E0.3_eps1e-8.txt`, `_od0.txt`, 23 Oct); and at
+   linearly stable energies between the off-diagonal bands a transiently pumped ghost of order one sits for
+   hundreds of orbits without escaping (`rh4_lowE_long.txt`, E = 0.050–0.087 excluding the two bands, 3–13 cells per
+   energy, all but one censored at tmax = 12000 with loiters ≥ 22–140 periods and medians ≥ 154–212; the one escape,
+   at E = 0.0786, after 190 periods). The island survives the diagonal ghost alone only for ε ≲ 10⁻⁷ (`RH10_eps_crossover.md`).
 
 4. **Open item (iv), "the rate law of the off-diagonal ghost sector, whose derivation is the natural sequel".** Still
    not derived. The apparatus now exists (A.6 below). Do not let the new text claim a derivation.
@@ -48,13 +53,13 @@ submitted paper is contradicted by this work; the entries are refinements, addit
 6. **The ladder, as a measurement** (off-diagonal section, one paragraph, one figure if wanted; `RH2_ladder.md`,
    `rh2_predict.txt`). The block-12 band centres lie on T_c = 4.057(n + 0.210), n = 7–14, parametric at odd n and
    Krein at even n, rms 0.11 time units; an out-of-sample Krein band predicted at E = 0.0421 was found at
-   0.0427–0.0435. Above E ≈ 1 the alternation ends (rung 11 is parametric). **Do not** call 0.774 (= π/4.057) a
+   0.0427–0.0435. Above E ≈ 1 the alternation ends (the band at E = 1.014–1.271, rung 6 of this ladder, is parametric where alternation would put a Krein band). **Do not** call 0.774 (= π/4.057) a
    frequency: the ladder is branch-independent (ω → ω + kΩ shifts ωT by 2πk) and cannot fix the physical frequency;
    the Floquet solutions' spectra put the physical line at 0.85–1.2 with a quasi-static companion
    (`rh5_branch.txt`, `rh5_instfreq.png`). **Do not** present "ω₀T = nπ of the averaged block predicts the bands":
    withdrawn (half-rung null: bands plus 8 % halo cover 79 % of log E; `RH27_averaging.md`, Review).
 
-7. **The loiter, as a measurement** (fractal / nonlinear section, one paragraph; `RH_overnight_2026-10-22.md`,
+7. **The loiter, as a measurement** (fractal / nonlinear section, one paragraph; `RH4_loiter.md`, `RH1_phase.md`,
    `rh_overnight_2026-10-22.txt`, `rh4_lowE_long.txt`). After the diagonal ghost reaches |w| = 1 the escape is
    memoryless: where the diagonal ghost is itself Floquet-unstable the loiter has median 0.4–0.6 orbits (pooled
    0.58, scaling with the period: Spearman −0.05 in periods vs −0.46 in time units), stretched tail (p90/median

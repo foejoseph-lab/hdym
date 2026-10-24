@@ -1,10 +1,16 @@
-# Overnight queue, 21 Oct 2026 (Joseph's machine, 24 threads) — holes 1, 4, 12
+# Overnight queue, 21 Oct 2026 (24 threads) — holes 1, 4, 12
+
+Run on the night of 21–22 Oct; all CHECK lines PASS; logs and `.npz` committed in `islands/results/`
+(`esc_phase_0156`, `esc_orient_030_n64`, `esc_E_cross`); read in `../notes/RH1_phase.md` and `../notes/RH4_loiter.md`.
+Hole 12 needed the state snapshots added afterwards (`hole12_queue.md`). The analysis scripts named at the end
+became `rh_overnight_2026-10-22.py`. Followed on 22 Oct by `day_2026-10-22.bat` (`esc_E_lowE_long`, read by `rh4_lowE_long.py`).
+Kept as the record of what was run and why.
 
 Three runs, sequential, ~5 h in all. Each writes its npz after every row, so a killed run keeps what it has and
 `--resume` continues it. **For an unattended night use `overnight_2026-10-21.bat`** (same three commands, every one
 with `--resume` and `>>` on its log): after a reboot, launch the .bat again and each run continues from its last
 completed row — exposure is one row, 2.5–5 min. Registering the .bat in Task Scheduler "at log on" makes the
-resume automatic. Check `islands/results/overnight_2026-10-21.log` for the start/done stamps and exit codes.
+resume automatic. Check `islands/results/overnight_2026-10-21.log` (the .bat's own log; not committed) for the start/done stamps and exit codes.
 
 A note on the kernel edit and floats: the crossing-time code reads the accepted state and writes a separate array;
 it touches no state, no step size and no control flow, so trajectories are bit-identical to the previous kernel's

@@ -1,7 +1,7 @@
 # Rabbit hole 3 — where on the orbit the growth happens, answered on the exact reduced block (22 Oct 2026)
 
-Script `code/rh3_segments.py`, log `results/rh3_segments.txt`. The review of 19 Oct tried segment transfer matrices
-in the Euclidean norm of the 8-dim block and found them inconclusive (local rates ±3 around 0.03). Two things were
+Script `code/rh3_segments.py`, log `results/rh3_segments.txt`. A first attempt on 19 Oct with segment transfer matrices
+in the Euclidean norm of the 8-dim block was inconclusive (local rates ±3 around 0.03). Two things were
 missing, and both are now in hand: the constraint and symmetry sectors are gone (the 4-dim reduced block of
 `RH_reduced_block.md`), and the norm is canonical — each quarter-period segment's transfer matrix is expressed
 between Darboux frames of the reduced symplectic form at its two ends (symplectic Gram–Schmidt; Dᵀ Ω_red D = J to
@@ -26,14 +26,14 @@ value gains, which are worst-case bounds, are in the log):
 
 - **In the strong Krein band the instability belongs to the bounce**, in the strong sense: the unstable mode grows
   by e^{1.4–1.7} at each bounce and *shrinks* by e^{−1} at each turning point; the net factor 2.87 per period is the
-  residue of bounce growth minus turning-point decay. The review's claim 4 is a result at E = 0.412, not a hypothesis.
+  residue of bounce growth minus turning-point decay. "The instability belongs to the bounce" is a result at E = 0.412, not a hypothesis.
 - **In the parametric band it is not localised at all**: growth is spread 0.17 / 0.28 / 0.17 / 0.28 over the four
   segments. A parametric resonance is a whole-period interference, as it should be.
 - **In the weak Krein band at 0.156** the per-segment numbers are ±0.1–0.2 with cancellations and the net 0.25 is an
   interference residue; "where" has no sharp answer there.
 - At the stable energy each segment still stretches its worst-case vector by 1.9–2.2 (ln 0.65–0.81, bounce larger
   than turning point), and the product is exactly elliptic: large per-segment stretching does not decide
-  stability, and the bounce stretches more at every E, unstable or not. Segment gains alone (what the 19 Oct review
+  stability, and the bounce stretches more at every E, unstable or not. Segment gains alone (what the 19 Oct attempt
   measured) cannot answer the question; the eigenvector's per-segment growth can.
 
 Caveat: the canonical norm between two *different* Darboux frames is not frame-invariant for a single vector (the

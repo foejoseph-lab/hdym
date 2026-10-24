@@ -1,7 +1,7 @@
-# Rabbit hole 7 — the books (21 Oct 2026, half an hour of searching)
+# Rabbit hole 7 — the literature (21 Oct 2026)
 
 Verdict: **the Lemma is the Swift–Wiesenfeld mechanism (1984), well known in the dissipative setting; what is
-ours is the symplectic multiplicity statement and its identification with the ghost's Krein collision.** The
+new here is the symplectic multiplicity statement and its identification with the ghost's Krein collision.** The
 paper should cite, not claim.
 
 ## What exists
@@ -12,25 +12,25 @@ paper should cite, not claim.
   single real eigenvalue is impossible; period doubling is therefore suppressed for symmetric orbits except in
   "extraordinary cases" (a complex pair of P̃ at ±i), which they show cannot occur in a large class of dissipative
   systems (driven damped pendulum, Lorenz). Their even/odd-harmonic signature (symmetric response has only odd
-  harmonics; even ones appear when the symmetry breaks) is the parity statement of our step 1.
+  harmonics; even ones appear when the symmetry breaks) is the parity statement of step 1 of `RH7_selection_rule.md`.
 - **J. S. W. Lamb and J. A. G. Roberts, "Time-reversal symmetry in dynamical systems: a survey", Physica D 112,
   1–39 (1998)**, and **J. S. W. Lamb, "k-symmetry and return maps of space-time symmetric flows", Nonlinearity 11
   (1998)**: the general framework — a space-time (spatio-temporal) symmetry of order k forces the return map to
-  be a k-th root of the monodromy, M = Gᵏ, with the classification of which local bifurcations survive. Our S̃
+  be a k-th root of the monodromy, M = Gᵏ, with the classification of which local bifurcations survive. S̃
   with the T/2 shift is the k = 2 case.
 - **U. Frauenfelder and A. Moreno, "On doubly symmetric periodic orbits", Celest. Mech. Dyn. Astron. 135, 20
   (2023), arXiv:2301.01803.** The symplectic cousin: for orbits symmetric under two commuting anti-symplectic
   involutions, Theorem A says a doubly symmetric orbit cannot be negative hyperbolic in dimension four, Corollary
   D that it cannot period-double there, and they note **Corollary D fails in dimension six** (a numerical
   planar-to-spatial period doubling). Their mechanism is the B-sign of the reduced 2 × 2 monodromy, not the
-  square root, and their symmetry is reversing (anti-symplectic) where ours is a canonical symmetry composed with
+  square root, and their symmetry is reversing (anti-symplectic) where S̃ is a canonical symmetry composed with
   a half-period shift — different hypotheses, same conclusion in the two-dimensional reduced case, and the same
   escape hatch in higher dimension: once there are two pairs, the "extraordinary case" (N at ±i) is available.
-- A current example of the mechanism used exactly as we use it, with the parity selection written out:
+- A current example of the mechanism used in the same way, with the parity selection written out:
   A. C. Marti and E. D. Leonel, "Antiperiodicity in the Duffing–Holmes oscillator: symmetry origin, parity
   selection, and transitions", arXiv:2607.05604 (2026) — dissipative, so their ±i case is excluded by det < 1.
 
-## What is ours, after reading
+## What is new here, after reading
 
 1. The **symplectic multiplicity form**: with N real symplectic, N's ±i pair comes as a quadruplet
    {ir, −ir, i/r, −i/r}, so a real negative multiplier of M off the circle has multiplicity ≥ 2 — the Swift–

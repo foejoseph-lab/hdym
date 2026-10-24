@@ -1,7 +1,9 @@
 # Review of `ym/hdym_ball.py` (Prompt A), 2026-10-11
 
-Reviewer: Claude Opus 5.5, fresh session, repository cloned read-only (shallow clone of
-https://github.com/foejoseph-lab/hdym at HEAD, 2026-10-11 00:58 EDT). Budget 20 min wall clock.
+Record of an independent review (fresh session, no prior contact with the repository), 2026-10-11; kept as written.
+F1–F6 were fixed on 11 Oct and the production sweep rerun on 12 Oct with identical certified fractions; F7 (QR
+containment) was answered on 13 Oct by the degradation test of `NOTE_precision_tier.md` — `ym/README.md`,
+"Certified pair escape times". Repository cloned read-only (shallow clone at HEAD, 2026-10-11 00:58 EDT). Budget 20 min wall clock.
 Line numbers refer to `ym/hdym_ball.py` at that HEAD unless stated.
 
 Selftest run here: `python hdym_ball.py --selftest` passed (selftest 0: all six polynomial

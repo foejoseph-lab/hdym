@@ -1,67 +1,66 @@
-# Rabbit hole 4 — the loiter's statistics, from the section-E checkpoints
+# Rabbit hole 4 — the loiter: what happens between the ghost reaching order one and the blow-up
 
-Session of 21 Oct 2026 (Claude, cloud). Script `code/rh4_loiter.py` (reads `islands/results/esc_E.npz`; no
-integration), log `results/rh4_loiter.txt`, data `results/rh4_loiter.npz`, figure `results/rh4_loiter.png`.
-Scope: the 6400 trajectories of the 20 Oct section-E run (100 energies × 64 seeds, δ = δ_diag = 10⁻⁴, tmax 3000,
-checkpoints every 50 time units; the FP-mode caveat of `NOTE_esc_E_kernel_2026-10-20.md` applies and does not
-affect statistics).
+21–22 Oct 2026. Three stages: the 20 Oct section-E checkpoints (`code/rh4_loiter.py` → `results/rh4_loiter.{txt,npz,png}`,
+50-unit resolution), then the kernel's crossing times (added 21 Oct: first times at which |w| reaches 0.1 and 1 and each
+off-diagonal sector norm reaches 1, `tcross` (N, 5) in every section's npz) with the 20 × 64 run `islands/results/esc_E_cross.*`
+(21–22 Oct night, 3162 s on 24 threads; `code/rh_overnight_2026-10-22.py` → `results/rh_overnight_2026-10-22.txt`), then the
+low-energy run at tmax = 12000, `islands/results/esc_E_lowE_long.*` (20 energies in [0.05, 0.13] × 64, 22 Oct, 6559 s;
+`code/rh4_lowE_long.py` → `results/rh4_lowE_long.txt`). All checks PASS, no integrator failures. The loiter is
+L = t_esc − t(|w| = 1); the FP-mode caveat of `islands/results/NOTE_esc_E_kernel_2026-10-20.md` applies to the
+checkpoint run and does not affect statistics.
 
-First, a correction to the list. The entry says checkpoint data exist for "6400 + 2 × 16384 trajectories". The
-orient `.npz` files carry no `chk` array: `offdiag_escape.py`'s `run_orient` computes it and does not pass it to
-`np.savez` (lines 465–466). Holes 1 and 12, which the list says share "the same data", have no checkpoint data
-in the repository; only the section-E run does. (The orient maps do carry `tesc`, `sector`, `diag` and `basis`.)
+## Result (crossing times; supersedes the checkpoint reading)
 
-## Definitions
+- **Short, and scaling with the period.** Pooled over 20 energies the median loiter is 18.0 time units = 0.58
+  periods (minimum 6.6); per energy 0.42–0.62 periods for E ≥ 0.33 and 1.1–1.8 at 0.24–0.28. Spearman of the
+  per-energy median with E is −0.05 in periods and −0.46 in time units (11 energies with ≥ 20 escaped loiters): the
+  loiter is a number of orbits. (The checkpoint reading of the 6400 trajectories of `esc_E` — 4112 reached |w| = 1, 2053 of 3778 escapes inside one
+  50-unit interval, 982 unresolved, 334 censored — had a median of 20 units = 0.63 periods and Spearman −0.09 (p 0.48)
+  in periods vs −0.32 (p 0.01) in time units; the hole as posed had said "roughly E-independent in absolute terms",
+  the opposite.)
+- **The linear phase is the clock.** t(|w| 0.1 → 1) equals ln 10/rate_diag where the diagonal ghost is
+  Floquet-unstable on the orbit (68.7 vs 65.9 at E = 0.33; 37.2 vs 38.5 at 0.39; 13.6 vs 18.2 at 0.62; 10.8 vs 11.2 at
+  0.85; 13.0 vs 9.9 at 1.0) and is far faster than the ghost's own rate where an off-diagonal band leads (41.6 vs
+  183 at E = 0.24): the off-diagonal mode pumps the diagonal ghost through its last decade in a fraction of the
+  ghost's own e-folding time.
+- **Who crosses 1 first.** The diagonal ghost, in 71 % of cells at the Krein band (E = 0.156) and 89 % at the
+  parametric band (E = 0.30), even though the off-diagonal mode is the linearly unstable one: the trigger pumps the
+  executor past amplitude 1 before passing 1 itself.
+- **Tail.** p90/median 4.3–5.7 against 3.3 for an exponential; a Pareto tail beats an exponential by Δ log-likelihood
+  2–30 with γ ≈ 1.9 (E 0.2–0.35), 8.9 (0.35–0.6, effectively exponential), 3.3 (0.6–1). Stretched, modestly, as the
+  checkpoint data had said (there: Δll 3–68, γ ≈ 1.3 / 2.6 / 2.9 on the resolved part L ≥ 50, p90/median 3.6–6.3,
+  Kaplan–Meier curves bending rather than straight — KAM stickiness present, not dominant — and escapes with L > 3
+  periods led by an off-diagonal sector in 12 % of cases against 4–5 % for L ≤ 1 period).
+- **Loiter at the two bands.** E = 0.156 median 8.3 periods (p90 27); E = 0.30 median 0.74 (p90 5.1). A 10× difference,
+  but the parametric bands at E = 0.0585 and 0.110 are in the same class as 0.156, so this is the low-E regime, not a
+  Krein signature.
 
-t₁ = the time the diagonal ghost first reaches |w| = 1, interpolated log-linearly between checkpoints; when the
-ghost crosses 1 and blows up inside one checkpoint interval (the common case: 2053 of 3778 escapes), t₁ is
-extrapolated from the last two checkpoints with their local exponential rate, and if that lands after the
-escape the loiter is clamped to 0 (982 trajectories, "unresolved"). Loiter L = t_esc − t₁. A trajectory that
-reaches 1 and does not escape by tmax is a right-censored loiter (334, almost all below E = 0.2, where t₁ ≈
-2300 leaves < 700 units to escape). 4112 trajectories reached |w| = 1 (the pooled fits count 4110: the lowest energy, 0.04999…, falls outside the bin edge).
+## The low-energy regime (tmax = 12000): a slow Poisson tail, not a stuck state
 
-## What the data say
+At tmax = 3000 the off-diagonal bands at E = 0.0585 and 0.110 (diagonal ghost Floquet-stable) pumped the ghost to
+|w| = 1 in 56 and 62 of 64 cells and 53 and 45 of them had not escaped: loiters of 16–21 periods, censored. At
+tmax = 12000:
 
-1. **The loiter is short.** Median L = 20 time units (0.63 periods) over the 61 energies with ≥ 20 escaped
-   loiters; a quarter of all escapes blow up within the checkpoint interval in which the ghost reached 1. The
-   list's "median 10–170" is the upper part of this; at 50-unit resolution the median is not resolved.
-2. **It scales with the period, not with absolute time** (the opposite of the list's "roughly E-independent
-   in absolute terms"): Spearman of the per-energy median with E is −0.09 (p 0.48) in periods and −0.32
-   (p 0.01) in time units. The loiter is a number of orbits.
-3. **The tail is heavier than exponential, modestly.** On the resolved part (L ≥ 50 time units, or ≥ 2 periods;
-   13–63 % of the trajectories depending on E) a Pareto tail beats an exponential by Δ log-likelihood 3–68 for
-   one extra parameter in every E bin, with tail index γ ≈ 1.3 (E = 0.2–0.35), 2.6 (0.35–0.6), 2.9 (0.6–1) in
-   time units and p90/median of the excess 3.6–6.3 against the exponential's 3.3. Below E = 0.2 the tail is
-   censoring-dominated (322 of 616 censored) and the fitted γ = 0.27 is a tmax artefact. The Kaplan–Meier
-   curves (figure, log-log panel) bend down rather than run straight, so this is "a stretched tail", not a
-   clean power law: KAM stickiness is present but not dominant at these E.
-4. **Long loiters end differently.** Escapes with L > 3 periods are led by an off-diagonal sector in 12 % of
-   cases, against 4–5 % for L ≤ 1 period (`== 4.` in the log): the longer the ghost wanders, the more often the
-   blow-up goes through block 12 or 23 rather than the diagonal ghost.
-5. Where the diagonal ghost is Floquet-stable on the orbit but an off-diagonal band is open (E = 0.058,
-   0.11, 0.13), the ghost is pumped to |w| = 1 by t ≈ 1600–2700 and then does **not** escape by 3000 in
-   most cases (E = 0.058: 46 reached 1, 2 escaped). That is hole 8's loophole seen from the other side: order-one
-   ghost amplitude with no escape over the remaining 300–1400 time units; tmax decides what is "benign".
+- **In the off-diagonal-led bands the escape is a Poisson process with a long time constant.** E = 0.0581: 64 cells
+  reach |w| = 1 (median t = 2376), 55 escape by 12000, loiter median 3846 = 72 periods, censored-MLE τ = 106 periods;
+  Kaplan–Meier survival 0.97 / 0.84 / 0.55 / 0.37 / 0.17 at L = 1000 / 2000 / 4000 / 6000 / 8000 against the
+  exponential's 0.84 / 0.70 / 0.49 / 0.35 / 0.24 — exponential after a dead time of ~1000. E = 0.1063 and 0.1118: all
+  64 escape, median 36–38 periods, τ = 43–45 periods, Kaplan–Meier on the exponential to ±0.1 everywhere. Against the
+  diagonal-ghost tongues at E = 0.0914 and 0.1236 (loiter median 1.3–1.7 periods): the escape after the ghost reaches
+  order one is memoryless in both classes, with a rate that differs by a factor 30–100 depending on which sector did
+  the pumping.
+- **At Floquet-stable energies between the bands a transiently pumped ghost does not run away**: at Floquet-stable energies between the bands (E = 0.050–0.087 excluding the two bands) 3–13 cells per energy reach |w| = 1 by transient growth (hole 8) and all but one sit censored at tmax = 12000 — loiters ≥ 22–140 periods, medians ≥ 154–212 periods; the one escape is at E = 0.0786, after 9352 time units = 190 periods (`rh4_lowE_long.txt`). The genuinely stuck regime — an order-one ghost that sits for hundreds of orbits — is the
+  linearly stable one, not the slowly unstable one.
 
-## What this needs to become a measurement
+## For the paper
 
-The 50-unit checkpoint spacing is the limit. The right fix is three numbers per trajectory from the kernel:
-the first times at which |w|, and each sector norm, cross 1 (and perhaps 0.1 and 10), recorded in
-`one_trajectory` where `sector_norm` and `ghost_amp` are already evaluated at every accepted step — no extra
-cost, no larger arrays. With that, the loiter distribution is resolved to the step size and the survival fit
-is honest down to L = 0. A rerun of section E at 20 energies × 64 seeds would take ~1 h on 24 threads
-(16893 s for 100 × 64); the 2 orient maps are 5.5 and 10.7 h each and are not needed for this.
+One paragraph (`FOR_THE_REWRITE_2026-10-25.md`, item 7): after the ghost reaches order one the runaway is a memoryless
+event whose rate is set by the linear mechanism that pumped it — of order one per orbit when the diagonal ghost is
+itself unstable, of order 10⁻² per orbit when an off-diagonal band did the pumping — with a stretched tail, scaling
+with the period; and at linearly stable energies a transiently pumped ghost does not run away on any time scale
+reached here (≥ 200 orbits). Not: "the loiter is independent of energy".
 
-Sandbox job (Joseph's machine; nothing here was run at size):
-```
-# after adding the crossing times to ym/csrc/hdym_full_escape.c and offdiag_escape.py's npz
-python islands/code/offdiag_escape.py --section E --nE 20 --nseed 64 --tag esc_E_cross > islands/results/esc_E_cross.txt 2>&1
-```
+## Checkpoint-era correction, kept for the record
 
-## Paper-worthiness
-
-Not a paper. A paragraph for the fractal section if the paper wants it: the loiter is 0–3 orbits for 90 % of
-escapes, scales with the period, and has a stretched tail of a few percent of trajectories that wander ≥ 10
-orbits, more often ending through the off-diagonal sector. With the crossing times recorded it would be one
-figure (survival in periods, by E bin) and could carry the "benign ghost as a distribution" sentence the list
-suggests.
+The orient `.npz` files of 21 Oct (`esc_orient_0156`, `esc_orient_030`) carry no `chk` array: `run_orient` computed
+it and did not pass it to `np.savez`. Fixed 21 Oct; `esc_orient_030_n64` (22 Oct) has it.

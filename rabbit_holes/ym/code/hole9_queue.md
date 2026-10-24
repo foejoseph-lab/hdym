@@ -1,4 +1,8 @@
-# Hole 9 — the island in the full nine-component system (run Friday 23 Oct while at work; both resumable)
+# Hole 9 — the island in the full nine-component system (queue of 22 Oct; run 23 Oct)
+
+Both runs done 23 Oct, all checks PASS, logs committed (`islands/results/island_full_E0.3_eps1e-8.{txt,npz}`, `_od0.{txt,npz}`).
+The reading (`../README.md`, row 9): with the off-diagonal seed every core shell escapes, 200/200, median t ≈ 1340–1360,
+block 23 the trigger and the diagonal ghost the executor; without it the island is intact, 0/200. Closing note pending.
 
 Two runs, ~10–20 min each on 24 threads (1800 trajectories, tmax 5000):
 
@@ -15,4 +19,4 @@ parametric rate on the orbit is 0.0125: from 10⁻⁸ to order one is ln(10⁸)/
 island should show t_esc ≈ 1500–3000 in the core shells with block 23 the first sector to reach norm 1).
 Optional third, if the first two finish early: `--eps 1e-10` (the paper's other island energy is E = 1; not needed).
 
-Then send the two .txt logs (and the .npz if convenient); the reading and the closing note follow.
+

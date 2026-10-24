@@ -1,8 +1,8 @@
-# Rabbit hole 8 — the loophole at the paper's seed size, measured (22 Oct 2026; Joseph's run)
+# Rabbit hole 8 — the loophole at the paper's seed size, measured (22 Oct 2026)
 
 `islands/results/esc_E_delta1e-2_b12.{txt,npz}`: section E, 48 energies in [0.045, 0.2] × 64 seeds, **off-diagonal
 seed δ = 10⁻² in block 12 only, diagonal ghost not seeded** (so that any escape at a Floquet-stable energy is the
-off-diagonal transient's doing, not the diagonal ghost's own tongue), tmax 3000, 7963 s.
+off-diagonal transient's doing, not the diagonal ghost's own tongue), tmax 3000, 7963 s on 24 threads.
 
 **Two CHECK lines fail and are reported as such**: the kernel-vs-scipy cross-checks at δ = 10⁻² miss their
 tolerances (state at 2T: 8 × 10⁻³ relative against tol 10⁻⁶; escape time at E = 0.549: 1.8 × 10⁻² against 10⁻³).
@@ -32,7 +32,7 @@ the paper's 10⁻³. No integrator failures; energy drift ≤ 2 × 10⁻⁴; Gau
   the trajectory is in the nonlinear regime and whether it escapes by 3000 is a smooth function of E, unrelated to
   the linear classification; below E ≈ 0.08 it sits at order one for the whole run (the τ = 100-orbit Poisson regime
   of the 12000 run, or longer).
-- At δ = 10⁻⁴ the linear bands predict the escapes essentially perfectly (`RH_overnight_2026-10-22.md`); at δ = 10⁻²
+- At δ = 10⁻⁴ the linear bands predict the escapes essentially perfectly (`RH4_loiter.md`); at δ = 10⁻²
   they predict nothing. The crossover seed is between, where the transient gain × δ reaches order one: ~10⁻³.
 
 ## Reading for the paper

@@ -1,4 +1,8 @@
-# Hole 12 — the run it needs (after patch 22 is applied; do NOT run while a pre-patch-22 kernel job is in flight in the same checkout: the .c is rebuilt at every launch)
+# Hole 12 — the snapshot runs (queue of 22 Oct; run and closed the same day)
+
+Both runs done, logs committed 23 Oct (`islands/results/esc_E_snap_krein.*`, `esc_E_snap_param.*`); analysis `rh12_direction.py`;
+hole closed in `../notes/RH12_direction.md`. Kept as the record. (Operational note that applied at the time: the kernel is rebuilt
+at every launch, so a run with the snapshot kernel must not start while a job on the previous kernel is in flight in the same checkout.)
 
 The kernel now snapshots the full 36-component state at each crossing event (|w| = 0.1, |w| = 1, each block norm = 1),
 stored as `snap` (N, 5, 36) float32 in every section's npz.  Hole 12's question -- does a Krein quadruplet's runaway
@@ -13,7 +17,7 @@ over the same interval.  Two runs, both --block 12 so the sector is clean:
 ```
 
 (Krein band of block 12 at 0.152-0.161, parametric band at 0.223-0.265; 4 energies x 128 seeds each; ~1 h each on 24
-threads at these low rates.)  Analysis script to be written once the files exist: for each trajectory, the unit
+threads at these low rates.)  Analysis (`rh12_direction.py`): for each trajectory, the unit
 off-diagonal direction d(t) of block 12 at the three snapshots; the angle between d(|w|=0.1) and d(|w|=1); and the
 same angle for the linear Floquet solution started from the seed over the same time interval.  Rotating runaway:
 the nonlinear angle tracks the linear one (which winds at the Krein angle per period); directional: both near 0 or pi.

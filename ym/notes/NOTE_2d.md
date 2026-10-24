@@ -1,10 +1,11 @@
-# The two-field model: derivation, CPU checks, and what the GPU run tests
+# The two-field model: derivation, checks, and the test of the ghost law at a second value of n
 
-*2026-10-01. Companion to `hdym_2d.py`, `hdym2d_nu0.py`, `hdym2d_spectrum.py`. Section 5 is a
-result about the 3-d paper and should go into `main.tex` before arXiv.*
-
-> **Status (2026-10-10):** §5 is in `paper/main.tex` (Channel statistics: A = (7/2)A_res, share 2/7). The GPU
-> runs of §6 are done; results in §4.
+1 Oct 2026 (derivation and CPU checks), GPU runs 1 Oct, corrections 12 Oct; rewritten 23 Oct 2026 from the state at
+that date. Companion to `hdym_2d.py`, `hdym2d_nu0.py`, `hdym2d_spectrum.py`. §5 (resonant : detuned = 2 : 5 in 3-d,
+A = (7/2)A_res, share 2/7) is in `paper/main.tex` (Channel statistics). Results: the two-field law
+λ_diag = 1.861 E²/Z₂ holds to 5 % over 0.01 ≤ E ≤ 0.03 and to 3 % at the lowest point, with the exponent 2
+(local slope 1.98; 9/4 excluded at ~10σ) and the 1/Z factor tested by two regulators; the detuned driver is inert
+(λ_z/λ_diag falling faster than any power of E); the ghost sees exactly the resonant 4/5 of the tail (measured 0.83).
 
 ## 1. The model and why it needs a regulator
 
@@ -88,10 +89,10 @@ Substituting J = c·a/D with c = 1 − ½μ²D²:
 
     ŝ_xx^res(u) = 16π I₂ ν₀ c^{5/2} / u⁵,      I₂ = ∫₀¹ a² da/√(2(1−a)) = B(3,½)/√2 = 16/(15√2),
 
-    A_res ≡ u⁵ ŝ_xx^res / c^{5/2} = (256π/(15√2)) ν₀ = 37.93 ν₀    (2.511 at μ₁ = 0.1, 1.730 at 0.03).
-    *Status (2026-10-12): 256π/(15√2) = 37.913, not 37.93; the values 2.511 and 1.730 were
-    computed from the closed form and are right. `hdym2d_spectrum.py`'s docstring and printout
-    carry the same 37.93 label.*
+    A_res ≡ u⁵ ŝ_xx^res / c^{5/2} = (256π/(15√2)) ν₀ = 37.913 ν₀    (2.511 at μ₁ = 0.1, 1.730 at 0.03).
+
+(The label "37.93" in `hdym2d_spectrum.py`'s docstring and printout is a rounding slip, found 12 Oct and not yet
+changed in the script; the values 2.511 and 1.730 come from the closed form and are right.)
 
 [3-d check of the same algebra: I = ∫_{a+b<1}(a²+b²)/√(2(1−a−b)) = (2/3√2)B(4,½) = 64/(105√2),
 the paper's value.]
@@ -152,14 +153,12 @@ middle term, which is the count of transverse actions. The regulator factor matt
 
 | E | T | λ_diag (measured) | a + b/T extrap. | predicted | ratio | λ_z | λ_z/λ_diag |
 |---|---|---|---|---|---|---|---|
-| 0.1 | 12 000 | 8.19×10⁻⁵ ± 1.2% | 7.93×10⁻⁵ | 9.32×10⁻⁵ | 0.87 | 1.84×10⁻⁵ | 0.22 |
+| 0.1 | 12 000 | 8.19×10⁻⁵ ± 1.2% | 7.93×10⁻⁵ | 9.32×10⁻⁵ | 0.879 (0.87 in the CSV, see below) | 1.84×10⁻⁵ | 0.22 |
 | 0.03 | 60 000 | 7.96×10⁻⁶ ± 1.8% | 8.10×10⁻⁶ | 8.15×10⁻⁶ | 0.98 (0.99 extrap.) | 1.5 ± 1.3×10⁻⁷ | 0.02 |
 
-*Status (2026-10-12): the E = 0.1 row mixes two predictions. 9.32×10⁻⁵ includes the ghost-mass
-factor (as in the paper's two-field table); the ratio 0.87 is the CSV's
-(`results_2d_cpu/transverse_2d_E0.1_mu0.1.csv`: pred = 9.4255×10⁻⁵, written by the earlier
-prediction code without that factor, ratio 0.869). Against 9.32×10⁻⁵ the ratio is 0.879. The
-E = 0.03 CPU CSV carries the prediction with the factor (8.155×10⁻⁶).*
+(The E = 0.1 CSV, `results_2d_cpu/transverse_2d_E0.1_mu0.1.csv`, carries pred = 9.4255×10⁻⁵ from the earlier
+prediction code without the ghost-mass factor, ratio 0.869; 9.32×10⁻⁵ includes the factor, as in the paper's
+two-field table, ratio 0.879. The E = 0.03 CSV carries the prediction with the factor, 8.155×10⁻⁶.)
 
 **GPU results** (RTX 4080 SUPER, 2026-10-01, N = 10⁵ at E = 0.1 and 2×10⁵ otherwise,
 `--target-rel 0.02`; 0.03–0.05 ms/step, 46 min in all):
@@ -217,31 +216,22 @@ tail power, against the measured 0.276–0.290". The remark about the interior c
 tail is entirely channel power. For K_zz-type (the lowest-eigenvalue) spectra the same
 method gives the constant too, if wanted.
 
-## 6. What the GPU run tests, run by run
+## 6. What the GPU runs tested
 
-1. **E = 0.1, 0.03, 0.01 at μ₁ = 0.1.** Exponent: local slopes should be ≈ 2 (1.97 allowing
-   the regulator factor's E-dependence; the 3-d value 2.25 is excluded at the 10σ level by
-   the E = 0.01/0.03 pair alone). Prefactor: ratio to the table ≈ 1 at E ≤ 0.03 to the
-   same ~5% as 3-d. This is the test of the exponent decomposition.
-2. **E = 0.03 (and 0.01 if time) at μ₁ = 0.03.** Z₂ changes by 45%; the ratio should stay 1.
-   This is the test of the 1/Z factor.
-3. **λ_z/λ_diag at each E.** Should fall with E (0.22 at E = 0.1 on CPU). It is the
-   direct test of "detuned power is inert"; a value that does not fall would mean the
-   inertness argument is incomplete and the 2/7 of §5 is a coincidence.
-4. Resonant-share test: λ_diag / [(1/8)E^{3/4}ŝ_meas(2E^{-1/4})] = 0.80 using the measured
-   spectrum (`spec_2d_mu0.1.npz`); the 2-d analogue of the 0.28 test.
-5. (Optional, cheap) `--mu1 0` at E = 0.03, long run, no convergence target: watch λ_diag(T)
-   fall as 1/ln T. One figure's worth of footnote.
-
-> **Status (2026-10-10):** items 1–4 done, results in §4 (GPU table and the bullets under it). Item 5 has no
-> output in the repository; the paper states the 1/ln T decay from the density-of-states argument.
+The four tests the runs were designed for, each answered in §4: (1) the exponent decomposition — E = 0.1, 0.03, 0.01 at
+μ₁ = 0.1, local slope ≈ 2 (1.97 allowing the regulator factor's E-dependence), 9/4 excluded at 10σ by the 0.01/0.03 pair
+alone; (2) the 1/Z factor — E = 0.03 at μ₁ = 0.03, Z₂ changed by 45 %, ratio unchanged at 0.951; (3) the inertness of
+detuned power — λ_z/λ_diag falling with E; (4) the resonant share — 0.83 against the derived 4/5, the 2-d analogue of
+the paper's 0.28 test. A fifth, optional run (`--mu1 0` at E = 0.03, long, no convergence target, to watch λ_diag(T)
+fall as 1/ln T) has no output in the repository; the paper states the 1/ln T decay from the density-of-states argument.
 
 ## 7. Files
 
 - `hdym_2d.py` — kernel (CuPy / C / numpy), per-component estimator, prediction printed with
-  every run, CSV with `ratio` and `lam_z`.
-- `hdym2d_nu0.py` — flux check (§2). `hdym2d_spectrum.py` — spectrum check (§3).
-- `nu0_2d_mu0.1.npz`, `nu0_2d_mu0.03.npz`, `spec_2d_mu0.1.npz`, `spec_2d_mu0.03.npz` — data.
+  every run, CSV with `ratio` and `lam_z`. `hdym2d_nu0.py` — flux check (§2). `hdym2d_spectrum.py` — spectrum check (§3).
+- `data/nu0_2d_mu0.1.npz`, `nu0_2d_mu0.03.npz`, `spec_2d_mu0.1.npz`, `spec_2d_mu0.03.npz` — flux and spectrum data.
+- `data/results_2d/` — the GPU runs of §4 (summaries `transverse_2d_mu*.csv`, per-trajectory exponents
+  `lam_i_E*_mu*.npy`, `history_*.npy`); `data/results_2d_cpu/` — the CPU runs (N = 8192) with their CSVs and histories.
 
 ## 8. The general-n statement (`hdym_analytic.py`, sympy, all checks pass)
 

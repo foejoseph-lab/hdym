@@ -1,12 +1,12 @@
 # Rabbit hole 6 — which polarisation carries which sign (a negative result, with the reason)
 
-Session of 21 Oct 2026 (Claude, cloud). Script `code/rh6_polarisation.py` (100 energies, 68 s), log
+21 Oct 2026. Script `code/rh6_polarisation.py` (100 energies, 68 s), log
 `results/rh6_polarisation.txt`, data `results/rh6_polarisation.npz`. Scope: block 12 on the planar DR orbit,
 c_j = 1, E ∈ [0.05, 1]. Float.
 
 ## The question, sharpened
 
-The list asks which of the two ghost-sector pairs is "the ghost's" and whether that changes with E, expecting
+The question as posed (`../README.md`, hole 6) is which of the two ghost-sector pairs is "the ghost's" and whether that changes with E, expecting
 a projection onto the transverse / longitudinal polarisations of the massive Lee–Wick vector. Two things stand
 in the way, one practical and one structural.
 

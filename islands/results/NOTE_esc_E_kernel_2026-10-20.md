@@ -1,7 +1,7 @@
 # Note on `esc_E.txt` / `esc_E.npz` and `esc_orient_0412.txt` / `.npz` (2026-10-20)
 
 These logs were produced on 19–20 Oct 2026 by `islands/code/offdiag_escape.py` and `ym/csrc/hdym_full_escape.c`
-as of commit 1723030 (patch 0016, the first version of the kernel), on Joseph's machine (Windows, MinGW gcc,
+as of commit 1723030 (patch 0016, the first version of the kernel), on the production machine (Windows, MinGW gcc,
 OpenMP, 24 threads). Two things changed in the kernel afterwards, and this note is kept instead of rerunning.
 
 1. **Thread-dependent floating point (found 20 Oct, fixed in patches 0019–0020).** The step controller called the
@@ -19,5 +19,5 @@ OpenMP, 24 threads). Two things changed in the kernel afterwards, and this note 
    class and the same scipy cross-check tolerances, but a different step sequence, so escape times from these logs
    are not bit-reproducible with the later kernel even on one thread.
 
-Decision (Joseph, 20 Oct): the physics does not change; these logs stand with this note rather than being rerun.
+Decision of 20 Oct: the physics does not change; these logs stand with this note rather than being rerun.
 The orient maps at E = 0.156 and 0.30 are made with the fixed kernel (patch 0020 or later).

@@ -1,6 +1,6 @@
 # Rabbit hole 7 — the selection rule of block 12, derived (what is exact and what is not)
 
-Session of 21 Oct 2026 (Claude, cloud; rabbit-hole work, not paper work). Script `code/rh7_selection_rule.py`,
+21 Oct 2026. Script `code/rh7_selection_rule.py`,
 log `results/rh7_selection_rule.txt` (150 energies, 184 s), figure `results/rh7_sector_tongues.png`.
 Scope: the off-diagonal ghost block (u12, u21) on the planar DR orbit, c_j = 1, E ∈ [0.05, 1]. Float.
 
@@ -45,7 +45,7 @@ happens, as the lemma requires. Every single-pair passage through 0 or ±π (M =
 Step 1 of the script: in the (u12, u21) basis the self-coupling blocks are T/2-periodic (only even harmonics
 of Ω = 2π/T; the odd ones are 4 × 10⁻¹² relative) and the cross blocks flip sign over T/2 (only odd harmonics;
 even ones 8 × 10⁻¹²). In the sector basis u± = (u12 ± u21)/√2 the same symmetry is the swap: K₊₊(t + T/2) =
-K₋₋(t), K₊₋(t + T/2) = K₋₊(t) (residual 2 × 10⁻¹¹). This is the reviewer's "self even, cross odd" statement,
+K₋₋(t), K₊₋(t + T/2) = K₋₊(t) (residual 2 × 10⁻¹¹). This is the "self even, cross odd" parity statement conjectured in the 19 Oct review,
 written out and verified.
 
 The textbook reading — self-coupling at 2kΩ pumps a single mode at 2ω = 2kΩ, i.e. ωT = 2πk, M = +1; cross-
@@ -80,7 +80,7 @@ against the model's exactly ±0.5 π, are the size of the splitting the coupling
 |---|---|
 | a + 2 ≥ 0; no single pair leaves at −1 | **derived, exact** (Lemma); checked on all 16 events and on the one safe passage at E = 0.520 |
 | single-mode folds only at M = +1 | **derived, exact** (Corollary of the Lemma: a single pair can only fold at N = ±1) |
-| collisions only at M = −1 | exact in the decoupled symmetric limit; in the real block it is "collisions at N = ±(0.44–0.68) π", i.e. the two pairs are degenerate in period-phase to 0.1–0.2 π at every collision. Not a theorem; an explicit obstruction is the E > 1 scan of hole 2 (`results/rh2_predict.txt`), where the pairs have separated by a full rung and a parametric band sits at rung 6 where the alternation would put a Krein one. |
+| collisions only at M = −1 | exact in the decoupled symmetric limit; in the real block it is "collisions at N = ±(0.44–0.68) π", i.e. the two pairs are degenerate in period-phase to 0.1–0.2 π at every collision (Δ(E), `RH27_averaging.md` item 5). Not a theorem; an explicit obstruction is the E > 1 scan of hole 2 (`results/rh2_predict.txt`), where the pairs have separated by a full rung and a parametric band sits at rung 6 where the alternation would put a Krein one. |
 
 ## What this changes in the paper (if anything)
 
@@ -102,4 +102,4 @@ pair; every multiplier at −1 is a two-pair Krein event, and every single-pair 
   so no collision can open — only +1 folds, which is what B001 sees. Block 12 is the one whose two components
   mix under the orbit's reflection (S̃ = diag(+1, −1)), i.e. the one with a cross-coupling at all. That is the
   derivation of hole 5's "why" in one sentence; the non-planar question (do all blocks couple off the plane)
-  is untouched.
+  is answered in `RH5_nonplanar.md`: on the x = y = z orbit none does.

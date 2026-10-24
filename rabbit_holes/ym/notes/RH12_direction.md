@@ -1,6 +1,6 @@
-# Rabbit hole 12 — nonlinear character of a Krein vs a parametric runaway (22 Oct 2026; Joseph's two snapshot runs)
+# Rabbit hole 12 — nonlinear character of a Krein vs a parametric runaway (22 Oct 2026)
 
-Runs `islands/results/esc_E_snap_krein.*` (block 12's Krein band, E = 0.152–0.161, 4 × 128, all checks PASS, 297 s)
+Runs `islands/results/esc_E_snap_krein.*` (block 12's Krein band, E = 0.152–0.161, 4 × 128, all checks PASS, 297 s on 24 threads)
 and `esc_E_snap_param.*` (its parametric band, E = 0.226–0.262, 4 × 128, 822 s), both with the kernel's new state
 snapshots at the crossing events (patch 22). Script `code/rh12_direction.py`, log `results/rh12_direction.txt`,
 per-energy arrays `results/rh12_esc_E_snap_*_E*.npz`. 32–48 trajectories per energy propagated linearly.
@@ -27,7 +27,7 @@ the same convention for both bands).
 **Result.** By the time the diagonal ghost is at 0.1 the off-diagonal sector no longer follows its own linear mode in
 either band: the nonlinear end state is 70–78° from the linearly propagated one, with the same spread, for
 quadruplets and real pairs alike. "Rotating vs directional" is therefore not observable at the nonlinear stage — the
-diagonal ghost has taken the sector over (consistent with `RH_overnight_2026-10-22.md`: the diagonal ghost crosses
+diagonal ghost has taken the sector over (consistent with `RH4_loiter.md`: the diagonal ghost crosses
 amplitude 1 before the off-diagonal mode does in 71–89 % of cells). The one residual of the type is weak but
 systematic: the Krein end state keeps a memory of its unstable **plane** (32–38° from it against 60° for a random
 direction, at all four energies), while the parametric end state is at random with respect to its unstable **line**
@@ -36,6 +36,6 @@ real pair's one-dimensional direction does not survive at all.
 
 **Reading.** The distinction between the two mechanisms is a property of the linear stage (nodal points vs nodal
 circle, `offdiag_escape_nodal.py`; the lemma; the segment localisation of RH3) and of the trigger (which sector
-pumps, and at what rate, RH_overnight); once the diagonal ghost is at order one the runaway is the diagonal ghost's,
+pumps, and at what rate, `RH4_loiter.md`); once the diagonal ghost is at order one the runaway is the diagonal ghost's,
 and it does not remember which mechanism started it beyond a residual alignment with a plane. A referee asking
 "do the two mechanisms differ once nonlinear" gets: in their trigger yes, in their execution no. Hole closed.

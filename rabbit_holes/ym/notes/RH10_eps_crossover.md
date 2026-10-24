@@ -1,4 +1,4 @@
-# Rabbit hole 10 — the ε-crossover of the E = 0.3 island (22 Oct 2026; Joseph's four `hdym_island.py` runs)
+# Rabbit hole 10 — the ε-crossover of the E = 0.3 island (22 Oct 2026; four `hdym_island.py` runs)
 
 Logs `islands/results/island_E0.3_eps1e-{9,8,7,6}.log` (ball sampling around the DR point, 200 points per shell,
 8 shells r = 10⁻⁶ … 10⁻², tmax 5000, Yoshida-4 pair kernel; ~15 s each). The diagonal ghost's amplitude is
@@ -23,4 +23,4 @@ Logs `islands/results/island_E0.3_eps1e-{9,8,7,6}.log` (ball sampling around the
   only for ε ≲ 10⁻⁷, six decades below the paper's regime (and it is not a refuge for the full theory at any ε,
   islands/README off-diagonal item).
 
-Hole closed. (All diagonal-ghost; the full nine-component version is hole 9.)
+Hole closed. (All diagonal-ghost. The nine-component version is hole 9, run 23 Oct, `islands/results/island_full_E0.3_eps1e-8.*`: with the off-diagonal sector seeded at 10⁻⁸ every core shell escapes, with none seeded none does; reading in `../README.md`, row 9.)

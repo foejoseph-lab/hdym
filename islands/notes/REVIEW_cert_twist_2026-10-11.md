@@ -1,7 +1,8 @@
 # Review of `islands/code/cert_twist.py` (Prompt B), 2026-10-11
 
-Reviewer: fresh Claude session (Opus 5.5), cold review; repo cloned read-only at HEAD of
-2026-10-11 01:39 EDT. Budget 20 min; used ~11 min. Status: COMPLETE for the items listed under "Reached".
+Record of an independent cold review (no prior contact with the repository), 2026-10-11; kept as written. Findings
+F1–F5 were fixed on 11 Oct; the independent float fit of the return-map coefficients is still open —
+`islands/README.md`, "Review history of the checker". Repo cloned read-only at HEAD of 2026-10-11 01:39 EDT. Budget 20 min; used ~11 min. Status: COMPLETE for the items listed under "Reached".
 
 Verdict: no finding that breaks the proof. The twist layer, the formula and the glue are sound
 as far as I could check; F1-F3 are gaps in what the checker enforces/declares, F4-F5 cosmetic.

@@ -8,7 +8,7 @@ without a decisive test. Two tests, seconds each.
 (correctly, since on the non-exact background the drop-4 rule has no exact meaning). Reproducing the cell and
 applying the drop-4 labelling: the four ghost-sector multipliers are on the circle to 10⁻¹⁵ (−0.056 ± 0.999i,
 0.979 ± 0.204i), and the thing at |μ| = 1.002, arg ±0.065π is the gauge pair, whose Jordan block the frozen
-background splits by |μ − 1| = 0.20 ≈ √ε (ε = 0.021) — exactly the suspicion of the 19 Oct response. Scanning
+background splits by |μ − 1| = 0.20 ≈ √ε (ε = 0.021) — the mechanism suspected on 19 Oct. Scanning
 J = J₀/8 … 4J₀ at fixed D: the ghost pairs stay on the circle at every J (|μ| − 1 at 10⁻¹⁵), the split grows
 0.07 → 0.21 with √ε as it should, and no threshold in J appears (a real collision would switch on when the pairs
 meet).

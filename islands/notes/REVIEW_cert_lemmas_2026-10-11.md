@@ -1,6 +1,7 @@
 # Review: `islands/code/cert_lemmas.py` and `islands/code/cert_check.py`
 
-Reviewer: independent Claude session (no prior contact with the repository), 2026-10-11.
+Record of an independent review (no prior contact with the repository), 2026-10-11; kept as written. Every finding
+below was fixed on 11–12 Oct — `islands/README.md`, "Review history of the checker".
 Clone: `https://github.com/foejoseph-lab/hdym`, shallow clone of the default branch at 01:24 EDT.
 Budget: 20 minutes wall clock, started 01:24 EDT.
 

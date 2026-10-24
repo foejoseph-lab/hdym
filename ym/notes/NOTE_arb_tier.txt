@@ -1,1 +1,0 @@
-Arbitrary-precision ball arithmetic as a library

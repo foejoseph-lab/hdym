@@ -1,8 +1,16 @@
 # Rung 1 — off-ansatz linearisation of homogeneous SU(2) Lee–Wick Yang–Mills
 
-*2026-10-01/02. Files: `hdym_rung1.py` (sympy, writes `rung1_system.pkl`), `hdym_rung1_lyap.py`
-(CPU Lyapunov spectra, QR), `hdym_rung1_gpu.py` (CuPy/C kernel for the off-diagonal ghost
-exponents, large ensembles).*
+1–2 Oct 2026, runs through 10 Oct, corrections 12 Oct; rewritten 23 Oct 2026 from the state at that date. Files:
+`hdym_rung1.py` (sympy, writes `rung1_system.pkl`), `hdym_rung1_lyap.py` (CPU Lyapunov spectra, QR; its `load_K`
+leaves c_j free and the script cannot run as committed — a held README-vs-code item, `../README.md`),
+`hdym_rung1_gpu.py` (CuPy/C kernel for the off-diagonal ghost exponents, large ensembles; the paper's table).
+Results: the diagonal ansatz is the J = 0, gauge-fixed sector of homogeneous Yang–Mills and off-diagonal YM
+perturbations are neutral (§2); the off-diagonal ghost's exponents (§3) are faster than the diagonal law at low E
+and follow neither E^{9/4} nor E^{5/4}; with the Gauss-charge term dropped (c_j = 0) the law is 0.0210 E^{5/4},
+derived (§3b); the low-E law of the real theory (c_j = 1) is not derived. All of this is in `paper/main.tex` (scope
+paragraph, "The off-diagonal ghost sector", the abstract's qualification of E^{9/4} as the diagonal-sector law).
+The linearised system `rung1_system.pkl` is also the input of the Floquet work on the DR orbit (`islands/`,
+`rabbit_holes/ym/`).
 
 ## 1. Setup
 
@@ -30,9 +38,12 @@ quadratic in u off it. The A_0 equation (Gauss law) is expanded to first order.
    involves u up to u''' and is preserved by the linear flow for *every* state (verified).
 4. Counting per block: 2 × 4th order = 8 phase dims, minus gauge, minus constraint = 6 = 3 dof:
    one YM-type and **two** ghost. Total 6 YM + 9 ghost = (9 − 3 gauge) + 3 colours × 3
-   polarisations of the massive vector. The second ghost in each block is the longitudinal
-   polarisation; it has no diagonal analogue. In a channel (|x| ≫ |y|, |z|) the two ghost
-   modes of block 12 sit at frequencies 1 and √(1+x²): the j² term lifts the longitudinal one.
+   polarisations of the massive vector. The second ghost in each block has no diagonal analogue; in a
+   channel (|x| ≫ |y|, |z|) the two ghost modes of block 12 sit at frequencies 1 and √(1+x²): the j² term
+   lifts the second one. (The label "longitudinal polarisation" for it, used here on 1 Oct and in the
+   docstring of `hdym_rung1_lyap.py`, is retired: in the homogeneous sector there is no momentum to be
+   transverse to, and on the DR orbit the two ghost pairs are the same sector mode twice, split by a phase —
+   `rabbit_holes/ym/notes/RH6_polarisation.md`. The channel-limit frequencies stand.)
 5. The 4th-derivative coefficient is −1 (Lee–Wick sign as in the diagonal sector). The ü
    coefficient matrix is −[[1+x²+2z², −3xy], [−3xy, 1+y²+2z²]].
 
@@ -63,14 +74,10 @@ lattice (Rung 3) becomes the only place where the background changes qualitative
 Lyapunov spectrum per block along chaotic diagonal backgrounds (QR, `hdym_rung1_lyap.py`,
 N = 18, T = 3000 E^{-1/4}):
 
-| E | exponents (block, sorted) | noise floor ln T/T |
+| E | exponents (block, sorted; at E = 1 the sample means of `data/rung1_lyap_E1.npy`, 18 runs — the first reading gave +0.0126(9), +0.0070(5)) | noise floor ln T/T |
 |---|---|---|
-| 1 | +0.0126(9), +0.0070(5), +0.003, +0.0015, −0.0015, −0.003, −0.0070, −0.0127 | 0.003 |
+| 1 | +0.01261, +0.00705, +0.00287, +0.00162, −0.00167, −0.00288, −0.00685, −0.01279 | 0.003 |
 | 0.1 | +0.0018(2), +0.0013(1), +0.0005, +0.0001, …, −0.0018 | 0.0016 |
-
-*Status (2026-10-12): the committed `data/rung1_lyap_E1.npy` (18 runs) gives sample means
-+0.01261, +0.00705, +0.00287, +0.00162, −0.00167, −0.00288, −0.00685, −0.01279 at E = 1: the
-±0.0015 pair is +0.0016, −0.0017 (both inside the noise floor 0.003).*
 
 Four neutral exponents (gauge, Gauss, YM pair) and two resolved positive ghost exponents at
 E = 1; at E = 0.1 the ghost exponents are at the noise floor of the QR method.
@@ -99,31 +106,23 @@ has both features: in the (p, w) variables it is the only term in L₂ that coup
 (positive-energy, slow) and ghost (negative-energy, frequency 1) sectors at linear order —
 the diagonal sector has no such term, which is why there "the normal sector decouples". With
 c_j = 0 the ghost obeys ẅ = −(1 + m)w, the diagonal-type Hill equation with the off-diagonal
-Hessian block, for which the paper's machinery predicts the resonant single-mode rate
-½·0.0120 E^{9/4} (only J_z² drives w₁₂ through z²) times a mixing factor ≲ 2 from −xy:
-roughly 0.006–0.013 E^{9/4}, i.e. 4–9×10⁻⁴ at E = 0.3 and 3–8×10⁻⁵ at E = 0.1.
-
-> **Status (2026-10-10):** this c_j = 0 estimate is superseded by the run and the derived law in §3b
-> (measured 5.07×10⁻³ at E = 0.3, 1.47×10⁻³ at E = 0.1; law 0.0210 E^{5/4}).
+Hessian block; a first estimate from the paper's single-mode machinery (0.006–0.013 E^{9/4}, i.e. 4–9×10⁻⁴ at
+E = 0.3 and 3–8×10⁻⁵ at E = 0.1) was wrong by an order of magnitude — the run and the derived law are in §3b (5.07×10⁻³ at E = 0.3,
+1.47×10⁻³ at E = 0.1; 0.0210 E^{5/4}): the channel resonance is first order in the transverse action there.
 
 Predictions for g₁ at E = 0.01 from the 0.03 point were 1.15×10⁻⁴ (slope 3/4), 6.7×10⁻⁵ (5/4),
 2.2×10⁻⁵ (9/4); measured 1.33×10⁻⁴, slope 0.62 — shallower than 3/4 and still falling
 (1.04 → 1.55 → 0.71 → 0.62). g₂ has slopes 1.02, 1.35, 0.82, 0.58. A slope tending to 1/2 would
 mean a rate first order in the O(E^{1/2}) coupling, i.e. a Krein-type (opposite-signature)
-instability rather than a second-order noise-driven one; this is to be settled by the c_j = 0
-run and the growth-location split, not by fitting four points.
+instability rather than a second-order noise-driven one; four points cannot settle it, and the c_j = 0 run
+and the growth-location split (§3b, §3c) do not derive it either.
 
-> **Status (2026-10-10):** both done, §3b (c_j = 0) and §3c (split at E = 0.1).
-
-**Growth location.** The kernel now also splits the log-growth of the leading vector by
-max|q| ≶ 3E^{1/4} (channel mouth). At E = 1, N = 512: 16% of the growth in the 26% of time
-spent in channels, i.e. the off-diagonal ghost grows mostly in the interior, unlike the
-diagonal single-mode ghost, whose growth is entirely at depth ~E^{-1/4}. At low E this split
-is the cleanest fingerprint of the mechanism: a channel-tail mechanism puts ~100% of the
-growth in the channels; a zero-frequency interior mechanism puts it where the time is.
-
-> **Status (2026-10-10):** at E = 0.1 the split puts 79% of the growth in the channels (§3c); the
-> "interior" reading holds at E = 1 only.
+**Growth location.** The kernel splits the log-growth of the leading vector by max|q| ≶ 3E^{1/4}
+(channel mouth). At E = 1, N = 512: 16% of the growth in the 26% of time spent in channels — the
+off-diagonal ghost grows mostly in the interior there, unlike the diagonal single-mode ghost, whose
+growth is entirely at depth ~E^{-1/4}. At E = 0.1 the split is the opposite, 79% of the growth in the
+27% of time in channels (§3c), so the "interior mechanism" reading holds at E = 1 only, and at E = 1 it
+rests on this one N = 512 split (not re-measured).
 
 ## 3b. c_j = 0 results and the derived E^{5/4} law (2026-10-02 evening)
 
@@ -137,14 +136,11 @@ With c_j = 0, m = z²·1 − xy σ_x has fixed eigenvectors (1, ±1): the pair d
 channels resonate (no longitudinal lift). Passage integral with one power of J:
 u²ŝ_xy = 16√2πν₀/15 = 0.672 (measured 0.68–0.72 over u = 4–20, `hdym_spectrum_xy.py`), and
 λ_± = (4√2π³/15) E^{5/4}/Z = 0.0210 E^{5/4} (`hdym_analytic.py` §6). Confirmed by flux, tail and
-exponents. In the real theory (c_j = 1) the j² term lifts the longitudinal mode to √(1+x²) in
+exponents. In the real theory (c_j = 1) the j² term lifts the second ghost mode to √(1+x²) in
 channels and detunes this resonance (g₁ = 6.2×10⁻⁴ vs 15.4×10⁻⁴ at E = 0.1), but leaves the
-interior pair degenerate and coupled to the YM mode; the shallow low-E law is that interior
-contribution. Its derivation is open.
-*Status (2026-10-12): the attribution "the shallow low-E law is that interior contribution" is
-withdrawn at E = 0.1 by §3c (79 % of the leading vector's log-growth accrues in channels; the
-"interior mechanism" reading was wrong there). At E = 1 the split has not been re-measured, so
-the sentence is unsupported rather than refuted there.*
+interior pair degenerate and coupled to the YM mode. The derivation of the c_j = 1 low-E law is open
+(an attribution of it to "the interior contribution", 2 Oct, was withdrawn on 12 Oct: at E = 0.1, 79 % of the
+leading vector's log-growth accrues in channels, §3c).
 
 ## 3c. The theory at E = 0.1 with the split, and the Q statistic
 
@@ -168,42 +164,23 @@ visits with log-gain ~19 at E = 0.01, <0.2% negative trajectories — an instabi
 visit, not a kick per passage. Candidate: the frozen coefficients of the Gauss-charge term change
 sign in channels (the frozen scan at E = 0.1 found a real eigenvalue 0.54 at x = 3.8, z = 0.12;
 its time average over the fast z oscillation vanishes by the virial relation, so the effect is
-not a static tachyon; the derivation is open). Paper text: block D of `additions.tex` is complete (since merged into `paper/main.tex`;
-`additions.tex` itself is in the tag `draft-2026-10-01`).
+not a static tachyon; the derivation is open).
 
-## 4. GPU runs
+## 4. Runs and data
 
-> **Status (2026-10-10):** all runs below are done: c_j = 1 at E = 1, 0.3, 0.1, 0.03, 0.01 (§3 table); the two
-> runs listed next (§3b, §3c). With c_j = 0, g₁ rose (1.54×10⁻³ at E = 0.1) instead of falling, so the
-> Gauss-charge term detunes the channel resonance rather than driving the growth (§3b). Summary rows are
-> in `ym/data/results_rung1/rung1_offdiag.csv`.
+GPU, `hdym_rung1_gpu.py`, `--target-rel 0.02`: c_j = 1 at E = 1, 0.3, 0.1, 0.03, 0.01 (§3 table; 2 Oct, the
+E = 0.01 run finished later); c_j = 0 at E = 0.3, 0.1 and the c_j = 1 repeat at E = 0.1 with the split
+(`--E 0.3 0.1 --cj 0 --N 100000 --t-block 5000 --target-rel 0.02 --target-abs 1e-6`; `--E 0.1 --N 100000
+--t-block 10000 --target-rel 0.02 --target-abs 1e-6`; §3b, §3c). With c_j = 0, g₁ rose (1.54×10⁻³ at E = 0.1)
+instead of falling: the Gauss-charge term detunes the channel resonance rather than driving the growth.
+Summary rows in `data/results_rung1/rung1_offdiag.csv` (with a `cj` column and the two split fractions);
+per-trajectory exponents and histories beside it; CPU spectra `data/rung1_lyap_E*.npy`, `rung1_ym_E*.npy`.
 
-Done (c_j = 1): E = 1, 0.3, 0.1, 0.03; E = 0.01 running. Next, in order:
+## 5. In the paper
 
-```
-%run hdym_rung1_gpu.py --E 0.3 0.1 --cj 0 --N 100000 --t-block 5000 --target-rel 0.02 --target-abs 1e-6
-%run hdym_rung1_gpu.py --E 0.1 --N 100000 --t-block 10000 --target-rel 0.02 --target-abs 1e-6
-```
-
-The first (~1.5 h) drops the (D^μF_{μ0})² term: if g₁ falls to the 10⁻⁴/10⁻⁵ level predicted
-above, the Gauss-charge coupling between the normal and ghost sectors is the mechanism. The
-second repeats the c_j = 1 point at E = 0.1 with the new kernel to get the channel/interior
-split of the growth (the earlier runs predate it). Output rows append to
-`results_rung1/rung1_offdiag.csv` with a `cj` column and the two split fractions.
-
-## 5. For the paper
-
-- Scope paragraph: replace the implied "the ansatz is a measure-zero slice of chaotic
-  homogeneous dynamics" by: the diagonal ansatz is the J = 0, gauge-fixed sector of homogeneous
-  SU(2) Yang–Mills mechanics (SVD); off-diagonal perturbations are neutral; the full homogeneous
-  ghost sector has 9 dof, 3 of which are treated in the paper, and the other 6 (including the
-  longitudinal polarisations, which couple through the (D^μF_{μ0})² term) have exponents
-  [to be filled from §4] — then one sentence on which of the two scalings holds.
-- If E^{5/4}: the abstract's λ_⊥ ∝ E^{9/4} must be qualified as the diagonal-sector law, and
-  the physically relevant transverse exponent of the homogeneous ghost-free manifold is the
-  off-diagonal one. That would be a bigger paper, not a smaller one.
-
-> **Status (2026-10-10):** both done in `paper/main.tex`: the scope paragraph and the section "The off-diagonal
-> ghost sector" state the J = 0 / neutrality result, and the abstract gives E^{9/4} as the diagonal-sector
-> law with the off-diagonal exponents faster. Their low-E law is neither E^{9/4} nor E^{5/4} and is not
-> derived (§3).
+The scope paragraph states that the diagonal ansatz is the J = 0, gauge-fixed sector of homogeneous SU(2)
+Yang–Mills mechanics and that off-diagonal perturbations are neutral; the section "The off-diagonal ghost
+sector" gives the nine-dof count and the exponents of §3; the abstract gives E^{9/4} as the diagonal-sector
+law with the off-diagonal exponents faster. Their low-E law is neither E^{9/4} nor E^{5/4} and is not derived.
+(The text was drafted as block D of `additions.tex`, merged into `main.tex` by 10 Oct; `additions.tex` itself is
+in the tag `draft-2026-10-01`.)

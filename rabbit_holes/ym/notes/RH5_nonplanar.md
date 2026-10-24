@@ -39,4 +39,4 @@ g₁ ≥ g₂ show the off-diagonal ghost *is* unstable, so instability depends 
 right generalisation of "Krein collisions live in one block" is "on a periodic orbit, which blocks collide is set
 by which components the orbit's symmetry mixes, and a symmetry large enough forbids the collision altogether".
 The chaotic-sea typing (do the sea's growth directions rotate like a quadruplet's or run like a pair's) is not a
-Floquet question and stays with hole 12's state-snapshot requirement. Hole closed at the level the list asked.
+Floquet question and stays with hole 12's state-snapshot requirement. Hole closed at the level asked.
