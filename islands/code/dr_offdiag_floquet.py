@@ -1,6 +1,7 @@
 """dr_offdiag_floquet.py -- the off-diagonal ghost on the Dahlqvist-Russberg orbit (float).
 
-Everything else in islands/ is about the colour-diagonal ghost.  The full homogeneous theory
+Everything in islands/ before this (8-12 Oct) is about the colour-diagonal ghost; the typed scan, the
+half-period lemma, B005 and the nonlinear escape runs build on this file.  The full homogeneous theory
 also has six off-diagonal components u^a_i (a != i); ym/hdym_rung1.py linearises the full
 Lee-Wick system about the diagonal background and exports the 24-dim system xdot = K(q, p) x,
 which splits exactly into three 8-dim blocks (u12,u21), (u13,u31), (u23,u32).  Each block holds
@@ -35,7 +36,10 @@ from scipy.integrate import solve_ivp
 HERE = os.path.dirname(os.path.abspath(__file__))
 PKL = os.path.join(HERE, '..', '..', 'ym', 'rung1_system.pkl')
 
-# DR orbit at E = 1/2 (islands/README.md, Conventions; certified box in results/cert16_check_output.txt)
+# DR orbit at E = 1/2 (islands/README.md, Conventions; certified box in results/cert16_check_output.txt).
+# T_HALF is, despite its name, the FULL period T = 31.0533 (9th upward crossing of y = 0; lemma RET): the orbit
+# returns to y = 0 at T/2 = 15.52667 with (x, p_x) restored and p_y reversed, which is the symmetry
+# dr_offdiag_halfperiod.py uses.  orbit() returns it as the period.
 X0, PX0, T_HALF = 3.14640122769837, 0.00179319341881, 31.053330268585066
 BLOCKS = {'12': [0, 2], '13': [1, 4], '23': [3, 5]}      # u order (u12,u13,u21,u23,u31,u32)
 RT = dict(method='DOP853', rtol=1e-12, atol=1e-13)

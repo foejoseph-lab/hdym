@@ -4,7 +4,9 @@ cert_check.py -- exact-arithmetic checker for a periodic-orbit certificate of
 Yang-Mills mechanics  V = x^2 y^2 / 2.  Driver: parses the certificate, calls the lemmas
 in cert_lemmas.py (and cert_twist.py for --twist), prints the verdicts.
 
-The trusted layer is cert_lemmas.py + cert_twist.py + this driver.  It uses only Python integers and fractions.Fraction;
+The trusted layer is cert_lemmas.py + cert_twist.py + this driver (for --twist also the formula
+twist_formula.json, hence its generator twist_symbolic2.py and sympy; islands/README.md, "Reproduce
+the proof").  It uses only Python integers and fractions.Fraction;
 no floats enter any computation (the certificate's numbers are parsed from hex-float
 strings into exact dyadic rationals).  Every function below is the shadow of one
 lemma a proof assistant would have to state; the names say which.

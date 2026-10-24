@@ -15,7 +15,10 @@ directions are the 3 gauge + 3 spatial-rotation directions of the SVD A = O_c di
 two ghost dof.  The two positive exponents are therefore the off-diagonal ghost rates
 (g1 >= g2); compare with the diagonal-sector lambda_diag = 0.0120 E^{9/4} and the physical
 three-vector lambda_perp ~ 2.2 lambda_diag.  Question: do they scale as E^{9/4}, or as
-E^{5/4} (u^-2 tail of the xy entry driving a degenerate ghost pair)?
+E^{5/4} (u^-2 tail of the xy entry driving a degenerate ghost pair)?  (Answer, NOTE_rung1.md
+Sec. 3: neither, for the theory c_j = 1 -- faster than the diagonal law at low E, law not derived;
+with --cj 0 the law is 0.0210 E^{5/4}, derived.  --cj and the (D, J) landscape / growth-location
+split were added for that; outputs <out>/rung1_offdiag.csv, lam_i, history, landscape npz.)
 
 Background: Yoshida-4 in two half-steps; tangent: RK4 with K at the three background points.
 Sub-stepping as in hdym_gpu.py.  CPU results (hdym_rung1_lyap.py, N = 18, T = 3000 YM units):

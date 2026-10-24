@@ -1,5 +1,11 @@
 """rh4_loiter.py -- rabbit hole 4: the statistics of the nonlinear loiter, from the section-E checkpoints.
 
+STATUS (notes/RH4_loiter.md; README hole 4): the checkpoint reading here (50-unit resolution) is SUPERSEDED by the
+kernel's crossing times (rh_overnight_2026-10-22.py, rh4_lowE_long.py).  The answer to question 3 below is: the loiter
+scales with the period (pooled median 0.58 periods = 18 time units; Spearman of the per-energy median with E: -0.05 in
+periods, -0.46 in time units).  "E-independent in absolute time" (the hole as posed, from these checkpoints) is
+WITHDRAWN -- the opposite holds.  Tail: stretched (p90/median 4.3-5.7 vs 3.3 exponential), as this script also found.
+
 Input: islands/results/esc_E.npz (100 energies x 64 seeds; chk[E, seed, k, :] = four sector norms, diagonal-ghost
 amplitude |w| and the Ostrogradsky energy at t_k = 50 (k+1), NaN after escape).  No integration.
 
@@ -9,7 +15,7 @@ error is a fraction of the 50-unit checkpoint spacing, estimated from the local 
 L = t_esc - t_1, in time units and in orbit periods T(E).  A trajectory that reaches |w| >= 1 and does not escape by
 tmax = 3000 is a right-censored loiter (L >= tmax - t_1); a trajectory that never reaches 1 contributes nothing.
 
-Questions answered (results/rh4_loiter.txt, figures results/rh4_loiter_*.png):
+Questions answered (results/rh4_loiter.txt, figure results/rh4_loiter.png):
   1. per energy: number of loiters, censoring, quartiles of L (time units and periods), the linear clock t_1
      against ln(1/delta)/rate_diag where the diagonal ghost is Floquet-unstable on the orbit.
   2. the loiter distribution pooled over E (Kaplan-Meier survival S(L) in periods, with censoring): is it

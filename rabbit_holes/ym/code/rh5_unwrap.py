@@ -3,7 +3,10 @@ log (the reviewer's recipe): within an on-circle stretch the pair's angle is tha
 an off-circle stretch the same member's logged argument is continued (off-circle arguments are continuous in E); a
 change of the positive member's identity at a fold re-entry is recorded and attributed no winding.  The slope
 d psi / d ln E in windows gives an effective frequency estimate omega ~ slope / (-T / 8 pi) (branch-ambiguous:
-a Floquet frequency is defined mod Omega; see rh5_branch.py for the Fourier test of the branch).
+a Floquet frequency is defined mod Omega; see rh5_branch.py for the Fourier test of the branch).  Outcome
+(notes/RH27_averaging.md item 9): the slope-derived 0.76-0.83 below E ~ 0.22 is one branch of the line near 1
+(0.85-1.2), as the ladder's 0.774 is another; neither is the frequency.  The positive-member identity switches at
+fold re-entries are within-pair orientation flips.
 Usage: python rabbit_holes/ym/code/rh5_unwrap.py > rabbit_holes/ym/results/rh5_unwrap.txt    (writes rh5_unwrapped.npz)
 Added 2026-10-21 (late).
 """

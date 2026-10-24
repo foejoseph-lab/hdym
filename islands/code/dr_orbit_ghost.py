@@ -2,7 +2,10 @@ import numpy as np
 from scipy.integrate import solve_ivp
 
 # Dahlqvist-Russberg stable period-9 orbit in V = x^2 y^2 / 2 at E = 1/2
-# (Contopoulos & Harsoula 2023, arXiv:2302.12071)
+# (Contopoulos & Harsoula 2023, arXiv:2302.12071): the published initial data, as printed.  Digits
+# below ~1e-12 lie outside the certified box x0 in [3.14640122769836, 3.14640122769838],
+# px0 in [0.00179319341881, 0.00179319341882] (islands/README.md, Results / Conventions: q* =
+# 3.14640122769837, p_x* = 0.00179319341881); float scans here, so the difference is harmless.
 x0, vx0, y0, vy0 = 3.14640122769753, 0.0017931934191, 0.0, 0.99999839222738
 E0 = 0.5
 

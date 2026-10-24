@@ -1,6 +1,8 @@
-"""axion_probes_infl.py -- the inflationary stand-in (plan, 17 Oct, first of the three runs left from the probe
-programme): does a massless charged scalar -- the Higgs doublet -- pump the Lee-Wick ghost on the nonzero-mean SU(2)
-background of chromo-natural inflation and its tail?
+"""axion_probes_infl.py -- the inflationary stand-in (plan, 17 Oct; with axion_probes_fourier.py the last run of the
+probe programme on this background, complete 17 Oct, README History): does a massless charged scalar -- the Higgs
+doublet -- pump the Lee-Wick ghost on the nonzero-mean SU(2) background of chromo-natural inflation and its tail?
+Result (README, "The inflationary run"): nothing, in every column, static and tail; the pump of L1 needs the axion
+drive within ~15 % of the no-probe loss threshold, i.e. phi_end = O(1), which the benchmark (8e-4) does not give.
 
 Why this run (README "Probes", Status of 16 Oct, third review): the pump found in L1 needs an orbit with nonzero mean,
 and that is the inflationary regime of this very model -- in chromo-natural inflation A^a_i = psi(t) a(t) delta^a_i

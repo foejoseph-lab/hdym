@@ -4,23 +4,38 @@ the Floquet side before anything is averaged.
 Block 12 in the state x = (u12, u21, u12', u21', u12'', u21'', u12''', u21''') (8-dim) carries ONE linearised Gauss
 row G(t) x = 0 (rung1_system.pkl: the third component of G touches this block only), first class.  With Omega(t) the
 Ostrogradsky symplectic form (krein_b005.build_omega) the gauge direction is the Hamiltonian vector field of G,
-v_G = Omega^{-1} g(t), g the row of G.  Constant gauge fixing: a fixed functional f.x = 0 with f.v_G != 0 along the orbit
-(admissibility, checked).  The reduced 6-dim dynamics on {G = 0, f.x = 0}: x' = K x + lambda(t) v_G, lambda chosen so
-that f.x' = 0 (the added term is along the null direction of the reduced bracket and changes no physics).  Written as
-a 6 x 6 K_red(t) in a basis of the surface.
+v_G = Omega^{-1} g(t), g the row of G.  Constant gauge fixing (a fixed functional f.x = 0 with f.v_G != 0 along the
+orbit; reduced_K / run / admissibility below) is NOT admissible on the DR orbit: v_G(t) sweeps the whole 8-space over
+a period and the best fixed f has min |f.v_G| ~ 1e-3 somewhere, where the gauge-fixed flow blows up (a multiplier
+4e8 in the first attempt).  Used instead (run_moving, run_4dim): the moving gauge f(t) = v_G(t) with the connection
+term from the exact orbit derivatives of Omega and g, x' = K x + lambda(t) v_G, lambda = -(v_G'.x + v_G.K x)/|v_G|^2
+(the added term is along the null direction of the reduced bracket and changes no physics); off-surface components
+then conserved to 1e-11, surface invariant to 1e-14.  Omega keeps c_j symbolic (the c_j = 1 form gave a wrong gauge
+direction at c_j != 1).
 
 CHECK A: the ghost multipliers of the 6-dim reduced monodromy equal the four ghost multipliers of the full block (B001's
 drop-4 rule) -- this pins the construction, the admissibility and any sign error, as the reviewer prescribed.
-CHECK B: the remaining 2 of the 6 reduced dims: what multipliers they carry (expected: the global colour-rotation zero
-mode of the planar background and its partner, the unipotent pair that gauge fixing does not remove; if so, a second
-reduction by that symmetry gives the 4-dim ghost block).
-Then, on the reduced block: the reduced symplectic form, its Hamiltonian H_red(t) = -Omega_red K_red (checked symmetric),
-the instantaneous eigenfrequencies of J H_red(t) along the orbit (the sweep of rh5_instfreq.py, now from the
-Hamiltonian rather than from a solution), and the mean <H_red> with its eigenfrequencies.
+CHECK B: the remaining 2 of the 6 reduced dims are the unipotent pair at 1 (the global colour-rotation zero mode
+z = (-y, x, ...) of the planar background and its conserved charge Omega z); the second reduction by that symmetry
+(run_4dim) gives the 4-dim ghost block, and CHECK A4: its spectrum IS the four ghost multipliers, to <= 8e-11 at
+every E and c_j in {0.25, 0.5, 1}, including the c_j = 0.25, E = 0.6 double +1 fold (|mu| = 34, 16.5).
+Then, on the 4-dim block: the reduced symplectic form (nondegenerate; monodromy symplectic for it to 3e-13), the
+frozen spectrum of the restricted generator along the orbit (the gauge terms make it not exactly Hamiltonian, real
+parts <= 0.1 where elliptic; read the imaginary parts as instantaneous frequencies: a light mode soft at the TURNING
+POINTS, 0.13-0.7 at t = 0, hyperbolic on the arms around them, and a heavy mode at 1.0-1.7), and the averaged
+generator in a parallel-transported frame -- NOT Floquet-accurate (omega T mod 2 pi off by up to a half-turn); do not
+quote its frequencies as predictions.  The low-c_j static instability is not negative mean stiffness (averaged
+generator purely oscillatory at c_j = 0.25 while the exact multipliers reach 34).
 
 Usage (from the repo root): python rabbit_holes/ym/code/rh_reduced_block.py [--E 0.1 0.3 0.6] [--cj 1.0]
-Cost: seconds per energy.  Added 2026-10-22 (first cut; the sympy version with the Dirac bracket done symbolically
-is the next sitting if this numerical reduction passes CHECK A).
+Cost: seconds per energy.  Added 2026-10-22 (numerical; the Ostrogradsky form, the Gauss row and their orbit
+derivatives are exact sympy objects, the reduction and integration float).  Logs results/rh_reduced_block_cj*.txt,
+spectra results/rh_reduced_block_E*_cj*.npz.  Status (notes/RH_reduced_block.md, README "Open"): item (i), the
+hyperbolic fraction per (E, c_j), done 23 Oct in rh_reduced_block_hyp.py; (ii)-(iv) closed 24 Oct in
+rh_reduced_block_transfer.py and rh_krein_width_cj.py (notes/RH_reduced_block_transfer.md): the arm/bounce split is a
+frame convention (a Darboux frame is defined up to Sp(4)), the Krein width is not first order in c_j, and a symplectic
+frame with an exactly Hamiltonian generator exists -- in which the frozen spectrum printed here changes (the frame
+here is orthonormal, not symplectic; quote hyperbolic fractions with the frame named).
 """
 import argparse
 import os

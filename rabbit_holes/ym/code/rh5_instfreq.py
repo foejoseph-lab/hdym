@@ -2,7 +2,13 @@
 solution along one period, omega_inst(t) = sum_c Im(xdot_c conj x_c) / sum_c |x_c|^2 over the field components
 (u12, u21, u12', u21'), i.e. the energy-weighted phase rate.  A swept oscillator (near 1 for part of the orbit, near 0
 for the rest: WKB zeroth order) shows omega_inst sweeping once per period; a true superposition of two steady lines
-shows a beat at their difference instead.  Printed against the background (x, y) and |p_y| for orientation.
+shows a beat at their difference instead.  Printed against the background (x, y) for orientation.
+Outcome (notes/RH27_averaging.md item 10, resolved 23 Oct with rh_reduced_block_hyp.py): a swept oscillator, not a
+beat.  But this estimator's dips at the BOUNCE (t = T/4, 3T/4) are not a soft stiffness: the frozen spectrum of the
+exact reduced block is stiffest there and soft-to-hyperbolic on the arms around the TURNING POINTS; the zero phase
+rate at the bounce is a non-adiabatic exchange between the two reflection sectors (the pairs trading roles).  The
+two measure different objects (phase rate of one Floquet solution vs eigenfrequencies of the generator) and agree
+where adiabatic following holds (0.344 vs frozen 0.342 at E = 0.3, t = 0).
 Usage: python rabbit_holes/ym/code/rh5_instfreq.py [--E 0.1 0.3 0.6] > rabbit_holes/ym/results/rh5_instfreq.txt   (writes .png)
 Added 2026-10-21 (late).
 """

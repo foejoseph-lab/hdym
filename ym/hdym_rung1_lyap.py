@@ -6,8 +6,12 @@ Loads rung1_system.pkl (from hdym_rung1.py): the 24-dim linear system xdot = K(q
 six off-diagonal components u^a_i (a != i) and their first three time derivatives, on a
 ghost-free diagonal Yang-Mills background q(t).  The system splits exactly into three 8-dim
 blocks (u12,u21), (u13,u31), (u23,u32), each carrying one gauge zero mode, one conserved
-Gauss charge, one YM-type degree of freedom and TWO ghost degrees of freedom (the second is
-the longitudinal polarisation of the massive Lee-Wick vector, which has no diagonal analogue).
+Gauss charge, one YM-type degree of freedom and TWO ghost degrees of freedom (the second has
+no diagonal analogue; the label "longitudinal polarisation" once used for it is retired,
+NOTE_rung1.md Sec. 1 item 4 / rabbit_holes RH6).
+
+NOTE (README, held mismatch): load_K leaves c_j of rung1_system.pkl free and the script cannot run as committed; the paper's table is from hdym_rung1_gpu.py (own K).
+Reads rung1_system.pkl from the working directory.
 
 1. Frozen-background scan (p = 0 turning points on the shell): eigenvalues of K.  Real
    eigenvalues = instantaneous exponential directions.  Reports the threshold energy at which

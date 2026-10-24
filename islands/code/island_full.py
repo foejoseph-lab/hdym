@@ -1,9 +1,9 @@
-"""island_full.py -- rabbit hole 9: the E = 0.3 island as a refuge in the FULL nine-component Lee-Wick system.
+"""island_full.py -- rabbit hole 9: is the E = 0.3 island a refuge in the FULL nine-component Lee-Wick system?  (No.)
 
 hdym_island.py (12-d, colour-diagonal ghost only) finds the island around the DR point to be a non-escaping hole at
 E = 0.3 for eps <= 1e-8 (rabbit hole 10).  The off-diagonal ghost is Floquet-unstable on that orbit (block 23, real
 multiplier 1.552 at E = 0.3, rate 0.0125; islands/README off-diagonal item), so the island is "not a refuge in the
-full theory, at least at its centre" -- a linear statement.  This script makes it nonlinear: the same ball sampling
+full theory" -- until this script, a linear statement.  This script makes it nonlinear: the same ball sampling
 (hdym_island.ball_sample / sea_sample, same shells, same rescaling to E), each point converted to the 36-component
 state of ym/hdym_full_derive.py and integrated with ym/csrc/hdym_full_escape.c (offdiag_escape.Kernel), with the
 six off-diagonal components seeded at a tiny Gauss-projected amplitude --delta-od (default 1e-8, three decades below
@@ -23,7 +23,11 @@ Usage (Spyder, from the repo root; ym/hdym_full_derive.py run once):
     !"{sys.executable}" -B -u islands\\code\\island_full.py --E 0.3 --eps 1e-8 --tag island_full_E0.3_eps1e-8 --resume >> islands\\results\\island_full_E0.3_eps1e-8.txt 2>&1
     !"{sys.executable}" -B -u islands\\code\\island_full.py --E 0.3 --eps 1e-8 --delta-od 0 --tag island_full_E0.3_eps1e-8_od0 --resume >> islands\\results\\island_full_E0.3_eps1e-8_od0.txt 2>&1
 Cost: 8 shells x 200 + 200 sea = 1800 trajectories, tmax 5000, ~1 s each single-threaded: ~10-20 min on 24 threads
-per run.  Added 2026-10-22 (rabbit-hole session).
+per run.  Added 2026-10-22 (rabbit-hole session); runs of 23 Oct (results/island_full_E0.3_eps1e-8.*, _od0.*): with
+the off-diagonal seed every core shell r = 1e-6 .. 1e-4 escapes, 200 of 200, median t_esc 1340-1360 (ln(1e8)/0.0125
+~ 1500), the diagonal ghost the escaping sector in 91-96 % of cells and block 23 in the rest; with --delta-od 0 the
+island is intact, 0 of 200 in the four core shells, halo and sea as in hole 10.  Not a refuge (islands/README.md,
+Results; rabbit_holes/ym/notes/RH9_island_full.md).
 """
 import argparse
 import os

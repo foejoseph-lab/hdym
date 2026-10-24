@@ -48,6 +48,11 @@ Status of the rigour (2026-10-10).  Three constants that were asserted are now c
   dot-product bound gamma_n = n u / (1 - n u) (Higham, Accuracy and Stability, Lemma 3.1 / 3.4),
   and the double-word bounds of Joldes-Muller-Popescu.  Not covered, by design: the
   time-discretisation error relative to the continuous flow (see above).
+  Reviewed cold 2026-10-11 (notes/REVIEW_hdym_ball_2026-10-11.md; all findings acted on the same
+  day: F1 lost-member bookkeeping, F2 selftests 2b and 3, F3-F6 wording); production sweep rerun
+  2026-10-12 with this kernel (data/results_precision/2026-10-12/), certified fractions identical to
+  2026-10-10.  F7 (why pairs are lost) answered 13 Oct: arithmetic, not QR containment
+  (notes/NOTE_precision_tier.md; the Arb tier there is not built, tools/arb_smoke.py is its smoke test).
 
 Escape intervals.  At each step: 'possibly escaped' if some |c| + r > R,
 'certainly escaped' if some |c| - r > R.  The true exit step lies in

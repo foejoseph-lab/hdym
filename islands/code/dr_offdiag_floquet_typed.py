@@ -6,7 +6,8 @@ this file adds what the bridge needs (WORKORDER_bridge_2026-10-18_v2.md, B001):
 
   * a type column per block.  For the largest ghost multiplier off the unit circle:
       REAL+   mu real, mu > 1          parametric (period-1 tongue, multipliers leave the circle at +1)
-      REAL-   mu real, mu < -1         parametric (period-doubling tongue, leave at -1)
+      REAL-   mu real, mu < -1         parametric (period-doubling tongue, leave at -1; never seen: on the DR
+                                       orbit M = N^2 forbids it, dr_offdiag_halfperiod.py, islands/README.md)
       CPLX    |Im mu| > 1e-6 |mu|      Krein collision: a complex quadruplet (mu, conj mu, 1/mu, 1/conj mu);
                                        two unit-circle pairs of opposite Krein signature met and left
                                        the circle (the ghost supplies the negative signature)

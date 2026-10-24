@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
 """
+hdym_gpu_landscape.py -- hdym_gpu.py (v2) plus the (D, J) growth-landscape histogram,
+written to <out>/landscape_E*_<ghost>.npz; lambda results bit-identical to hdym_gpu.py
+(input of make_fig_landscape.py; the landscape figure is not in the paper).  The rest of
+this docstring is hdym_gpu.py's.
+
 hdym_gpu.py (v2) -- large-ensemble transverse (linearised-ghost) Lyapunov
 exponent with the ENTIRE integrator inside one CUDA kernel.
 
@@ -277,6 +282,7 @@ class CBackend:
 
 class NumpyBackend:
     """Reference implementation (vectorised numpy).  Slow; for checking."""
+    # NOTE (README, held mismatch): renormalises by the six-vector norm in BOTH ghost modes; the C/CUDA kernel's --ghost diag renormalises per component.
     name = 'numpy'
     YC = (0.6756035959798288, -0.17560359597982886, -0.17560359597982886, 0.6756035959798288)
     YD = (1.3512071919596576, -1.7024143839193153, 1.3512071919596576, 0.0)

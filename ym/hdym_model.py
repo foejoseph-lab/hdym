@@ -14,8 +14,8 @@ Three things live here:
                     kick_lin, yoshida_lin, kick_nl, yoshida_nl, yoshida_ym, V2d, gradV2d,
                     kick2d, yoshida2d, offdiag_Kv, offdiag_mass, y4.
 
-Build: gcc through cbuild.check_call into csrc/build/ (created on first use; add it to
-.gitignore).  Rebuilt whenever hdym_model.h or hdym_model.c is newer than the library.
+Build: gcc through cbuild.check_call into csrc/build/ (created on first use; git-ignored).
+Rebuilt whenever hdym_model.h or hdym_model.c is newer than the library.
 Set CC to pick a compiler that is not called gcc.
 
 Array convention for the wrappers: component-major, shape (ncomp, N), C-contiguous, as in the

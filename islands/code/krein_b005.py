@@ -31,6 +31,12 @@ other or collide (WORKORDER v3, response to the 19 Oct review).  Here the sign i
 Predictions tested (WORKORDER v3): (i) every -1 collision of M is a meeting of N at +-i with psi1+ = -psi2+;
 (ii) the +1 tongues change the sign relation (the pass-through at E ~ 0.76 is psi1+ = psi2+ while the -1-fold
 meetings before 0.49 were psi1+ = -psi2+); (iii) tongues only at +1 and collisions only at -1 at every E.
+Found (results/krein_b005.txt, 21 Oct; islands/README.md, "Scope and checks", B005): of eleven M-coincidences of
+the two pairs, six are true meetings in N and five are fake degeneracies (N has lambda and -lambda: E = 0.054,
+0.056, 0.094, 0.199, 0.283, 0.798); the six are the edges of the three Krein bands, at each the pairs carry opposite
+sign (psi1+ = -psi2+ to 0.03-0.09 pi) and meet at N ~ +-i; every parametric event is one pair's own fold at
+N = +-1.  So (i) holds; (ii)'s "pass-through at E ~ 0.76" of the 19 Oct brief is the fake degeneracy at 0.798,
+where nothing meets.
 Not done here: the segment-transfer-matrix localisation (claim 4 of the brief) -- it needs a positive norm adapted
 to the block and is left open.
 

@@ -16,8 +16,10 @@ Conventions: exactly those of hdym_escape_map.py / hdym_precision.py.
 
 For each radius r (log-spaced) we sample N points in a ball of radius r around the DR phase
 point (q and P both perturbed, P then rescaled to E), seed the ghost as in C2 with a random
-orientation, and integrate a PAIR (partner displaced by delta in q, shared sub-step schedule,
-hdym_precision.CPairs) to get
+orientation, and integrate a PAIR (partner displaced by delta in q, hdym_precision.CPairs with
+the SHARED sub-step schedule -- the two members of a pair share one channel sub-step schedule,
+a truncation-level difference from the production per-trajectory sub-stepping; islands/README.md,
+Layout) to get
     t_esc(a), t_esc(b)       escape times (C4)
     sep(t_k)                 phase-space separation at checkpoint times  -> FTLE proxy
 A control sample of random sea points at the same E (hdym_escape_map.base_point with
@@ -31,6 +33,13 @@ Predictions (from the 2-dof analysis):
         (hole of positive measure), FTLE ~ 0.
   * eps = 0.01 (paper): the ghost kicks the base by ~0.07 >> island width; the island may be
     invisible.  Whether any trace survives is the question.
+Found (islands/README.md, Results; rabbit_holes/ym/notes/RH10_eps_crossover.md): hole at E = 0.3
+and plateau at E = 1 with eps = 1e-10 as predicted; at eps = 0.01 the island is erased; the
+crossover is |w| = sqrt(2 eps E) ~ island half-width: intact to eps = 1e-8, leaking at 1e-7 (core
+escape 21-25 % with core FTLE ~ 0: back-reaction, not chaos), erased at 1e-6, eps_c ~ 5e-8 at
+E = 0.3 (results/island_E0.3_eps1e-{6,7,8,9}.log, 22 Oct).  The same pattern holds in the exact
+2-dof subsystem (--planar); the 3-dof island is not sealed (Arnold diffusion, 2.7 % at r = 2e-4), and
+with the off-diagonal components in play it is not a refuge at all (island_full.py, 23 Oct).
 
 Usage
   python hdym_island.py --E 1.0 --eps 1e-10 --N 200 --backend c

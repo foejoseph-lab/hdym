@@ -4,6 +4,9 @@ Pure YM, sub-stepped.  A visit to channel i starts when |p_i| crosses A_in upwar
 action J = E_perp/|p_i| at entry.  Predictions (uniform action measure):
    rate(any channel, D_max > D) = 3 nu0 / (2 D^2)      (from J = 1/D_max)
    rate density in J = J_y + J_z  :  3 nu0 J  per unit time  (any channel)
+Measures nu0 only; neither Z nor the predicted 8 pi^2 / Z is computed here (that is hdym_Z.py).
+Writes nu0_E1.npz (committed as data/nu0_E1.npz; make_figs.py reads it for fig:nu0).
+Run (README):  python ym/hdym_nu0.py
 """
 import sys, numpy as np
 sys.path.insert(0, '.')

@@ -22,7 +22,9 @@
  *                g = 4 the diagonal ghost amplitude |q'' + grad V(q)| (zero on the ghost-free manifold),
  *                g = 5 the Ostrogradsky energy (drift diagnostic before escape)
  *   diag[n*4 + 0..3]  energy at t = 0, energy at the end, |G| at t = 0, |G| at the end
- * Built and called by islands/code/offdiag_escape.py.  Added 2026-10-19.
+ * Built (compiled at every launch) and called by islands/code/offdiag_escape.py and islands/code/island_full.py.
+ * Does not use hdym_model.h and is not in the drift census.  Added 2026-10-19; FP-state pinning and root5
+ * 20 Oct, crossing times / growth curves / snapshots 21-22 Oct (csrc/README.md, islands/README.md).
  */
 #include <math.h>
 #include <stdlib.h>

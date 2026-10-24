@@ -20,6 +20,7 @@ Panels in channel_check.png
       (expect slope -2)
 
 Usage:  python hdym_channel_check.py --N 256 --T 2000 --A-in 3
+        python ym/hdym_channel_check.py --N 2048 --T 4000 --A-in 3    (README, the paper's run)
 """
 import argparse
 import time

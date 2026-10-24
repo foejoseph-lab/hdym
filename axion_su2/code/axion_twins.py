@@ -17,6 +17,13 @@ Cases (units g = M = 1, M = the Lee-Wick mass of axion_aniso.py; omega = m_phi/M
                      system is linear and regular); M_h = M is the tuned point; M_h = M/2 the reversed order
     heavy mode alone h'' + (M^2 + sigma c) h = 0,   no massless direction: Mathieu, narrow tongues at omega = 2M/n
 
+[Withdrawn 15 Oct (README, History): the "full law" and the sign rule "tachyonic iff D(m_phi^2) > 0, healthy
+twin unstable on the other side" below are not physics.  They were measured in Part D on the M -> infinity
+background Q'' = -2Q^3 + kappa Q^2, on which the jitter carries only the massless pole -1/w; on the self-consistent
+background the jitter goes through the full Pi(w) = -1/w + D(w) and the two second-order terms cancel identically,
+for any heavy sector (axion_dressed.py A1).  Parts A-C stand as statements about the periodic problem, and the
+sign rule is correct for the pole term alone (README, "The twin suite").  The law is kept below as written.]
+
 The second-order law (derived as in axion_aniso.py, now for any heavy sector).  With Q frozen the drive is
 c = c1 cos(omega t), c1 = omega phi X (phi = phi_amp/f, X the slow amplitude of Q).  The fast O(c1) responses are
 f = c1 s cos(omega t)/omega^2 for s itself and h_i = -sigma_i c1 s cos(omega t)/(M_i^2 - omega^2) through each
@@ -49,10 +56,11 @@ Parts:
      frequencies for every case; palindromic coefficients symmetric to roundoff; M_h = M cancels (rate 0
      off resonance at c1 = 0.01); heavy mode alone against Mathieu (rate c1/(4M) at omega = 2M).
   B  frozen-Q map, omega in [0.25, 4.5], c1 = 0.01, for every case: unstable intervals; spot rates against
-     the pole-term law.  (The frozen-Q map is the pole terms only; the physics is the full law, Part D.)
+     the pole-term law.  (The frozen-Q map is the pole terms only; on 15 Oct the "full law" of Part D was
+     taken as the physics -- withdrawn, see above.)
   C  the full law per Hubble time at the end of inflation, Fujita's benchmark, along r = M/m_phi for every
-     case, with the sign rule.
-  D  direct two-frequency integration at m_phi/gQ = 100, phi = 2, 30 Q cycles: slope per cycle vs the slow
+     case, with the sign rule (as a statement about the pole term; phi_amp = 1 here, replaced 16 Oct by (A11)).
+  D  [withdrawn 15 Oct, see above] direct two-frequency integration at m_phi/gQ = 100, phi = 2, 30 Q cycles: slope per cycle vs the slow
      equation, for the healthy twin at omega = 0.8, 0.6 (tachyonic side), 1.5, 2 (stable side); ghost +
      healthy at M_h = 2 for omega = 0.8 (stable), 1.5 (window), 3 (closed); M_h = 1 at omega = 0.8, 1.5
      (marginal); the ghost at omega = 2 under the same conditions as reference.
@@ -165,7 +173,8 @@ def D_of(w, modes):
 
 
 def law_full(phiX, omega, modes):
-    """Full law: s'' = + (phi X omega)^2/2 * D(omega^2) * s; rate if tachyonic else 0."""
+    """Full law: s'' = + (phi X omega)^2/2 * D(omega^2) * s; rate if tachyonic else 0.
+    Withdrawn 15 Oct: holds on the M -> infinity background only (Part D); on the dressed one the terms cancel."""
     D = D_of(omega ** 2, modes)
     A = 0.5 * (phiX * omega) ** 2 * D if np.isfinite(D) else np.nan
     return np.sqrt(A) if A > 0 else 0.0

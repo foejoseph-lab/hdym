@@ -20,6 +20,11 @@ Backends
 Usage
   python hdym_gpu.py --E 0.2154 --N 4096 --target-abs 1e-4 --t-block 100   # check: lam ~ 7.0e-3
   python hdym_gpu.py --E 0.015 0.02 0.027 0.035 --N 200000 --target-abs 3e-7
+  The production runs behind data/transverse_*_percomp*.csv (README, "Reproducing the main result"), e.g.
+  python ym/hdym_gpu.py --E 0.02 0.015 0.008 --N 200000 --ghost diag --backend cupy --t-burn-ym 200 --target-abs 3e-8 --t-block 20000 --tmax 1500000 --out results_diag_percomp
+  Each run writes <out>/transverse_gpu.csv plus per-energy history_E*.npy and lam_i_E*.npy.
+  --ghost diag renormalises each of the three components separately and averages the three
+  log-growths (the single-mode rate); --ghost vec uses the six-vector norm.
 
 Everything else (estimator, stopping rule, outputs) is as in v1 / hdym_core:
 lambda from the slope of the per-trajectory log-growth over the trailing half
@@ -240,6 +245,7 @@ class CBackend:
 
 class NumpyBackend:
     """Reference implementation (vectorised numpy).  Slow; for checking."""
+    # NOTE (README, held mismatch): renormalises by the six-vector norm in BOTH ghost modes; the C/CUDA kernel's --ghost diag renormalises per component.
     name = 'numpy'
     YC = (0.6756035959798288, -0.17560359597982886, -0.17560359597982886, 0.6756035959798288)
     YD = (1.3512071919596576, -1.7024143839193153, 1.3512071919596576, 0.0)

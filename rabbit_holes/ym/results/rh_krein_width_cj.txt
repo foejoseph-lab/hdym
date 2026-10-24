@@ -1,0 +1,24 @@
+rh_krein_width_cj.py: block 12 on the DR orbit, c_j in [0.25, 0.5, 0.75, 1.0], 71 energies in [0.12, 0.19] (ln-E step 0.0066)
+
+== c_j = 0.25 ==
+  [0.1200, 0.1290] fold+1         width 0.0722 in ln E, 0.1957 rung in period; peak rate 0.01258 per unit time (|mu| 1.7410) at E = 0.1232
+  [0.1490, 0.1634] Krein          width 0.0919 in ln E, 0.2353 rung in period; peak rate 0.01220 per unit time (|mu| 1.6598) at E = 0.1560
+  [0.1900, 0.1900] fold+1         width 0.0000 in ln E, 0.0000 rung in period; peak rate 0.00482 per unit time (|mu| 1.2101) at E = 0.1900
+
+== c_j = 0.5 ==
+  [0.1316, 0.1377] Krein          width 0.0460 in ln E, 0.1221 rung in period; peak rate 0.00531 per unit time (|mu| 1.2576) at E = 0.1342
+  [0.1815, 0.1863] fold+1         width 0.0263 in ln E, 0.0645 rung in period; peak rate 0.00339 per unit time (|mu| 1.1447) at E = 0.1839
+
+== c_j = 0.75 ==
+  [0.1273, 0.1442] fold+1         width 0.1247 in ln E, 0.3308 rung in period; peak rate 0.01324 per unit time (|mu| 1.7691) at E = 0.1351
+  [0.1634, 0.1677] fold+1         width 0.0263 in ln E, 0.0662 rung in period; peak rate 0.00312 per unit time (|mu| 1.1361) at E = 0.1655
+
+== c_j = 1.0 ==
+  [0.1520, 0.1612] Krein          width 0.0591 in ln E, 0.1511 rung in period; peak rate 0.00609 per unit time (|mu| 1.2872) at E = 0.1571
+
+The low Krein band (nearest 0.157) across c_j, and the first-order ratios against c_j = 1 (width and peak rate both ~ c_j at first order):
+  c_j  |  [lo, hi]           width/lnE  width/rung | peak rate   |mu|   centre | width ratio  rate ratio  (c_j ratio)
+  0.75 |  no Krein band in the window
+  0.25 |  [0.1490, 0.1634]   0.0919     0.2353   | 0.01220   1.667  0.1560 |     1.56        2.00    (0.25)
+  0.50 |  [0.1316, 0.1377]   0.0460     0.1221   | 0.00531   1.249  0.1346 |     0.78        0.87    (0.50)
+  1.00 |  [0.1520, 0.1612]   0.0591     0.1511   | 0.00609   1.291  0.1565 |     1.00        1.00    (1.00)

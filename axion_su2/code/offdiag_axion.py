@@ -11,9 +11,10 @@ Prediction (confirmed in Part A exactly).  On the isotropic background the k = 0
 the three symmetric off-diagonal combinations (u12 + u21)/sqrt2 etc. form the traceless-symmetric quintet,
 the antisymmetric combinations the triplet, which at m = 0 is the gauge direction u = theta x A and its Gauss
 partner.  So the physical off-diagonal pair should obey exactly the anisotropic equation
-eps''''/M^2 + eps'' + kappa Q eps = 0, degenerate with it, and the sign rule of axion_twins.py carries over
-unchanged; the self-coupling's only role in this sector is the Yang-Mills mass 2 Q^2 of the triplet, which
-the Gauss law removes.
+eps''''/M^2 + eps'' + kappa Q eps = 0, degenerate with it, and whatever holds for the anisotropic sector carries
+over unchanged (on 15 Oct that was the sign rule of axion_twins.py, withdrawn the same evening: on the
+self-consistent background the sector is marginal at second order, axion_dressed.py A1); the self-coupling's only
+role in this sector is the Yang-Mills mass 2 Q^2 of the triplet, which the Gauss law removes.
 
 Parts:
   A  algebra at random background points on x = y = z: the symmetric subspace of the (u12,u21) block is

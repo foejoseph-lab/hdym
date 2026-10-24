@@ -1,9 +1,13 @@
 """axion_probes_spread.py -- the spread of the L1 loss time (axion_probes_long.py): the 'both' and 'boson+F' rows
 integrate the same ODE (the m_D = 0 fermion's current is constant to ten digits) and lost the background at 32.1 vs
 27.1 T (omega = 2.4) and 47.0 vs 28.5 T (omega = 3.0) -- roundoff amplified by a pumped, ultimately unstable system.
-So the loss time is a rate with a spread, and this script measures it: the 'boson+F' row at omega^2 phi^2 Pi = 1.7,
+So the loss time is not the number to report (withdrawn 16 Oct, README History); this script measures the spread:
+the 'boson+F' row at omega^2 phi^2 Pi = 1.7,
 initial data perturbed by 1e-6 relative (five seeds), at two tolerances (rtol 1e-9 and 1e-11), both omega.
 Reports the loss time of each run and the range; then the twin and M -> infinity controls with the same perturbations.  ~15 min.
+Result (README, "The mechanism"): the pumped loss is a fraction -- 8 of 20 perturbed ghost runs lose the background
+within 60 T (omega = 2.4: 5 of 10 at 12-46 T; 3.0: 3 of 10 at 30-48 T), c crossing 1/4 in every lost run; twin 0 of 5,
+M -> infinity 0 of 5, c <= 1e-4.
     python axion_su2/code/axion_probes_spread.py > axion_su2/results/axion_probes_spread.txt
 Added 2026-10-16.
 """

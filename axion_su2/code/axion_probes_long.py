@@ -22,6 +22,12 @@ named line, DONE <seconds> at the end).  Everything in phase space on probe_core
 Controls that must be steady (a BLOW-UP or a runaway there is a no-go, not a result): L1 'inf' rows with no probe;
 L2 rows with the scalar absent.
 
+Result (README, "The mechanism"; the first readings of 16 Oct -- "a bounded three-way exchange", "a massless probe
+lowers the loss threshold from 2 to at most 1.7", "a three-body pump needing both probes", "the loss time as the
+number to report" -- were withdrawn the same night): the loss coincides with c = (g^2/2) f^2 crossing M^2/4 (the
+pole collision), the m_D = 0 fermion is a constant force giving Q a nonzero mean, and 'boson+F' reproduces the pump;
+the loss is realisation-dependent (axion_probes_spread.py), a fraction, not a threshold or a rate.
+
 Usage (Joseph, from Spyder, output outside the repository; ~30-60 min expected):
     %cd C:\\GitHub\\hdym
     !"{sys.executable}" -B -u axion_su2\\code\\axion_probes_long.py > C:\\hdym_runs\\axion_probes_long.txt 2>&1

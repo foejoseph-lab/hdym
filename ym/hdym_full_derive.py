@@ -33,7 +33,9 @@ Checks (CHECK ... PASS/FAIL), every one a structural fact that the earlier scrip
 
 Writes
   full_system.pkl        the sympy expressions (R, G, E, state symbols)
-  csrc/hdym_full_rhs.h   generated C: hdym_full_rhs(s, ds, cj), hdym_full_gauss(s, G, cj), hdym_full_energy(s, cj)
+  csrc/hdym_full_rhs.h   generated C: hdym_full_rhs(s, ds, cj) (and hdym_full_rhs_acc for the fourth derivatives alone),
+                         hdym_full_gauss(s, G, cj), hdym_full_energy_v(s, E, cj); used by csrc/hdym_full_escape.c
+                         (islands/code/offdiag_escape.py, island_full.py)
 Runtime: a few minutes (sympy).  Added 2026-10-19.
 """
 import os

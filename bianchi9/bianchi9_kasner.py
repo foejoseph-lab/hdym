@@ -19,8 +19,13 @@ bianchi9_system.pkl): linear perturbation theory with the onset as a function of
    unit action) to small x; record the ghost action and the projection on the GR modes.  Where
    the action stops being conserved is the onset; the growth law at small x is the indicial
    exponent.
+   NOTE (README, held mismatch 12 Oct): run() integrates x = 60 -> 0.02 (defaults, no command-line
+   override); the README's Results 5 quotes 200 -> 0.01 (that range is bianchi9_kasner_check.py's).
+   The theta loop below is pi, pi/2, 0, pi/3 -- the "all four" of Results 5; the seeded prefactor
+   map (bianchi9_seed.py) uses five angles, pi, 2.9, 2.6, 2.3, 2.0.
 
-Output: printed exponents, kasner_onset.npz, kasner_onset.png.
+Output: printed exponents, kasner_onset.npz, kasner_onset.png; also kasner_linear.pkl (the
+linearised equations; written here, read by nothing -- README, held mismatch 12 Oct).
 Run:   %run bianchi9_kasner.py
 """
 import pickle, time

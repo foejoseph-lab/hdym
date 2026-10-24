@@ -12,8 +12,10 @@ Builds (symbolically, then exports to numpy)
     xdot = K(q, qdot) x of dimension 24 on the ghost-free background (qddot = -grad V);
   * the three exact gauge zero modes  u^a_i = eps^{abi} theta^b q_i  (constant theta).
 
-Writes rung1_system.pkl (lambdified K, constraint matrix, zero-mode matrix, L2) for the
-numerical stage (hdym_rung1_lyap.py) and prints the structural checks.
+Writes rung1_system.pkl (lambdified K, constraint matrix, zero-mode matrix, L2; K keeps the symbol
+c_j, 1 = the theory) for the numerical stage (hdym_rung1_lyap.py; hdym_rung1_gpu.py carries its own
+pasted K) and prints the structural checks.  Also the input of the Floquet work in islands/ and
+rabbit_holes/ym/ (NOTE_rung1.md).  Checked against the full nonlinear system by hdym_full_derive.py.
 """
 import pickle
 import time

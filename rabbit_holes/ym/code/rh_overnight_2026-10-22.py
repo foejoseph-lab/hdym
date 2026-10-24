@@ -18,7 +18,12 @@ rh4_loiter.py but without the clamping.
 Hole 12.  chk holds sector NORMS, not directions, so "a quadruplet's runaway rotates while a real pair's runs along a
 direction" is not testable from these files either; what is testable is which sector crosses 1 first (tcross) in the
 Krein ensemble against the parametric map, and the ordering of the crossings.  Reported; the directional question
-needs state snapshots and stays open.
+needed state snapshots -- added to the kernel later on 22 Oct and answered by rh12_direction.py (hole 12 closed:
+not observable nonlinearly, the diagonal ghost has taken over; notes/RH12_direction.md).
+
+Outcomes (README holes 1, 4): hole 1 closed negative (z = +0.7 to +1.3 after controlling |c|; notes/RH1_phase.md);
+hole 4 a measurement -- the loiter scales with the period, pooled median 0.58 periods, stretched tail, the linear
+phase the clock (notes/RH4_loiter.md); "E-independent in absolute time" withdrawn.
 
 Usage (from the repo root): python rabbit_holes/ym/code/rh_overnight_2026-10-22.py > rabbit_holes/ym/results/rh_overnight_2026-10-22.txt
 Added 2026-10-22.

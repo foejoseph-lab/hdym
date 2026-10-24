@@ -4,6 +4,9 @@ The fit T_c(n) = 4.057 (n + 0.210) to the centres of the seven block-12 bands of
 parametric, even n Krein) predicts rung 6 (Krein) at T = 25.20, E = 1.154 and rung 14 (Krein) at T = 57.65,
 E = 0.0421, rung 15 (parametric) at E = 0.0321 -- all outside B001's scan [0.05, 1].  This script scans the
 half-period map N of block 12 over E in [1.0, 1.5] and [0.025, 0.05] and types every off-circle event.
+Outcome (results/rh2_predict.txt; notes/RH2_ladder.md): rung 14 Krein found at E = 0.0427-0.0435 (rung 13.9); rung 15
+a parametric fold at 0.0350 (rung 14.67); rung 6 NOT Krein -- a parametric band at E = 1.014-1.271 and a Krein band
+from 1.286 on: above E ~ 1 the alternation ends, the two pairs having separated by a rung (Delta(E) = 0.95 pi at E = 1).
 Usage (from the repo root): python rabbit_holes/ym/code/rh2_predict.py > rabbit_holes/ym/results/rh2_predict.txt
 Cost: ~2 s per energy; default 70 energies.  Added 2026-10-21 (rabbit-hole session).
 """

@@ -4,6 +4,7 @@ of T; this reading requires lambda*T >> 1 (otherwise sigma is dominated by bound
 scales as 1/T, not diffusively), so only runs with lambda*T >= 1.5 e-folds are plotted.  Errors are
 bootstrap over trajectories.  Run from anywhere; reads ym/data/ (results_percomp.7z must be unpacked to ym/data/results_percomp/),
 writes paper/fig_Q.pdf.
+NOTE (README, held mismatch): the off-diagonal run lengths T are hard-coded below, not read from data/.
 """
 import glob, numpy as np, matplotlib
 matplotlib.use('Agg')

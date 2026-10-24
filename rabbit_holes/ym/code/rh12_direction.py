@@ -16,7 +16,11 @@ Caveat: Euclidean angles in the (u, u', u'', u''') coordinates are not canonical
 the same coordinates is what carries the information, not the absolute angles.
 
 Usage (from the repo root): python rabbit_holes/ym/code/rh12_direction.py [--files esc_E_snap_krein esc_E_snap_param]
-Added 2026-10-22; waits on the two runs of hole12_queue.md.
+Added 2026-10-22; run on the two snapshot runs of hole12_queue.md (esc_E_snap_krein, esc_E_snap_param).
+Outcome (notes/RH12_direction.md; README hole 12, closed): between |w| = 0.1 and 1 the off-diagonal state is 70-78 deg
+from its own linear propagation in BOTH bands -- the diagonal ghost has taken over, rotating-vs-directional is not
+observable nonlinearly.  One residual: the Krein end state stays 32-38 deg from its unstable plane (random: 60) while
+the parametric end state is random with respect to its line (66-72 vs 69).  Trigger differs, execution does not.
 """
 import argparse
 import os

@@ -1,6 +1,13 @@
 """rh1_phase.py -- rabbit hole 1: the phase-dependent loiter at a Krein band, redone from the committed orient maps,
 with the control the list asserts but never ran (a parametric band, where the phase is only a sign).
 
+STATUS (notes/RH1_phase.md; README hole 1): CLOSED, NEGATIVE.  On the maps this script finds a 4-7 % swing at ~4 sigma
+against the tile-permuting null (a cell-wise null overstated it), nothing for the parametric map or a placebo phase --
+a signature on one map, not a measurement.  The ensemble built to test it (12 phases x 256 independent cells,
+rh_overnight_2026-10-22.py) shows no phase effect once |c| is controlled: residual z = +0.7 to +1.3; the raw 96 % vs
+90 % escape by phase was |c| varying 0.56 -> 1.21 with alpha (the section's seed normalisation).  Do not cite a Krein
+seed-phase effect.
+
 Input: islands/results/esc_orient_0156.npz (E = 0.156, block 12 Krein quadruplet, 128^2 cells, tmax 3000) and
 esc_orient_030.npz (E = 0.30, block 23 real pair).  No integration beyond one monodromy per map (~2 s).
 

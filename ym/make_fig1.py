@@ -5,6 +5,7 @@
 #   vector ghost   : transverse_vec_percomp.csv (E <= 0.03, N = 2e5) plus the
 #                    earlier production scan at E >= 0.05 (values below)
 #   re-run         : transverse_E*.npz if present (open symbols), else skipped
+# NOTE (README, held mismatch): the vector-ghost E >= 0.05 points and the diag E = 0.03 value are hard-coded below, not read from data/.
 import csv, glob, os
 import numpy as np, matplotlib
 matplotlib.use('Agg'); import matplotlib.pyplot as plt

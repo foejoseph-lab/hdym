@@ -38,7 +38,8 @@ removed, and anything computed from it is a statement about the theory.
 ## First outputs
 
 **Frozen spectrum along the orbit** (eigenvalues of the restricted generator at fixed t; the gauge terms make it not
-exactly Hamiltonian, real parts ≤ 0.1, so read the imaginary parts as instantaneous frequencies), c_j = 1:
+exactly Hamiltonian, real parts ≤ 0.1 at the printed times and up to 0.9 elsewhere, so read the imaginary parts as instantaneous frequencies; a
+symplectic frame in which it is exactly Hamiltonian, and in which these numbers change, is in `RH_reduced_block_transfer.md`), c_j = 1:
 
 | E | turning point t = 0 | bounce t = T/4 | t = T/2 |
 |---|---|---|---|
@@ -89,7 +90,9 @@ the exact reduced block; the frozen spectrum and the bounce transfer matrix are 
   for 22–48 % of the period at E ≥ 0.3, more strongly at lower c_j, but the frozen expansion overshoots the measured
   growth by an order of magnitude and does not by itself decide stability (table above).
 - Done (23 Oct): (i) the hyperbolic fraction and strength per (E, c_j), `results/rh_reduced_block_hyp.txt`.
-- Open, now well-posed: (ii) the arm/turning-point transfer matrix: integrate the 4-dim
+- Closed 24 Oct (`RH_reduced_block_transfer.md`): (ii) is a frame convention (no invariant answer), (iii) is not
+  first order, (iv) is built and shows the frozen spectrum above to be one convention among many — the hyperbolic
+  fractions in the table are 0.29 / 0.51 / 0.73 at E = 0.3 / 0.412 / 0.6 in the symplectic frame. As posed on 22 Oct: (ii) the arm/turning-point transfer matrix: integrate the 4-dim
   reduced flow across one hyperbolic arm (t/T ∈ [−0.13, 0.13], say) and across one bounce, and read how much of the
   arm's expansion the bounce returns and how the sectors mix (`RH27_averaging.md`, part E); (iii) the Krein width at
   [0.151, 0.163] across c_j as the one first-order test; (iv) a proper Hamiltonian form H_red(t) = −Ω_red K_red in a

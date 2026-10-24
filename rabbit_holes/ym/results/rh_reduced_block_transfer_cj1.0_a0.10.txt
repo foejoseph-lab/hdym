@@ -1,0 +1,93 @@
+rh_reduced_block_transfer.py: arm / bounce transfer matrices of the 4-dim reduced block 12, a = 0.1 (ARM = [-aT, aT] around the turning point, BOUNCE = [aT, (1/2 - a)T]); c_j = 1.0
+
+== E = 0.1, c_j = 1.0, T = 46.436 ==
+  ARM1    : ln max sv +0.705  all [2.024 1.007 0.993 0.494]  symplectic to 3.1e-13  sector mixing 0.316
+  BOUNCE1 : ln max sv +0.438  all [1.55  1.211 0.826 0.645]  symplectic to 6.8e-13  sector mixing 0.688
+  ARM2    : ln max sv +0.705  all [2.024 1.007 0.993 0.494]  symplectic to 3.6e-13  sector mixing 0.316
+  BOUNCE2 : ln max sv +0.438  all [1.55  1.211 0.826 0.645]  symplectic to 2.7e-13  sector mixing 0.688
+  CHECK product of the four segments = ghost multipliers [0.69434-0.71965j 0.69434+0.71965j 0.95143-0.30787j 0.95143+0.30787j]: worst 1.2e-10 PASS
+  half period ARM then BOUNCE: ln max sv +0.346 against ARM + BOUNCE +1.143
+  RETURN: the arm's most-stretched output through the bounce keeps -0.55 of its ln-stretch (the bounce undoes it)
+  REFRAME (three random symplectic frames at the boundaries): arm ln sv / bounce ln sv / return = +1.08 / +1.32 / +0.04; +3.32 / +3.56 / -0.43; +2.10 / +2.16 / -0.18  -- frame-dependent (the spectrum of N below is not)
+  N = St Phi_T/2 on S(-aT): St maps the surface to itself to 1.5e-11; CHECK N^2 = ghost multipliers to 1.2e-10 PASS; |lambda_N| [1. 1. 1. 1.]
+  N half-period angles |psi| 0.050 pi, 0.872 pi -> Delta = -0.156 pi (on circle; rh5_splitting convention); sector mixing of Phi_T/2 0.694, of N 0.694
+  (iv) symplectic frame: D^T Om D = J to 6.7e-16; plane separation min w2/w1 0.234; connection |dD/dt|/|K D| median 0.23; J K_z symmetric to 4.9e-05 (median; max 3.8e-04)
+       hyperbolic fraction: orthonormal frame 0.00 -> symplectic frame 0.00; non-Hamiltonian fuzz max |Re| of complex pairs 0.265 -> 0.001
+
+== E = 0.156, c_j = 1.0, T = 41.550 ==
+  ARM1    : ln max sv +0.419  all [1.52  1.145 0.873 0.658]  symplectic to 6.0e-13  sector mixing 0.389
+  BOUNCE1 : ln max sv +0.735  all [2.086 1.15  0.87  0.479]  symplectic to 1.3e-12  sector mixing 0.614
+  ARM2    : ln max sv +0.419  all [1.52  1.145 0.873 0.658]  symplectic to 5.6e-13  sector mixing 0.389
+  BOUNCE2 : ln max sv +0.735  all [2.086 1.15  0.87  0.479]  symplectic to 1.5e-13  sector mixing 0.614
+  CHECK product of the four segments = ghost multipliers [-1.27207-0.18053j -1.27207+0.18053j -0.7706 -0.10936j -0.7706 +0.10936j]: worst 3.5e-11 PASS
+  half period ARM then BOUNCE: ln max sv +0.845 against ARM + BOUNCE +1.154
+  RETURN: the arm's most-stretched output through the bounce keeps +0.72 of its ln-stretch (the bounce keeps part of it)
+  REFRAME (three random symplectic frames at the boundaries): arm ln sv / bounce ln sv / return = +1.55 / +1.84 / +0.22; +2.65 / +2.32 / -0.27; +2.29 / +1.47 / +0.10  -- frame-dependent (the spectrum of N below is not)
+  N = St Phi_T/2 on S(-aT): St maps the surface to itself to 1.7e-11; CHECK N^2 = ghost multipliers to 6.0e-11 PASS; |lambda_N| [0.8822 0.8822 1.1335 1.1335]
+  N half-period angles |psi| 0.522 pi, 0.522 pi -> Delta = +0.090 pi (OFF circle, Delta not meaningful; rh5_splitting convention); sector mixing of Phi_T/2 0.663, of N 0.663
+  (iv) symplectic frame: D^T Om D = J to 6.8e-16; plane separation min w2/w1 0.192; connection |dD/dt|/|K D| median 0.29; J K_z symmetric to 7.1e-05 (median; max 6.1e-04)
+       hyperbolic fraction: orthonormal frame 0.00 -> symplectic frame 0.01; non-Hamiltonian fuzz max |Re| of complex pairs 0.452 -> 0.002
+
+== E = 0.3, c_j = 1.0, T = 35.283 ==
+  ARM1    : ln max sv +1.491  all [4.44  1.416 0.706 0.225]  symplectic to 5.3e-13  sector mixing 0.473
+  BOUNCE1 : ln max sv +1.922  all [6.836 2.209 0.453 0.146]  symplectic to 2.5e-13  sector mixing 0.652
+  ARM2    : ln max sv +1.491  all [4.44  1.416 0.706 0.225]  symplectic to 4.0e-13  sector mixing 0.473
+  BOUNCE2 : ln max sv +1.922  all [6.836 2.209 0.453 0.146]  symplectic to 2.9e-14  sector mixing 0.652
+  CHECK product of the four segments = ghost multipliers [ 0.31774+0.94818j  0.31774-0.94818j -0.18091+0.9835j  -0.18091-0.9835j ]: worst 1.6e-10 PASS
+  half period ARM then BOUNCE: ln max sv +1.821 against ARM + BOUNCE +3.413
+  RETURN: the arm's most-stretched output through the bounce keeps -0.01 of its ln-stretch (the bounce undoes it)
+  REFRAME (three random symplectic frames at the boundaries): arm ln sv / bounce ln sv / return = +1.32 / +2.19 / +1.07; +4.40 / +3.42 / -0.29; +3.21 / +2.50 / -0.19  -- frame-dependent (the spectrum of N below is not)
+  N = St Phi_T/2 on S(-aT): St maps the surface to itself to 2.1e-11; CHECK N^2 = ghost multipliers to 9.2e-11 PASS; |lambda_N| [1. 1. 1. 1.]
+  N half-period angles |psi| 0.279 pi, 0.801 pi -> Delta = +0.161 pi (on circle; rh5_splitting convention); sector mixing of Phi_T/2 0.686, of N 0.686
+  (iv) symplectic frame: D^T Om D = J to 5.2e-16; plane separation min w2/w1 0.141; connection |dD/dt|/|K D| median 0.43; J K_z symmetric to 1.2e-04 (median; max 3.4e-03)
+       hyperbolic fraction: orthonormal frame 0.23 -> symplectic frame 0.29; non-Hamiltonian fuzz max |Re| of complex pairs 0.895 -> 0.006
+
+== E = 0.412, c_j = 1.0, T = 32.593 ==
+  ARM1    : ln max sv +1.989  all [7.309 2.139 0.468 0.137]  symplectic to 5.8e-13  sector mixing 0.444
+  BOUNCE1 : ln max sv +2.602  all [13.497  2.309  0.433  0.074]  symplectic to 1.1e-13  sector mixing 0.661
+  ARM2    : ln max sv +1.989  all [7.309 2.139 0.468 0.137]  symplectic to 1.2e-12  sector mixing 0.444
+  BOUNCE2 : ln max sv +2.602  all [13.497  2.309  0.433  0.074]  symplectic to 4.2e-12  sector mixing 0.661
+  CHECK product of the four segments = ghost multipliers [-2.4568 -1.48289j -2.4568 +1.48289j -0.29834-0.18008j -0.29834+0.18008j]: worst 2.0e-10 PASS
+  half period ARM then BOUNCE: ln max sv +2.083 against ARM + BOUNCE +4.592
+  RETURN: the arm's most-stretched output through the bounce keeps -0.10 of its ln-stretch (the bounce undoes it)
+  REFRAME (three random symplectic frames at the boundaries): arm ln sv / bounce ln sv / return = +2.22 / +2.93 / +0.31; +4.92 / +3.37 / -0.51; +3.54 / +2.63 / -0.20  -- frame-dependent (the spectrum of N below is not)
+  N = St Phi_T/2 on S(-aT): St maps the surface to itself to 2.0e-11; CHECK N^2 = ghost multipliers to 1.7e-10 PASS; |lambda_N| [1.694  1.694  0.5903 0.5903]
+  N half-period angles |psi| 0.586 pi, 0.586 pi -> Delta = +0.346 pi (OFF circle, Delta not meaningful; rh5_splitting convention); sector mixing of Phi_T/2 0.779, of N 0.779
+  (iv) symplectic frame: D^T Om D = J to 3.0e-16; plane separation min w2/w1 0.120; connection |dD/dt|/|K D| median 0.42; J K_z symmetric to 1.3e-04 (median; max 8.2e-03)
+       hyperbolic fraction: orthonormal frame 0.37 -> symplectic frame 0.51; non-Hamiltonian fuzz max |Re| of complex pairs 1.185 -> 0.070
+
+== E = 0.6, c_j = 1.0, T = 29.670 ==
+  ARM1    : ln max sv +2.733  all [15.376  1.451  0.689  0.065]  symplectic to 8.1e-13  sector mixing 0.397
+  BOUNCE1 : ln max sv +2.346  all [10.439  1.358  0.737  0.096]  symplectic to 3.0e-13  sector mixing 0.694
+  ARM2    : ln max sv +2.733  all [15.376  1.451  0.689  0.065]  symplectic to 3.5e-13  sector mixing 0.397
+  BOUNCE2 : ln max sv +2.346  all [10.439  1.358  0.737  0.096]  symplectic to 1.0e-12  sector mixing 0.694
+  CHECK product of the four segments = ghost multipliers [ 2.13235+0.j      -0.74372+0.66849j -0.74372-0.66849j  0.46897+0.j     ]: worst 2.0e-10 PASS
+  half period ARM then BOUNCE: ln max sv +1.845 against ARM + BOUNCE +5.078
+  RETURN: the arm's most-stretched output through the bounce keeps -0.34 of its ln-stretch (the bounce undoes it)
+  REFRAME (three random symplectic frames at the boundaries): arm ln sv / bounce ln sv / return = +2.91 / +2.79 / +0.10; +4.92 / +4.63 / -0.17; +3.98 / +3.23 / +0.01  -- frame-dependent (the spectrum of N below is not)
+  N = St Phi_T/2 on S(-aT): St maps the surface to itself to 1.9e-11; CHECK N^2 = ghost multipliers to 1.1e-10 PASS; |lambda_N| [1.     1.     1.4603 0.6848]
+  N half-period angles |psi| 0.383 pi, 1.000 pi -> Delta = +0.767 pi (OFF circle, Delta not meaningful; rh5_splitting convention); sector mixing of Phi_T/2 0.668, of N 0.668
+  (iv) symplectic frame: D^T Om D = J to 3.3e-16; plane separation min w2/w1 0.099; connection |dD/dt|/|K D| median 0.45; J K_z symmetric to 1.8e-04 (median; max 1.9e-02)
+       hyperbolic fraction: orthonormal frame 0.44 -> symplectic frame 0.73; non-Hamiltonian fuzz max |Re| of complex pairs 1.541 -> 0.024
+
+== E = 0.642, c_j = 1.0, T = 29.172 ==
+  ARM1    : ln max sv +2.507  all [12.263  1.589  0.629  0.082]  symplectic to 5.0e-13  sector mixing 0.390
+  BOUNCE1 : ln max sv +1.632  all [5.113 2.301 0.435 0.196]  symplectic to 1.4e-13  sector mixing 0.701
+  ARM2    : ln max sv +2.507  all [12.263  1.589  0.629  0.082]  symplectic to 7.0e-13  sector mixing 0.390
+  BOUNCE2 : ln max sv +1.632  all [5.113 2.301 0.435 0.196]  symplectic to 2.3e-13  sector mixing 0.701
+  CHECK product of the four segments = ghost multipliers [ 2.44204+0.j      -0.51743-0.85573j -0.51743+0.85573j  0.40949+0.j     ]: worst 2.2e-10 PASS
+  half period ARM then BOUNCE: ln max sv +2.191 against ARM + BOUNCE +4.138
+  RETURN: the arm's most-stretched output through the bounce keeps -0.14 of its ln-stretch (the bounce undoes it)
+  REFRAME (three random symplectic frames at the boundaries): arm ln sv / bounce ln sv / return = +2.88 / +2.42 / +0.20; +4.30 / +4.26 / +0.04; +3.62 / +2.71 / +0.16  -- frame-dependent (the spectrum of N below is not)
+  N = St Phi_T/2 on S(-aT): St maps the surface to itself to 1.8e-11; CHECK N^2 = ghost multipliers to 1.0e-10 PASS; |lambda_N| [1.     1.     1.5627 0.6399]
+  N half-period angles |psi| 0.337 pi, 1.000 pi -> Delta = +0.673 pi (OFF circle, Delta not meaningful; rh5_splitting convention); sector mixing of Phi_T/2 0.683, of N 0.683
+  (iv) symplectic frame: D^T Om D = J to 2.2e-16; plane separation min w2/w1 0.095; connection |dD/dt|/|K D| median 0.46; J K_z symmetric to 2.0e-04 (median; max 2.5e-02)
+       hyperbolic fraction: orthonormal frame 0.45 -> symplectic frame 0.67; non-Hamiltonian fuzz max |Re| of complex pairs 1.573 -> 2.728
+
+Summary (E | arm ln sv | bounce ln sv | half ln sv | return | Delta/pi (* = off circle) | mix Phi_T/2 | mix arm | mix bounce | hyp frac orth -> symp)
+  0.100 | +0.705 | +0.438 | +0.346 | -0.55 | -0.156 | 0.694 | 0.316 | 0.688 | 0.00 -> 0.00
+  0.156 | +0.419 | +0.735 | +0.845 | +0.72 | +0.090* | 0.663 | 0.389 | 0.614 | 0.00 -> 0.01
+  0.300 | +1.491 | +1.922 | +1.821 | -0.01 | +0.161 | 0.686 | 0.473 | 0.652 | 0.23 -> 0.29
+  0.412 | +1.989 | +2.602 | +2.083 | -0.10 | +0.346* | 0.779 | 0.444 | 0.661 | 0.37 -> 0.51
+  0.600 | +2.733 | +2.346 | +1.845 | -0.34 | +0.767* | 0.668 | 0.397 | 0.694 | 0.44 -> 0.73
+  0.642 | +2.507 | +1.632 | +2.191 | -0.14 | +0.673* | 0.683 | 0.390 | 0.701 | 0.45 -> 0.67

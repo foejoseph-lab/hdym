@@ -41,12 +41,16 @@ mode grows, are where the frozen generator is elliptic and stiff; the turning-po
 where the generator is hyperbolic (real eigenvalue up to 0.9 at E = 0.3). Growth of the unstable mode and frozen
 hyperbolicity sit on opposite halves of the orbit.
 
-Caveat: the canonical norm between two *different* Darboux frames is not frame-invariant for a single vector (the
-singular values are; a vector's growth is not), so the per-segment eigenvector numbers carry a frame convention —
+Caveat (sharpened 24 Oct, `RH_reduced_block_transfer.md`): a Darboux frame is defined up to Sp(4) and the singular
+values of a map between two of them are invariant only under the unitary subgroup, so the per-segment gains, the
+eigenvector's per-segment growth and the localisation reading above are all statements in this frame convention
+(symplectic Gram–Schmidt from the unit vectors at quarter-period cuts); a random symplectic reframe changes them at
+will, the product's spectrum not at all. Original caveat: the canonical norm between two *different* Darboux frames is not frame-invariant for a single vector (a vector's growth is not), so the per-segment eigenvector numbers carry a frame convention —
 the same convention at every boundary, which the TP1 = TP2 and B1 = B2 symmetry confirms is applied consistently.
 
 ## Bearing on the paper
 
 Assumption A2 (channel entry) and B002's "the DR orbit's instabilities belong to the channel bounce, not the
-adiabatic interior" — supported for the Krein band at its peak, by the strongest possible version (the turning
-points *undo* growth); not applicable to the parametric band, which is delocalised. Hole closed.
+adiabatic interior" — supported for the Krein band at its peak in this frame (the turning
+points *undo* growth); not applicable to the parametric band, which is delocalised. Hole closed; the frame caveat above
+(24 Oct) means the paper should not quote the localisation as a property of the block.

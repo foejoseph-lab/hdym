@@ -1,6 +1,13 @@
 """rh6_polarisation.py -- rabbit hole 6: which of block 12's two ghost-sector pairs is "the ghost's", and in which
 polarisation does each live, measured from the eigenvectors B005 already computes.
 
+STATUS (notes/RH6_polarisation.md; README hole 6): NEGATIVE, with the reason.  No polarisation basis exists for the
+homogeneous sector (no momentum to be transverse to), and "the ghost's pair" needs the frequency sign, which is the
+rotation number hole 2 could not get.  Measured: at t = 0 both pairs are an exact 50/50 mix of the reflection sectors
+(f+ = 0.50 +- 0.02); component, sector and heavy/light contents reshuffle with E and along the orbit.  The two pairs
+are the same sector mode twice, split by Delta(E) (rh5_splitting.py) -- tabulate Delta, not a polarisation.  "The
+second ghost is the longitudinal polarisation" is a label to retire (FOR_THE_REWRITE_2026-10-25.md, item 1).
+
 The repository defines no polarisation basis for the off-diagonal components (hdym_rung1_lyap's docstring names
 "the longitudinal polarisation of the massive Lee-Wick vector" without writing it down), so three measurable
 contents are taken for each pair, from the eigenvector v of N = S~ Phi_T/2 at the orbit's reference point (t = 0,

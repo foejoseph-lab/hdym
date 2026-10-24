@@ -5,7 +5,11 @@ Floquet scan (dr_offdiag_floquet_typed.py, B001).
 Model: ym/hdym_full_derive.py (all nine A^a_i, temporal gauge, g = M = 1; its CHECK 3 shows the
 linearisation about the diagonal background is exactly rung1_system.pkl's K, so this is the same system
 the Floquet scans analysed, now without the linearisation).  Integrator: ym/csrc/hdym_full_escape.c
-(Dormand-Prince 5(4), adaptive, OpenMP).  Nothing here is symplectic or certified; the Ostrogradsky
+(Dormand-Prince 5(4), adaptive, OpenMP; standard err^(-1/5) step controller, PI before 20 Oct; since 20 Oct it
+pins the floating-point state -- MXCSR 0x1F80 and the x87 control word -- in every thread and computes the step
+factor with pure arithmetic, so escape times are bit-reproducible across threads and platforms: islands/README.md,
+Conventions, and results/NOTE_esc_E_kernel_2026-10-20.md for the two runs made before that fix).  Nothing here is
+symplectic or certified; the Ostrogradsky
 energy and the Gauss constraints are recorded per trajectory as the drift diagnostics.
 
 Initial data.  The diagonal sector is placed ON the DR orbit at energy E (same point and scaling as
@@ -28,7 +32,9 @@ Sections
                     t_lin = ln(R / delta) / rate from the typed log (drawn by --plot if the log is present).
   --section phase   fixed E and --block; an ensemble (nalpha phases x nseed random admixtures and diagonal seeds)
                     over the phase alpha of the seed's projection on a Krein quadruplet's unstable subspace,
-                    |c| fixed (rabbit hole 1; run_phase's docstring).  Added 2026-10-21.
+                    |c| fixed (rabbit hole 1; run_phase's docstring).  Added 2026-10-21; |c| actually fixed only
+                    since 2026-10-22 -- the committed run esc_phase_0156 (21-22 Oct) normalised the seed after
+                    construction, so its |c| ran 0.56-1.21 with alpha (rabbit_holes/ym/README.md, "Smaller things").
   --section orient  fixed E; a 2D grid over the sphere angles (theta, phi) of the seed direction in the
                     span of three fixed random Gauss-projected directions e1, e2, e3 (seeded by --seed):
                     seed = delta (cos theta e1 + sin theta cos phi e2 + sin theta sin phi e3).  The
@@ -43,7 +49,9 @@ an escape at the last resolved time and is flagged status = 1 ("singular"; the L
 finite-time singularity, cf. hdym_core.confirm_runaway); status = 2 is a real integrator failure and fails the run.
 
 Since 2026-10-21 every section also stores tcross (N, 5): the first times |w| >= 1, |u_12|, |u_13|, |u_23| >= 1 and
-|w| >= 0.1 (-1 = never; rabbit hole 4), and the orient section keeps its chk array (float32); since 2026-10-22 also
+|w| >= 0.1 (-1 = never; rabbit hole 4), and the orient section keeps its chk array (float32; before 21 Oct it computed
+and dropped it, so the 128^2 maps esc_orient_0156, esc_orient_030 and esc_orient_0412 carry no growth curves; the 64^2
+map esc_orient_030_n64 of 22 Oct does); since 2026-10-22 also
 snap (N, 5, 36), float32: the full state at each of those crossings (rabbit hole 12: the runaway's direction).
 Output: <results>/<tag>.npz, written after every row (E value, or theta row) so a killed run keeps what
 it has (a partial file carries rows_done < rows); `--resume` with the same parameters continues it from there
@@ -55,12 +63,14 @@ then DONE <seconds>.  --plot <tag> draws the figures from an existing npz (no ru
 Usage (Spyder, from the repo root, kernel's own interpreter; the derivation must have been run once):
     import sys; %cd C:\\GitHub\\hdym
     !"{sys.executable}" -B -u ym\\hdym_full_derive.py > islands\\results\\hdym_full_derive.txt 2>&1
-    !"{sys.executable}" -B -u islands\\code\\offdiag_escape.py --section E --nE 100 --nseed 32 --tag esc_E > islands\\results\\esc_E.txt 2>&1
+    !"{sys.executable}" -B -u islands\\code\\offdiag_escape.py --section E --nE 100 --nseed 64 --tag esc_E > islands\\results\\esc_E.txt 2>&1
     !"{sys.executable}" -B -u islands\\code\\offdiag_escape.py --section orient --E 0.156 --n 128 --tag esc_orient_0156 > islands\\results\\esc_orient_0156.txt 2>&1
     !"{sys.executable}" -B -u islands\\code\\offdiag_escape.py --section orient --E 0.30 --n 128 --tag esc_orient_030 > islands\\results\\esc_orient_030.txt 2>&1
   (orient only pays where the off-diagonal sector leads the race, i.e. where the diagonal ghost is Floquet-stable on the
   orbit: E = 0.156 is block 12's Krein band, E = 0.30 block 23's parametric tongue.  At E = 0.412 and 0.642 the diagonal
-  ghost's rate is 2-4x the off-diagonal one and the map is structureless: 20 Oct run at 0.412, median 183, 96 % diagonal.)
+  ghost's rate is 2-4x the off-diagonal one and the map is structureless: 20 Oct run at 0.412, median 183, 96 % diagonal;
+  an E = 0.642 map on the pre-fix kernel with the diagonal ghost unseeded was stopped at 83 of 128 rows on 21 Oct, every
+  row escaped 128/128, and deleted on 23 Oct -- above E ~ 0.33 the diagonal ghost leads regardless.)
     !"{sys.executable}" -B -u islands\\code\\offdiag_escape.py --plot esc_E
 
 Run parameters and why: delta = delta_diag = 1e-4.  Convergence test (E = 0.549, both seeds, same initial
@@ -337,12 +347,14 @@ def cross_check(kern, model, E, delta, rng, rtol, atol, hmax):
     # determinism of the parallel kernel: identical initial states must give identical results.  Not a formality:
     # the 20 Oct orient run on Windows (MinGW gcc, OpenMP, 24 threads) gave TWO escape times across the theta = 0
     # row, whose 128 cells are bit-identical by construction (123 cells at 2965.95, 5 at 1818.84 = one thread's
-    # share): numpy/MKL had set flush-to-zero on the main thread, the workers had the default mode, and a denormal
-    # in the O(delta^2) z-sector was flushed on one thread only; the chaotic loiter made the last bit into 1100
-    # time units.  The kernel now pins the FP control word in every thread (hdym_full_escape.c, fp_mode_set), the
-    # INFO line above reports what the threads had before, and this check runs 48 copies so every thread gets some.
-    # A short run can still pass with a latent difference (no denormal arises in 300 time units at E = 0.549), so the
-    # INFO line is the real evidence; if this FAILS, do not trust any map until it passes.
+    # share); the chaotic loiter made the last bit into 1100 time units.  A first reading (FTZ/DAZ set on the main
+    # thread only, a denormal flushed on one thread) was wrong: with MXCSR pinned this check still failed with a
+    # t_esc spread of 0.087 at E = 0.549.  The cause was the x87 control word, which differed between the main thread
+    # and the workers and entered through MinGW's x87 pow() in the step controller.  The kernel now pins MXCSR
+    # (0x1F80) and the x87 word in every thread (hdym_full_escape.c, fp_mode_set) and computes the step factor
+    # with pure arithmetic; the INFO line above reports what the threads had before, and this check runs 48 copies
+    # so every thread gets some (islands/README.md, Conventions; results/NOTE_esc_E_kernel_2026-10-20.md).  If this
+    # FAILS, do not trust any map until it passes.
     Scp = np.repeat(s1[None, :], 48, axis=0)      # more copies than threads, so every thread gets some
     tec, sec, chc, dgc, Sc, stc = kern.escape(Scp, 1.0, 300.0, 1e4, rtol, atol, hmax, 4)
     same = np.all(tec == tec[0]) and np.all(Sc == Sc[0]) and np.all(np.nan_to_num(chc) == np.nan_to_num(chc[0]))
@@ -495,10 +507,14 @@ def run_phase(a, kern, model, rng, out):
     Krein quadruplet's unstable subspace at fixed E.  With v the right eigenvector of the block's period map for the
     unstable multiplier mu with Im mu > 0 and w its left eigenvector (w . v = 1, w . conj v = 0), the direction
     d(alpha) = Re(e^{i alpha} v) has projection c = w . d = e^{i alpha} / 2: fixed modulus, phase alpha.  Each cell
-    is s = delta * unit(d(alpha) + eta r) with r a random Gauss-projected unit vector (eta = --eta, default 0.3)
-    and an independent random diagonal-ghost seed, so the ensemble at each alpha samples the loiter.  The actual
-    c = w . s of every cell is stored (its phase differs from alpha by O(eta)).  For a parametric (real) pair the
-    construction degenerates to the sign of alpha and the run is refused.  Requires --block."""
+    is s = delta (d(alpha) + r) / Nrm with r a random Gauss-projected admixture orthogonal to the unstable plane and
+    scaled so that |d + r| = Nrm for every alpha (eta = --eta, default 0.3, is the admixture at the largest |d|; the
+    comment in the loop below), and an independent random diagonal-ghost seed, so the ensemble at each alpha
+    samples the loiter.  The actual c = w . s of every cell is stored: since 2026-10-22 |c| is the same at every
+    alpha and the phase exact; the 21-22 Oct version normalised s = delta unit(d + eta r) after construction, so in
+    the committed esc_phase_0156 |c| varies 0.56-1.21 with alpha and the phase by O(eta) (rabbit hole 1 regressed
+    it out).  For a parametric (real) pair the construction degenerates to the sign of alpha and the run is
+    refused.  Requires --block."""
     if a.block == 'all':
         raise SystemExit("--section phase needs --block 12 (or 13, 23)")
     s_diag, T = diagonal_state(a.E)

@@ -1,6 +1,9 @@
 """Linearised ghost on pure YM trajectories: transverse Lyapunov exponent (vector and diagonal ghost),
 tachyonic fraction, and (at E=1) the spectrum of the Hessian diagonal entry K_xx=y^2+z^2.
 usage: python3 transverse.py E T N
+Writes transverse_E<E>.npz (committed in data/, the open symbols of fig:lambda).  The diagonal ghost
+lam_d is renormalised with the VECTOR norm (max of three finite-time exponents), not per component
+as hdym_gpu.py --ghost diag (README, "A note on the diagonal-ghost estimator").
 """
 import numpy as np, sys, time
 E, T, N = float(sys.argv[1]), float(sys.argv[2]), int(sys.argv[3])

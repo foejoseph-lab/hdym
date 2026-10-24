@@ -38,6 +38,11 @@ cluster near 1 and the comparison is degenerate there.
 Ends with a type map over the (D, J) grid per (psi, block) and DONE <s>.
 
 Cap (work order): one scan in (D, J); if the real/complex split is not clean, record what was seen and stop.
+Found (results/channel_offdiag_monodromy.txt, 19 Oct; islands/README.md): Floquet-stable in every block within the
+model (eps <= 0.1, 188 of 576 cases); the one in-model "weak Krein cell" (D = 3.89, J = 0.0315, |mu| = 1.002, rate
+0.001) is the gauge Jordan pair split by sqrt(eps) and labelled Krein by the all-8 rule, not a ghost instability
+(rabbit_holes/ym/notes/RH11_weakcell.md); every strong instability lies outside the model and most of it violates
+Gauss.  The DR orbit itself has eps ~ 0.2, outside this model.
 
 Usage (Spyder, from the repo root, kernel's own interpreter):
     import sys; %cd C:\\GitHub\\hdym

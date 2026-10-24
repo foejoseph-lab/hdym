@@ -84,6 +84,10 @@ print("   dz check vs finite difference:", np.abs(d - dfd).max() / (1 + np.abs(d
 # Hamiltonian check: the flow is Hamiltonian w.r.t. Omega_y with H = constraint?  Weaker but
 # decisive test: the linearised flow preserves Omega_y:  d/dt Omega_y(v1, v2) = 0, i.e.
 # (J^T Om + Om J + dOm/dt) = 0 with dOm/dt = sum_k dOm/dy_k f_k.
+# NOTE (README, held mismatch 12 Oct): this is the full 10-d residual at a random point, with no
+# restriction to dH.v = 0; the Derivation's "1.4e-9 for tangent vectors with dH.v = 0, O(1) drift off
+# the constraint surface" is not what this line tests (bianchi9_action.py tracks a dH.v = 0 symplecticity
+# residual along its runs).
 Jm = m.jac(y, Mv); f = m.rhs(y, Mv); Om = g.omega(y, Mv)
 dOm = sum(((g.omega(y + h*np.eye(10)[k], Mv) - g.omega(y - h*np.eye(10)[k], Mv)) / (2*h)) * f[k] for k in range(10))
 res = Jm.T @ Om + Om @ Jm + dOm

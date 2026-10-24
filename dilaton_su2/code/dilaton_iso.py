@@ -1,8 +1,17 @@
 """dilaton_iso.py -- item 5b, the runs (17 Oct; column A primary, column B control -- Joseph, 17 Oct).  The
 isotropic SU(2) background under a prescribed dilaton Theta(t) = exp(delta_a cos(omega t)), delta = phi/Lambda, with the
-Lee-Wick ghost, in the (q, w) auxiliary form of dilaton_derive.py; flat space, g = M = 1, the regime gQ_amp = M/100 of
-axion_su2/ (omega = m_phi/M).  Everything is an initial-value problem in phase space on the equations of
-dilaton_derive.py (checked there, all PASS) and, for column A, on axion_su2/code/probe_core.py, which carries Theta.
+Lee-Wick ghost, in the (q, w) auxiliary form of dilaton_derive.py; flat space, g = M = 1, the regime of axion_su2/:
+Q_amp = omega/100, so gQ_amp = M/100 at omega = 1 (omega = m_phi/M).  Everything is an initial-value problem in phase
+space on the equations of dilaton_derive.py (checked there, all PASS) and, for column A, on
+axion_su2/code/probe_core.py, which carries Theta.  "Periods" and "T" below and in the log are those of the undriven
+background orbit, T = 4K(1/2)/(sqrt2 Q_amp) ~ 524/omega (262 time units at omega = 2), not the drive period 2 pi/omega.
+
+Result (17 Oct, README): the ghost's effective mass M^2 Theta(t) is modulated and the isotropic solution is lost --
+within 0.08-2.8 T, every realisation, no threshold in delta_a -- wherever omega/M sits in the ghost's parametric
+tongue (omega = 2 for every delta_a; 2.4 at delta_a = 1 in A; B wider, lost also at 1.5 and 3.0 at delta_a = 1);
+off the tongue steady for 60 periods, seeds identical, E_heavy bounded; M -> infinity steady everywhere.  Probes off
+the tongue: spectators at m_p = 0 and 3 gQ_amp; at m_p = gQ_amp a bounded x10 ghost-mediated exchange, c <= 6e-4
+against 1/4.  Decision of 17 Oct: column A primary (the cited form, Gauss law untouched), column B the control.
 
   column A  (Theta on F^2 only, the cited coupling):  Q'' = w - 2Q^3,  w'' + (Theta + 6Q^2) w = -Theta-dot Q'
             (probe_core with Theta, kappa = 0; the lean isotropic rhs here is checked against it at random points).
@@ -11,14 +20,16 @@ dilaton_derive.py (checked there, all PASS) and, for column A, on axion_su2/code
             the energy at constant Theta.
   M -> infinity (both columns):  Theta Q'' + Theta-dot Q' + 2 Theta Q^3 = 0  (Yang-Mills with g -> g Theta in
             d tau = dt/Theta; <Theta^2>_tau = 1 for a cosine, so no inversion of the potential: the control).
-  The (p, w) twin is not definable with Theta on (probe_core docstring); column B is the second column here.
+  The (p, w) twin is not definable with Theta on (probe_core docstring); column B is the control here (17 Oct).
 
   A  The isotropic background without probes: omega in (0.5, 0.8, 1.5, 2.0, 2.4, 3.0), delta_a in (0.1, 0.3, 1.0), 8
      periods of the undriven orbit T = 4K/(sqrt2 Q_amp): |Q|max/Q_amp per cycle, the heavy sector's cycle-mean energy
      over E_bg = (3/2) Q_amp^4, lost at |Q| = 10 Q_amp; columns A, B, M -> infinity.  Then 60 periods at omega = 2.4 and
      3.0, delta_a = 0.3 and 1.0, three perturbed seeds each (the fraction statistics of the probe programme).  This
      answers the derivation's open question: is the friction-like drive -Theta-dot Q' a threshold (as the axion's
-     renormalised coupling) or a secular pump?
+     renormalised coupling) or a secular pump?  (Neither: the w equation's homogeneous part is the anisotropic Mathieu
+     equation, sourced by the drive and fed back through Q'' = w - 2Q^3 -- the ghost's first-order parametric
+     resonance at m_phi = 2M/n, and nothing else.)
   B  The anisotropic sector (background-independent, dilaton_derive.py CHECK 6): the one-period monodromy of
         A: u'' + Theta(t) u = 0,       B: (Theta u')' + Theta u = 0,       (u = eps'; the constant C is a drift)
      over omega in a fine grid 0.3-3.2 and delta_a in (0.1, 0.3, 1.0): the growth rate per unit time, the tongues at

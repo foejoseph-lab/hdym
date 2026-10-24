@@ -22,6 +22,12 @@ its own error is O(r^2) and O(H/M) relative.
 Also returned: the integrand |C| and the local phase rate, so the saddle-point exponent can be
 read off, and the position of the bounce.
 
+NOTE (README, held mismatch 12 Oct): this is the plain first-order quadrature, no endpoint term
+removed (the "first endpoint term removed" estimator mentioned under README Results 2 is not in
+the repository); the committed output is results/bog.npz, renamed on save from the default --out
+bogoliubov.npz.  Result (6 Oct): |C| dips at the bounce, cumulative |B| has no step there; the
+kick is O(e^{-(pi/2) M/H_b}) by the Taub estimate.
+
 Run:  %run bianchi9_bogoliubov.py --Ms 28 40 56 80 160 320 640
 """
 import time, argparse

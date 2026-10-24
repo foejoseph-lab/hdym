@@ -7,9 +7,11 @@ isotropic background in the (q, w) form, flat space, g = M = 1.  Revised after t
 Two regimes, labelled because they are opposite ends of one axis:
   Part A / C:  gQ_amp = M/100 (m_phi/gQ = 100 as in iso_lame_gap.py).  The probe's coupling to the field is
                (3/4) g^2 Q^2 (scalar) and (3/2) g Q (fermion mixing), so the axis that matters is m_p / gQ_amp, not
-               m_p / M: at m_p = M the probe is decoupled by construction (coupling ~1e-4 of m_p^2, force ~1e-5 of
+               m_p / M: at m_p = 100 gQ_amp = omega M (2.4M, 3M; labelled "= M" in the table title, corrected 17 Oct)
+               the probe is decoupled by construction (coupling ~1e-4 of m_p^2, force ~1e-5 of
                2Q^3) and reproduces the no-probe rows to every digit -- a hierarchy statement, not a ghost one.
-               Rows are at m_p / gQ_amp = 0, 1, 3 and 100 (= M, the decoupled control).
+               Rows are at m_p / gQ_amp = 0, 1, 3 and 100 (= omega M, the decoupled control); the probe decouples
+               already at m_p ~ 3 gQ_amp (README, "Results" A).
   Part B:      Q_amp = 1, i.e. gQ_amp = M: the regime where the probe's induced mass is of order M.
 
   A  The isotropic threshold with the probes.  Rows: omega = m_phi/M in (2.4, 3.0) [off the ghost's omega = 2M
@@ -351,6 +353,7 @@ if __name__ == "__main__":
     rows += [(om, cr, col, +1, mp) for om in (2.4, 3.0) for cr in (1.0, 1.7, 2.0, 2.3) for mp in (0, 1, 3) for col in ('boson', 'fermion', 'both')]
     rows += [(om, cr, 'both', +1, 100) for om in (2.4, 3.0) for cr in (1.7, 2.3)]
     rows += [(0.8, cr, col, +1, mp) for cr in (1.0, 2.3) for (col, mp) in (('none', 0), ('both', 0), ('both', 1))]
+    # title left as run; "m_p = M (= 100 gQ_amp)" is m_p = omega M (2.4M, 3M) -- label correction of 17 Oct, docstring
     table(rows, "A1  ghost; columns none / boson / fermion / both at m_p/gQ_amp = 0, 1, 3; the decoupled control m_p = M (= 100 gQ_amp)")
     stamp("Part A2: the twin and the M -> infinity control")
     rows = [(om, cr, 'both', -1, mp) for om in (2.4, 3.0) for cr in (1.0, 1.7, 2.0, 2.3) for mp in (0, 1)]
@@ -376,5 +379,6 @@ if __name__ == "__main__":
 
     stamp("Part C: on the ghost's tongue omega = 2M, omega^2 phi^2 Pi = 1.0 (regime gQ_amp = M/100)")
     rows = [(2.0, 1.0, col, sg, mp) for sg in (+1, -1) for mp in (0, 1, 3, 50, 100) for col in ('boson', 'fermion', 'both')]
+    # title left as run; at omega = 2, Q_amp = 0.02, so 50 and 100 gQ_amp are m_D = M and 2M, not M/2 and M (17 Oct)
     table(rows, "C   omega = 2 (tongue), ghost and twin, m_p/gQ_amp = 0, 1, 3, 50 (= M/2), 100 (= M)")
     stamp("done")

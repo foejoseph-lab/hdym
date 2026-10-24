@@ -42,7 +42,9 @@ Parts:
      isotropic 4-d tangent (w0 = Q'' + 2Q^3) and the anisotropic 4-d sector alongside, per-cycle increments of
      ln sigma_max; stable points drift, unstable ones grow by several per cycle and the background blows up.
      Result: a threshold in the drive, omega^2 phi^2 Pi(omega^2) ~ 1-2 (phi^2 r^2/(1 - r^2) ~ 1-2 in physical
-     variables), none for M > m_phi; below it both sectors are marginal on the self-consistent background --
+     variables), none for M > m_phi (made exact on 16 Oct, iso_lame_gap.py: lam_eff = 2 - omega^2 phi^2 Pi = 0,
+     i.e. omega^2 phi^2 Pi = 2, sharp; the omega = 2 rows here sit on the ghost's first tongue, which is lost
+     earlier, at 1.33); below it both sectors are marginal on the self-consistent background --
      the second-order law of A2 for the isotropic sector holds only against the free-particle model, on the
      real background the restoring curvature of the orbit family competes with it and wins below threshold.
   C  the exact background's own runaway (nonlinear, from the roundoff seed): envelope rate of its ghost
@@ -318,6 +320,8 @@ def part_D():
         r_lo = np.sqrt(1.0 / (phi ** 2 + 1.0))
         r_hi = np.sqrt(2.0 / (phi ** 2 + 2.0))
         print(f"      phi_amp = {phi:3.1f}: r > {r_lo:.2f}-{r_hi:.2f}")
+    # 16 Oct: phi_amp = 1 replaced by phi_end from their (A10)-(A11), 8.3e-4 at the benchmark (axion_frw_iso.py C);
+    # the e-fold estimate below is superseded by that run (print strings left as run)
     print("    (phi_amp is the axion displacement at the end of inflation in units of f, not stated by Fujita et al.)")
     print("    Above threshold the growth is 2.5-6 per Q period at (phi, r) = (2-2.2, 0.5) in the run, i.e. ~0.01-0.03 per unit")
     print(f"    M^-1 at gQ/M = 0.02: in units of H_end that is ~0.01-0.03 x (M/H_end) = 0.01-0.03 x m_Q r m_phi/(gQ) -- large: the")

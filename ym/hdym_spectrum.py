@@ -21,7 +21,7 @@ is three oscillators with frequencies sqrt(1 + lam_i(t)), coupled by the
 frame rotation Omega_ij = e_i . de_j/dt.
   * Single-mode parametric driving: spectrum of the tracked eigenvalues
     lam_i(t) at u = 2 E^{-1/4}.  This is the low-E mechanism and gives the
-    E^2.2 law (the tail of s(u) is ~ u^-6).  The basis-dependent diagonal
+    E^{9/4} law (the tail of s(u) is ~ u^-6).  The basis-dependent diagonal
     entries K_xx = y^2 + z^2 approximate it because in a channel the diagonal
     entry IS the lowest eigenvalue.
   * Mode mixing: spectrum of Omega_ij, resonant when it has power at the
@@ -61,8 +61,10 @@ Outputs (in --out):
                   S_diag_shallow / S_diag_deep (depth split); depth
   prediction.csv  E, u, lam_diag, lam_eig, lam_eigmin, (calibrated column)
   spectrum.png
+The tail constant A = <u^6 s(u)> is NOT printed here: hdym_tailA.py reads spectrum.npz for it (12 Oct).
 
-Usage
+Usage (the committed data/results_spectrum/ run; the paper's spectrum)
+  python hdym_spectrum.py --N 2048 --T 20000 --t-burn 500 --workers 12
   python hdym_spectrum.py --N 2048 --T 20000 --t-burn 500 --calibrate results_diag/transverse_gpu.csv
 """
 import argparse

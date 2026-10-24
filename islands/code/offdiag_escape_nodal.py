@@ -12,7 +12,8 @@ reflecting edges; non-escaped cells filled with the map mean before smoothing), 
 log |projection| over the map.  No fitting.
 
 Usage: python islands/code/offdiag_escape_nodal.py esc_orient_030:23 esc_orient_0156:12   (tag:block, from islands/results/)
-Writes islands/results/<tag>_nodal.png per map.  Added 2026-10-21.
+Writes islands/results/<tag>_nodal.png per map (the figures are not committed; the numbers are in islands/README.md:
+corr -0.44 for the real pair at E = 0.30, -0.11 for the quadruplet at 0.156).  Added 2026-10-21.
 """
 import os
 import sys

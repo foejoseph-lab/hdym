@@ -4,6 +4,7 @@ regulated two-field model at E = 1.
 
 Prediction (NOTE_2d.md, Sec. 3): the tail of s_xx is purely the resonant x-channel chirp,
     u^5 s_xx(u) = A_res = (256 pi / (15 sqrt2)) nu0 = 37.93 nu0,   nu0 = 4 pi / Z2(mu1),
+(NOTE, README held mismatch: the closed form gives 37.913; "37.93" here and in the printout is a rounding slip, held)
 up to the regulator cutoff at u ~ 2 sqrt2/mu1 (and the regulator correction factor
 (1 - mu^2 D^2/2)^{5/2} with D = u/2, which is applied below).  In 2-d the diagonal entries
 receive no detuned power from the other channel (in the y-channel K_xx = y^2 is slow), so

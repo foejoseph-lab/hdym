@@ -1,7 +1,13 @@
 """rh7_selection_rule.py -- rabbit hole 7: the selection rule of block 12 (folds only at M = +1, Krein
-collisions only at M = -1) derived from the half-period symmetry, with the numerical checks of each step.
+collisions only at M = -1, a + 2 >= 0) against the half-period symmetry, with the numerical checks of each step.
 
-The derivation (notes/RH7_selection_rule.md) has three steps; this script checks each on the DR orbit.
+STATUS (notes/RH7_selection_rule.md; README hole 7): TWO of the three rules are exact (the Lemma of step 3: no single
+pair leaves at -1, every single-pair instability is a fold at +1 -- Swift-Wiesenfeld 1984 in symplectic multiplicity
+form).  "Collisions only at M = -1" is NOT a theorem: exact only in the decoupled symmetric model of step 2, which
+sits a rung off the real bands (the cross-coupling is O(1)); measured, the collisions are at N-angles +-(0.44-0.68) pi,
+and above E ~ 1 a parametric band sits where alternation would put a Krein one (rh2_predict.py).
+
+The derivation has three steps; this script checks each on the DR orbit.
 
   1. PARITY.  In the (u12, u21) basis the half-period symmetry S~ K(t + T/2) S~ = K(t), S~ = diag(+1, -1) on each
      derivative order, says the self-coupling blocks K_aa are T/2-periodic (even harmonics of Omega = 2 pi / T only)
@@ -17,7 +23,9 @@ The derivation (notes/RH7_selection_rule.md) has three steps; this script checks
      sign (one descends from e^{i theta}, the other from e^{-i theta}).  Hence, in the decoupled model, parametric
      bands = the sector's +1 tongues, Krein bands = the sector's -1 tongues; the true cross-coupling (c_j = 1)
      splits the double real pair at -1 into a genuine complex quadruplet.  SCAN: the sector's own tongues over E,
-     typed +1 / -1, against B001's block-12 intervals (results/dr_offdiag_floquet_typed.txt).
+     typed +1 / -1, against B001's block-12 intervals (results/dr_offdiag_floquet_typed.txt).  Outcome: the model's
+     tongues alternate like the real bands but sit one rung off (e.g. fold at -1 in [0.245, 0.265] where the real
+     block is parametric); it explains the form of the rule, not the positions.
   3. LEMMA (exact, no model): M = N^2 with N real symplectic.  A real negative multiplier of M off the circle has
      square roots +-i r, non-real with |lambda| != 1, hence a full quadruplet {i r, -i r, i/r, -i/r} of N, whose
      squares are {-r^2, -r^2, -1/r^2, -1/r^2}: it is at least double.  So one pair can never leave through -1

@@ -15,6 +15,7 @@ uses several thresholds at once (default: 2, 5, 10 time units and 5 % of the
 median t_esc) and reports alpha for each; a fractal boundary gives alpha < 1
 for every threshold, a smooth one gives alpha -> 1 as delta -> 0 for every
 threshold.
+NOTE (README, held mismatch): the committed data/unc_*.npz used thresholds 5/10/20, not the default 2/5/10; make_figs.py plots index 1 as "> 10".
 
 Section definitions and the integrator come from hdym_escape_map.py (keep it
 next to this file, and use the same --seed, --dt, --R as the map).
@@ -23,6 +24,8 @@ Examples
   python hdym_uncertainty.py --E 0.3 --eps 0.01 --section ym --M 4000 --backend c
   python hdym_uncertainty.py --E 0.3 --eps 0.01 --section ym --M 20000 --backend cupy \
          --delta-min 1e-6 --delta-max 1e-1 --n-delta 11
+  # the paper's fig:maps (c) runs (README): --section ym / ghost, --M 20000 --backend cupy
+  #        --delta-min 1e-14 --delta-max 1e-4 --n-delta 11
   # optional figure: map + zoom + f(delta)
   python hdym_uncertainty.py ... --figure results_escape/ym_E0.3_eps0.01_n1024_s1.npz \
                                  results_escape/zoom10x.npz

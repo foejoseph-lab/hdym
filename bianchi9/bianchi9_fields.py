@@ -101,6 +101,9 @@ H0 = dirac_H(Yb(0.0), 1.0)
 herm = np.abs(H0 - H0.conj().T).max() / np.abs(H0).max()
 ev0 = np.linalg.eigvalsh((H0 + H0.conj().T) / 2)
 a0, b0, c0 = abc(Yb(0.0))[:3]
+# Aax = Sigma/8 is a stored half-variable; the coupling is A = Sigma/4 = 2 Aax, hence sqrt(1 + 4 Aax^2) below
+# (README Results 4, held mismatch 12 Oct: the committed fields.log check line is from an earlier printout
+# and reads as a failure; the Dirac integration itself uses the spin connection, not Aax).
 Aax = (a0/(b0*c0) + b0/(c0*a0) + c0/(a0*b0)) / 8
 print(f"   Dirac reduction: hermiticity of H_D {herm:.1e};  eigenvalues at tau=0 (m=1): {np.round(ev0, 5)};  "
       f"sqrt(m^2 + A^2) with A = (1/4) sum a/bc = {np.sqrt(1 + 4*Aax**2):.5f}")
@@ -147,6 +150,9 @@ def dirac_run(m):
 
 alpha_of = lambda taus: np.array([Yb(tau)[0] for tau in taus])
 res = {}
+# the bracketed ghost numbers in the header are (roughly) r^2 of the 6 Oct --wkb "clean points" (r = 2.9e-3 at
+# 0.049, 5.6e-4 at 0.035), withdrawn the same evening (README Results 2): second-order frame terms, not bounce kicks.
+# The closure (10 Oct) puts the ghost's n = sinh^2 r, r ~ e^{-(pi/2) M/H_b}, at or below these probes.
 print(f"\n   m      m/H_b     scalar n(alpha=-0.5)  n(end)      Dirac n(alpha=-0.5)  n(end)     [ghost r^2 at -0.5, frozen-frame upper bounds: 0.049 -> <1e-5, 0.035 -> <3e-7]")
 for m in args.ms:
     ts_, ns = scalar_run(m); td_, nd = dirac_run(m)

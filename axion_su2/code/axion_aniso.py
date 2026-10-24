@@ -14,7 +14,15 @@ kappa(t) Q = c1 cos(omega t) exactly: the periodic drive is the physical fast pr
 Q cycle (and later the Hubble damping) sweeps c1.  The general periodic drive  c0 + c1 cos(omega t)
 is kept as the control (c0 != 0 is the toy generalisation, never quoted as physics).
 
-The result.  Two second-order effects, derived in the docstrings of Parts B and C and measured in D.
+[Withdrawn 15 Oct (README, History): the "full law" below, its threshold M = m_phi, the rate
+mu = g Q phi/sqrt(2(1 - r^2)) and the e-fold estimate of C5 are not physics.  They were measured in
+Part D on the M -> infinity background Q'' = -2Q^3 + kappa Q^2, which is not a solution of the Lee-Wick
+system at O(1) for omega ~ 1; on the self-consistent background the two second-order terms are the
+same propagator Pi(omega^2) attached in the two orders and cancel identically (axion_dressed.py A1).
+Parts A-C stand as statements about the periodic problem (pole terms only); Part D is withdrawn.
+The paragraph below is kept as the reading of 14 Oct.]
+
+The result, as read on 14 Oct.  Two second-order effects, derived in the docstrings of Parts B and C and measured in D.
 (i) With Q frozen, the periodic drive c1 cos(omega t): splitting eps into a slow part s and the fast
 O(c1) response f, the response goes through the ghost pole, f = -c1 s cos(omega t)/(omega^2 (omega^2 - 1)),
 and the period average gives  s'' = + c1^2 s / (2 omega^2 (omega^2 - 1))  (M = 1): for omega < 1 the
@@ -48,8 +56,8 @@ Parts:
      along r, linear in c1 down to the physical c1 ~ 1e-5, with the tongue at M = m_phi/2 and the
      resonance at M near m_phi resolved; the Q-cycle average and an adiabatic estimate of the total
      e-folds through matter-dominated reheating (a quadrature of flat-space rates with Q ~ 1/a and
-     phidot ~ a^-3/2; the FRW integration proper is the next run, not this one).
-  D  direct two-frequency check at reduced scale separation omega / (g Q_amp) = 50, 200 (physical
+     phidot ~ a^-3/2; the FRW integration proper is axion_frw_iso.py, 16 Oct).
+  D  [withdrawn 15 Oct, see above] direct two-frequency check at reduced scale separation omega / (g Q_amp) = 50, 200 (physical
      1e5): Q(t) from Q'' + 2 Q^3 = kappa Q^2 (Fujita (13) at H = 0) with the sinusoidal kappa, the
      4-d transfer matrix over 30 Q periods, growth slope of ln sigma_max per Q cycle (fitted over the
      last 20 cycles, where the free branch's linear drift ~ ln t is negligible) against the full law
@@ -61,9 +69,11 @@ Parts:
      that the jitter velocity at t = 0 gives.
 
 Assumptions stated in the output: V(phi) quadratic for the oscillating axion (2312.06889 does not
-specify V), phi_amp = phi_end/f = 1 (not stated there; everything in C scales linearly with it),
+specify V), phi_amp = phi_end/f = 1 (not stated there; everything in C scales linearly with it;
+replaced 16 Oct by phi_end from their (A10)-(A11), phi_end = 8.3e-4 at the benchmark, axion_frw_iso.py),
 m = 0 (their dark-matter mass is irrelevant at this epoch), the M -> infinity background Q(t)
-(the ghost-sourced part w0 = kappa Q^2/M^2 changes Q at relative order kappa Q/M^2).
+(the ghost-sourced part w0 = kappa Q^2/M^2 changes Q at relative order kappa Q/M^2 -- but for
+omega ~ 1 the ghost pole's share of Q's response is O(1), which is what invalidates Part D).
 
 Float only (DOP853, rtol 1e-11); nothing here is certified.  Usage (from the repository root, ~6 min on the cloud CPU):
     python axion_su2/code/axion_aniso.py > axion_su2/results/axion_aniso.txt
@@ -147,7 +157,8 @@ def second_order(c1, omega):
 
 
 def full_law(phiX, omega):
-    """Full law with Q's own jitter: s'' = + (phi X)^2/2 * omega^2/(omega^2 - 1) s; rate for omega > 1."""
+    """Full law with Q's own jitter: s'' = + (phi X)^2/2 * omega^2/(omega^2 - 1) s; rate for omega > 1.
+    Withdrawn 15 Oct: holds on the M -> infinity background only; on the dressed one the two terms cancel."""
     return phiX * omega / np.sqrt(2.0 * (omega ** 2 - 1.0)) if omega > 1 else 0.0
 
 

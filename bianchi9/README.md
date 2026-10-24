@@ -158,3 +158,4 @@ Each checked against the committed scripts on 23 Oct; all nine stand as written.
 * 10 Oct — closure (the four-item answer); the 6 Oct Kasner conclusion superseded.
 * 12 Oct — README-against-code pass; mismatches held.
 * 23 Oct — this rewrite.
+* 24 Oct — code comments brought up to the README.

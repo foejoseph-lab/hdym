@@ -7,7 +7,8 @@ columns side by side:
     column A  the dilaton multiplies F^2 only          (Adshead-Giblin-Weiner 1708.02944 eq. (1),
                                                         Obata-Soda 1602.06024 eq. (3): the cited form)
     column B  the dilaton multiplies the whole operator, Lee-Wick term included
-                                                       (string-frame-natural; the twin)
+                                                       (string-frame-natural; the control -- A primary, B
+                                                        control, decision of 17 Oct, README)
 
 Theory (metric eta = diag(+1,-1,-1,-1), same construction as ym/hdym_derive.py and
 axion_su2/code/axion_derive.py):
@@ -78,7 +79,8 @@ Checks (each prints PASS/FAIL; "both columns" means two PASS lines):
 
 Usage (from the repository root, about a minute):
     python dilaton_su2/code/dilaton_derive.py > dilaton_su2/results/dilaton_derive.txt
-Added 2026-10-16.
+Added 2026-10-16.  The runs the closing summary calls "dilaton_dressed.py" are dilaton_iso.py (17 Oct): the
+isotropic loss is the ghost's parametric tongue at m_phi = 2M/n, not a threshold and not a pump (README, Result).
 """
 import time
 

@@ -1,5 +1,13 @@
 """rh2_ladder.py -- rabbit hole 2: the resonance ladder of the block-12 tongue edges as a formula check.
 
+STATUS (notes/RH2_ladder.md; README hole 2): the ladder is a MEASUREMENT, not a frequency.  The band centres lie on
+T_c = 4.057 (n + 0.210), n = 7-14, odd n parametric, even n Krein (rms 0.11 time units); pi/4.057 = 0.774 is not a
+frequency (the ladder uses omega T mod 2 pi only, so omega -> omega + k Omega leaves every rung in place).  The
+unwrapped totals printed below (-1.7 pi and -3.5 pi over the scan against 9.3 pi for the omega = 1 line) are NOT
+trustworthy: inside the wide Krein band the pairs can wind by up to 2 pi unseen.  The naive omega = 1 ladder in the
+first table lands within a rung but with the parity wrong below E ~ 0.1.  The physical frequency was measured
+otherwise (rh5_branch.py: a line at 0.85-1.2 plus a quasi-static one).
+
 Input: islands/results/krein_b005.txt (the four tracked ghost-sector eigenvalues of N = S~ Phi_T/2 at 400 energies)
 and islands/results/dr_offdiag_floquet_typed.txt (the measured unstable intervals).  No integration.
 
@@ -8,8 +16,8 @@ interpolated across the band from the two edges).  Theta_k(E) = 2 psi_k, unwrapp
 phase of pair k over one period, an integer multiple of pi at every tongue edge: parametric folds at Theta = 2 pi m
 (M = +1, N = +-1), Krein collisions where Theta_1 + Theta_2 = 2 pi m' with both near an odd multiple of pi (M = -1,
 N = +-i; rabbit hole 7).  The naive ladder "omega_ghost T / 2 pi = n / 2" with the Lee-Wick mass omega = 1 is the
-straight line Theta = T(E) = T_half (2E)^{-1/4}; the measured Theta_k(E)/T(E) is the effective ghost frequency
-omega_k(E) of each pair, the quantity the ladder needs.
+straight line Theta = T(E) = T_half (2E)^{-1/4}; the measured Theta_k(E)/T(E) would be an effective per-period
+phase rate of each pair -- branch-ambiguous (defined mod Omega), and here unreliable for the unwrapping reason above.
 
 Output: results/rh2_ladder.txt (this print), results/rh2_ladder.png, results/rh2_ladder.npz.
 Usage (from the repo root): python rabbit_holes/ym/code/rh2_ladder.py > rabbit_holes/ym/results/rh2_ladder.txt

@@ -8,6 +8,11 @@ it, and read the dominant frequency.  The solution e^{i omega t} p(t) has lines 
 harmonics; the strongest line is the physical frequency.  Spectrum = sum over the 8 block components of |FFT|^2
 (Euclidean weighting -- not canonical, but the dominant line is what is asked).  Both pairs (the eigenvectors of M with
 Im mu > 0, sorted by |arg|), at nE energies.
+Outcome (results/rh5_branch.txt; notes/RH27_averaging.md item 9): TWO-line spectra -- a line at |f| ~ 0.85-1.2 (the
+dressed Lee-Wick mass) and a quasi-static line at |f| < 0.1, each with 20-50 % of the power, the same two lines in
+both pairs; nothing near 1.7-2.4 (the averaged block's mode 1).  The ladder's 0.774 and rh5_unwrap's 0.8 are branches
+of the first line, not frequencies.  The reduced block identifies the line near 1 as the heavy mode and the
+quasi-static line as the light one (notes/RH_reduced_block.md).
 Usage: python rabbit_holes/ym/code/rh5_branch.py [--nE 40] > rabbit_holes/ym/results/rh5_branch.txt
 Added 2026-10-21 (late).
 """

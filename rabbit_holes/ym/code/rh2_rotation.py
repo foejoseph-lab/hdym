@@ -14,7 +14,9 @@ solution does not itself encircle zero (checked: the fraction agrees with arg la
 Off the circle (inside a band) the same construction gives the phase of the growing solution.
 
 Output: results/rh2_rotation.txt, results/rh2_rotation.npz (E, T, the four theta_k/pi, |lambda_k|), results/rh2_rotation.png
-(theta/pi of the two pairs vs E, the bands shaded; omega_k = 2 theta_k / T, the effective frequency per period).
+(theta/pi of the two pairs vs E, the bands shaded; omega_k = 2 theta_k / T, an effective per-period phase rate --
+branch-ambiguous, and not the physical frequency: that is the two-line spectrum of rh5_branch.py, 0.85-1.2 plus a
+quasi-static line).
 Cost: one half-period monodromy plus four dense propagations per E, ~2.5 s each; default nE = 200: ~8 min.
 Usage (from the repo root): python rabbit_holes/ym/code/rh2_rotation.py [--nE 200] > rabbit_holes/ym/results/rh2_rotation.txt
 Float, DOP853 rtol 1e-12.  Added 2026-10-21 (rabbit-hole session).

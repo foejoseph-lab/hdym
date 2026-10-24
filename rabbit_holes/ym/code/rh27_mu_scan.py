@@ -4,8 +4,10 @@ Gauss law at the 0.9 level -- the F118 trap of B002) and --dial cj (valid: c_j i
 background in the Lagrangian, the block at every c_j is the linearisation of a gauge-invariant theory; B001 did
 c_j = 0 and 1).
 
-Original description of the mu version (notes/RH27_averaging.md, Review): scale the COMPONENT cross-coupling of
-block 12 by mu and scan the Floquet bands in E.
+Original description of the mu version (notes/RH27_averaging.md, item 7): scale the COMPONENT cross-coupling of
+block 12 by mu and scan the Floquet bands in E.  (The "Krein bands are the odd rungs" prediction it was meant to test
+was itself withdrawn the same evening, RH27 section C; the c_j scan's result -- c_j = 1 the least unstable member
+except c_j = 0, c_j = 0.25 a double +1 fold with |mu| up to 34 -- is RH27 item 8, results/rh27_cj_scan.txt.)
 
 In the (u12, u21) basis the half-period symmetry makes the self blocks of K even-harmonic and the cross blocks
 odd-harmonic (rh7_selection_rule.py, step 1).  K_mu = K with the u12-u21 cross blocks multiplied by mu keeps the

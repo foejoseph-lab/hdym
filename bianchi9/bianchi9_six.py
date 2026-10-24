@@ -21,6 +21,15 @@ Then: scaled Jacobian along Kasner in s = ln t, eigenvalues vs M1 t for M2/M1 = 
 print the ghost frequencies / M1 and real parts, flag any crossing (complex-pair formation
 away from the imaginary axis) -- a Krein collision.
 
+Status (README Results 7, 23 Oct): unfinished.  The alpha equation is fourth order with coefficient
+-6|beta'|^2 e^{3 alpha}/M1^2 M2^2, zero at zero shear, and the beta^(6) coefficient matrix is the
+transverse projector |beta'|^2 1 - beta' beta'^T: a constrained system, and the script runs to the
+singular-matrix point (everything before it reusable).  Recipe for the beta_- = 0 branch, exponent
+table and the Krein question are Open.
+NOTE (README, held mismatch 12 Oct): the Noether identity alpha' E_alpha + beta'.E_beta = d(Con)/dt
+was verified in the derivation session, not here; and beta^(6) is solved numerically (np.linalg.solve)
+without printing its coefficient matrix.
+
 Run:  %run bianchi9_six.py --ratio 3 --theta 3.14159
 """
 import time, argparse, itertools

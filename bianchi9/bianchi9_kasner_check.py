@@ -1,7 +1,8 @@
 import numpy as np, sympy as sp, pickle, time
 exec(open('bianchi9_kasner.py').read().split("from scipy.integrate import solve_ivp\nimport matplotlib")[0])
 from scipy.integrate import solve_ivp
-theta = np.pi
+theta = np.pi   # NOTE (README, held mismatch 12 Oct): fixed at pi here; bianchi9_kasner.py loops over
+                # pi, pi/2, 0, pi/3 (the "all four" of Results 5), so "all theta" there means those four.
 # frozen spectrum of Jlin(x): eigenvalues scaled by x (so Euler-type exponents appear as x*lambda)
 print("frozen spectrum: x, H/M, eigenvalues*x (sorted by |Im|)")
 for xx in (30, 10, 3, 1.5, 1.0, 0.7, 0.5, 0.3, 0.1, 0.03):

@@ -1,5 +1,7 @@
 import numpy as np, sys
 from scipy.integrate import solve_ivp
+# published DR data (Contopoulos & Harsoula); digits below ~1e-12 lie outside the certified box
+# (islands/README.md, Conventions: q* = 3.14640122769837, p_x* = 0.00179319341881)
 x0, vx0, y0, vy0 = 3.14640122769753, 0.0017931934191, 0.0, 0.99999839222738
 E0 = 0.5
 

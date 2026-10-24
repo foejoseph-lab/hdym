@@ -3,6 +3,15 @@ with the pen-and-paper parts done in sympy.  The question: does the averaged can
 Fourier harmonics of the background treated as a perturbation, PREDICT the ladder of band centres
 T_c = 4.057 (n + 0.210) (notes/RH2_ladder.md) and the parametric/Krein alternation (notes/RH7_selection_rule.md)?
 
+STATUS (notes/RH27_averaging.md, section C; README hole 2+7).  Parts A and B are exact and stand.  Part C's reading
+"omega_0 T = n pi of the averaged ghost mode predicts the bands, odd n Krein" was made and WITHDRAWN the same evening
+(21 Oct): the half-integer rungs (n + 1/2) pi also land within 8 % of a band 7 times in 9 because bands plus an 8 % halo
+cover 79 % of the log-E range; the parity is a theorem given existence (RH7 lemma), not a prediction; rung 11 fails it
+(E = 1.049 inside the parametric band [1.014, 1.271]).  What survives is slope plus count.  The averaged 8-dim block
+is the wrong object (its hyperbolic sector is constraint contamination; the mode that tracked a pair was the dirty
+one); the right zeroth order is the gauge-reduced 4-dim block (rh_reduced_block.py), and even there first-order
+averaging is not Floquet-accurate.  The output of this script is kept as the record of that test.
+
 Three parts.
 
 A. CANONICAL FORM (sympy).  L2(u, u', u''; q, p) from ym/rung1_system.pkl, c_j = 1, has u''^2 coefficient -1/2.
@@ -24,7 +33,8 @@ C. SCAN (numpy).  Along the DR orbit at each E: sample Hm(t), Fourier-decompose,
    basis give the couplings.  Predicted bands: the energies where nu_a + nu_b = n Omega(E) (a <= b), their type
    (a = b: parametric; a != b: combination, Krein if sigma_a sigma_b = -1 ... as the normal form says), and their
    first-order half-width 2|g| in detuning.  Compared with B001's measured block-12 intervals and with the ladder's
-   effective frequency 0.774.
+   0.774 = pi/4.057 (plotted as a reference line; NOT a frequency -- the ladder is branch-independent, omega -> omega
+   + k Omega shifts omega T by 2 pi k; the physical line is at 0.85-1.2 with a quasi-static companion, rh5_branch.py).
 
 Cost: ~1.5 s per E (orbit + 1024 samples of the symbolic Hm); default nE = 120: ~3 min, no sized run.
 Usage (from the repo root): python rabbit_holes/ym/code/rh27_averaging.py [--nE 120] > rabbit_holes/ym/results/rh27_averaging.txt

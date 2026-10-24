@@ -31,8 +31,9 @@ Checks performed (all must print OK):
   8. GR (vacuum Bianchi IX) solutions solve the full equations: the Einstein manifold
      is invariant  (Bach tensor vanishes on Einstein spaces)
 
-Output: bianchi9_system.pkl with the N=1 equations of motion as sympy expressions,
-plus a numerical RHS (cse + lambdify) used by bianchi9_test.py.
+Output: bianchi9_system.pkl with the N=1 equations of motion as sympy expressions
+(the cse + lambdify RHS below is used only for checks 7-8 here; bianchi9_codegen.py turns the pkl
+into bianchi9_rhs.py, which bianchi9_test.py and the later scripts import).
 
 Phase space (N = 1):  y = (alpha, alpha', b+, b-, b+', b-', b+'', b-'', b+''', b-''')
 10-d, one constraint -> 9-d.  Einstein manifold: b'' and b''' at their GR values,

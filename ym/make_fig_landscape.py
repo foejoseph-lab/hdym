@@ -1,6 +1,6 @@
-"""make_fig_landscape.py -- Fig: where the ghost grows, in the (depth D, transverse action J) plane
-of the channel description, at one energy, for three ghosts:
-  (a) colour-diagonal ghost (hdym_gpu.py --ghost diag)           -> results_gpu/landscape_E0.1_diag.npz
+"""make_fig_landscape.py -- Fig (not in the paper): where the ghost grows, in the (depth D, transverse
+action J) plane of the channel description, at one energy, for three ghosts:
+  (a) colour-diagonal ghost (hdym_gpu_landscape.py --ghost diag) -> results_gpu/landscape_E0.1_diag.npz
   (b) off-diagonal block, (D^mu F_mu0)^2 term off (--cj 0)       -> results_rung1/landscape_E0.1_cj0.npz
   (c) off-diagonal block, the theory (--cj 1)                    -> results_rung1/landscape_E0.1_cj1.npz
 Colour: share of the total log-growth per unit area of the (D, J) plane (growth density).  Thin

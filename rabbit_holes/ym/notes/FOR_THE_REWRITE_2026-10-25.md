@@ -25,6 +25,9 @@ hole-by-hole account is `../README.md`.
    with the same mode hyperbolic for 22 % of the period — so "transiently tachyonic" is neither a guarantee of
    stability nor of instability on a periodic orbit (`rh_reduced_block_cj025.txt`, `rh_reduced_block_hyp.txt`,
    `RH_reduced_block.md`). If the new text turns the sentence into a principle either way, flag it.
+   Added 24 Oct: the hyperbolic fractions are frame conventions (0.29 / 0.51 / 0.73 at E = 0.3 / 0.412 / 0.6 in a
+   symplectic frame against 0.23 / 0.37 / 0.44 in the orthonormal one, `RH_reduced_block_transfer.md`); quote them
+   with the frame named or not at all.
 
 3. **"The only candidate for a positive-measure set on which the ghost stays bounded is the regular islands … whether
    any survive … is open"** and open item (iii). Still open as a positive-measure statement, but two measured facts
@@ -83,6 +86,9 @@ hole-by-hole account is `../README.md`.
    period at E = 0.3 / 0.6 for c_j = 1, 29 % / 48 % for c_j = 0.25, never at E = 0.1, never at the bounce
    (`rh_reduced_block_hyp.txt`) — and a heavy mode at 1.0–1.7. First-order averaging of the exact block is not Floquet-accurate (ωT mod 2π off by up to a
    half-turn): state this, do not quote averaged frequencies as predictions. Ω must keep c_j symbolic.
+   Added 24 Oct: the frozen spectrum and any arm/bounce split are frame-dependent (`RH_reduced_block_transfer.md`);
+   the exact content of the reduced block is its monodromy and N. Do not quote RH3's "the growth belongs to the
+   bounce" as a property of the block, and do not claim the low Krein band is first order in c_j (absent at c_j = 0.75).
 
 9. **The c_j family** (appendix, with 8): the physical c_j = 1 block is the least unstable member of the family
    except the ghost-free c_j = 0 (c_j = 0.25: |μ| up to 34, a double +1 fold over [0.41, 1] with a smooth
@@ -115,4 +121,6 @@ hole-by-hole account is `../README.md`.
 - "a Krein instability imprints the seed phase on the escape" — closed negative (7).
 - "the averaged block predicts …" — see 8.
 - "we derive the off-diagonal rate law" — not done (4).
+- "the instability belongs to the bounce", or any hyperbolic fraction without a frame named — frame conventions (24 Oct, 2 and 8).
+- "the Krein width is first order in the coupling" — it is not (`RH_reduced_block_transfer.md`, (iii)).
 - Any number not traceable to a named log above.
