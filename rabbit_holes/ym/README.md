@@ -11,7 +11,10 @@ was then worked to a close or to a stated next step. Layout: `code/` (scripts; a
 (logs, arrays, figures), `notes/` (one note per hole or group). Runs that needed the escape kernel
 (`islands/code/offdiag_escape.py`, `islands/code/island_full.py`; 24 threads) are logged in `islands/results/` and
 queued in `code/overnight_2026-10-21.md`, `code/hole12_queue.md`, `code/hole9_queue.md`, `code/day_2026-10-22.bat`,
-`code/overnight_2026-10-21.bat`.
+`code/overnight_2026-10-21.bat`. All five queues are finished and kept as dated records of what was run (28 Oct
+2026). Two logs carry a duplicate block, also kept as logged: `results/rh12_direction.txt` (the esc_E_snap_param block
+twice, a rerun appended) and `results/rh_reduced_block_cj1.txt`, whose E = 0.3 section is the same as
+`_cj1_E03.txt`.
 
 ## The holes
 
