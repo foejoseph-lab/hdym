@@ -330,10 +330,12 @@ def main():
     a = ap.parse_args()
     Kf, Of, Gf, Odot, gdot = block_funcs()
     # (the constant-gauge search -- reduced_K / run / admissibility -- is not called here; the numbers printed next are a
-    #  fixed string from that earlier run.  The 'fraction of the period with a real (hyperbolic) frozen eigenvalue' print
-    #  below uses |Re| > 1e-6 and so counts gauge fuzz: it reads 1.00 everywhere; use rh_reduced_block_hyp.py's criterion.)
+    #  fixed string from that earlier run, now labelled so.  The 'fraction of the period with a real (hyperbolic) frozen
+    #  eigenvalue' print below uses rh_reduced_block_hyp.py's criterion from 28 Oct 2026; the committed _cj*.txt logs
+    #  predate that and read 1.00 everywhere (gauge fuzz counted).)
     print("rh_reduced_block.py: gauge-reduced block 12, numerical first cut.  Constant gauge fixing is NOT admissible on the DR orbit")
     print("  (the unit gauge direction v_G(t) sweeps the whole 8-space: singular values of its orbit samples 0.74/0.39/.../0.09 at E=0.1,")
+    print("   [those values are from an earlier run of the constant-gauge search, not computed by this run]")
     print("  and the best fixed f has min |f.v_G| ~ 1e-3), so the moving gauge f(t) = v_G(t) is used, with the connection term from the")
     print("  exact orbit derivatives of Omega and g (sympy).")
     for E in a.E:
@@ -355,7 +357,10 @@ def main():
         print(f"  instantaneous (frozen) eigenvalues of the restricted 4-dim generator along the orbit, t/T = 0, 1/8, ..., 7/8:")
         for i in range(0, len(r4['te']), len(r4['te']) // 8):
             print(f"     t/T={r4['te'][i] / r4['T']:.3f}: {np.round(inst[i], 4)}")
-        print(f"  fraction of the period with a real (hyperbolic) frozen eigenvalue: {np.mean([np.any(np.abs(l.real) > 1e-6) for l in inst]):.2f}")
+        # criterion of rh_reduced_block_hyp.py (|Im| < 1e-3 and |Re| > 0.1); until 28 Oct 2026 this used |Re| > 1e-6, counted
+        # gauge fuzz and read 1.00 everywhere
+        print(f"  fraction of the period with a real (hyperbolic) frozen eigenvalue (|Im| < 1e-3, |Re| > 0.1): "
+              f"{np.mean([np.any((np.abs(l.imag) < 1e-3) & (np.abs(l.real) > 0.1)) for l in inst]):.2f}")
         print(f"  averaged generator (transported frame) eigenvalues: {np.round(np.sort_complex(r4['avg_eig']), 4)}   (frequencies = imaginary parts; compare the measured lines 0.85-1.2 and the quasi-static one)")
         np.savez(os.path.join(HERE, '..', 'results', f'rh_reduced_block_E{E:g}_cj{a.cj:g}.npz'), te=r4['te'], inst=inst, Kbar=r4['Kbar'], mu_red=m4, Om_red0=Omr)
 

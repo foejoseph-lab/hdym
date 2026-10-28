@@ -48,7 +48,7 @@ m_φ > M, and then nothing at second order for the anisotropic field.
 
 ## Layout
 
-Scripts in `code/`, each writing the log of the same name in `results/` (`probe_core.py` has none). All runs in a cloud session, Python 3.13, scipy 1.18, sympy 1.14; float unless marked;
+Scripts in `code/`, each writing the log of the same name in `results/` (`probe_core.py` has none). All runs in a cloud session except `axion_probes_long.py` (run locally; its docstring), Python 3.13, scipy 1.18, sympy 1.14; float unless marked;
 flat space, g = M = 1 unless stated. No figures.
 
 | script (added) | run time; dependencies |

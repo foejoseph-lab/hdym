@@ -743,7 +743,8 @@ def main():
     t0 = time.time()
     print(f"offdiag_escape.py  python {sys.version.split()[0]}  numpy {np.__version__}  sympy {sp.__version__}  ({sys.executable})")
     print("run parameters: " + " ".join(f"{k}={v}" for k, v in vars(a).items() if k not in ('plot', 'results')))
-    print("orbit: DR, X0=%r PX0=%r T_HALF=%r (E=1/2, scaled); diagonal ghost not seeded; seed Gauss-projected (linear G)" % (base.X0, base.PX0, base.T_HALF))
+    print("orbit: DR, X0=%r PX0=%r T_HALF=%r (E=1/2, scaled); diagonal ghost seeded at delta_diag=%r; seed Gauss-projected (linear G)"
+          % (base.X0, base.PX0, base.T_HALF, a.delta_diag))   # was the fixed text "diagonal ghost not seeded" until 28 Oct 2026
     kern = Kernel()
     model = Model()
     rng = np.random.default_rng(a.seed)

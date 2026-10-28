@@ -76,13 +76,21 @@ The three smallest are upper bounds (frame adiabatic only to O((H/M)²)): r ≤ 
 | H_b/M | 0.099 | 0.071 | 0.049 | 0.035 | 0.025 |
 |---|---|---|---|---|---|
 | r, corrected, at α = −0.5 | ~0.3 | 0.040 | 2.9e-3 | 5.6e-4 | 1.4e-4 |
-| artefact floor | 1e-3 | 5e-4 | 3e-4 | 1.5e-4 | 8e-5 |
+| H/M at α = −0.5 (`action_M*_wkb.npz`) | 0.119 | 0.085 | 0.060 | 0.043 | 0.030 |
+| artefact floor, the fit above at that H/M (the row as stated until 28 Oct 2026) | 1e-3 | 5e-4 | 3e-4 | 1.5e-4 | 8e-5 |
+| artefact floor, the control run itself at that H/M (log-interpolated in `control_M80_wkb.npz`, smax) | — (0.119 is beyond the control's 0.107) | 9.4e-3 | 1.35e-3 | 4.0e-4 | 1.2e-4 |
+| r / control floor | — | 4.2 | 2.1 | 1.4 | 1.1 |
 
-0.099 only marginally adiabatic (mean log s = +0.13 ≠ 0); below 0.035 the floor dominates. Withdrawn (6 Oct, late): the reading of 0.071 → 0.049 → 0.035 (×14 then ×5 per factor 1.4; local exponent 7 → 5; as e^{−cM/H_b}, c ≈ 0.44 → 0.22) as bounce kicks — the 0.049 and 0.035 values are second-order frame terms: the two first-order-removed estimators (`--wkb`; Bogoliubov with first endpoint term removed) disagree by ×2.5–5 there. A fixed spectral-tail power law (the YM mechanism) stays excluded.
+0.099 only marginally adiabatic (mean log s = +0.13 ≠ 0); below 0.035 the floor dominates. (28 Oct 2026: the floor row
+was the power-law fit evaluated at each run's H/M at α = −0.5; the fit follows the control only for H/M ≲ 0.03 and
+falls below it by ×1.5–18 above that, so against the control run itself r is within ×2.1 of the floor already at
+H_b/M = 0.049 and ×4.2 at 0.071. This strengthens the withdrawal below; whether to restate the reading is the
+author's call.) Withdrawn (6 Oct, late): the reading of 0.071 → 0.049 → 0.035 (×14 then ×5 per factor 1.4; local exponent 7 → 5; as e^{−cM/H_b}, c ≈ 0.44 → 0.22) as bounce kicks — the 0.049 and 0.035 values are second-order frame terms: the two first-order-removed estimators (`--wkb`; Bogoliubov with first endpoint term removed) disagree by ×2.5–5 there. A fixed spectral-tail power law (the YM mechanism) stays excluded.
 
 ### 3. Bounce, Bogoliubov quadrature and Taub estimate (`bianchi9_bogoliubov.py`, 6 Oct)
 
-B = ∫ C e^{−iφ} dτ, C = iE₋ᴴ Ω Ė₊, in a parallel-transported, symplectically normalised frame (without parallel transport the within-pair unitary is arbitrary and the phase-sensitive result meaningless). |C(τ)| has a **dip** at the bounce, not a peak (its rate 2β̇₊β̈₊ vanishes at the turning point; same feature as the flattening of the M = 10, 20 curves at α ≈ −0.4 in `action_sweep.png`); cumulative |B| has **no step at the bounce**, only the oscillating endpoint term of a smooth integrand growing with H/M. Taub estimate: the bounce is β̈ ∝ sech²(4vt), Fourier transform ∝ ω/sinh(πω/8v); phase per bounce 2ω_τ/a ≈ 10 (M = 28) … 27 (M = 80), so the kick is O(e^{−(π/2)M/H_b}) — 10⁻¹⁰ at H_b/M = 0.07, 4×10⁻⁴ at 0.2, negligible for H_b < 0.15M, below anything measured (c ≈ π/2, O(1) corrections from Δα ≈ ½). Measurable frame terms are reversible dressing; the planned three-decade r(H_b/M) sweep was cancelled.
+B = ∫ C e^{−iφ} dτ, C = iE₋ᴴ Ω Ė₊, in a parallel-transported, symplectically normalised frame (without parallel transport the within-pair unitary is arbitrary and the phase-sensitive result meaningless). |C(τ)| has a **dip** at the bounce, not a peak (its rate 2β̇₊β̈₊ vanishes at the turning point; same feature as the flattening of the M = 10, 20 curves at α ≈ −0.4 in `action_sweep.png`); cumulative |B| has **no step at the bounce**, only the oscillating endpoint term of a smooth integrand growing with H/M. Taub estimate: the bounce is β̈ ∝ sech²(4vt), Fourier transform ∝ ω/sinh(πω/8v); phase rate at the bounce 2ω = 19.5 (M = 28), 27.3, 37.9, 53.8 (M = 80) (`bog.log`; stated until 28 Oct 2026 as "phase per
+bounce 2ω_τ/a ≈ 10 … 27", half these values, the factor ½ not recorded), so the kick is O(e^{−(π/2)M/H_b}) — 10⁻¹⁰ at H_b/M = 0.07, 4×10⁻⁴ at 0.2, negligible for H_b < 0.15M, below anything measured (c ≈ π/2, O(1) corrections from Δα ≈ ½). Measurable frame terms are reversible dressing; the planned three-decade r(H_b/M) sweep was cancelled.
 
 ### 4. Bounce, healthy probes as control (`bianchi9_fields.py`, 6 Oct)
 
@@ -140,7 +148,8 @@ S = ∫√−g [R/2 − (k₂/4)C² − (k₄/4)C□C], k₂ = 1/M₁² + 1/M₂
 
 ### Known README-vs-code mismatches (found 12 Oct, held; verified 23 Oct)
 
-Each checked against the committed scripts on 23 Oct; all nine stand as written. Not fixed (held by the decision of 12 Oct).
+Each checked against the committed scripts on 23 Oct; all nine stand as written. Not fixed (held by the decision of 12 Oct). (28 Oct 2026: the Dirac check line's label is fixed in `bianchi9_fields.py`, which now prints "E = sqrt(m^2 + A^2)";
+the committed `fields.log` keeps the old line.)
 
 * six figures in results/ with no writer — `savefig` occurs only in `bianchi9_kasner.py` (`kasner_onset.png`); `action_sweep.png`, `action_sweep_wkb.png`, `bog_diag.png`, `fields_n.png`, `seed_growth.png`, `sweep_first_look.png` were made outside the committed scripts;
 * `bianchi9_bogoliubov.py` default `--out bogoliubov.npz` vs the committed `bog.npz` (renamed on save), and no endpoint term removed — the script is the plain first-order quadrature; the "first endpoint term removed" estimator mentioned under Results 2 is not in the repository;

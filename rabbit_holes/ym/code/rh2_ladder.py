@@ -1,7 +1,7 @@
 """rh2_ladder.py -- rabbit hole 2: the resonance ladder of the block-12 tongue edges as a formula check.
 
 STATUS (notes/RH2_ladder.md; README hole 2): the ladder is a MEASUREMENT, not a frequency.  The band centres lie on
-T_c = 4.057 (n + 0.210), n = 7-14, odd n parametric, even n Krein (rms 0.11 time units); pi/4.057 = 0.774 is not a
+T_c = 4.057 (n + 0.210), n = 7-14, odd n parametric, even n Krein (rms 0.11 time units over n = 7-12, 0.24 over all eight rows); pi/4.057 = 0.774 is not a
 frequency (the ladder uses omega T mod 2 pi only, so omega -> omega + k Omega leaves every rung in place).  The
 unwrapped totals printed below (-1.7 pi and -3.5 pi over the scan against 9.3 pi for the omega = 1 line) are NOT
 trustworthy: inside the wide Krein band the pairs can wind by up to 2 pi unseen.  The naive omega = 1 ladder in the

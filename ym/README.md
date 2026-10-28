@@ -225,6 +225,8 @@ cd paper && latexmk -pdf main.tex
 
 With the off-diagonal Hessian entries dropped the three ghost components are independent scalar oscillators.
 Renormalising the norm of the three-vector returns the *largest* of three finite-time exponents and overestimates the
-single-mode rate by a factor 1.5–1.7 at E ≤ 0.03 (1.1 at E = 1). `hdym_gpu.py --ghost diag` renormalises each
+single-mode rate by a factor 1.5–1.7 at E ≤ 0.03 (at E = 1: 1.29 from `data/transverse_E1.0.npz` lam_d against the
+per-component `transverse_diag_percomp_hi.csv`, T = 400; the 1.1 stated until 28 Oct 2026 is from an uncommitted longer
+run [est]). `hdym_gpu.py --ghost diag` renormalises each
 component separately and averages the three log-growths; the vector ghost (`--ghost vec`) uses the six-vector norm,
 which is correct for the coupled system. See the footnote in the Numerical methods section of the paper.

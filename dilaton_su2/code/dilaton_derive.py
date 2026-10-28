@@ -412,5 +412,5 @@ Summary (units g = M = 1, time in 1/M, fields in M/g; Theta = exp(delta), delta 
     suppressed by Q.  What is left to measure is the isotropic sector: the background's own response to
     the drive through the full propagator (the axion's threshold lambda_eff = 0 had its analogue here
     only if the second-order DC term is a potential term; the drive -Theta-dot Q' is a friction, so it
-    may instead be a secular energy pump).  That is dilaton_dressed.py.
+    may instead be a secular energy pump).  That is dilaton_iso.py.
 """)

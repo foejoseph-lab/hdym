@@ -108,7 +108,7 @@ E = 0.156 (block 12's Krein band, 88.7 %, median 1952, 1527–2606) the maps car
 lag-1 correlations and the quadruplet multiplier below have no committed log): a seed grows along an unstable Floquet mode with amplitude |w·s|, so
 delayed escape sits on the nodal set of the unstable subspace — a great circle for a real pair (multiplier 1.552; corr(log t_esc,
 log |proj|) = −0.44; lag-1 correlation of the map 0.28/0.20), two antipodal points for a quadruplet (−1.272 ± 0.181i;
-corr −0.11, lag-1 0.09: the loiter dominates the texture, as in the paper's Figure 3). At escape the diagonal ghost is the largest sector in 93 % (E = 0.30) and 76 % (E = 0.156) of cells:
+corr −0.11, lag-1 0.09: the loiter dominates the texture, as in the paper's Figure 3). At escape the diagonal ghost is the largest sector in 90.5 % (E = 0.30: 14821 of 16380 cells of `esc_orient_030.npz`, `sector`; stated as 93 % until 28 Oct 2026, source not recorded) and 76 % (E = 0.156) of cells:
 the off-diagonal mode triggers, the diagonal ghost executes. What follows the linear phase — the loiter, the low-energy
 Poisson regime, the seed-size loophole at δ = 10⁻², the absence of a phase effect, the nonlinear indistinguishability of
 the two mechanisms — is measured in `rabbit_holes/ym/` (holes 1, 4, 8, 12) from the runs listed under Layout.
@@ -166,7 +166,8 @@ results/
   krein_b005.txt               21 Oct, cloud, 514 s
   hdym_full_derive.txt         the model's checks
   (every esc_* log prints "diagonal ghost not seeded" on line 3, a fixed string; the run parameters line
-                               gives the actual delta_diag, 1e-4 except esc_E_delta1e-2_b12)
+                               gives the actual delta_diag, 1e-4 except esc_E_delta1e-2_b12; the print is fixed in the code from 28 Oct 2026,
+                               the committed logs keep the old text)
   esc_E.{txt,npz}              section E, 100 x 64, 20 Oct, 24 threads, 16893 s (see NOTE_esc_E_kernel_2026-10-20.md)
   esc_orient_0412.*            128^2 at E = 0.412, 32975 s (same kernel as esc_E)
   esc_orient_0156.*, esc_orient_030.*   128^2 at E = 0.156 (19987 s) and 0.30 (38688 s), 21 Oct, fixed kernel, one

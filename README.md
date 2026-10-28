@@ -45,6 +45,14 @@ A claim with no tag is [grid]. Claims that cannot be stated checkably (readings,
 (`islands/README.md`): ∀ E ∈ G_esc ∩ [0.113, 0.149] ∖ {0.1239}: rate_diag(E) = 0 ∧ escaped(E) = 0/64 [grid], with
 G_esc the 100 energies of `islands/results/esc_E.txt`.
 
+Digits (from 28 Oct 2026; applies to new text, existing text is not reformatted). A measured value carries only the
+digits its uncertainty supports, written as 0.0881 ± 0.0009 (the ± form only). An exact or proven value (symbolic,
+certified, or digits a checker guarantees) is written with every proven digit and is never rounded or shortened:
+0.00000135794 stays 0.00000135794. Scientific notation is used only where this repository already uses it for that
+kind of quantity (tolerances, rates spanning decades), never just because a number is small. In prose a power of ten
+is written × 10ⁿ; the E or e form (`1e-4`) appears only inside code, and e in prose means Euler's number or, in
+group theory, the identity.
+
 ## History
 
 The 1 Oct 2026 draft (old title "… is malicious at every energy: a parameter-free E^{9/4} instability law …") and

@@ -94,7 +94,8 @@ Dedicated kernel (`hdym_rung1_gpu.py`), GPU, N = 2×10⁴ (E = 1, 0.3), 10⁵ (0
 | 0.01 | 240 000 | 1.326×10⁻⁴ ± 0.2% | 1.316×10⁻⁴ | 7.753×10⁻⁵ | 1.71 | **349** | **0.62** |
 
 (λ_diag here is 0.0120 E^{9/4}; at E = 1 the measured diagonal single-mode rate is 0.004 and the
-physical three-vector rate 0.087.)
+physical three-vector rate 0.087. Note, 28 Oct 2026: 0.087 is 0.0879 (`make_fig1.py`) truncated; `data/transverse_E1.0.npz`
+gives 0.0881 ± 0.0009, hdym-su3's independent code 0.0884 ± 0.0006.)
 
 **Reading.** Neither E^{9/4} nor E^{5/4}. The local slope is non-monotonic — 1.04, 1.55, 0.71, 0.62 — so
 two mechanisms cross near E ≈ 0.1: a steep one (channel-tail physics) above, a shallow one

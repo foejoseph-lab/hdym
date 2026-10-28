@@ -23,8 +23,8 @@ Usage (from the repo root): python rabbit_holes/ym/code/rh27_mu_scan.py [--dial 
 (defaults: --dial cj --tag rh27_cj_scan --mus 0 0.3 0.6 1.  The committed logs, by their headers: rh27_mu_scan.txt
 --dial mu --mus 0 0.3 0.6 1 --nE 120 --tag rh27_mu_scan; rh27_cj_scan.txt --dial cj --mus 0.25 0.5 0.75 1 --nE 120.)
 Cost: one block monodromy per (mu, E), ~1.5 s each: four values of mu at 150 energies ~15 min.
-Writes results/<tag>.txt (this print), .npz, .png.  (The final "figure: results/rh27_mu_scan.png" print is wrong for
-any other tag: the file is <tag>.png.)  Added 2026-10-21 (late).
+Writes results/<tag>.txt (this print), .npz, .png.  (The final "figure: ..." print named rh27_mu_scan.png
+for any tag until 28 Oct 2026, now <tag>.png; the committed rh27_cj_scan.txt keeps the old line.)  Added 2026-10-21 (late).
 """
 import argparse
 import os
@@ -156,7 +156,7 @@ def main():
         ax[0].set_title(f'block 12, dial {a.dial} (red Krein, blue +1 fold); shading: measured bands at c_j = 1', fontsize=8)
         fig.tight_layout()
         fig.savefig(os.path.join(RES, a.tag + '.png'), dpi=130)
-        print("figure: results/rh27_mu_scan.png")
+        print(f"figure: results/{a.tag}.png")                        # was a fixed name until 28 Oct 2026
     except Exception as e:                                            # noqa: BLE001
         print(f"(no figure: {e})")
     print(f"DONE {time.time() - t0:.0f}")

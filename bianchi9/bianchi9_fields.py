@@ -106,7 +106,7 @@ a0, b0, c0 = abc(Yb(0.0))[:3]
 # and reads as a failure; the Dirac integration itself uses the spin connection, not Aax).
 Aax = (a0/(b0*c0) + b0/(c0*a0) + c0/(a0*b0)) / 8
 print(f"   Dirac reduction: hermiticity of H_D {herm:.1e};  eigenvalues at tau=0 (m=1): {np.round(ev0, 5)};  "
-      f"sqrt(m^2 + A^2) with A = (1/4) sum a/bc = {np.sqrt(1 + 4*Aax**2):.5f}")
+      f"E = sqrt(m^2 + A^2) with A = (1/4) sum a/bc: {np.sqrt(1 + 4*Aax**2):.5f}")   # label read as A until 28 Oct 2026
 print(f"[{time.time()-t0:5.1f}s] Dirac operator built")
 
 # ---------------------------------------------------------------- integrations

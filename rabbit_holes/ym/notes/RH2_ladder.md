@@ -22,7 +22,7 @@ written as the orbit period T(E) = T_half (2E)^{−1/4}, are equally spaced:
 | 8 | [0.2811, 0.4937] | K | 0.3725 | 33.42 | +0.12 |
 | 7 | [0.5694, 0.7241] | P | 0.6421 | 29.17 | −0.08 |
 
-Least squares on n = 7–13: **T_c(n) = 4.057 (n + 0.210)**, rms residual 0.11 time units (≤ 0.04 rung for n = 7–12). (The fit is in
+Least squares on n = 7–13: **T_c(n) = 4.057 (n + 0.210)**, rms residual 0.11 time units over n = 7–12 (≤ 0.04 rung there; 0.24 over all eight rows). (The fit is in
 no committed script; refitting the eight rows of this table gives 4.057 / 0.210 with rms 0.24 over all eight and 0.115 over n = 7–12.)
 Odd n parametric, even n Krein (the naive ω = 1 version, the first table of `rh2_ladder.txt`, lands within a rung but with
 the parity wrong below E ≈ 0.1). Rung 13 appears twice, once per pair, the two copies 0.21 rung apart — the pairs'
