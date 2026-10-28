@@ -19,16 +19,19 @@ Usage (from the repo root): python rabbit_holes/ym/code/rh12_direction.py [--fil
 Added 2026-10-22; run on the two snapshot runs of hole12_queue.md (esc_E_snap_krein, esc_E_snap_param).
 Outcome (notes/RH12_direction.md; README hole 12, closed): between |w| = 0.1 and 1 the off-diagonal state is 70-78 deg
 from its own linear propagation in BOTH bands -- the diagonal ghost has taken over, rotating-vs-directional is not
-observable nonlinearly.  One residual: the Krein end state stays 32-38 deg from its unstable plane (random: 60) while
-the parametric end state is random with respect to its line (66-72 vs 69).  (The random references 60 and 69 are not
-computed in this script.)  Trigger differs, execution does not.
+observable nonlinearly.  Trigger differs, execution does not.  (The 22 Oct "residual" -- Krein end state 32-38 deg
+from its unstable plane against 60 for random -- was an artefact: the quadruplet's subspace was built from both
+conjugate eigenvectors, rank 2 but padded to 4 by QR.  Fixed 28 Oct 2026: independent directions only, plus an exact
+isotropic null and a phase-shifted null; corrected, 48-53 deg against 53-59 deg at a wrong phase, see the note.)
 """
 import argparse
 import os
 import sys
+import time
 
 import numpy as np
 from scipy.integrate import solve_ivp
+from scipy.stats import beta
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.normpath(os.path.join(HERE, '..', '..', '..'))
@@ -68,6 +71,32 @@ def unstable_modes(Kf, E):
     return mu[unst], V[:, unst]
 
 
+def iso_reference(k, n=8):
+    """Median angle (deg) between a direction drawn uniformly on S^(n-1) and a fixed k-dim subspace, exactly:
+    cos^2 theta ~ Beta(k/2, (n-k)/2).  Assumes isotropy in the Euclidean metric of the (u, u', u'', u''')
+    coordinates, which is not canonical (docstring caveat); the phase-shifted null does not assume it."""
+    return float(np.degrees(np.arccos(np.sqrt(beta.ppf(0.5, k / 2.0, (n - k) / 2.0)))))
+
+
+def subspace(Kf, E, mu, V, phase):
+    """Orthonormal basis of block 12's unstable Floquet subspace, propagated to the orbit phase `phase`."""
+    sub = []
+    for k in range(V.shape[1]):
+        if mu[k].imag < -1e-6:                            # the conjugate member spans the same plane; skip it
+            continue
+        parts = (V[:, k].real, V[:, k].imag) if abs(mu[k].imag) > 1e-6 else (V[:, k].real,)
+        for part in parts:
+            sub.append(linear_propagate(Kf, E, 0.0, phase, part)[0] if phase > 0 else part)
+    # keep only independent directions (28 Oct 2026): a quadruplet's conjugate eigenvectors repeat the same real and
+    # imaginary parts, so the raw list has rank 2, not 4, and a plain QR would add two arbitrary columns
+    U, sv, _ = np.linalg.svd(np.array(sub).T, full_matrices=False)
+    return U[:, sv > 1e-8 * sv[0]]
+
+
+def angle_to(Q, v):
+    return float(np.degrees(np.arccos(min(1.0, np.linalg.norm(Q.T @ (v / np.linalg.norm(v)))))))
+
+
 def angle(a, b):
     a = a / np.linalg.norm(a)
     b = b / np.linalg.norm(b)
@@ -79,7 +108,9 @@ def main():
     ap.add_argument('--files', nargs='+', default=['esc_E_snap_krein', 'esc_E_snap_param'])
     ap.add_argument('--nmax', type=int, default=64, help='trajectories per energy to propagate linearly (cost ~1 s each)')
     a = ap.parse_args()
+    T0 = time.time()
     Kf = base.load_K()
+    rng = np.random.default_rng(12)
     print("rh12_direction.py: direction of the block-12 off-diagonal state between the |w| = 0.1 and |w| = 1 crossings, nonlinear vs linear")
     for tag in a.files:
         path = os.path.join(ISL, tag + '.npz')
@@ -110,20 +141,15 @@ def main():
                 th_nl_vs_lin = angle(vb, vb_lin)
                 # angle of the nonlinear end state to the unstable subspace at phase t_b (propagate the eigenvectors to t_b mod T)
                 phase = tb % T
-                sub = []
-                for k in range(V.shape[1]):
-                    vk, _ = linear_propagate(Kf, E[i], 0.0, phase, V[:, k].real) if phase > 0 else (V[:, k].real, T)
-                    sub.append(vk)
-                    if abs(mu[k].imag) > 1e-6:
-                        vki, _ = linear_propagate(Kf, E[i], 0.0, phase, V[:, k].imag) if phase > 0 else (V[:, k].imag, T)
-                        sub.append(vki)
-                if len(sub) == 0:                                 # no unstable mode at this E (smoke energies): subspace angle undefined
-                    rows.append((th_nl, th_lin, th_nl_vs_lin, np.nan, (tb - ta) / T))
+                if V.shape[1] == 0:                               # no unstable mode at this E (smoke energies): subspace angle undefined
+                    rows.append((th_nl, th_lin, th_nl_vs_lin, np.nan, (tb - ta) / T, np.nan))
                     continue
-                S = np.array(sub).T
-                Q, _ = np.linalg.qr(S)
-                proj = np.linalg.norm(Q.T @ (vb / np.linalg.norm(vb)))
-                rows.append((th_nl, th_lin, th_nl_vs_lin, np.degrees(np.arccos(min(1.0, proj))), (tb - ta) / T))
+                th_sub = angle_to(subspace(Kf, E[i], mu, V, phase), vb)
+                # phase-shifted null (added 28 Oct 2026): the same end state against the subspace at a wrong phase,
+                # shifted by a uniform fraction in [0.15, 0.85] of the period (fixed seed); no isotropy assumption
+                wrong = (phase + rng.uniform(0.15, 0.85) * T) % T
+                th_null = angle_to(subspace(Kf, E[i], mu, V, wrong), vb)
+                rows.append((th_nl, th_lin, th_nl_vs_lin, th_sub, (tb - ta) / T, th_null))
             if not rows:
                 print(f"  E={E[i]:.4f} ({kind}): no usable trajectories")
                 continue
@@ -132,9 +158,16 @@ def main():
             print(f"  E={E[i]:.4f} ({kind}, {mudesc}): {len(R)} trajectories; elapsed between crossings median {np.median(R[:, 4]):.1f} periods")
             print(f"     angle(d_0.1, d_1) nonlinear: median {np.median(R[:, 0]):5.1f} deg [p10 {np.percentile(R[:, 0], 10):5.1f}, p90 {np.percentile(R[:, 0], 90):5.1f}]   linear prediction: median {np.median(R[:, 1]):5.1f} [{np.percentile(R[:, 1], 10):5.1f}, {np.percentile(R[:, 1], 90):5.1f}]")
             print(f"     angle(nonlinear end, linear end): median {np.median(R[:, 2]):5.1f} deg [p10 {np.percentile(R[:, 2], 10):5.1f}, p90 {np.percentile(R[:, 2], 90):5.1f}]   angle(nonlinear end, unstable subspace at that phase): median {np.nanmedian(R[:, 3]):5.1f} [{np.nanpercentile(R[:, 3], 10):5.1f}, {np.nanpercentile(R[:, 3], 90):5.1f}]")
+            ksub = len([m for m in mu if abs(m.imag) <= 1e-6]) + 2 * len([m for m in mu if m.imag > 1e-6])   # true dimension
+            if ksub:
+                print(f"     null references for the subspace angle: isotropic, exact median {iso_reference(ksub):5.1f} deg (k = {ksub} of 8);"
+                      f"   phase-shifted: median {np.nanmedian(R[:, 5]):5.1f} [{np.nanpercentile(R[:, 5], 10):5.1f}, {np.nanpercentile(R[:, 5], 90):5.1f}]")
             np.savez(os.path.join(RES, f'rh12_{tag}_E{E[i]:.4f}.npz'), rows=R, mu=mu)
     print("\nreading: 'nonlinear end vs linear end' small => the runaway follows the linear mode's direction (rotating if the mode is a quadruplet, which the")
     print("linear angle itself shows); large => the nonlinear state has left the unstable subspace by the time |w| = 1 (the diagonal ghost has taken over).")
+    print("null references (added 28 Oct 2026): the isotropic median is exact (cos^2 ~ Beta(k/2, (8-k)/2)) but assumes the Euclidean metric;")
+    print("the phase-shifted null puts the same end state against the subspace at a wrong phase and assumes nothing.  rows[:, 5] = null angle.")
+    print(f"# END rh12_direction status=OK wall={time.time() - T0:.0f}s")
 
 
 if __name__ == '__main__':
