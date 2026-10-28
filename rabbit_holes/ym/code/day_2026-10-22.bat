@@ -3,7 +3,7 @@ rem Day queue, 22 Oct 2026 -- hole 4 / hole 8: the low-E "order-one ghost, no es
 rem Last night's esc_E_cross: at E = 0.0585 and 0.110 the ghost reaches |w| = 1 in ~60/64 cells and ~50 of them do not
 rem escape by tmax = 3000 (loiters of 16-21 periods, censored).  Same section, tmax 12000, 20 energies over the gap
 rem [0.05, 0.13] where the diagonal ghost is Floquet-stable and the off-diagonal bands lead.  Idempotent (--resume, >>);
-rem relaunch after any restart.  ~3-4 h worst case on 24 threads; most low-E rows are much faster.
+rem relaunch after any restart.  (islands\results\day_2026-10-22.log is the .bat's own log; not committed.)  ~3-4 h worst case on 24 threads; most low-E rows are much faster.
 setlocal
 set PY=C:\Users\Owner\AppData\Local\Programs\Python\Python312\python.exe
 cd /d %~dp0..\..\..

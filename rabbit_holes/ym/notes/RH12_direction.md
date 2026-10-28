@@ -15,11 +15,11 @@ the same convention for both bands).
 
 | band | E | type | angle(nl end, lin end), median [p10, p90] | angle(nl end, unstable subspace), median | random-vector reference |
 |---|---|---|---|---|---|
-| Krein | 0.152 | quadruplet, |μ| 1.07 | 75° [27, 89] | **37°** | 60° (2-plane in 8 dims) |
+| Krein | 0.152 | quadruplet, |μ| 1.07 | 75° [27, 89] | **37°** | 60° (2-plane in 8 dims; not computed in the script) |
 | Krein | 0.155 | quadruplet, 1.27 | 76° [44, 89] | **36°** | 60° |
 | Krein | 0.158 | quadruplet, 1.28 | 74° [44, 88] | **38°** | 60° |
 | Krein | 0.161 | quadruplet, 1.14 | 75° [45, 87] | **32°** | 60° |
-| param. | 0.226 | real pair, 1.48 | 73° [36, 87] | 66° | 69° (line in 8 dims) |
+| param. | 0.226 | real pair, 1.48 | 73° [36, 87] | 66° | 69° (line in 8 dims; not computed in the script) |
 | param. | 0.237 | two real pairs, 1.80 | 78° [47, 89] | 53° | 60° |
 | param. | 0.249 | real pair, 1.77 | 71° [46, 89] | 71° | 69° |
 | param. | 0.262 | real pair, 1.38 | 75° [40, 88] | 72° | 69° |

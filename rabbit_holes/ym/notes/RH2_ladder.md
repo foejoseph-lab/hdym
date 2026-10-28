@@ -22,7 +22,8 @@ written as the orbit period T(E) = T_half (2E)^{−1/4}, are equally spaced:
 | 8 | [0.2811, 0.4937] | K | 0.3725 | 33.42 | +0.12 |
 | 7 | [0.5694, 0.7241] | P | 0.6421 | 29.17 | −0.08 |
 
-Least squares on n = 7–13: **T_c(n) = 4.057 (n + 0.210)**, rms residual 0.11 time units (≤ 0.04 rung for n = 7–12).
+Least squares on n = 7–13: **T_c(n) = 4.057 (n + 0.210)**, rms residual 0.11 time units (≤ 0.04 rung for n = 7–12). (The fit is in
+no committed script; refitting the eight rows of this table gives 4.057 / 0.210 with rms 0.24 over all eight and 0.115 over n = 7–12.)
 Odd n parametric, even n Krein (the naive ω = 1 version, the first table of `rh2_ladder.txt`, lands within a rung but with
 the parity wrong below E ≈ 0.1). Rung 13 appears twice, once per pair, the two copies 0.21 rung apart — the pairs'
 phase splitting Δ(E) at that energy (`RH27_averaging.md`, item 5).
@@ -57,9 +58,9 @@ across a band is ambiguous (inside the wide Krein band the pairs could wind by u
 unwrapped totals, −1.7 π and −3.5 π over the scan against the 9.3 π of the ω = 1 line, are not trustworthy for that
 reason). `rh2_rotation.py` tried the phase along the orbit instead — the unwrapped argument of the complex u12
 component of the Floquet solution over a half period, whose exponential equals the eigenvalue of N exactly
-(residual 2 × 10⁻¹¹) — but u12 passes within 10⁻³ of zero along the orbit (the ghost mode lives in u21 for half the
+(residual 2 × 10⁻¹¹, no committed log) — but u12 passes within 10⁻³ of zero along the orbit (the ghost mode lives in u21 for half the
 period), so its winding count is not canonical: ±13.2 π and ±1.7 π for the two pairs at E = 0.05, ±0.52 π and
-±0.006 π at E = 1. Signature-oriented unwrapping (`code/rh5_unwrap.py`, `results/rh5_unwrap.txt`) gives a slope
+±0.006 π at E = 1 (no committed log). Signature-oriented unwrapping (`code/rh5_unwrap.py`, `results/rh5_unwrap.txt`) gives a slope
 that is one branch of the line near 1 (0.76–0.83 in three windows below E ≈ 0.22; the branch is fixed by the
 spectrum, not by the unwrapping). A Conley–Zehnder / Maslov index of the symplectic path restricted to the pair's
 invariant 2-plane would be the canonical object; not attempted.

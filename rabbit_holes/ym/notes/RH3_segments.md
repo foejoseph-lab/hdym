@@ -5,7 +5,8 @@ in the Euclidean norm of the 8-dim block was inconclusive (local rates ±3 aroun
 missing, and both are now in hand: the constraint and symmetry sectors are gone (the 4-dim reduced block of
 `RH_reduced_block.md`), and the norm is canonical — each quarter-period segment's transfer matrix is expressed
 between Darboux frames of the reduced symplectic form at its two ends (symplectic Gram–Schmidt; Dᵀ Ω_red D = J to
-10⁻¹⁶), so its singular values are the frame-independent expansion of a symplectic map. Segments: TP1 = [−T/8, T/8]
+10⁻¹⁶, no committed log), so its singular values are the expansion of a symplectic map in that frame (called
+"frame-independent" until 24 Oct; they are not, see the caveat below). Segments: TP1 = [−T/8, T/8]
 and TP2 = [3T/8, 5T/8] around the two turning points (x extremal, y = 0, where the light reduced mode is soft), B1 =
 [T/8, 3T/8] and B2 = [5T/8, 7T/8] around the two bounces (x = 0).
 

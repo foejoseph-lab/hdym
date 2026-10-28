@@ -5,7 +5,7 @@ The suspicion (response to the 19 Oct review): the frozen-depth background is no
 Jordan pair at 1 splits by ~sqrt(eps) = 0.15 and a "collision" at arg 0.065 pi ~ 0.2 rad is at the scale of that split.
 Two tests, neither needing a periodic orbit:
 
-  A. eps scaling in the frozen model.  At fixed D, J -> J/8 ... 2J (eps proportional to J).  If |mu| - 1 of the cell
+  A. eps scaling in the frozen model.  At fixed D, J -> J/8 ... 4J (eps proportional to J).  If |mu| - 1 of the cell
      tracks the Jordan split (~ sqrt(eps)) or eps itself, it is the background's; a Krein collision of the physical
      pairs would instead switch on at a threshold in J (a collision needs the two pairs to meet) and grow with the
      coupling above it.  Printed per J: eps, the Jordan split (min |mu - 1| of the gauge pair), the four ghost-sector

@@ -48,7 +48,7 @@ integrated, through which sector, and when, had not been measured.
 
 The E = 0.3 island is not a refuge in the full homogeneous theory, and not only at its centre: at ε = 10⁻⁸, where the
 diagonal ghost alone leaves it intact, an off-diagonal admixture three decades smaller empties its whole core in
-≈ 25 orbits, through the block-23 parametric instability of the orbit, with the diagonal ghost doing the escaping.
+≈ 38 orbits (1340/35.28, median t_esc over T at E = 0.3; stated as 25 until 28 Oct 2026), through the block-23 parametric instability of the orbit, with the diagonal ghost doing the escaping.
 Together with hole 10 this closes the island question for this background on both sides: the diagonal ghost's
 back-reaction erases it above ε ≈ 5 × 10⁻⁸, and below that the off-diagonal sector does. Not measured: whether an
 off-diagonal seed small enough (the integrator's own truncation, ~10⁻¹⁰, is the floor the control sits at) or a

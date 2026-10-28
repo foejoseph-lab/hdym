@@ -15,7 +15,7 @@ checkpoint run and does not affect statistics.
   periods (minimum 6.6); per energy 0.42–0.62 periods for E ≥ 0.33 and 1.1–1.8 at 0.24–0.28. Spearman of the
   per-energy median with E is −0.05 in periods and −0.46 in time units (11 energies with ≥ 20 escaped loiters): the
   loiter is a number of orbits. (The checkpoint reading of the 6400 trajectories of `esc_E` — 4112 reached |w| = 1, 2053 of 3778 escapes inside one
-  50-unit interval, 982 unresolved, 334 censored — had a median of 20 units = 0.63 periods and Spearman −0.09 (p 0.48)
+  50-unit interval (no committed log: not printed in `rh4_loiter.txt`), 982 unresolved, 334 censored — had a median of 20 units = 0.63 periods and Spearman −0.09 (p 0.48)
   in periods vs −0.32 (p 0.01) in time units; the hole as posed had said "roughly E-independent in absolute terms",
   the opposite.)
 - **The linear phase is the clock.** t(|w| 0.1 → 1) equals ln 10/rate_diag where the diagonal ghost is
@@ -49,7 +49,7 @@ tmax = 12000:
   diagonal-ghost tongues at E = 0.0914 and 0.1236 (loiter median 1.3–1.7 periods): the escape after the ghost reaches
   order one is memoryless in both classes, with a rate that differs by a factor 30–100 depending on which sector did
   the pumping.
-- **At Floquet-stable energies between the bands a transiently pumped ghost does not run away**: at Floquet-stable energies between the bands (E = 0.050–0.087 excluding the two bands) 3–13 cells per energy reach |w| = 1 by transient growth (hole 8) and all but one sit censored at tmax = 12000 — loiters ≥ 22–140 periods, medians ≥ 154–212 periods; the one escape is at E = 0.0786, after 9352 time units = 190 periods (`rh4_lowE_long.txt`). The genuinely stuck regime — an order-one ghost that sits for hundreds of orbits — is the
+- **At Floquet-stable energies between the bands a transiently pumped ghost does not run away**: at Floquet-stable energies between the bands (E = 0.050–0.087 excluding the two bands and E = 0.0526) 3–13 cells per energy reach |w| = 1 by transient growth (hole 8) and all but one sit censored at tmax = 12000 (exception, noted 28 Oct 2026: at E = 0.0526 all 64 cells reach |w| = 1 and 9 escape, τ = 875 periods, row 0.0526 of `rh4_lowE_long.txt`) — loiters ≥ 22–140 periods, medians ≥ 154–212 periods; the one escape is at E = 0.0786, after 9352 time units = 190 periods (`rh4_lowE_long.txt`). The genuinely stuck regime — an order-one ghost that sits for hundreds of orbits — is the
   linearly stable one, not the slowly unstable one.
 
 ## For the paper

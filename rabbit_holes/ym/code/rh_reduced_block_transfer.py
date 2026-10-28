@@ -9,7 +9,8 @@ ARM1 = [-aT, aT], BOUNCE1 = [aT, (1/2 - a)T], ARM2 = [(1/2 - a)T, (1/2 + a)T], B
 a = 0.13 by default (--a; the quarter-period cut of rh3_segments.py is a = 0.125).  The moving-gauge 8-dim propagator
 of rh_reduced_block.run_4dim is integrated from -aT over one period and restricted to the surface S(t) at every
 boundary; each segment map is expressed between Darboux frames of Omega_red (symplectic Gram-Schmidt, as in
-rh3_segments.py), where its singular values are the frame-independent expansion of a symplectic map.
+rh3_segments.py), where its singular values are the expansion of a symplectic map in that frame (frame-DEPENDENT: see the REFRAME check
+and notes/RH_reduced_block_transfer.md).
 
 Per (E, c_j), printed:
   * the arm's and the bounce's largest singular value (ln gain), the gain of the composed half period ARM then BOUNCE,
@@ -26,7 +27,7 @@ Per (E, c_j), printed:
     frame on a fine grid, on top of the polar-transported orthonormal frame of run_4dim) and the generator in it,
     K_z = D^-1 (K_red D - dD/dt): CHECK J K_z is symmetric (exactly Hamiltonian up to the finite-difference dD/dt);
     its frozen spectrum's hyperbolic fraction against the orthonormal frame's.  A symplectic frame is not unique, so
-    the frozen spectrum in it is one choice among many; only the segment singular values above are frame-free.
+    the frozen spectrum in it is one choice among many; the segment singular values above are not frame-free either (REFRAME); only N's spectrum is.
 
 Usage (from the repo root):
   python rabbit_holes/ym/code/rh_reduced_block_transfer.py [--E 0.1 0.156 0.3 0.412 0.6 0.642] [--cj 1.0] [--a 0.13]

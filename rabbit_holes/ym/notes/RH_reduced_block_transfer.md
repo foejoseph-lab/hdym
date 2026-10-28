@@ -1,7 +1,7 @@
 # The reduced block's open items (ii)–(iv), worked 24 Oct 2026: the transfer matrix is not an invariant, the Krein width is not first order, a symplectic frame exists
 
 Scripts `code/rh_reduced_block_transfer.py` (items (ii) and (iv)) and `code/rh_krein_width_cj.py` (item (iii)); logs
-`results/rh_reduced_block_transfer_cj{1.0,0.5,0.25}_a0.13.txt`, `_cj1.0_a0.10.txt` (with `.npz`), and
+`results/rh_reduced_block_transfer_cj{1.0,0.5,0.25}_a0.13.txt`, `_cj1.0_a0.10.txt` (with `.npz`, named `_cj1_a0.13`, `_cj1_a0.1`, `_cj0.5_a0.13`, `_cj0.25_a0.13`), and
 `results/rh_krein_width_cj.{txt,npz}`. Everything is computed on the exact 4-dim gauge-reduced block of
 `RH_reduced_block.md` (moving gauge, colour-rotation quotient), whose checks pass here as there: every segment map
 symplectic for Ω_red to ≤ 2 × 10⁻¹², the product of the four segments equal to the four ghost multipliers to
@@ -22,11 +22,11 @@ most-stretched output keeps after the bounce.
 | 0.156 (Krein) | +0.17 / +0.42 | +0.44 / +0.74 | −0.78 / +0.72 | +0.13 |
 | 0.3 (stable) | +0.42 / +1.49 | +0.70 / +1.92 | +0.44 / −0.01 | 0 |
 | 0.412 (Krein) | +0.53 / +1.99 | +1.07 / +2.60 | +0.09 / −0.10 | +0.53 |
-| 0.6 | +1.39 / +2.73 | +1.65 / +2.35 | +0.04 / −0.34 | +0.19 |
+| 0.6 | +1.39 / +2.73 | +1.65 / +2.35 | +0.04 / −0.34 | +0.38 (ln 2.132 / 2, multiplier in `_cj1.0_a0.13.txt`; stated as +0.19 until 28 Oct 2026) |
 | 0.642 (parametric) | +1.35 / +2.51 | +1.59 / +1.63 | +0.12 / −0.14 | +0.45 |
 
-Moving the cut from a = 0.13 to 0.10 changes the arm's gain by up to a factor e³ and flips the sign of the return
-at four of six energies. That is not a sensitivity to where the hyperbolic window ends; it is the frame. **A Darboux
+Moving the cut from a = 0.13 to 0.10 changes the arm's gain by up to a factor e^1.46 (ln gain +0.53 → +1.99 at E = 0.412; stated as "e³" until
+28 Oct 2026) and flips the sign of the return at five of six energies (all but E = 0.1; stated as four until 28 Oct 2026). That is not a sensitivity to where the hyperbolic window ends; it is the frame. **A Darboux
 frame is defined up to Sp(4), and the singular values of a symplectic map are invariant only under its unitary
 subgroup U(2).** The script's REFRAME check makes it explicit: with three random symplectic frames at the three
 boundaries of a half period (at E = 0.3, c_j = 1: arm ln gain 0.42 → 0.98, 3.38, 2.55; return +0.44 → +0.65, −0.31,

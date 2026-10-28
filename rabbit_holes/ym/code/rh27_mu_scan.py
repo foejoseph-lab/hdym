@@ -19,9 +19,12 @@ their places; as mu grows the Krein bands open at the odd rungs with width growi
 bands' widths change little.  Counter-prediction (the Krein bands are a combination resonance of two modes at
 their own frequencies): their positions move with mu.
 
-Usage (from the repo root): python rabbit_holes/ym/code/rh27_mu_scan.py [--mus 0 0.3 0.6 1] [--nE 150]
+Usage (from the repo root): python rabbit_holes/ym/code/rh27_mu_scan.py [--dial mu|cj] [--mus ...] [--nE 150] [--tag ...]
+(defaults: --dial cj --tag rh27_cj_scan --mus 0 0.3 0.6 1.  The committed logs, by their headers: rh27_mu_scan.txt
+--dial mu --mus 0 0.3 0.6 1 --nE 120 --tag rh27_mu_scan; rh27_cj_scan.txt --dial cj --mus 0.25 0.5 0.75 1 --nE 120.)
 Cost: one block monodromy per (mu, E), ~1.5 s each: four values of mu at 150 energies ~15 min.
-Writes results/rh27_mu_scan.txt (this print), .npz, .png.  Added 2026-10-21 (late).
+Writes results/<tag>.txt (this print), .npz, .png.  (The final "figure: results/rh27_mu_scan.png" print is wrong for
+any other tag: the file is <tag>.png.)  Added 2026-10-21 (late).
 """
 import argparse
 import os

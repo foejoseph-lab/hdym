@@ -1,7 +1,7 @@
 # Rabbit hole 10 — the ε-crossover of the E = 0.3 island (22 Oct 2026; four `hdym_island.py` runs)
 
 Logs `islands/results/island_E0.3_eps1e-{9,8,7,6}.log` (ball sampling around the DR point, 200 points per shell,
-8 shells r = 10⁻⁶ … 10⁻², tmax 5000, Yoshida-4 pair kernel; ~15 s each). The diagonal ghost's amplitude is
+8 shells r = 10⁻⁶ … 10⁻², tmax 5000, Yoshida-4 pair kernel; ~15 s each — integrator and timing not in the logs). The diagonal ghost's amplitude is
 |w| = √(2εE); the island half-width at E = 0.3 is 1.8 × 10⁻⁴ (scaled from the certified E = ½ value).
 
 | ε | |w| | |w| / half-width | core shells (r ≤ 10⁻⁴, 800 points): escaped | core FTLE | r = 2 × 10⁻⁴ shell |

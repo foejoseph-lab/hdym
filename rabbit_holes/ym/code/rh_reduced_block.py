@@ -329,7 +329,9 @@ def main():
     ap.add_argument('--cj', type=float, default=1.0)
     a = ap.parse_args()
     Kf, Of, Gf, Odot, gdot = block_funcs()
-    # gauge-fixing functional: try the unit vectors of the state and keep the one with the best admissibility
+    # (the constant-gauge search -- reduced_K / run / admissibility -- is not called here; the numbers printed next are a
+    #  fixed string from that earlier run.  The 'fraction of the period with a real (hyperbolic) frozen eigenvalue' print
+    #  below uses |Re| > 1e-6 and so counts gauge fuzz: it reads 1.00 everywhere; use rh_reduced_block_hyp.py's criterion.)
     print("rh_reduced_block.py: gauge-reduced block 12, numerical first cut.  Constant gauge fixing is NOT admissible on the DR orbit")
     print("  (the unit gauge direction v_G(t) sweeps the whole 8-space: singular values of its orbit samples 0.74/0.39/.../0.09 at E=0.1,")
     print("  and the best fixed f has min |f.v_G| ~ 1e-3), so the moving gauge f(t) = v_G(t) is used, with the connection term from the")

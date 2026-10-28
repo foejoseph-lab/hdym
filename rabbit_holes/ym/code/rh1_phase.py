@@ -22,7 +22,7 @@ What is computed, for each map:
   * c(s) per cell; log t_esc regressed on log |c| (the linear-phase predictor), residual r = log t_esc - fit;
   * binning of the escape fraction, the median t_esc and the median residual by arg c (12 bins over [0, 2 pi) and
     6 over [0, pi), the latter because s -> -s maps arg c -> arg c + pi);
-  * a permutation null: 200 random re-labellings of the cells give the spread of each binned statistic under
+  * a permutation null: 200 random re-labellings of whole 8 x 8 tiles of cells (see binned()) give the spread of each binned statistic under
     "no phase effect"; the observed range across bins is compared with it (a z-score on the across-bin range);
   * for the control map (real pair) the same with "phase" = sign c (2 bins), and with the phase of the projection
     on the complex STABLE pair of the same block as a placebo (it should do nothing).

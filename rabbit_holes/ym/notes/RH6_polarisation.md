@@ -11,7 +11,7 @@ a projection onto the transverse / longitudinal polarisations of the massive Lee
 in the way, one practical and one structural.
 
 Practical: the repository has no polarisation basis for the off-diagonal components — `hdym_rung1_lyap.py`'s
-docstring names "the longitudinal polarisation" without defining it, and in the homogeneous sector (zero spatial
+docstring named "the longitudinal polarisation" without defining it (it now calls the label retired), and in the homogeneous sector (zero spatial
 momentum) transverse/longitudinal has no momentum to refer to. So three measurable contents were used instead:
 the component split f12 = |u12|²/(|u12|² + |u21|²), the reflection-sector split f+ for u± = (u12 ± u21)/√2, and a
 local frequency w² = |u″|/|u| (the Pais–Uhlenbeck heavy/light split read off the eigenvector), each at the
@@ -25,8 +25,10 @@ frequency is exactly the rotation-number question hole 2 could not settle (`RH2_
 
 ## What the contents say
 
-- **At the turning point both pairs are an exact 50/50 mixture of the two reflection sectors** (f+ = 0.50 ±
-  0.02 at every on-circle energy, both pairs). This is the symmetry: at y = 0 the eigenvectors of N = S̃Φ_{T/2}
+- **At the turning point both pairs are a near-50/50 mixture of the two reflection sectors**: ∀ E ∈ G₆, E < 0.73:
+  f+ ∈ [0.46, 0.53] for both pairs [grid]; above, pair 1 rises to 0.67 at E = 0.913 (G₆: the on-circle rows of
+  `results/rh6_polarisation.npz`, 66 of 100; column f+ at t = 0). (Stated as "exact, 0.50 ± 0.02 at every on-circle
+  energy" until 28 Oct 2026.) This is the symmetry: at y = 0 the eigenvectors of N = S̃Φ_{T/2}
   carry equal weight in u+ and u−. No sector label is available at t = 0.
 - A quarter period later the pairs often sit in opposite sectors (E = 0.05: f+ = 0.81 vs 0.19; 0.21: 0.69 vs
   0.07; 0.31: 0.57 vs 0.20) but not always (0.149: 0.14 vs 0.64; 0.44, inside the Krein band: 0.35 vs 0.34), and
@@ -35,7 +37,8 @@ frequency is exactly the rotation-number question hole 2 could not settle (`RH2_
 - The heavy/light split is not clean either: w² at t = 0 is 0.93 [0.27, 1.98] for the smaller-angle pair and
   1.13 [0.74, 2.90] for the larger, overlapping; at T/4 both are ≈ 0.65. Neither pair is "the light YM-like
   mode" and neither is "the massive ghost": both carry order-one |u″|/|u|, as the frozen K at the bounce
-  (frequencies 1.85 and 2.83 and a real pair ±1.32) already said.
+  (frequencies 1.85 and 2.83 and a real pair ±1.32) already said (no committed log; the two places disagree:
+  `../README.md`, "Smaller things", puts ±1.32 at the turning point).
 - The Krein sign of the positive-angle member is + for 59–61 % of on-circle energies for either pair — i.e.
   uninformative, as the branch argument predicts.
 

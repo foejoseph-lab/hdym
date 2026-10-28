@@ -19,7 +19,7 @@ new arithmetic is `sqrt` on non-negative arguments, already used by `escaped()` 
 `offdiag_escape.py`'s docstring; `ym/hdym_full_derive.py` must have been run once in this checkout).
 
 ```
-# 1. hole 1: the phase ensemble at the Krein band (12 phases x 256 cells, |c| fixed, random admixture and
+# 1. hole 1: the phase ensemble at the Krein band (12 phases x 256 cells, |c| fixed (it was not: 0.56-1.21 with alpha, ../notes/RH1_phase.md), random admixture and
 #    diagonal seed per cell).  ~1 h.
 python islands/code/offdiag_escape.py --section phase --E 0.156 --block 12 --nalpha 12 --nseed 256 --tag esc_phase_0156 > islands/results/esc_phase_0156.txt 2>&1
 
@@ -37,4 +37,4 @@ Sizes: esc_phase_0156.npz ≈ 3072 x 60 x 6 x 4 B ≈ 4.4 MB; esc_orient_030_n64
 
 Analysis scripts to run on them afterwards: `rabbit_holes/ym/code/rh1_phase.py` can be pointed at the phase
 run (to be adapted: it currently reads the orient maps); `rh4_loiter.py` reads `chk` and will read `tcross`
-when present (to be adapted); hole 12's script does not exist yet.
+when present (to be adapted); hole 12's script does not exist yet (written 22 Oct: rh12_direction.py).

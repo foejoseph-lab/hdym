@@ -15,7 +15,8 @@ symmetry check: on this orbit s(t + T/2) = -s(t), so K(t + T/2) = S K(t) S for S
 entries? -- measured rather than assumed: the residual of S~ K(t+T/2) S~ - K(t) for the candidate S~ = diag(+1,+1,-1,-1,
 +1,+1,-1,-1) per block (u, u'' even; u', u''' odd under t -> t + T/2 with s -> -s), printed.
 
-Usage (from the repo root): python rabbit_holes/ym/code/rh5_nonplanar.py [--nE 120]
+Usage (from the repo root): python rabbit_holes/ym/code/rh5_nonplanar.py [--nE 120] [--emin 0.05] [--emax 1.0]
+(the committed results/rh5_nonplanar.txt has 300 energies in [0.02, 3], i.e. --nE 300 --emin 0.02 --emax 3)
 Cost ~1 s per E.  Added 2026-10-22.
 """
 import argparse

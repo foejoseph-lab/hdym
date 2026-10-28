@@ -4,12 +4,12 @@ polarisation does each live, measured from the eigenvectors B005 already compute
 STATUS (notes/RH6_polarisation.md; README hole 6): NEGATIVE, with the reason.  No polarisation basis exists for the
 homogeneous sector (no momentum to be transverse to), and "the ghost's pair" needs the frequency sign, which is the
 rotation number hole 2 could not get.  Measured: at t = 0 both pairs are an exact 50/50 mix of the reflection sectors
-(f+ = 0.50 +- 0.02); component, sector and heavy/light contents reshuffle with E and along the orbit.  The two pairs
+(f+ = 0.46-0.53 for E < 0.73, pair 1 up to 0.67 above; stated as 0.50 +- 0.02 until 28 Oct 2026); component, sector and heavy/light contents reshuffle with E and along the orbit.  The two pairs
 are the same sector mode twice, split by Delta(E) (rh5_splitting.py) -- tabulate Delta, not a polarisation.  "The
 second ghost is the longitudinal polarisation" is a label to retire (FOR_THE_REWRITE_2026-10-25.md, item 1).
 
-The repository defines no polarisation basis for the off-diagonal components (hdym_rung1_lyap's docstring names
-"the longitudinal polarisation of the massive Lee-Wick vector" without writing it down), so three measurable
+The repository defines no polarisation basis for the off-diagonal components (hdym_rung1_lyap's docstring named
+"the longitudinal polarisation of the massive Lee-Wick vector" without writing it down; it now calls the label retired), so three measurable
 contents are taken for each pair, from the eigenvector v of N = S~ Phi_T/2 at the orbit's reference point (t = 0,
 the turning point y = 0, the point at which the sector basis is the reflection's eigenbasis) and, since the
 contents move along the orbit, also at t = T/4 (propagated):

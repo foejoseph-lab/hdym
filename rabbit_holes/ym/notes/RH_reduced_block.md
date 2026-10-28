@@ -13,9 +13,10 @@ of the block (c_j kept symbolic — the c_j = 1 form gives a wrong gauge directi
 gauge direction is v_G = Ω⁻¹g.
 
 **Constant gauge fixing is not admissible on the DR orbit.** The unit gauge direction v_G(t) sweeps the
-whole 8-space over a period (singular values of its samples 0.74, 0.39, 0.36, 0.30, 0.18, 0.16, 0.09, 0.09 at E = 0.1),
+whole 8-space over a period (singular values of its samples 0.74, 0.39, 0.36, 0.30, 0.18, 0.16, 0.09, 0.09 at E = 0.1; from an earlier run, the committed logs
+print only a fixed string "0.74/0.39/.../0.09"),
 and the best fixed functional f has min |f·v_G| ≈ 10⁻³ somewhere on the orbit, so the gauge-fixed flow x′ = Kx + λv_G
-with λ = −f·Kx/f·v_G blows up there (a multiplier 4 × 10⁸ in the first attempt). The moving gauge f(t) = v_G(t) is
+with λ = −f·Kx/f·v_G blows up there (a multiplier 4 × 10⁸ in the first attempt; no committed log). The moving gauge f(t) = v_G(t) is
 used instead, with the connection term from the exact orbit derivatives: λ = −(v̇_G·x + v_G·Kx)/|v_G|², v̇_G =
 Ω⁻¹(ġ − Ω̇v_G). Off-surface components g·x and v_G·x are then conserved (10⁻¹¹ over a period) and the surface
 S(t) = {g·x = 0, v_G·x = 0} is invariant (leak 10⁻¹⁴).
@@ -49,7 +50,7 @@ symplectic frame in which it is exactly Hamiltonian, and in which these numbers 
 
 Two modes: a light one that goes soft at the turning points (0.13–0.7, hyperbolic at E = 0.6, t = T/2) and a heavy
 one at 1.0–1.7. This is the sweep of `rh5_instfreq.png` seen from the Hamiltonian side, with one disagreement with
-that reading, not resolved: the frozen spectrum puts the light mode's softening at the **turning points** (x extremal,
+that reading, not resolved here (resolved 23 Oct: `RH27_averaging.md` item 10): the frozen spectrum puts the light mode's softening at the **turning points** (x extremal,
 y = 0), not at the bounce (x = 0), where both modes are stiffest, while the instantaneous-frequency estimator of
 `rh5_instfreq.py` puts the dips at the bounce (`RH27_averaging.md`, item 10). The quasi-static spectral line is the light mode; the main line near 1 is the heavy mode dressed
 down by the sweep.
@@ -63,11 +64,11 @@ block cannot see) — only the second is compatible with the data, and it is not
 fraction of the light mode and its strength both grow as c_j falls (`rh_reduced_block_hyp.txt`; the criterion is
 |Im| < 10⁻³ and |Re| > 0.1, the gauge terms' real parts staying below 0.1 where the spectrum is elliptic):
 
-| E | c_j | hyperbolic fraction | max Re | ∫Re dt over the hyperbolic stretches | measured ln\|μ\| per period |
+| E | c_j | hyperbolic fraction | max Re (from the `_E*_cj*.npz` spectra; not printed in the hyp log) | ∫Re dt over the hyperbolic stretches | measured ln\|μ\| per period |
 |---|---|---|---|---|---|
 | 0.1 | 0.25 / 1 | 0 / 0 | 0.30 / 0.26 | 0 / 0 | 0 / 0 |
 | 0.3 | 0.25 / 0.5 / 1 | 0.29 / 0.24 / 0.22 | 2.03 / 1.52 / 0.90 | 11.6 / 7.4 / 5.1 | 0 / 0 / 0 (stable at all three) |
-| 0.6 | 0.25 / 0.5 / 1 | 0.48 / 0.47 / 0.44 | 4.04 / 3.74 / 2.84 | 27.2 / 24.5 / 17.3 | 3.5 / ≈ 0 / 0.9 |
+| 0.6 | 0.25 / 0.5 / 1 | 0.48 / 0.47 / 0.44 | 4.04 / 3.74 / 2.84 | 27.2 / 24.5 / 17.3 | 3.5 / ≈ 0 / 0.76 (ln 2.132, `_cj1.txt`; stated as 0.9 until 28 Oct 2026) |
 
 So the frozen hyperbolicity is an order of magnitude too large to be the growth: at E = 0.3 the generator is
 hyperbolic for a fifth to a third of every period, with ∫Re dt = 5–12, and the block is stable at every c_j; at
@@ -79,7 +80,7 @@ which is the transfer matrix (open item (ii) below), not the frozen spectrum.
 
 **Averaged block (parallel-transported frame).** Not Floquet-accurate: at c_j = 1 the averaged
 frequencies (1.16/1.61, 1.43/1.31, 1.12/1.50 at E = 0.1/0.3/0.6) give ωT mod 2π at 1.14/1.82, 0.05/0.73, 0.62/0.14 π
-against the measured 0.10/0.26, 0.40/0.56, 0.00/0.77 π. The modulation is too strong for first-order averaging even on
+against the measured 0.10/0.26, 0.40/0.56, 0.00/0.77 π (no committed log). The modulation is too strong for first-order averaging even on
 the exact reduced block; the frozen spectrum and the bounce transfer matrix are the objects to use.
 
 ## What this settles and what it opens

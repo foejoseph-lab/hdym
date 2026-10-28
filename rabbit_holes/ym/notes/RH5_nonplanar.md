@@ -14,7 +14,7 @@ permutation and each carries a component cross-coupling of relative size 0.19 (t
 the unit circle to 10⁻⁴, in all three blocks (which are equivalent by the permutation symmetry, and come out
 identical). Not for lack of opportunity:
 
-- the two ghost pairs of each block **cross each other with opposite Krein signature** at E ≈ 0.07 (angles 0.394π
+- (the angles, signs and passages in this list: no committed log; `rh5_nonplanar.py` prints neither) the two ghost pairs of each block **cross each other with opposite Krein signature** at E ≈ 0.07 (angles 0.394π
   with sign +1 and 0.409π with sign −1, the ordering reversed on the other side) and again at E ≈ 0.37 (0.329π/−1,
   0.366π/+1): the "dangerous" configuration of Krein's criterion, which on the DR orbit always collides — here they
   pass through;

@@ -35,9 +35,11 @@ half-period symmetry, M = N²) in its symplectic multiplicity form; see `RH7_lit
 and what is ours.
 
 Check (step 3 of the script): all 16 LEAVE/RE-ENTER events of B005 are either single-pair folds of N at
-|arg| < 0.05 π from {0, π} (eight events, all M = +1) or four-member collisions (eight); no single pair ever
+|arg| < 0.05 π from {0, π} (ten events, all M = +1) or four-member collisions (six) (`rh7_selection_rule.txt`, step 3;
+stated as eight and eight until 28 Oct 2026); no single pair ever
 folds near ±i. Scanning B005's angles for single-pair passages through ±0.5 π (M = −1) outside the bands finds
-exactly one, at E = 0.520 (pair k0/k3, with the other pair 0.17 π away): the pair crosses M = −1 and nothing
+exactly one, at E = 0.520 (pair k0/k3, with the other pair 0.27 π away: |ψ| 0.508 vs 0.781 π at E = 0.52038 of
+`islands/results/krein_b005.txt`; stated as 0.17 π until 28 Oct 2026): the pair crosses M = −1 and nothing
 happens, as the lemma requires. Every single-pair passage through 0 or ±π (M = +1) in the scan opens a tongue.
 
 ## Parity of the coupling (exact, and what it does and does not give)
@@ -59,7 +61,7 @@ k = 13, 15 at E = 0.3–0.6, i.e. (ω₁ + ω₂)/Ω — the cross-coupling is r
 
 Zeroing the sector cross blocks K₊₋, K₋₊ keeps the swap symmetry and makes the two sectors half-period
 translates of each other: their period-T monodromies Φ₋Φ₊ and Φ₊Φ₋ are conjugate (same spectrum, checked to
-2 × 10⁻⁵, the DOP853 tolerance on an 8 × 8 product), every multiplier of M_dec is double, and N_dec has exactly
+2 × 10⁻⁵, the DOP853 tolerance on an 8 × 8 product; the log's CHECK line reports this as FAIL against its tol 10⁻⁷), every multiplier of M_dec is double, and N_dec has exactly
 ±√μ (checked to 7 × 10⁻⁷ over 150 energies). In this model a sector ghost pair at e^{±iθ} appears in N at
 ±θ/2 and π ∓ θ/2, with the member at π − θ/2 descending from e^{−iθ} (opposite Krein sign to the one at θ/2):
 the two copies coincide only at N = ±1 (θ = 0, a same-pair fold, M = +1) and at N = ±i (θ = π, an opposite-sign

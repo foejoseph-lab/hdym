@@ -9,7 +9,8 @@ H_red(t) gives an energy-like quadratic form.  The frozen generator in the gauge
 Hamiltonian (gauge terms), so the norm used here is the simplest invariant one: |x|^2_Om = x^T Omega_red^T Omega_red x
 is not symplectically meaningful either; instead the SINGULAR VALUES of each segment's transfer matrix are taken in
 the frame where Omega_red(t) = J (a Darboux frame at each segment end, built by symplectic Gram-Schmidt), which is the
-frame-independent measure of a symplectic map's expansion (its largest singular value is the growth of the
+measure of a symplectic map's expansion in that frame (NOT frame-independent: a Darboux frame is defined up to Sp(4);
+notes/RH_reduced_block_transfer.md, 24 Oct) (its largest singular value is the growth of the
 worst-case vector in the canonical norm of that frame).
 
 Segments of one period: 4 quarter-period windows centred on the two turning points (t = 0, T/2, where x is

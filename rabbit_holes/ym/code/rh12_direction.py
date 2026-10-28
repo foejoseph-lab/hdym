@@ -20,7 +20,8 @@ Added 2026-10-22; run on the two snapshot runs of hole12_queue.md (esc_E_snap_kr
 Outcome (notes/RH12_direction.md; README hole 12, closed): between |w| = 0.1 and 1 the off-diagonal state is 70-78 deg
 from its own linear propagation in BOTH bands -- the diagonal ghost has taken over, rotating-vs-directional is not
 observable nonlinearly.  One residual: the Krein end state stays 32-38 deg from its unstable plane (random: 60) while
-the parametric end state is random with respect to its line (66-72 vs 69).  Trigger differs, execution does not.
+the parametric end state is random with respect to its line (66-72 vs 69).  (The random references 60 and 69 are not
+computed in this script.)  Trigger differs, execution does not.
 """
 import argparse
 import os

@@ -1,7 +1,8 @@
 # Rabbit holes 2 + 7 — the canonical block, first-order averaging, and what it took to find the right zeroth order
 
 21 Oct 2026 (one evening, in four rounds); rewritten 23 Oct 2026 from the state at that date. Scripts
-`code/rh27_averaging.py` (sympy canonical and normal forms; numpy scan of the averaged block, 120 energies, 12 s),
+`code/rh27_averaging.py` (sympy canonical and normal forms; numpy scan of the averaged block, 120 energies, 12 s; the committed `rh27_averaging.npz` holds a
+different run, 160 energies in [0.04, 1.5], 18 predicted resonances, and the `.png` is presumably from it),
 `code/rh27_mu_scan.py` (the μ and c_j scans), `code/rh5_splitting.py` and `rh5_splitting_cj.py` (Δ(E) at c_j = 1 and
 0.25), `code/rh5_unwrap.py` (signature-oriented unwrapping), `code/rh5_branch.py` (spectra of the Floquet solutions),
 `code/rh5_instfreq.py` (instantaneous frequency along the orbit). Logs and figures `results/rh27_*`, `results/rh5_*`.
@@ -38,7 +39,7 @@ negative-energy mode with a positive one at ω₊ − ω₋ = nΩ — the Krein-
 
 The time-averaged H₀ commutes with S̃ (4 × 10⁻¹²), so it is block-diagonal in the component basis (u12, u21): the
 cross-coupling has odd harmonics only and averages to zero. Each component carries one oscillatory mode and one
-hyperbolic pair (±0.15–0.38, dropped). Both oscillatory modes are negative-energy, ω₀ = 1.05 → 1.33 and ω₁ = 1.50 →
+hyperbolic pair (±0.15–0.38, dropped; no committed log). Both oscillatory modes are negative-energy, ω₀ = 1.05 → 1.33 and ω₁ = 1.50 →
 2.69 over E = 0.04 → 1, not degenerate. Mode 0's rungs ω₀T = |n|π, n = 12–19, fall within 8 % in E of the eight
 measured block-12 bands with even n at parametric and odd n at Krein bands (predicted E = 0.0580, 0.0759, 0.1020,
 0.1416, 0.2052, 0.3159, 0.5328 for n = 18 … 12 and 0.0452 for n = 19; `results/rh27_averaging.txt`).
@@ -50,17 +51,18 @@ Why that is not a prediction (the checks, same evening):
    non-trivial observation in it is that no Krein collision occurs at +1.
 2. **Within 8 % is not evidence.** The half-integer rungs ω₀T = (n + ½)π also fall within 8 % of a band 7 times in
    9, because bands plus an 8 % halo cover 79 % of the log-E range; inside-band hits for the integer rungs are
-   4 of 9 against 44 % coverage. Rung 11 lands at E = 1.049 inside the parametric band [1.014, 1.271]: the parity
+   4 of 9 against 44 % coverage (null test: no committed log). Rung 11 lands at E = 1.049 (only in `results/rh27_averaging.npz`, a 160-energy run to
+   E = 1.5; the committed `.txt` is a 120-energy run to E = 1 and stops at rung 12) inside the parametric band [1.014, 1.271]: the parity
    fails at the ninth rung. What survives of the positional claim is the slope d(ω₀T)/dE and the count (nine
    rungs, nine bands): one number and an anchor.
 3. **The odd rungs are first order in the 0–1 coupling, not "second order".** The width comparison of the first
    reading (|g| ≈ 10⁻⁴–10⁻³ against widths of 0.05–1.2 rung) was against the wrong matrix element; but the
    two-mode combination resonances with the averaged ω₁ do not locate the Krein bands either.
 4. **The averaged modes are not the pairs.** The averaged mode 0 tracks one of the two measured pairs' phases
-   (correlation 0.62, mean error 0.10 π over 400 energies); mode 1 tracks nothing (−0.36 / 0.08). Gauss residual of
+   (correlation 0.62, mean error 0.10 π over 400 energies); mode 1 tracks nothing (−0.36 / 0.08) (no committed log). Gauss residual of
    the averaged eigenvectors at t = 0, E = 0.1 / 0.3 / 0.6: hyperbolic pairs 0.5–1.2 (constraint-contaminated),
    mode 1 (1.7–2.4) clean at 0.01–0.02, mode 0 (1.1–1.25) dirty, 0.04 → 0.23 with E — the mode that tracked a
-   pair was the contaminated one. Averaging in fixed coordinates mixes the constraint sector into the physical
+   pair was the contaminated one (residuals: no committed log). Averaging in fixed coordinates mixes the constraint sector into the physical
    modes because the Gauss direction rotates along the orbit; the fix is to reduce first (`RH_reduced_block.md`).
 
 So: withdrawn as more than slope-plus-count; the normal form of B is right about the mechanism of a sum
@@ -68,8 +70,8 @@ resonance but the averaged 8-dim block is the wrong object to feed it.
 
 ## D. Measured on the way
 
-5. **Δ(E), the splitting of the two pairs** (`rh5_splitting.py`, from B005): Δ = (φ_A + φ_B) mod 2π is **0.07–0.25 π
-   over E = 0.05–0.35** — the pairs are near-degenerate as sets, the decoupled-symmetric structure of RH7 (N-angles
+5. **Δ(E), the splitting of the two pairs** (`rh5_splitting.py`, from B005): Δ = (φ_A + φ_B) mod 2π is **0.03–0.26 π
+   over E = 0.05–0.35** (on-circle rows of `rh5_splitting.npz`; stated as 0.07–0.25 π until 28 Oct 2026) — the pairs are near-degenerate as sets, the decoupled-symmetric structure of RH7 (N-angles
    summing to π) — grows through the wide Krein band to 0.5–0.8 π at E = 0.5–0.72, passes **exactly through 0 at
    E = 0.80** (B005's fake degeneracy: λ and −λ in N, no interaction), and reaches 0.95 π at E = 1, where the pairs
    are antipodal (φ_B ≈ π − φ_A in M: when one is at +1 the other is at −1) and the parametric bands alternate
@@ -81,7 +83,8 @@ resonance but the averaged 8-dim block is the wrong object to feed it.
    symmetry reversing one pair's orientation rather than with a ghost–physical collision.
 7. **Which dial is gauge-consistent.** Scaling the component cross-coupling by μ (`rh27_mu_scan.py`) is invalid: at
    μ < 1 the block grows by |μ| ~ 10²–10³ per period but the unstable eigenvectors violate the linearised Gauss law
-   at the 0.9 level (B002's F118 trap). The gauge-consistent dial is c_j (Gauss violation 10⁻¹² at every value).
+   at the 0.9 level (B002's F118 trap). The gauge-consistent dial is c_j (Gauss violation 10⁻¹² at every value). (Both Gauss
+   numbers: no committed log; `rh27_mu_scan.txt` and `rh27_cj_scan.txt` do not print them.)
 8. **The c_j family** (`results/rh27_cj_scan.txt`, `rh5_splitting_cj025.txt`): the physical c_j = 1 is the *least*
    unstable member except the ghost-free c_j = 0 (pure YM, stable). c_j = 0.25: |μ| up to 34, a giant band over
    E ∈ [0.41, 1.0] — a **double +1 fold** (four real eigenvalues off the circle; the first classifier called it Krein

@@ -5,7 +5,7 @@ p(t) = e^{-i omega t} x(t) with e^{i omega T} = mu on the principal branch, whic
 the physical frequency is omega + k Omega for the dominant harmonic k of p.)  A Floquet exponent from M is defined mod Omega = 2 pi / T; the reviewer's test to fix
 the physical branch of each ghost pair: integrate the Floquet solution x(t) = Phi_t v over one period, Fourier-analyse
 it, and read the dominant frequency.  The solution e^{i omega t} p(t) has lines at omega + k Omega weighted by p's
-harmonics; the strongest line is the physical frequency.  Spectrum = sum over the 8 block components of |FFT|^2
+harmonics; the strongest line is the physical frequency.  Spectrum = sum over the 4 field components (u12, u21, u12', u21') of |FFT|^2
 (Euclidean weighting -- not canonical, but the dominant line is what is asked).  Both pairs (the eigenvectors of M with
 Im mu > 0, sorted by |arg|), at nE energies.
 Outcome (results/rh5_branch.txt; notes/RH27_averaging.md item 9): TWO-line spectra -- a line at |f| ~ 0.85-1.2 (the
@@ -13,7 +13,7 @@ dressed Lee-Wick mass) and a quasi-static line at |f| < 0.1, each with 20-50 % o
 both pairs; nothing near 1.7-2.4 (the averaged block's mode 1).  The ladder's 0.774 and rh5_unwrap's 0.8 are branches
 of the first line, not frequencies.  The reduced block identifies the line near 1 as the heavy mode and the
 quasi-static line as the light one (notes/RH_reduced_block.md).
-Usage: python rabbit_holes/ym/code/rh5_branch.py [--nE 40] > rabbit_holes/ym/results/rh5_branch.txt
+Usage: python rabbit_holes/ym/code/rh5_branch.py [--nE 40] > rabbit_holes/ym/results/rh5_branch.txt   (committed log: 36 energies)
 Added 2026-10-21 (late).
 """
 import argparse

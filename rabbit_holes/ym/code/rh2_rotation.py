@@ -13,7 +13,7 @@ integer part is the winding of u12 around zero, which is canonical as long as th
 solution does not itself encircle zero (checked: the fraction agrees with arg lambda, and theta(E) is continuous).
 Off the circle (inside a band) the same construction gives the phase of the growing solution.
 
-Output: results/rh2_rotation.txt, results/rh2_rotation.npz (E, T, the four theta_k/pi, |lambda_k|), results/rh2_rotation.png
+Output (none committed): results/rh2_rotation.txt, results/rh2_rotation.npz (E, T, the four theta_k/pi, |lambda_k|), results/rh2_rotation.png
 (theta/pi of the two pairs vs E, the bands shaded; omega_k = 2 theta_k / T, an effective per-period phase rate --
 branch-ambiguous, and not the physical frequency: that is the two-line spectrum of rh5_branch.py, 0.85-1.2 plus a
 quasi-static line).
