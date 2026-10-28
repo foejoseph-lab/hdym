@@ -265,7 +265,8 @@ class CDual:
         with open(src, 'w') as fh:
             fh.write(c_src(dfloat))
         cc = os.environ.get('CC', 'gcc')
-        # -ffp-contract=off keeps the v channel identical to the production kernel
+        # -ffp-contract=off keeps the v channel identical to the production kernel's C build
+        # (not its CUDA build, which NVRTC contracts by default; NOTE_precision_tier.md Sec. 3)
         base = [cc, '-O3', '-ffp-contract=off', '-shared', '-fPIC', '-o', lib, src, '-lm']
         try:
             cbuild.check_call(base[:3] + ['-fopenmp'] + base[3:])

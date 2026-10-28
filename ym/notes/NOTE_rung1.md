@@ -118,7 +118,7 @@ instability rather than a second-order noise-driven one; four points cannot sett
 and the growth-location split (§3b, §3c) do not derive it either.
 
 **Growth location.** The kernel splits the log-growth of the leading vector by max|q| ≶ 3E^{1/4}
-(channel mouth). At E = 1, N = 512: 16% of the growth in the 26% of time spent in channels — the
+(channel mouth). At E = 1, N = 512 (no committed log): 16% of the growth in the 26% of time spent in channels — the
 off-diagonal ghost grows mostly in the interior there, unlike the diagonal single-mode ghost, whose
 growth is entirely at depth ~E^{-1/4}. At E = 0.1 the split is the opposite, 79% of the growth in the
 27% of time in channels (§3c), so the "interior mechanism" reading holds at E = 1 only, and at E = 1 it
@@ -129,7 +129,7 @@ rests on this one N = 512 split (not re-measured).
 | E | g₁ | g₂ | mean | predicted 0.0210 E^{5/4} | ratio | growth in channels |
 |---|---|---|---|---|---|---|
 | 0.3 | 5.189×10⁻³ | 4.945×10⁻³ | 5.07×10⁻³ | 4.66×10⁻³ | 1.09 | 37% of growth in 27% of time (resonant depth D = 2.7 is below the D = 3 cut) |
-| 0.1 | 1.541×10⁻³ | 1.403×10⁻³ | 1.47×10⁻³ | 1.18×10⁻³ (1.32 with the measured knee) | 1.25 (1.11) | **75% of growth in 27% of time** |
+| 0.1 | 1.541×10⁻³ | 1.403×10⁻³ | 1.47×10⁻³ | 1.18×10⁻³ (1.32 with the measured knee; no committed source) | 1.25 (1.11) | **75% of growth in 27% of time** |
 
 With c_j = 0, m = z²·1 − xy σ_x has fixed eigenvectors (1, ±1): the pair decouples into
 ẅ_± = −(1 + z² ∓ xy)w_±. The xy entry chirps at |x| (not 2|x|) with amplitude √(2J|x|); both
@@ -149,7 +149,9 @@ time in channels** — same as c_j = 0. So the j² suppression (×2.5) acts with
 "interior mechanism" reading was wrong at this energy.
 
 Q = σ²T/λ (variance of per-trajectory finite-time exponents × T / mean; the log-gain per growth
-event; T-independent), from every `lam_i` file (`make_fig_Q.py`, `fig_Q.pdf`):
+event; T-independent), from the `lam_i` files (`make_fig_Q.py`, `fig_Q.pdf`, computes the diagonal and both off-diagonal
+rows only; the physical 3-vector and two-field rows have no committed script — "from every `lam_i` file" until
+28 Oct 2026):
 
 | ghost | Q |
 |---|---|
@@ -160,9 +162,10 @@ event; T-independent), from every `lam_i` file (`make_fig_Q.py`, `fig_Q.pdf`):
 | off-diagonal, the theory | 2.1, 2.1, 6.1, 11.9, 18.9 at E = 1, 0.3, 0.1, 0.03, 0.01 (≈ 1.9 E^{-1/2}) |
 
 Parametric mechanisms: Q ~ 1–3, flat. The theory's off-diagonal ghost: growth in rare deep
-visits with log-gain ~19 at E = 0.01, <0.2% negative trajectories — an instability lasting the
+visits with log-gain ~19 at E = 0.01, ≤ 0.21 % negative trajectories (g₁ < 0 for 411 of the 200 000 trajectories, first row of
+`data/results_rung1/lam_i_E0.01.npy`; "<0.2%" until 28 Oct 2026) — an instability lasting the
 visit, not a kick per passage. Candidate: the frozen coefficients of the Gauss-charge term change
-sign in channels (the frozen scan at E = 0.1 found a real eigenvalue 0.54 at x = 3.8, z = 0.12;
+sign in channels (the frozen scan at E = 0.1 found a real eigenvalue 0.54 at x = 3.8, z = 0.12 — no committed log;
 its time average over the fast z oscillation vanishes by the virial relation, so the effect is
 not a static tachyon; the derivation is open).
 

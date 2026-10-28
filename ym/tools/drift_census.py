@@ -17,7 +17,7 @@ Verdicts
 Each row also carries what is EXPECTED for that copy: `bitwise` where the copy is the same
 expression in the same order, `roundoff` where it is known to differ in order or in the
 Yoshida literals (hdym_core and early/ compute the coefficients from the formula; the kernels
-carry literals that differ by one ulp in three of the four).  The census passes when no row
+carry literals that differ by 1, 3, 1 ulp in three of the four).  The census passes when no row
 is worse than expected.
 
 Nothing in the repository is modified.  The scripts are not imported: the functions and

@@ -13,12 +13,14 @@ so every energy is the rescaled E = 1 system, as in 3-d.
 
 Prediction (NOTE_2d.md; same derivation as the paper with ONE transverse action):
 
-    lambda_diag(E) = (4 pi^2 / (15 sqrt2)) E^2 / Z2(mu1) * (1 - mu1^2 / (2 sqrt E))^{5/2}
+    lambda_diag(E) = (4 pi^2 / (15 sqrt2)) E^2 / Z2(mu1) * (1 - mu1^2 / (2 sqrt E))^{5/2} (1 + mu1^2 sqrt E)^{-7/2}
 
 with Z2(mu1) = 2 pi * area{V_1 < 1} the E = 1 density of states (Z2 = 189.7 at mu1 = 0.1,
 275.3 at mu1 = 0.03).  Exponent 2 = 3/4 (kinematic) + 1/4 (one action) + 1 (driving power).
-The last factor is the regulator correction to the passage integral (12% at E = 0.01,
-mu1 = 0.1).  Validity: E >> mu1^4 / 4.
+The (1 - ...)^{5/2} factor is the regulator correction to the passage integral (12% at E = 0.01,
+mu1 = 0.1); the (1 + mu^2)^{-7/2} factor is the ghost-mass shift (1% at E = 0.1, mu1 = 0.1; in the
+committed GPU CSVs' pred, not in data/results_2d_cpu/run_E0.1.log; absent from this docstring until
+28 Oct 2026).  Validity: E >> mu1^4 / 4.
 
 Ghost components.  w_x and w_y are driven resonantly by K_xx = y^2 + mu^2 and K_yy = x^2 + mu^2
 inside the x- and y-channels (--ghost diag: off-diagonal 2xy dropped, each renormalised
@@ -337,7 +339,7 @@ def Z2(mu1):
 
 
 def predicted_lambda(E, mu1):
-    """lambda_diag = (4 pi^2 / 15 sqrt2) E^2 / Z2 * (1 - mu1^2/(2 sqrt E))^{5/2}."""
+    """lambda_diag = (4 pi^2 / 15 sqrt2) E^2 / Z2 * (1 - mu1^2/(2 sqrt E))^{5/2} (1 + mu^2)^{-7/2}, mu^2 = mu1^2 sqrt E."""
     Z = Z2(mu1)
     c = max(0.0, 1.0 - 0.5 * mu1 * mu1 / np.sqrt(E))
     # ghost mass is 1 + mu^2: resonance at u = 2 sqrt(1 + mu^2) E^{-1/4} and lambda = S_K(2 w0)/(8 w0^2)

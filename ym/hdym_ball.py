@@ -4,8 +4,10 @@ hdym_ball.py -- certified pair escape times with ball arithmetic on difference n
 
 Each quantity of a pair (a, b = a + D) is carried as four doubles
       (v, rv, d, rd):    a_true in [v - rv, v + rv],   D_true in [d - rd, d + rd]
-(componentwise balls).  The centres v, d are computed with exactly the
-operations of hdym_diffpair (bit-identical; see --selftest).  The radii are
+(componentwise balls).  The centres v, d are double-word (double-double) and computed
+with the operations of hdym_diffpair in the same order, not bit-identical to them: no
+selftest compares the two, and the census row kick_b differs from the plain-double header at
+roundoff (4 ulp).  (Stated as "bit-identical; see --selftest" until 28 Oct 2026.)  The radii are
 upper bounds, propagated through every add / multiply with the standard ball
 rules plus a bound on each rounding error (Rump-style: 2^-52 |result| per
 rounding, every radius sum inflated by 1 + 2^-46 to cover the rounding of the

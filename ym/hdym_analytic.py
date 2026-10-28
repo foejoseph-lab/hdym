@@ -17,6 +17,8 @@ Outputs
      total tail / resonant tail = (9n - 4) / 4,  resonant share 4 / (9n - 4)   (5/4 and 7/2)
   5. regulated 2-d density of states  Z_2(mu) = 8 sqrt2 pi sqrt(1+b^2) [K(m) - E(m)],  b^2 = mu^4/2,
      m = 1/(1+b^2),  and its small-mu asymptotics  Z_2 ~ 16 sqrt2 pi ln(1/mu) + 8 sqrt2 pi (ln(4 sqrt2) - 1)
+  6. off-diagonal ghost block with c_j = 0 (hdym_rung1): xy-entry tail u^2 s_xy = (16 sqrt2 pi / 15) nu0
+     and lambda_+- = (4 sqrt2 pi^3 / 15) E^{5/4} / Z = 0.0210 E^{5/4}
 """
 import sympy as sp
 import mpmath as mp

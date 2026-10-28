@@ -12,7 +12,8 @@ above and below; (3) where it gets fuzzy, switch to exact integer / fixed point;
 Steps 1–2 are ball (interval) arithmetic: a centre computed in floating point and a radius that is a proven upper bound
 on everything the centre has lost. Step 3 cannot mean "exact": a kick evaluates x·(y² + z²), inputs of b bits give a
 product of about 3b, a Yoshida step composes three kicks, so one step takes b to roughly 27b and k steps to 27^k · b —
-~10⁹ bits after 5 steps, ~10¹⁶ after 10, against the 25 000 steps (100 time units at dt = 0.004) the escape-ordering
+~10⁹ bits after 5 steps, ~10¹⁶ after 10, against the 20 000 steps (100 time units at the sweep's dt = 0.005; stated as
+25 000 at dt = 0.004 until 28 Oct 2026) the escape-ordering
 claim needs. "Switch to exact" therefore means "switch to more bits, still rounded", and a rounding needs a bound on
 what was thrown away, which is the radius of step 2. The scheme collapses, correctly, into ball arithmetic whose
 centre precision is raised when the bound says so — multiword ball arithmetic with precision tiers; the questions
@@ -30,7 +31,7 @@ From the committed sweep: for the pairs that get certified, the radius of the re
 and ~10⁻¹⁴ to 10⁻¹³ at escape (t_esc median ~100) — ~12 decades over ~90 time units, λ_eff ≈ 0.3 per time unit, ~0.43
 bits per time unit. A pair is lost when the radius reaches R/2 = 5, another ~14 decades, which at this rate happens for
 pairs with t_esc beyond roughly 200; the lost fraction in the sweep is 9–25 %, the tail of the escape-time distribution
-(κ = 0.027) beyond that point. A single double (53 bits, start ~10⁻¹⁶ relative) would reach R/2 after ~120 time units —
+(κ = 0.027; no committed source in `ym/`) beyond that point. A single double (53 bits, start ~10⁻¹⁶ relative) would reach R/2 after ~120 time units —
 at the median escape time, with nothing certified. Double-double (106 bits, start ~10⁻³²) buys the ~50 extra bits that
 cover the horizon. That is why `hdym_ball.py` carries its centres as double-double: step 3 done once, at the precision
 the horizon requires. Not adaptive, but sized by the same arithmetic.
@@ -100,7 +101,7 @@ any precision. The frame of `hdym_ball.py` stays. Concretely:
   and output format unchanged;
 - precision as a dial: 53 + 0.6 · t_horizon bits plus margin, from the budget of §2 at λ_eff ≈ 0.42 — ~250 bits for a pair
   escaping at t = 320, ~350 at t = 500;
-- the lost pairs run 40 000–300 000 steps each at dt = 0.005 (not 25 000).
+- the lost pairs run 40 000–300 000 steps each at dt = 0.005 (not the 20 000 of §1; "not 25 000" until 28 Oct 2026).
 
 **Smoke test** (`tools/arb_smoke.py`, 14 Oct): one Yoshida step of the 12-d system at 200 bits in python-flint and in
 FLINT's C library through ctypes, against a 120-digit mpmath reference. Windows (Python 3.12, python-flint 0.9.0,
@@ -128,7 +129,8 @@ kernel, which certifies everything the sweep currently claims.
 Changes: `ym/hdym_ball.py` only (the Arb centre path in C, a per-pair tier flag and the rerun-the-lost-pairs loop,
 one selftest), after its migration onto `csrc/hdym_model.h` (phase 2; before/after on the committed 2026-10-12 sweep,
 all certified fractions identical); `ym/README.md` (two lines, and `python-flint` / FLINT under Requirements); one new
-dated folder `ym/data/results_precision/<date>/` (~5 min at M = 400 on the GPU). Unchanged: the paper, every other
+dated folder `ym/data/results_precision/<date>/` (~5 min at M = 400 with the C backend, CPU: the 2026-10-12 sweep,
+`ball_sweep.txt` last row 307 s, `args` backend "c"; "on the GPU" until 28 Oct 2026; the Arb centre path will cost more). Unchanged: the paper, every other
 kernel, every committed result, `islands/` (`cert_*.py` is exact Fraction arithmetic on a finite problem and needs no
 tiers), `bianchi9/`, `axion_su2/`. Order if taken up: phase-2 migration; the Arb centre path with its selftest and an
 independent read of the dozen interface lines; the sweep; the tightening checks.

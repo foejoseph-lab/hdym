@@ -27,7 +27,9 @@ frame rotation Omega_ij = e_i . de_j/dt.
   * Mode mixing: spectrum of Omega_ij, resonant when it has power at the
     difference/sum of two mode frequencies -- i.e. in the interior where the
     three modes are degenerate.  This is the high-E mechanism: measured
-    vec/diag ratio ~1.5 at E <= 0.03, rising through 0.05-0.2 to ~20.
+    vec/diag ratio ~1.5 at E <= 0.03, rising through 0.05-0.2 to ~20 (vector-norm diag
+    estimator; with the per-component one, data/transverse_{vec,diag}_percomp.csv lam_mean,
+    1.75-2.25 at E = 0.008-0.02 (vec/diag per row) -- README, "A note on the diagonal-ghost estimator").
 Which basis is physical depends on E.  The eigenframe description holds when
 the ghost follows it adiabatically, i.e. when the frame rotates slowly
 compared with the mode SPLITTING (~ E^{1/2}); interior rotation rates are

@@ -63,14 +63,19 @@ Z₂ grows as 16√2π ln(1/μ₁) = 71.1 per e-fold.
 The along-channel motion at E = 1: ½ẋ² + J|x| + ½μ²x² = 1 (transverse frequency
 Ω = √(x²+μ²) ≈ |x|, adiabatic invariant J). Turning point: J·D_max + ½μ²D_max² = 1.
 
-**Checked** (`hdym2d_nu0.py`, 256 trajectories, E = 1, 59 000–62 000 visits per μ₁):
+**Checked** (`hdym2d_nu0.py`, 256 trajectories, E = 1, 59 000–62 000 visits per μ₁; recomputed 28 Oct 2026 from
+`data/nu0_2d_mu{0.1,0.03}.npz` with the script's formulas; console output not committed; the npz `Ttot` = 1.408×10⁶ and
+2.048×10⁶, i.e. T − t_burn = 5500 and 8000 per trajectory, not the docstring's `--T 3000`; run commands not recorded):
 
-- rate(any channel, D_max > D) / [2 J_max(D)] with J_max = (1 − ½μ²D²)/D gives ν₀ to
-  0.3% at every D from 4 to 12 (μ₁ = 0.1) and 4 to 24 (μ₁ = 0.03); 1.5–3% high at D = 32–40
-  for μ₁ = 0.03, where the regulator term is 20–40% of the energy and the adiabatic |x|
-  approximation to Ω starts to show;
-- rate(J_entry < j)/2j = ν₀ to 0.3% for j = 0.02–0.3: the action measure is uniform;
-- D_max·J + ½μ²D_max² = 1.000 (median), IQR ±0.025.
+- rate(any channel, D_max > D) / [2 J_max(D)] with J_max = (1 − ½μ²D²)/D gives ν₀:
+  ∀ D ∈ {4, 5, 6, 8, 10, 12} (μ₁ = 0.1), ∀ D ∈ {4, 5, 6, 8, 10, 12, 16, 20} (μ₁ = 0.03): |ratio − 1| ≤ 0.004 [grid];
+  1.008 at D = 24 and 1.5–3% high at D = 32–40 for μ₁ = 0.03 (stated as "0.3% from 4 to 24" until 28 Oct 2026), where
+  the regulator term is 20–40% of the energy and the adiabatic |x| approximation to Ω starts to show;
+- rate(J_entry < j)/2j = ν₀: ∀ j ∈ {0.05, 0.1, 0.2, 0.3}: |ratio − 1| ≤ 0.004 [grid], and 1.007 (μ₁ = 0.1), 1.016
+  (μ₁ = 0.03) at j = 0.02 (≈ 3 800 entries, Poisson ±1.6 %; "0.3% for j = 0.02–0.3" until 28 Oct 2026): the action
+  measure is uniform;
+- D_max·J + ½μ²D_max² (D_max > 4) = 1.000 / 1.001 (median), IQR 0.976–1.025 / 0.966–1.036 (μ₁ = 0.1 / 0.03; "IQR ±0.025"
+  until 28 Oct 2026).
 
 So the flux formula holds in 2-d with the regulator and the Z-dependence (0.0662 vs 0.0456)
 is reproduced.
@@ -101,7 +106,8 @@ the paper's value.]
 
 `hdym2d_spectrum.py` (128 trajectories, Welch/Hann, segments of 164 time units) measures
 u⁵ŝ_xx/(A_res c^{5/2}) = **1.25 ± 0.02, flat over u = 8–28 at μ₁ = 0.1 and u = 8–48 at
-μ₁ = 0.03**. The u⁻⁵ shape and the c^{5/2} regulator factor are exactly right; the constant is
+μ₁ = 0.03** (from `data/spec_2d_mu*.npz` in the script's bands: 1.231–1.270 over u = 8–24 at μ₁ = 0.1, 1.184 at
+24–28; 1.203–1.305 over u = 8–48 at μ₁ = 0.03; console output not committed). The u⁻⁵ shape and the c^{5/2} regulator factor are exactly right; the constant is
 5/4 of A_res. The extra quarter is the y-channel:
 
 In the y-channel, y is the along-channel coordinate and x the transverse oscillator,
@@ -126,7 +132,10 @@ K_zz = x² + y² + μ². In the x-channel: the y² chirp (J/D) plus the second-o
 2xδx = (J/2D) cos 2φ of the along-channel coordinate, coherent (same φ): amplitude 3J/(2D),
 power 9/4 A_res; the y-channel gives the same. Prediction u⁵ŝ_zz = (9/2) A_res c^{5/2},
 **all of it detuned** (w_z has frequency √(1 + x² + y²) ≈ D in either channel). Measured:
-4.3–4.4 over u = 8–28 (2–4% low; second-order corrections to the response are O(1/D²)).
+4.3–4.4 over u = 8–28 (2–4% low; second-order corrections to the response are O(1/D²)). (From `data/spec_2d_mu*.npz`:
+that is μ₁ = 0.03 without the c^{5/2} factor, 4.34, 4.30, 4.29, 4.06, 3.88, 3.77 in the bands 8–10 … 24–28, as
+`hdym2d_spectrum.py` prints it; with the factor 4.40–4.54 over u = 8–28 at μ₁ = 0.1 and 4.44–4.60 over u = 8–28 at
+μ₁ = 0.03, i.e. within 2.2 % of the prediction 4.5. Console output not committed.)
 
 ## 4. The ghost law in 2-d
 
@@ -161,7 +170,9 @@ prediction code without the ghost-mass factor, ratio 0.869; 9.32×10⁻⁵ inclu
 two-field table, ratio 0.879. The E = 0.03 CSV carries the prediction with the factor, 8.155×10⁻⁶.)
 
 **GPU results** (RTX 4080 SUPER, 2026-10-01, N = 10⁵ at E = 0.1 and 2×10⁵ otherwise,
-`--target-rel 0.02`; 0.03–0.05 ms/step, 46 min in all):
+`--target-rel 0.02`; 0.03–0.05 ms/step, 46 min in all; the two committed CSV rows say 0.054 ms/step, and only
+E = 0.01 / μ₁ = 0.1 and E = 0.03 / μ₁ = 0.03 have CSV rows — the E = 0.1 and 0.03 rows at μ₁ = 0.1 are not committed,
+their λ_diag, λ_z match the `lam_i`/`history` files, their extrap. values have no committed source):
 
 | E | μ₁ | u | T | λ_diag | ± | extrap. | predicted | ratio (extrap.) | λ_z | λ_z/λ_diag |
 |---|---|---|---|---|---|---|---|---|---|---|
@@ -182,7 +193,8 @@ two-field table, ratio 0.879. The E = 0.03 CSV carries the prediction with the f
   faster than any power of E, as detuned driving plus exponentially decaying interior power
   should. Direct confirmation of the paper's inertness claim.
 - **Resonant share:** with the measured spectrum (`spec_2d_mu0.1.npz`) at the resonant u,
-  λ_diag/[(1/8)E^{3/4}ŝ_meas(2ω₀E^{-1/4})/ω₀²] = 0.83 at both E = 0.03 and 0.01, against
+  λ_diag/[(1/8)E^{3/4}ŝ_meas(2ω₀E^{-1/4})/ω₀²] = 0.83 at both E = 0.03 and 0.01 (no committed script or log; from
+  the npz: 0.87 / 0.90 at the point, 0.83 / 0.82 averaged over ±0.25 in u — method not recorded), against
   the derived 4/5 (§3.2). Second system in which the ghost sees exactly the resonant
   fraction of the tail (2/7 in 3-d).
 - Note `ymerr = 2.3×10⁻⁵` on the μ₁ = 0.03 run (channels to depth 47 at the sub-stepping
@@ -207,7 +219,7 @@ The uniform measure on the two transverse actions makes all ⟨J_a²⟩ equal an
 channels equally visited, so resonant : detuned : total = 2 : 5 : 7.
 
     A/A_res = 7/2  →  A = 21.5     (measured 21.6 ± 0.3, Eq. (A) of the paper)
-    resonant share = 2/7 = 0.2857   (measured 0.283, 0.285, 0.290, 0.276 at E = 0.008–0.03)
+    resonant share = 2/7 = 0.2857   (measured 0.283, 0.285, 0.290, 0.276 at E = 0.008–0.03; no committed source)
 
 Suggested change to §5.2: replace "the rest being the detuned y- and z-channel chirps and
 the interior" by the derivation above and "the detuned share is 5/2 of the resonant one,
@@ -219,7 +231,8 @@ method gives the constant too, if wanted.
 ## 6. What the GPU runs tested
 
 The four tests the runs were designed for, each answered in §4: (1) the exponent decomposition — E = 0.1, 0.03, 0.01 at
-μ₁ = 0.1, local slope ≈ 2 (1.97 allowing the regulator factor's E-dependence), 9/4 excluded at 10σ by the 0.01/0.03 pair
+μ₁ = 0.1, local slope ≈ 2 (1.97 allowing the regulator factor's E-dependence; §4 gives 1.98 measured against 2.05
+predicted, which the committed rows reproduce: ln(8.847e-7/7.759e-6)/ln(1/3) = 1.98), 9/4 excluded at 10σ by the 0.01/0.03 pair
 alone; (2) the 1/Z factor — E = 0.03 at μ₁ = 0.03, Z₂ changed by 45 %, ratio unchanged at 0.951; (3) the inertness of
 detuned power — λ_z/λ_diag falling with E; (4) the resonant share — 0.83 against the derived 4/5, the 2-d analogue of
 the paper's 0.28 test. A fifth, optional run (`--mu1 0` at E = 0.03, long, no convergence target, to watch λ_diag(T)

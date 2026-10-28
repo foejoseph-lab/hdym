@@ -45,8 +45,8 @@
  * c = 2^(1/3), w1 = 1/(2 - c), w0 = -c/(2 - c):
  *   YC = (w1/2, (w0+w1)/2, (w0+w1)/2, w1/2),   YD = (w1, w0, w1).
  * The literals are the ones every committed kernel was built with.  Evaluating the formula
- * in double gives 0.6756035959798289, -0.17560359597982877, 1.3512071919596578 -- one ulp
- * off in three of the four (hdym_core.py computes them that way).  The literals are kept
+ * in double gives 0.6756035959798289, -0.17560359597982877, 1.3512071919596578 -- 1, 3 and 1
+ * ulp off, three of the four (YD1 equal; hdym_core.py computes them that way).  The literals are kept
  * because they produced the data; the difference is at the 1e-16 level and only changes
  * roundoff.                                                                              */
 #define YC0 0.6756035959798288

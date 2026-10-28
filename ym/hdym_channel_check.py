@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-hdym_channel_check.py -- four numerical checks of the channel-passage
+hdym_channel_check.py -- numerical checks (Steps 1, 2, 5) of the channel-passage
 derivation of the u^-6 tail (pure Yang-Mills, E = 1, no ghost).
 
   Step 1  In a channel along axis i the transverse action J = E_perp/|x_i|

@@ -30,6 +30,7 @@ Checks (CHECK ... PASS/FAIL), every one a structural fact that the earlier scrip
   4  the Gauss constraints are conserved by the flow: dG/dt = 0 along R at random points (1e-9)
   5  the energy is conserved: dE/dt = 0 along R at random points (1e-9)
   6  G vanishes identically on the diagonal sector (the ansatz is Gauss-trivial)
+  7  the generated C agrees with the sympy functions at random points (1e-12; skipped without a compiler)
 
 Writes
   full_system.pkl        the sympy expressions (R, G, E, state symbols)

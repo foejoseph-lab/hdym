@@ -17,7 +17,8 @@ first-draft scripts in `early/`. The off-diagonal sector on a periodic orbit, an
 Python ≥ 3.10, numpy, scipy, matplotlib; sympy for the derivation scripts (`hdym_derive.py`, `hdym_analytic.py`,
 `hdym_rung1.py`, `hdym_full_derive.py`). The production runs use CuPy with an NVIDIA GPU (`--backend cupy`); the same
 C kernels compile with gcc for a multicore CPU (`--backend c`, built in a temporary directory), and a pure-numpy
-reference backend exists for checking. All compiler calls go through `cbuild.py`, which puts the compiler's own bin
+reference backend exists for checking. All compiler calls except `tools/arb_smoke.py`'s (which repeats the PATH fix
+itself) go through `cbuild.py`, which puts the compiler's own bin
 folder first on the compiler's PATH and prints the compiler's output and exit code on failure (added 12 Oct after
 gcc's `cc1.exe` failed silently when started from a Spyder 6 console whose runtime folder ships older `zlib1.dll`,
 `libzstd.dll`, `libwinpthread-1.dll`, `libgcc_s_seh-1.dll` ahead of `C:\msys64\mingw64\bin`). Optional, for
@@ -31,7 +32,7 @@ Section, figure and table names refer to `paper/main.tex`.
 |---|---|---|
 | `hdym_core.py` | equations of motion, Yoshida-4 symplectic integrator with per-trajectory channel sub-stepping, CPU Lyapunov estimators, adaptive DOP853 confirmation of blow-up | The model; Numerical methods |
 | `hdym_derive.py` | symbolic (sympy) reduction from the 3+1 theory to the 12-d system: Gauss law, off-diagonal equations, symmetric criticality, auxiliary-field Hamiltonian | ref. note:derive |
-| `hdym_full_derive.py` | the FULL nonlinear homogeneous system, all nine A^a_i, temporal gauge: fourth-order equations solved for A'''', the three Gauss constraints, the Ostrogradsky energy; checks against `rung1_system.pkl` (linearisation, 10⁻¹⁵) and the diagonal closed form; writes `full_system.pkl` and the generated `csrc/hdym_full_rhs.h` for `csrc/hdym_full_escape.c` (19 Oct) | — (nonlinear escape runs, `islands/`) |
+| `hdym_full_derive.py` | the FULL nonlinear homogeneous system, all nine A^a_i, temporal gauge: fourth-order equations solved for A'''', the three Gauss constraints, the Ostrogradsky energy; checks against `rung1_system.pkl` (linearisation, 10⁻¹⁵; the script's tolerance is 10⁻⁹, `hdym_full_derive.py:248`; no committed log in `ym/`) and the diagonal closed form; writes `full_system.pkl` and the generated `csrc/hdym_full_rhs.h` for `csrc/hdym_full_escape.c` (19 Oct) | — (nonlinear escape runs, `islands/`) |
 | `hdym_model.py` | the Python side of `csrc/hdym_model.h`: pastes the header into C and CUDA kernel sources, compiles `csrc/hdym_model.c` for ctypes (`csrc/README.md`) | — |
 | `hdym_gpu.py` | transverse Lyapunov exponent λ⊥(E), whole integrator in one kernel; `--ghost vec` (physical ghost) or `--ghost diag` (three independent scalar oscillators, per-component estimator) | fig:lambda, tab:low |
 | `hdym_gpu_landscape.py` | `hdym_gpu.py` plus the (D, J) histogram output, results bit-identical | (landscape figure, not in the paper) |
@@ -50,7 +51,7 @@ Section, figure and table names refer to `paper/main.tex`.
 | `hdym_uncertainty.py` | uncertainty exponent α of the escape landscape | fig:maps (c) |
 | `hdym_precision.py`, `hdym_diffpair.py`, `hdym_ball.py` | the roundoff study (below): mantissa-precision sweep; pair integration in "difference numbers"; certified pair escape times in ball arithmetic (rigour status in the docstring of `hdym_ball.py`); `hdym_precision.py` is also imported by `islands/code/hdym_island.py` | The escape-time landscape |
 | `make_fig1.py`, `make_figs.py`, `make_fig_Q.py` | regenerate fig:lambda, fig:maps, fig:nu0 and fig:Q from `data/` into `paper/` | |
-| `make_fig_landscape.py` | (D, J) landscape figure | not in the paper |
+| `make_fig_landscape.py` | (D, J) landscape figure; its inputs `results_gpu/landscape_E0.1_diag.npz`, `results_rung1/landscape_E0.1_cj{0,1}.npz` are not committed | not in the paper |
 
 `paper/fig_floquet.pdf` (fig:floquet): its data come from `early/floquet.py` (committed output `data/early/floquet.npz`);
 the plotting script is not in the repository.
@@ -82,8 +83,10 @@ cloud CPU): 83 quantities bitwise, 22 at roundoff (≤ 7 ulp), none different, C
 (`data/drift_census_2026-10-13_win.txt`) the same plus the CUDA copies at roundoff (≤ 8 ulp of their terms, because
 NVRTC contracts `a*b + c` into fused multiply-adds and gcc does not), bitwise again with `--fmad=false`. The CPU
 roundoff rows are the copies that compute the Yoshida coefficients from the formula instead of the literals
-(`hdym_core.py`, `early/`; one ulp in three of the four), the two operation orders of Hess V·w (linearised vs
-nonlinear kernels), and `hdym2d_nu0.grad`, which writes `x*y*y + mu2*x` where the kernel has `x*(y2 + mu2)`.
+(`hdym_core.py`, `early/`; 1, 3, 1, 0 ulp for YC0/YC1/YD0/YD1, census rows "Yoshida C" 3 ulp, "Yoshida D" 1 ulp; stated
+as "one ulp in three of the four" until 28 Oct 2026), the two operation orders of Hess V·w (linearised vs
+nonlinear kernels), `hdym2d_nu0.grad`, which writes `x*y*y + mu2*x` where the kernel has `x*(y2 + mu2)`,
+`hdym_diffpair` "dV vs V(q+dq)−V(q)" (7 ulp, the maximum) and `hdym_ball.py [C]` `kick_b` (4 ulp, double-word centre).
 `tools/arb_smoke.py` (14 Oct) is the smoke test for Arb as the centre arithmetic of `hdym_ball.py`
 (`notes/NOTE_precision_tier.md`). `csrc/` also holds the nonlinear escape kernel `hdym_full_escape.c` and its
 generated right-hand side, documented in `csrc/README.md` and `islands/README.md`.
@@ -96,7 +99,7 @@ output to the working directory.
 
 | file | what it does | output |
 |---|---|---|
-| `transverse.py` | linearised ghost on pure-YM trajectories: λ⊥ for the vector ghost and the diagonal ghost, tachyonic fraction; `python transverse.py E T N`. Its diagonal ghost is renormalised with the **vector norm**, not per component | `transverse_E*.npz` (committed in `data/`) |
+| `transverse.py` | linearised ghost on pure-YM trajectories: λ⊥ for the vector ghost and the diagonal ghost, tachyonic fraction; `python transverse.py E T N`. Its diagonal ghost is renormalised with the **vector norm**, not per component | `transverse_E*.npz` (committed in `data/`); at E = 1 also `spectrum_E1.npz` |
 | `lyap_full.py` | Benettin maximal Lyapunov exponent of the full 12-d system at E = 0.3, ε = 0.01, with escape times | `lyap_E0.3_eps*.npz` |
 | `escape.py` | escape times at other ε (e.g. 10⁻⁴) and the blow-up mechanism; needs `lyap_full.py` beside it | `escape_eps*.npz` |
 | `floquet.py` | Floquet growth of the ghost on the diagonal periodic orbit x = y, z = 0; unstable tongues | `floquet.npz` (committed in `data/early/`) |
@@ -158,9 +161,17 @@ than asserted the same day (a 100-pair, 11-δ comparison gave identical certifie
 still be recorded as certainly escaped, F1; new selftests 2b (member b's difference ball against a 60-digit orbit at δ = 10⁻³⁰) and 3 (escape bookkeeping
 and both member-switch paths against 60-digit exit steps), F2; the f_lo / f_hi bracket is for the sampled pairs and fitted exponents are not a bracket on α, F3, wording and
 printout; pair-dependent step schedule, D to 1 ulp, escape observable, F4–F6, wording); the production sweep rerun on
-12 Oct with that kernel (Windows, gcc 15.2): every certified fraction identical to `2026-10-10/`, and the selftest
+12 Oct with that kernel (Windows, gcc 15.2 — no committed log records the compiler; the Windows census of the same
+night, `data/drift_census_2026-10-13_win.txt`, shows gcc 16.2.0): every certified fraction identical to `2026-10-10/`, and the selftest
 numbers identical to a Linux run — the rigour fixes changed bounds, not classifications. The review's F7 (QR
 containment dominates the lost pairs) was answered on 13 Oct: the losses are arithmetic (`notes/NOTE_precision_tier.md`).
+
+The production sweep, its flags as recorded in the `args` of `2026-10-12/ball_sweep.npz` (working directory inferred
+from the log's last line `wrote 2026-10-12\ball_sweep.png`):
+
+```
+python ../../hdym_ball.py --E 0.3 --eps 0.01 --section ym --M 400 --delta-max 1e-2 --delta-min 1e-40 --per-decade 0.5 --tmax 1500 --esc ghost --R 10 --backend c --out 2026-10-12 --tag ball_sweep
+```
 
 ## Reproducing the main result
 
@@ -191,7 +202,8 @@ python ym/hdym_channel_check.py --N 2048 --T 4000 --A-in 3
 python ym/hdym_nu0.py
 ```
 
-Escape landscape and uncertainty exponent at E = 0.3, ε = 0.01:
+Escape landscape and uncertainty exponent at E = 0.3, ε = 0.01 (the committed `map256.npz`, `ghost256.npz` were made
+with `--backend cupy`; `--backend c` reproduces them only to roundoff, `csrc/README.md`):
 
 ```
 python ym/hdym_escape_map.py --E 0.3 --eps 0.01 --section ym    --n 256 --backend c

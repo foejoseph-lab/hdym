@@ -6,9 +6,10 @@ Prediction (NOTE_2d.md, Sec. 3): the tail of s_xx is purely the resonant x-chann
     u^5 s_xx(u) = A_res = (256 pi / (15 sqrt2)) nu0 = 37.93 nu0,   nu0 = 4 pi / Z2(mu1),
 (NOTE, README held mismatch: the closed form gives 37.913; "37.93" here and in the printout is a rounding slip, held)
 up to the regulator cutoff at u ~ 2 sqrt2/mu1 (and the regulator correction factor
-(1 - mu^2 D^2/2)^{5/2} with D = u/2, which is applied below).  In 2-d the diagonal entries
-receive no detuned power from the other channel (in the y-channel K_xx = y^2 is slow), so
-the measured tail should equal A_res -- unlike 3-d, where the resonant share was 28%.
+(1 - mu^2 D^2/2)^{5/2} with D = u/2, which is applied below).  The y-channel adds a detuned
+quarter (second-order response of y, NOTE_2d.md Sec. 3.2), so the measured tail is (5/4) A_res,
+resonant share 4/5 -- against 2/7 in 3-d.  (Until 28 Oct 2026 this said "no detuned power ...
+should equal A_res", the expectation before the measurement.)
 
 Welch / Hann estimate on segments of `seg` time units, sampled every `every` steps.
 Usage: python hdym2d_spectrum.py --mu1 0.1 --N 128 --T 3000
