@@ -30,6 +30,21 @@ every number in a README traces to a committed log, script or figure named besid
 but that are not committed are listed as such; dates are kept where they say when a result was obtained. Held
 README-vs-code mismatches found on 12 Oct are listed in `ym/README.md` and `bianchi9/README.md` under that heading.
 
+Claim notation (from 28 Oct 2026). Notes may state claims in classical first-order logic. Every quantifier names its
+domain, and a claim written this way names the committed file, the column or line pattern, the domain and the
+condition, so that it can be checked against the log mechanically. Each such claim carries an evidence tag:
+
+| tag | meaning |
+|---|---|
+| [cert] | certified by a checker or interval arithmetic in this repository; holds on the stated real interval |
+| [exact] | a symbolic identity |
+| [grid] | checked on the committed grid or sample only; says nothing between grid points |
+| [est] | an estimate or extrapolation |
+
+A claim with no tag is [grid]. Claims that cannot be stated checkably (readings, mechanisms) stay in prose. Example
+(`islands/README.md`): ∀ E ∈ G_esc ∩ [0.113, 0.149] ∖ {0.1239}: rate_diag(E) = 0 ∧ escaped(E) = 0/64 [grid], with
+G_esc the 100 energies of `islands/results/esc_E.txt`.
+
 ## History
 
 The 1 Oct 2026 draft (old title "… is malicious at every energy: a parameter-free E^{9/4} instability law …") and
