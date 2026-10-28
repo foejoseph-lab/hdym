@@ -75,7 +75,8 @@ twice, a rerun appended) and `results/rh_reduced_block_cj1.txt`, whose E = 0.3 s
   map `esc_orient_030_n64` of 22 Oct has them).
 - B005's pair labels k0…k3 are not meaningful across the wide Krein band 0.28–0.49 (all four leave the circle; the
   tracker re-pairs on re-entry), so "which pair folded at 0.5694" is not a question the log can answer.
-- The frozen block-12 K at the turning point (E = 0.3) has a real pair ±1.32 besides two imaginary ones (no committed log; the two places disagree: `notes/RH6_polarisation.md` line 37–38 puts these numbers at the bounce); on the
+- The frozen block-12 K at the turning point (E = 0.3) has a real pair ±1.32 besides two imaginary ones (frequencies 2.83, 1.85), and none at the bounce (`code/rh6_frozen_K.py`,
+  `results/rh6_frozen_K.txt`, 28 Oct 2026; RH6 had placed these numbers at the bounce); on the
   reduced block the light mode is hyperbolic along the arms either side of it for a fifth of the period (2+7 cont.).
 - The `--section phase` of `offdiag_escape.py` normalises the seed after construction, so \|c\| varies with the
   phase α (0.56 → 1.21); the regression in `rh_overnight_2026-10-22.py` absorbs it. Seeding at equal \|c\| would

@@ -36,9 +36,9 @@ frequency is exactly the rotation-number question hole 2 could not settle (`RH2_
   energy; there is no E-independent assignment of a pair to a component or a sector.
 - The heavy/light split is not clean either: w² at t = 0 is 0.93 [0.27, 1.98] for the smaller-angle pair and
   1.13 [0.74, 2.90] for the larger, overlapping; at T/4 both are ≈ 0.65. Neither pair is "the light YM-like
-  mode" and neither is "the massive ghost": both carry order-one |u″|/|u|, as the frozen K at the bounce
-  (frequencies 1.85 and 2.83 and a real pair ±1.32) already said (no committed log; the two places disagree:
-  `../README.md`, "Smaller things", puts ±1.32 at the turning point).
+  mode" and neither is "the massive ghost": both carry order-one |u″|/|u|, as the frozen K at the turning
+  point t = 0 (frequencies 1.85 and 2.83 and a real pair ±1.32) already said (`../results/rh6_frozen_K.txt`; stated
+  as "at the bounce" until 28 Oct 2026; at the bounce the frozen K has no real pair).
 - The Krein sign of the positive-angle member is + for 59–61 % of on-circle energies for either pair — i.e.
   uninformative, as the branch argument predicts.
 
