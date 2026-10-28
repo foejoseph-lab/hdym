@@ -15,7 +15,7 @@ Method: Cartan in the orthonormal frame (only F^i_{0i} nonzero), Weyl tensor, co
 derivative in the frame, Box C, the three scalars; checks:
   1. C^2 = 0 and C Box C = 0 for isotropic a = b = c
   2. sqrt(-g)(C Box C + nabla C . nabla C) is a total derivative on the ansatz (EL vanish)
-  3. the reduced Lagrangian is sixth order: solve for beta^(6); alpha'' from E_alpha
+  3. the reduced Lagrangian is sixth order: solve for beta^(6); alpha^(4) from E_alpha (six.log: alpha equation order 4)
   4. heavy-limit transverse frequencies = (0, M1, M2) with Krein signs (+, -, +)
 Then: scaled Jacobian along Kasner in s = ln t, eigenvalues vs M1 t for M2/M1 = ratio;
 print the ghost frequencies / M1 and real parts, flag any crossing (complex-pair formation

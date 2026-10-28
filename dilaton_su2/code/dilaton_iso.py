@@ -10,8 +10,8 @@ Result (17 Oct, README): the ghost's effective mass M^2 Theta(t) is modulated an
 within 0.08-2.8 T, every realisation, no threshold in delta_a -- wherever omega/M sits in the ghost's parametric
 tongue (omega = 2 for every delta_a; 2.4 at delta_a = 1 in A; B wider, lost also at 1.5 and 3.0 at delta_a = 1);
 off the tongue steady for 60 periods, seeds identical, E_heavy bounded; M -> infinity steady everywhere.  Probes off
-the tongue: spectators at m_p = 0 and 3 gQ_amp; at m_p = gQ_amp a bounded x10 ghost-mediated exchange, c <= 6e-4
-against 1/4.  Decision of 17 Oct: column A primary (the cited form, Gauss law untouched), column B the control.
+the tongue: spectators at m_p = 0 and 3 gQ_amp; at m_p = gQ_amp a bounded x10 ghost-mediated exchange, c <= 7e-4
+against 1/4 (6e-4 until 28 Oct 2026; the log's 'both ghost 1' row at (3.0, 1.0) reads 0.0007).  Decision of 17 Oct: column A primary (the cited form, Gauss law untouched), column B the control.
 
   column A  (Theta on F^2 only, the cited coupling):  Q'' = w - 2Q^3,  w'' + (Theta + 6Q^2) w = -Theta-dot Q'
             (probe_core with Theta, kappa = 0; the lean isotropic rhs here is checked against it at random points).

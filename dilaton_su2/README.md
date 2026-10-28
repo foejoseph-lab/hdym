@@ -16,10 +16,10 @@ Working notes 16–17 Oct 2026; rewritten 23 Oct 2026 from the state at that dat
 |---|---|
 | `code/dilaton_derive.py` | sympy, 16 Oct: the derivation below, two columns, PASS/FAIL checks (Gauss law, truncation, closed and auxiliary forms, units, M → ∞ identity, linearisation, FRW); the count is given as "all 41 checks PASS" and as "seven PASS/FAIL checks". |
 | `code/dilaton_iso.py` | float + sympy, 17 Oct: runs A, B, C below; column A from `probe_core` (Θ on), B from L′_B at import. Imports `../../axion_su2/code/probe_core.py`. |
-| `results/dilaton_derive.txt` | output (73 s, sympy 1.14), all PASS. |
+| `results/dilaton_derive.txt` | output (73 s, sympy 1.14), all PASS. Its closing line names a next script "dilaton_dressed.py"; that run is `dilaton_iso.py` (the derive docstring says so). |
 | `results/dilaton_iso.txt` | output (11 min, Python 3.13, scipy 1.18, sympy 1.14). |
 
-Runs: flat space, g = M = 1, Q_amp = ω/100 (so gQ_amp = M/100 at ω = 1), Θ = e^{δ_a cos ωt}; "periods" and "T" in the logs are those of the undriven background orbit, T = 4K(½)/(√2 Q_amp) ≈ 524/ω; run from `code/`.
+Runs: flat space, g = M = 1, Q_amp = ω/100 (so gQ_amp = M/100 at ω = 1), Θ = e^{δ_a cos ωt}; "periods" and "T" in the logs are those of the undriven background orbit, T = 4K(½)/(√2 Q_amp) ≈ 524/ω; run from the repository root (as in both docstrings; "run from `code/`" until 28 Oct 2026).
 
 ## Derivation (16 Oct)
 
@@ -46,7 +46,7 @@ Checks: A's rhs against `probe_core.rhs`, Θ on, 10⁻¹⁶; B equals A at Θ = 
 
 (The Result's "1.75–2.3 M" for A, δ_a = 1 is this "1.75–2.3+"; isotropic A is lost at ω = 2.4.)
 
-**C — probes** (A, off the tongue at (ω, δ_a) = (2.4, 0.3), (3.0, 1.0), m_p/gQ_amp = 0, 1, 3, ghost and M → ∞, 8 periods; the boson at m_p = gQ_amp for 60). m_p = 0, 3 gQ_amp: ghost and M → ∞ agree (boson energy 0.4–0.5, 0.98; fermion n₋ ≈ ½, 0.001). **m_p = gQ_amp: the boson's energy rises to 9–10× its start with the ghost, stays within 0.1–0.9 without**, the background dipping to 0.62–0.75 Q_amp; the swing repeats per 20-cycle block (0.86–9.2, 0.87–9.0, 0.90–9.0 at (2.4, 0.3); 0.92–9.1, 0.89–9.4, 0.88–9.5 at (3.0, 1.0)) — bounded, not a pump; c ≤ 0.0006 against the collision value ¼ (the Result's "10⁻³"); nothing lost. Fermion: identical with and without.
+**C — probes** (A, off the tongue at (ω, δ_a) = (2.4, 0.3), (3.0, 1.0), m_p/gQ_amp = 0, 1, 3, ghost and M → ∞, 8 periods; the boson at m_p = gQ_amp for 60). m_p = 0, 3 gQ_amp: ghost and M → ∞ agree (boson energy 0.4–0.5, 0.98; fermion n₋ ≈ ½, 0.001). **m_p = gQ_amp: the boson's energy rises to 9–10× its start with the ghost, stays within 0.1–0.9 without**, the background dipping to 0.62–0.75 Q_amp; the swing repeats per 20-cycle block (0.86–9.2, 0.87–9.0, 0.90–9.0 at (2.4, 0.3); 0.92–9.1, 0.89–9.4, 0.88–9.5 at (3.0, 1.0)) — bounded, not a pump; c ≤ 0.0007 against the collision value ¼ (`dilaton_iso.txt` C, "both ghost 1" at (3.0, 1.0); 0.0006 in the boson-only and 60-period rows; "≤ 0.0006" until 28 Oct 2026; the Result's "10⁻³"); nothing lost. Fermion: identical with and without.
 
 ## Open, not worked on
 

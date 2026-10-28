@@ -31,7 +31,7 @@ on probe_core.py; the twin is valid here (Q0 << M).
 Controls that must be steady: every 'none' row and every M -> infinity row's background.  (The twin's fixed point is
 itself unstable at Q0 = 0.3 -- its 'none' row leaves in 6 T -- so the twin is a control at 0.024 and 0.1 only here.)
 
-Usage (from the repository root, ~15 min):
+Usage (from the repository root, ~15 min expected; the committed log reads DONE 201, i.e. 3.4 min):
     python axion_su2/code/axion_probes_infl.py > axion_su2/results/axion_probes_infl.txt
 Added 2026-10-17; the TWIN-LIMIT tag the same evening (log not rerun: the one tagged row, Q0 = 0.3 twin none, reads
 CONTROL-FAIL in results/axion_probes_infl.txt and is the twin's limit).

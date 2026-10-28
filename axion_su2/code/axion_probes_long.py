@@ -28,7 +28,9 @@ number to report" -- were withdrawn the same night): the loss coincides with c =
 pole collision), the m_D = 0 fermion is a constant force giving Q a nonzero mean, and 'boson+F' reproduces the pump;
 the loss is realisation-dependent (axion_probes_spread.py), a fraction, not a threshold or a rate.
 
-Usage (Joseph, from Spyder, output outside the repository; ~30-60 min expected):
+Usage (Joseph, from Spyder, output outside the repository; ~30-60 min expected).  The committed
+results/axion_probes_long.txt was produced on Linux in the repository path (its RuntimeWarning names
+/home/claude/foejoseph-lab/hdym/axion_su2/code/), DONE 598 s (README: cloud session; note added 28 Oct 2026):
     %cd C:\\GitHub\\hdym
     !"{sys.executable}" -B -u axion_su2\\code\\axion_probes_long.py > C:\\hdym_runs\\axion_probes_long.txt 2>&1
 Added 2026-10-16; c(t) columns and the one-probe rows added the same night; the Hessian term and the constant-force

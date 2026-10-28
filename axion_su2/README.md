@@ -57,7 +57,7 @@ flat space, g = M = 1 unless stated. No figures.
 | `frw_identity.py` (12 Oct, sympy), `frw_ghost.py` (12 Oct) | seconds |
 | `rung1_frw.py` (14 Oct, sympy) | 20 s; from `ym/hdym_rung1.py`; writes `../rung1_frw_system.pkl` |
 | `frw_offdiag.py` (14 Oct) | 200 s; reads `rung1_frw_system.pkl` |
-| `axion_derive.py` (14 Oct, sympy) | 3 s, all PASS |
+| `axion_derive.py` (14 Oct, sympy) | 3 s, all PASS (CHECK 2's first comparison line prints "False" by design: it records the ε⁰¹²³ sign choice; "ALL CHECKS PASSED") |
 | `axion_aniso.py` (14 Oct) | 374 s; Part D withdrawn (History) |
 | `axion_twins.py` (15 Oct) | 213 s; imports `axion_aniso` |
 | `rung1_axion.py` (15 Oct, sympy) | 14 s, all PASS; from `ym/hdym_rung1.py`; writes `../rung1_axion_system.pkl` |
@@ -213,14 +213,14 @@ Statements about the periodic problem ε⁗/M² + ε″ + (c₀ + c₁ cos ωt)�
 - *The signal.* The direct runs of 14–15 Oct used the M → ∞ background Q″ = −2Q³ + κQ² (the massless pole's response
   only; for m_φ ~ M the ghost pole's share is O(1)). On it the gauge zero modes, exact only on a true solution, fail
   at O(κ): in `offdiag_axion.py` B the (u12, u21) block at ω = 0.8 grew 1.69 per cycle in its antisymmetric half,
-  |ΦZ₀| reaching 4×10⁷ by cycle 12, Gauss drift 2×10⁵.
+  |ΦZ₀| reaching 4×10⁷ by cycle 12, Gauss drift 2×10⁵ (first version; its log was overwritten, no committed log).
 - *The dressing.* The fourth-order isotropic equation gives J̃ = Q″ + 2Q³ − κQ² with J̃″ + (1 + 6Q²)J̃ = −(κQ²)″ + …,
   so the fast jitter of Q is δQ = κX²Π(ω²), Π(w) = 1/(w² − w) = −1/w + 1/(w − 1) (M = g = 1; the M → ∞ background has
-  −1/w only); ⟨κδQ⟩ = ⟨κ²⟩X²Π. Measured: the background's period at ω = 0.8 is 198 (exact) against 305 (M → ∞), the
+  −1/w only); ⟨κδQ⟩ = ⟨κ²⟩X²Π. Measured: the background's period at ω = 0.8 is 198 (exact) against 305 (M → ∞) (no committed log), the
   drive on Q being κQ²/(1 − ω²).
 - *Anisotropic sector: cancellation* (`axion_dressed.py` A1). With the DC offset c₀ = (c₁²/2)Π the massless pair's
-  rate is 0 to roundoff for the ghost at ω = 3, 1.5, 2.5, 5; the residuals wherever |Π| is large scale as c₁² (4.6 c₁²
-  for the ghost at ω = 0.8 and 0.6; 0.66 c₁² for the twin at 1.5; 0.13 c₁² for the two-pole operator at 2.5), fourth
+  rate is 0 to roundoff for the ghost at ω = 3, 1.5, 2.5 ("5" listed until 28 Oct 2026: no such row in `axion_dressed.txt`); the residuals wherever |Π| is large scale as c₁² (4.6 c₁²
+  for the ghost at ω = 0.8, 4.9 c₁² at 0.6 ("4.6 … at 0.8 and 0.6" until 28 Oct 2026); 0.66 c₁² for the twin at 1.5; 0.13 c₁² for the two-pole operator at 2.5), fourth
   order, 10⁻⁵ of the withdrawn law at the physical c₁. As ω → 0 (M → ∞) the pole term is the Kapitza stabilisation
   −c₁²/(2ω²) = −ϕ²X²/2 and cancels the jitter term exactly: marginal, as in stage 1 (the linear form of Wolfson et
   al.'s isotropisation).
@@ -246,8 +246,8 @@ Statements about the periodic problem ε⁗/M² + ε″ + (c₀ + c₁ cos ωt)�
   Stable rows: the free drift 0.69, 0.41, 0.29 after the first-cycle transient in both sectors.
   Unstable rows: 2.5–6 per cycle in both at ω = 2, ϕ = 2–2.2 (the isotropic solution runs away in its own ghost
   content, the anisotropic sector carried along), |Q| reaching 1.2–2.6 Q_amp within four cycles or blowing up within a cycle (BLOW-UP rows,
-  stopped at |Q| = 10 Q_amp); at (2, 2) it runs away by the twelfth cycle. On the M → ∞ model the background's period
-  agrees with the Kapitza-averaged quartic Q″ = −(2 + ϕ²)Q³ at X = Q_amp(1 + 2ϕ²/(2 + ϕ²))^{1/4} to 0.1 % (Fujita's
+  stopped at |Q| = 10 Q_amp); at (2, 2) it runs away by the twelfth cycle (no committed log; `axion_dressed.txt` B runs 4 cycles). On the M → ∞ model the background's period
+  agrees with the Kapitza-averaged quartic Q″ = −(2 + ϕ²)Q³ at X = Q_amp(1 + 2ϕ²/(2 + ϕ²))^{1/4} to 0.1 % at ratio 200, 1.1 % at ratio 50 (`axion_aniso.txt` D, T_Q meas vs T_Q Kap: 60.57/61.24) (Fujita's
   "the coupling barely moves q": the shift is in the effective coupling).
 
 ### The isotropic threshold, exact (16 Oct; `iso_lame_gap.py`)
@@ -264,7 +264,7 @@ Statements about the periodic problem ε⁗/M² + ε″ + (c₀ + c₁ cos ωt)�
   averaged Hamiltonian system). **Threshold λ_eff = 0, ω²ϕ²Π = 2 = ϕ² r²/(1 − r²)**, sharp; above it the averaged
   quartic potential is inverted and the loss takes 0.4–0.9 of a Kapitza period.
 - *Against the exact background* ((Q, w) form, Q″ = w − 2Q³, w″ + (1 + 6Q²)w = κQ², checked against the pickle's q⁗
-  to 5×10⁻¹⁶ and three rows of the 15 Oct scan; m_φ/gQ = 100, 8 periods): at ω = 1.8, 2.4, 3.0 steady at
+  to 5×10⁻¹⁶ and three rows of the 15 Oct scan in `axion_frw_iso.txt` Part 0; m_φ/gQ = 100, 8 periods): at ω = 1.8, 2.4, 3.0 steady at
   ω²ϕ²Π = 1.0, 1.33, 1.7 (amplitude 1.1 → 1.6 Q_amp, the (2/λ_eff)^{1/4} of the averaged orbit) and lost at 2.3
   (0.4–0.55 T); at exactly 2.0 lost at ω = 1.8, steady at 2.2–2.8 Q_amp at ω = 2.4, 3.0 (the next order holds it). At
   ω = 2.0 — the ghost pair's first tongue, which `axion_dressed.py` A skipped and B did not — lost already at 1.33
@@ -279,9 +279,11 @@ Reheating as in Fujita et al.: the axion dominates in its quadratic potential, H
 f = 0.004 M_Pl; a from 1 to 20; initial data Q = Q_end, physical Q̇ = 0, the dressed particular solution for w.
 
 - Part A (25 points): for m_φ/H_end ≥ 300 the averaged prediction holds row by row — lost iff λ_eff(a = 1) < 0
-  (r = 0.8, 0.9 at 300; r = 0.9 at 450; none at 700), the loss complete by a = 1.1–1.25, before the dilution crossing
+  (r = 0.8, 0.9 at 300; r = 0.9 at 450; none at 700) — except the marginal row (300, r = 0.7), λ_eff(1) = −0.002, steady:
+  ∀ (m, r) ∈ G_A, m ≥ 300, (m, r) ≠ (300, 0.7): LOST(m, r) ⇔ lam_eff(1) < 0 [grid]
+  (G_A: the 25 rows of `results/axion_frw_iso.txt` Part A; columns "lam_eff(1)", "verdict"; the exception was not stated until 28 Oct 2026); the loss complete by a = 1.1–1.25, before the dilution crossing
   a_× = (ϕ_end²/(2(ω² − 1)))^{1/3} = 1.2–1.6: the expansion plays no part. Below threshold the orbit persists with the
-  larger amplitude of small λ_eff (2.0–2.3 Q_end at λ_eff = 0.35–0.37) and relaxes as the drive dilutes.
+  larger amplitude of small λ_eff (1.9–2.3 Q_end at λ_eff = 0.35–0.37, efold-0 max|Q|/Q_end 1.92 and 2.32; "2.0–2.3" until 28 Oct 2026) and relaxes as the drive dilutes.
 - At m_φ/H_end = 100 every point is lost, including r = 1.2 (M > m_φ), and so is the no-ghost control (Part B): the
   slow-drive instability of the isotropic Hill equation, pure Yang–Mills' own, at s_YM = 2ϕ_end m_Q H_end/m_φ = 0.43.
   At 200, r = 1.2 is lost with the ghost (a = 2.4) and steady without (s_YM = 0.11): near the resonance the ghost
@@ -292,7 +294,7 @@ f = 0.004 M_Pl; a from 1 to 20; initial data Q = Q_end, physical Q̇ = 0, the dr
 - Part C: both thresholds are quadratic in H_end/m_φ: ghost-pole m_φ/H_end < √(3/2)(M_Pl/f) r/√(1 − r²) (300 at
   r = 0.7, 630 at r = 0.9 for f = 0.004 M_Pl), slow-drive m_φ/H_end < √(2√3 m_Q (M_Pl/f)/0.25) ≈ 130 at the same f. At
   the benchmark (m_φ/H_end = 5.2×10⁵, ϕ_end = 8.3×10⁻⁴; quoted as 5×10⁵ and 8×10⁻⁴ in the 15–16 Oct summary)
-  λ_eff(1) = 2 − 3.5×10⁻⁷ r²/(1 − r²): nothing, for any M, short of 1 − r² < 3.5×10⁻⁷. Where the loss happens it
+  λ_eff(1) = 2 − 6.9×10⁻⁷ r²/(1 − r²) (ϕ_end² = (8.31×10⁻⁴)²; stated as 3.5×10⁻⁷ until 28 Oct 2026, which is the bound on 1 − r²): nothing, for any M, short of 1 − r² < 3.5×10⁻⁷. Where the loss happens it
   completes within Δa ≈ 0.1–0.4 of the end of inflation.
 - *The coupled axion, sized (not run).* The φ equation from (g/f)φ̇Q³ is φ̈ + m_φ²φ = −(g/f) d(Q³)/dt; relative to
   m_φ²φ, with g²Q⁴ ~ ρ_Q ~ M_Pl²H² (their ε_B = 1 at the end of inflation) and ϕ_end from (A11), the back-reaction is
@@ -339,7 +341,7 @@ gQ_amp = M; the physical axis is m_p/gQ_amp; Part C's rows "m_p/gQ_amp = 50 (= M
 - *A. The isotropic threshold with probe columns* (none / ghost + boson / ghost + fermion / ghost + both / twin +
   both; m_p/gQ_amp = 0, 1, 3, and the decoupled control; 8 cycles; m_φ/gQ = 100). Thresholds unchanged in every
   column: steady at ω²ϕ²Π = 1.0, 1.7, 2.0, lost at 2.3 (0.45 T at ω = 2.4, 0.55 T at ω = 3.0). The boson at m_p = 0
-  trades 0.4–5× its energy with the ghost background, at gQ_amp 0.3–1.5×, at 3 gQ_amp 0.98–1.00: **the probe decouples
+  trades 0.4–5× its energy with the ghost background, at gQ_amp 0.3–1.5×, at 3 gQ_amp 0.98–1.00 at ω²ϕ²Π = 1.0, 1.7 and 1.00–1.15 at 2.0 ("0.98–1.00" for all until 28 Oct 2026): **the probe decouples
   at m_p ≈ 3 gQ_amp**; at m_p = ωM every column equals the no-probe row to the printed digits (coupling ~10⁻⁴ of m_p²,
   force ~10⁻⁵ of 2Q³). At m_p = 0 with the ghost the background's amplitude swings between 0.3 and 2.3 Q_amp cycle to
   cycle; with the twin or at M → ∞ it stays at 1.33–1.6 Q_amp while the probe's energy swings within about ±1 of its
@@ -349,7 +351,7 @@ gQ_amp = M; the physical axis is m_p/gQ_amp; Part C's rows "m_p/gQ_amp = 50 (= M
   pieces are not separately conserved with a drive on).
 - *B. The anisotropic sector with the scalar's (g²/2)f²* (linear tangent on the undriven orbit, Q_amp = 1, no axion;
   the scalar a test field at ε_p, 30 periods, renormalised each period; ghost / twin / M → ∞). At ε_p ≤ 0.1 nothing
-  grows in any column (rates ≤ 0.1 per period, the free drift). At ε_p = 0.5 **the scalar drives the ghost pair and
+  grows in any column (rates ≤ 0.12 per period, the free drift; "≤ 0.1" until 28 Oct 2026: twin, m_s = 0, ε_p = 0.1 reads 0.1180). At ε_p = 0.5 **the scalar drives the ghost pair and
   not the twin**: per period ghost / twin / M → ∞ = 1.13 / −0.00 / −0.01 (m_s = 0), 0.68 / −0.01 / −0.01 (0.3),
   0.11 / 0.11 / 0.06 (0.5), 0.23 / 0.00 / −0.00 (0.7), nothing at m_s ≥ 0.8 away from the preheating rows m_s = 1.0,
   1.1, which are invalid as test-field rows: the scalar is itself pumped by the background (its own growth 0.36 and
@@ -357,13 +359,13 @@ gQ_amp = M; the physical axis is m_p/gQ_amp; Part C's rows "m_p/gQ_amp = 50 (= M
   and all columns inherit it; L2 is the back-reacting case.
 - *C. On the ghost's tongue* (ω = 2M, ω²ϕ²Π = 1.0). The boson's energy is untouched at m_p ≥ 3 gQ_amp with either
   heavy mode. The fermion's n₋ at m_D = M (level spacing Ω = 2m_D = 2M = the drive frequency): with the twin
-  0.013 → 0.62 over eight cycles, with the ghost 0.000 → 0.009; at m_D = 2M nothing with either. Taken apart 17 Oct
+  0.013 → 0.62 over eight cycles, with the ghost 0.000 → 0.015 (`axion_probes.txt` C, cycle 8; "0.009", the cycle-6 value, until 28 Oct 2026); at m_D = 2M nothing with either. Taken apart 17 Oct
   (`axion_probes_fourier.py`): the fermion couples to Q(t) alone, and the twin's dressed orbit has **14× the Fourier
   amplitude at Ω** (0.0302 vs 0.00215 Q_amp; 0.040 vs 0.0030 at the drive 2M; the same 0.0006 at M; dressed amplitudes
   1.56 vs 1.14 Q_amp). The fermion as a test field on each recorded waveform reproduces the coupled rows (0.50 vs
   0.017); a pure tone A cos Ωt at the twin's amplitude gives 0.50, at the ghost's 0.007; a Rabi estimate agrees
-  ((3/2)g·A = 9×10⁻⁴ over 2100 time units, angle 1.9 rad, n₋ = sin² ≈ 0.66 against the measured 0.64); the ghost's
-  component sits at 2.000 against Ω = 2.0009, detuning-limited (scaled up 14× it gives only 0.035). The heavy pole's
+  ((3/2)g·A = 9×10⁻⁴ over 2100 time units, angle 1.9 rad, n₋ = sin² ≈ 0.66 against the measured 0.64; hand estimate, no committed log); the ghost's
+  component sits at 2.000 (no committed log) against Ω = 2.0009, detuning-limited (scaled up 14× it gives only 0.035). The heavy pole's
   sign enters only through the orbit's dressed response: pair production by a strong oscillating field, not a ghost
   instability.
 
@@ -374,7 +376,7 @@ The ghost tangent of the anisotropic sector with a Hill coefficient c is ε⁗ +
 ω² = M²/2; CHECK 6's criterion for κQ). The twin's pair, ω⁴ − (M² + 2c)ω² + M²c, has discriminant M⁴ + 4c² and never
 collides; M → ∞ is second order with nothing to collide. With c = (g²/2)f² the collision is at **g f = M/√2**.
 
-- *Part B matches it row by row:* at ε_p = 0.5 the scalar's c_max = 0.50, 0.45, 0.375, 0.30 (m_s = 0, 0.3, 0.5, 0.7)
+- *Part B matches it row by row:* at ε_p = 0.5 the scalar's c_max = 0.50, 0.45, 0.375, 0.30 (m_s = 0, 0.3, 0.5, 0.7; not in `axion_probes.txt`, no committed log)
   all exceed ¼ and the ghost column grows; at ε_p ≤ 0.1, c_max ≤ 0.1 and nothing grows. At c = 0.5, Im ω ≈ 0.32 above ¼
   for about half of each period: ≈ 0.8 per period against the measured 1.13.
 - *L2, m_s ≈ M with back-reaction* (undriven orbit, Q_amp = 1, T = 5.244, scalar only, 100 periods; no twin rows,
@@ -389,18 +391,20 @@ collides; M → ∞ is second order with nothing to collide. With c = (g²/2)f²
   steady: M → ∞ with or without the probes 1.32–1.37 Q_amp throughout, probe energy within −0.25 … 1.4 of its start.
   With the ghost at ω²ϕ²Π = 1.7 the isotropic solution is lost at 32.12 T (ω = 2.4) and 47.01 T (ω = 3.0), the
   amplitude wandering between 0.02 and 1.5 Q_amp first and the boson's energy reaching 2000× its start (18539× in the
-  rerun's diagnostics); at 2.0 it survives the 60 cycles with the same wandering (0.1–3.2 Q_amp). The twin is steady at
-  1.7 (1.40–1.49 Q_amp) and lost at 2.0 (ω = 2.4, 50 T; ω = 3.0 survives, amplitude rising to 2.0), the no-probe
-  threshold itself. **The loss coincides with the crossing:** c climbs slowly (0.05, 0.27 over the first two 20-cycle
+  rerun's diagnostics); at 2.0 it survives the 60 cycles with the same wandering (0.1–3.2 Q_amp). The twin is steady in all four rows:
+  ∀ (ω, ω²ϕ²Π) ∈ {2.4, 3.0} × {1.7, 2.0}: lost_twin = "-" ∧ |Q|max/Q_amp ∈ [1.62, 1.75] [grid]
+  (`results/axion_probes_long.txt` L1, rows "twin both"; 1.65–1.66, 1.62–1.63 at 1.7, 1.66–1.70, 1.69–1.75 at 2.0).
+  (Until 28 Oct 2026: "steady at 1.7 (1.40–1.49 Q_amp) and lost at 2.0 (ω = 2.4, 50 T; ω = 3.0 survives, amplitude rising
+  to 2.0), the no-probe threshold itself" — not in the committed log; probably from the replaced first run.) **The loss coincides with the crossing:** c climbs slowly (0.05, 0.27 over the first two 20-cycle
   blocks) and first exceeds ¼ at cycle 32, 27, 47, 29 in the four lost rows, 6g²Q² (≤ 0.012 before) one cycle later
   (33, 28, 48, 29), in the loss cycle itself. With the twin or at M → ∞ c stays at 0. One-probe rows: boson only,
   c ≤ 0.04, the background wanders (0.1–1.4 Q_amp) but is not lost in 60 cycles; fermion only, flat (1.50 Q_amp).
 - *The fermion is a constant force.* At m_D = 0, h = cgQσ_x for all t, so a state prepared in the positive eigenstate
   of h(Q_amp) stays a σ_x eigenstate and its current is constant (j = −6.912×10⁻⁷ at nine sampled times, to ten
-  digits): a fixed force g j₀ = −n/2 on each gauge direction, giving Q a nonzero mean. The `boson+F`
+  digits; no committed log): a fixed force g j₀ = −n/2 on each gauge direction, giving Q a nonzero mean. The `boson+F`
   column replaces the spinor by that force and reproduces the pump: lost at 27.08 T (ω = 2.4) and 28.52 T (ω = 3.0),
   the boson's energy reaching 15905× and 1032×, the first three cycles agreeing with the two-probe row digit for
-  digit. **A massless boson on an orbit with nonzero mean pumps the ghost background until the collision.** At m_D ≠ 0
+  digit (no committed log). **A massless boson on an orbit with nonzero mean pumps the ghost background until the collision.** At m_D ≠ 0
   the fermion evolves (Part A's n₋ moves between 0.1 and 0.6 at gQ_amp) and is a participant.
 - *The loss is realisation-dependent* (`axion_probes_spread.py`). `both` and `boson+F` integrate the same ODE and lost
   at 32.1 vs 27.1 T and 47.0 vs 28.5 T: roundoff amplified by a pumped, ultimately unstable system. On the `boson+F`
@@ -421,11 +425,13 @@ massless doublet at ε_p = 0.01, 0.1, 0.5 of E_bg = (3/2)Q₀⁴, Q₀/M = 0.024
 then the tail: the axion starting to oscillate at m_φ = 0.8, 2.4, 3.0 M with the amplitude inflation left it
 (κ₀ = 2Q₀). Columns ghost / twin / M → ∞, each with its no-scalar control.
 
-- *Static inflation:* **nothing**, in every column. At Q₀ = 0.024 the ghost rows equal the M → ∞ rows to the third
+- *Static inflation:* **nothing** with the ghost or at M → ∞: At Q₀ = 0.024 the ghost rows equal the M → ∞ rows to the third
   digit; |Q − Q₀|/Q₀ ≤ 0.56 (the scalar's static push at ε_p = 0.5), the scalar's energy within 0.5–1.0 of its start,
   c ≤ 0.054 against ¼, E_heavy at its fixed-point value (−0.002, −0.04, −0.36 E_bg at the three Q₀), no row lost in
-  60 periods; five 10⁻⁶-perturbed seeds identical. The twin agrees at Q₀ = 0.024 and 0.1 (its fixed point is unstable
-  at 0.3 — the twin limit, not a result).
+  60 periods (∀ rows of `results/axion_probes_infl.txt` A with heavy ∈ {ghost, inf}: lost at = "-" [grid]); five
+  10⁻⁶-perturbed seeds identical. The twin agrees at Q₀ = 0.024 and at 0.1 for ε_p ≤ 0.1; at Q₀ = 0.1, ε_p = 0.5 it is lost
+  at 1.66 T (not stated until 28 Oct 2026; "nothing, in every column" until then), and its fixed point is unstable
+  at 0.3 — the twin limit, not a result.
 - *The tail:* **nothing**. Q oscillates at amplitude ≈ Q₀ in every column; the scalar's energy swings between 0 and
   1.1–1.6× its start in all three; c ≤ 0.001; no loss in 50 periods. The regime reached has ω²ϕ²Π = 4Q₀²Π ~ 10⁻³,
   three orders below the no-probe threshold.

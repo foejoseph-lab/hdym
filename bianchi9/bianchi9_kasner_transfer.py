@@ -5,7 +5,7 @@ R/2 - C^2/(4 M^2) gravity against the Weyl ghost, as a function of M t and Kasne
 NOTE (README, held mismatch 12 Oct): this file is bianchi9_kasner_transfer.py, restored from the
 parallel branch (merged 6 Oct 21:58) after its bianchi9_kasner.py had been overwritten by the
 exponent version; the name above and the run line below are the original ones and are kept.
-Its result (kasner_pi.log): r < 1e-4 for H/M <= 0.054, 0.12 at 0.136, 1.03 at 0.34 -- onset ~ 0.2.
+Its result (kasner_pi.log): r <= 1e-3 at H/M = 0.054 (< 1e-4 for H/M <= 0.021), 0.12 at 0.136, 1.03 at 0.34 -- onset ~ 0.2.
 
 Bianchi I Lagrangian: keep from L (bianchi9_system.pkl, N = 1) only the e^{3 alpha} terms
 (the curvature potential of Bianchi IX carries e^{alpha} and e^{-alpha}).  Then

@@ -20,7 +20,8 @@ bianchi9_system.pkl): linear perturbation theory with the onset as a function of
    the action stops being conserved is the onset; the growth law at small x is the indicial
    exponent.
    NOTE (README, held mismatch 12 Oct): run() integrates x = 60 -> 0.02 (defaults, no command-line
-   override); the README's Results 5 quotes 200 -> 0.01 (that range is bianchi9_kasner_check.py's).
+   override); the README's Results 5 quotes 200 -> 0.01 (bianchi9_kasner_check.py runs 200 -> 0.02 for the ghost
+   preparation and 3 -> 0.01 for the exponent fits; "that range is bianchi9_kasner_check.py's" until 28 Oct 2026).
    The theta loop below is pi, pi/2, 0, pi/3 -- the "all four" of Results 5; the seeded prefactor
    map (bianchi9_seed.py) uses five angles, pi, 2.9, 2.6, 2.3, 2.0.
 
