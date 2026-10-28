@@ -16,6 +16,7 @@ Caveat: Euclidean angles in the (u, u', u'', u''') coordinates are not canonical
 the same coordinates is what carries the information, not the absolute angles.
 
 Usage (from the repo root): python rabbit_holes/ym/code/rh12_direction.py [--files esc_E_snap_krein esc_E_snap_param]
+    [--nmax 64] [--suffix _n128]   (paired test of the result: rh12_paired.py)
 Added 2026-10-22; run on the two snapshot runs of hole12_queue.md (esc_E_snap_krein, esc_E_snap_param).
 Outcome (notes/RH12_direction.md; README hole 12, closed): between |w| = 0.1 and 1 the off-diagonal state is 70-78 deg
 from its own linear propagation in BOTH bands -- the diagonal ghost has taken over, rotating-vs-directional is not
@@ -107,10 +108,12 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--files', nargs='+', default=['esc_E_snap_krein', 'esc_E_snap_param'])
     ap.add_argument('--nmax', type=int, default=64, help='trajectories per energy to propagate linearly (cost ~1 s each)')
+    ap.add_argument('--suffix', default='', help='appended to the per-energy npz names, e.g. _n128 (added 28 Oct 2026)')
     a = ap.parse_args()
     T0 = time.time()
     Kf = base.load_K()
     rng = np.random.default_rng(12)
+    print(f"# START rh12_direction nmax={a.nmax} suffix={a.suffix!r} files={a.files}")
     print("rh12_direction.py: direction of the block-12 off-diagonal state between the |w| = 0.1 and |w| = 1 crossings, nonlinear vs linear")
     for tag in a.files:
         path = os.path.join(ISL, tag + '.npz')
@@ -162,7 +165,7 @@ def main():
             if ksub:
                 print(f"     null references for the subspace angle: isotropic, exact median {iso_reference(ksub):5.1f} deg (k = {ksub} of 8);"
                       f"   phase-shifted: median {np.nanmedian(R[:, 5]):5.1f} [{np.nanpercentile(R[:, 5], 10):5.1f}, {np.nanpercentile(R[:, 5], 90):5.1f}]")
-            np.savez(os.path.join(RES, f'rh12_{tag}_E{E[i]:.4f}.npz'), rows=R, mu=mu)
+            np.savez(os.path.join(RES, f'rh12_{tag}_E{E[i]:.4f}{a.suffix}.npz'), rows=R, mu=mu)
     print("\nreading: 'nonlinear end vs linear end' small => the runaway follows the linear mode's direction (rotating if the mode is a quadruplet, which the")
     print("linear angle itself shows); large => the nonlinear state has left the unstable subspace by the time |w| = 1 (the diagonal ghost has taken over).")
     print("null references (added 28 Oct 2026): the isotropic median is exact (cos^2 ~ Beta(k/2, (8-k)/2)) but assumes the Euclidean metric;")
