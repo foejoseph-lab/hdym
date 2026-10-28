@@ -23,7 +23,8 @@ from its own linear propagation in BOTH bands -- the diagonal ghost has taken ov
 observable nonlinearly.  Trigger differs, execution does not.  (The 22 Oct "residual" -- Krein end state 32-38 deg
 from its unstable plane against 60 for random -- was an artefact: the quadruplet's subspace was built from both
 conjugate eigenvectors, rank 2 but padded to 4 by QR.  Fixed 28 Oct 2026: independent directions only, plus an exact
-isotropic null and a phase-shifted null; corrected, 48-53 deg against 53-59 deg at a wrong phase, see the note.)
+isotropic null and a phase-shifted null; corrected, 48-53 deg against 53-59 deg at a wrong phase, see the note.  Paired test at 128 seeds: rh12_paired.py,
+rh12_elapsed.py; no memory except a marginal ~6 deg at the Krein band edge E = 0.152.)
 """
 import argparse
 import os

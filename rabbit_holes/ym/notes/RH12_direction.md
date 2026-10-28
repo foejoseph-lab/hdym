@@ -54,11 +54,41 @@ amplitude 1 before the off-diagonal mode does in 71–89 % of cells). The residu
 state 32–38° from its unstable plane against 60° for a random direction) was an artefact of the four-dimensional
 "plane" (see the correction above). Corrected, the Krein end states sit 48–53° from the plane against 53–59° at a wrong
 phase, and the parametric ones 67–72° from the line against 63–66°: within the spread of the nulls in both bands
-[grid]. Neither mechanism's unstable subspace is remembered after the handover.
+[grid]. Neither mechanism's unstable subspace is remembered after the handover, with one small exception at the
+Krein band edge (next section).
+
+**Paired test and the band edge (28 Oct 2026, 128 seeds per energy).** Rerun with `--nmax 128 --suffix _n128`
+(user's machine, 2714 s; `results/rh12_direction_n128.txt`, `rh12_esc_E_snap_*_n128.npz`). Per trajectory
+d = angle to the unstable subspace at the right phase minus the angle of the same end state at a wrong phase, so
+orbit-phase effects cancel; memory means d < 0 (`code/rh12_paired.py`, `results/rh12_paired_n128.txt`):
+
+| band | E | n | median d | 95 % interval (bootstrap) | Wilcoxon p | handover, median periods |
+|---|---|---|---|---|---|---|
+| Krein | 0.152 | 87 | **−6.1°** | [−10.9, +0.8] | **0.006** | 11.5 |
+| Krein | 0.155 | 128 | −1.3° | [−4.8, +2.5] | 0.58 | 2.5 |
+| Krein | 0.158 | 127 | −0.3° | [−3.9, +3.6] | 0.67 | 3.0 |
+| Krein | 0.161 | 128 | −1.1° | [−6.9, +3.9] | 0.49 | 2.2 |
+| Krein | pooled | 470 | −1.2° | [−3.6, +0.7] | 0.043 | |
+| param. | pooled | 512 | +0.1° | [−2.0, +2.6] | 0.90 | 1.2–1.6 |
+
+- The parametric band has no memory [grid]: |median d| ≤ 1.5° at every energy, every interval contains 0. The
+  64-seed hint of 28 Oct (+2.9° pooled, driven by E = 0.2494 at +7.6°, `results/rh12_paired.txt`) was noise; at
+  128 seeds that energy reads +0.7°.
+- The Krein band has none at three of its four energies, and about 6° at E = 0.152, the band edge (|μ| = 1.071,
+  N-angle 0.954π, the weakest quadruplet of the four). Its p = 0.006 is one of eight tests: 0.05 after a Bonferroni
+  correction, so real but marginal.
+- **Not the handover time** (`code/rh12_elapsed.py`, `results/rh12_elapsed_n128.txt`). E = 0.152 also has the
+  slowest handover, so d was tested against the elapsed periods τ between the two crossings. Each energy spans
+  τ ≈ 0.3 to 10+ periods, which separates "slow handover" from "this energy": Spearman ρ(τ, d) ∈ [−0.08, +0.14]
+  within every Krein energy (all p > 0.1), −0.001 pooled and +0.031 stratified by energy; fast handovers (τ < 1)
+  show d = −4.0° [−8.5, +4.4], no less than slow ones. What sets E = 0.152 apart is not established; the band edge
+  itself (the quadruplet closest to its collision) is the remaining candidate, untested.
+- Bound: pooled over the band, any memory of the Krein plane is at most about 4° (the interval's lower end, −3.6°)
+  [grid].
 
 **Reading.** The distinction between the two mechanisms is a property of the linear stage (nodal points vs nodal
 circle, `offdiag_escape_nodal.py`; the lemma; the segment localisation of RH3) and of the trigger (which sector
 pumps, and at what rate, `RH4_loiter.md`); once the diagonal ghost is at order one the runaway is the diagonal ghost's,
 and it does not remember which mechanism started it (the 22 Oct "residual alignment with a plane" withdrawn 28 Oct
-2026). A referee asking
+2026), except for a marginal ~6° at the Krein band edge, of unknown cause. A referee asking
 "do the two mechanisms differ once nonlinear" gets: in their trigger yes, in their execution no. Hole closed.

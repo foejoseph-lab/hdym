@@ -1,0 +1,28 @@
+# START rh12_elapsed suffix='_n128'
+d = angle(end state, unstable subspace, right phase) - angle(same end state, wrong phase), deg (memory: d < 0);
+tau = periods between the |w| = 0.1 and |w| = 1 crossings.  Slow-handover memory predicts rho(tau, d) < 0.
+
+== krein band ==
+  E = 0.1520: n =   87, tau median  11.5 [p10  1.3, p90  31.1] periods; Spearman rho(tau, d) = -0.081 (p = 0.454)
+  E = 0.1549: n =  128, tau median   2.5 [p10  0.3, p90   9.7] periods; Spearman rho(tau, d) = +0.040 (p = 0.655)
+  E = 0.1579: n =  127, tau median   3.0 [p10  0.3, p90  10.7] periods; Spearman rho(tau, d) = +0.138 (p = 0.122)
+  E = 0.1610: n =  128, tau median   2.2 [p10  0.5, p90  10.8] periods; Spearman rho(tau, d) = -0.008 (p = 0.925)
+  pooled:   n = 470, rho(tau, d) = -0.001 (p = 0.989);   stratified by energy: rho = +0.031 (p = 0.509)
+   tau bin (periods)     n  median d     95 % interval
+              [0, 1)   110      -4.0 [  -8.5,   +4.4]
+              [1, 3)   119      -3.0 [  -6.4,   +0.9]
+             [3, 10)   154      +1.4 [  -2.3,   +5.3]
+           [10, inf)    87      -2.9 [  -8.8,   +0.7]
+
+== param band ==
+  E = 0.2260: n =  128, tau median   1.6 [p10  0.2, p90   6.4] periods; Spearman rho(tau, d) = +0.007 (p = 0.94)
+  E = 0.2374: n =  128, tau median   1.4 [p10  0.2, p90   5.7] periods; Spearman rho(tau, d) = -0.042 (p = 0.64)
+  E = 0.2494: n =  128, tau median   1.2 [p10  0.4, p90   3.4] periods; Spearman rho(tau, d) = +0.049 (p = 0.581)
+  E = 0.2620: n =  128, tau median   1.5 [p10  0.3, p90   4.6] periods; Spearman rho(tau, d) = -0.061 (p = 0.492)
+  pooled:   n = 512, rho(tau, d) = -0.017 (p = 0.699);   stratified by energy: rho = -0.012 (p = 0.791)
+   tau bin (periods)     n  median d     95 % interval
+              [0, 1)   202      +0.3 [  -3.2,   +4.0]
+              [1, 3)   191      +0.6 [  -2.0,   +3.8]
+             [3, 10)   110      -3.5 [  -7.8,   +5.7]
+           [10, inf)     9      -1.9 [ -39.4,  +19.1]
+# END rh12_elapsed status=OK wall=0s
