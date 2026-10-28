@@ -1,0 +1,44 @@
+# START rh12_direction nmax=128 suffix='_n128' files=['esc_E_snap_krein', 'esc_E_snap_param']
+rh12_direction.py: direction of the block-12 off-diagonal state between the |w| = 0.1 and |w| = 1 crossings, nonlinear vs linear
+
+== esc_E_snap_krein: 4 energies x 128 seeds ==
+  E=0.1520 (Krein quadruplet, |mu| = 1.071, arg/pi = [ 0.954 -0.954]): 87 trajectories; elapsed between crossings median 11.5 periods
+     angle(d_0.1, d_1) nonlinear: median  67.4 deg [p10  22.5, p90  88.1]   linear prediction: median  70.6 [ 45.4,  88.0]
+     angle(nonlinear end, linear end): median  77.1 deg [p10  42.3, p90  88.3]   angle(nonlinear end, unstable subspace at that phase): median  52.3 [ 39.8,  68.8]
+     null references for the subspace angle: isotropic, exact median  63.0 deg (k = 2 of 8);   phase-shifted: median  57.4 [ 42.1,  78.7]
+  E=0.1549 (Krein quadruplet, |mu| = 1.267, arg/pi = [ 0.955 -0.955]): 128 trajectories; elapsed between crossings median 2.5 periods
+     angle(d_0.1, d_1) nonlinear: median  54.2 deg [p10  19.2, p90  85.0]   linear prediction: median  70.2 [ 41.3,  86.0]
+     angle(nonlinear end, linear end): median  75.0 deg [p10  50.4, p90  88.3]   angle(nonlinear end, unstable subspace at that phase): median  53.8 [ 32.5,  70.8]
+     null references for the subspace angle: isotropic, exact median  63.0 deg (k = 2 of 8);   phase-shifted: median  53.6 [ 35.2,  74.0]
+  E=0.1579 (Krein quadruplet, |mu| = 1.278, arg/pi = [ 0.956 -0.956]): 127 trajectories; elapsed between crossings median 3.0 periods
+     angle(d_0.1, d_1) nonlinear: median  48.3 deg [p10  18.3, p90  85.5]   linear prediction: median  70.0 [ 37.6,  86.7]
+     angle(nonlinear end, linear end): median  73.1 deg [p10  40.1, p90  87.8]   angle(nonlinear end, unstable subspace at that phase): median  51.3 [ 36.5,  73.2]
+     null references for the subspace angle: isotropic, exact median  63.0 deg (k = 2 of 8);   phase-shifted: median  55.5 [ 33.3,  73.1]
+  E=0.1610 (Krein quadruplet, |mu| = 1.143, arg/pi = [ 0.957 -0.957]): 128 trajectories; elapsed between crossings median 2.2 periods
+     angle(d_0.1, d_1) nonlinear: median  59.7 deg [p10  18.4, p90  86.9]   linear prediction: median  70.8 [ 38.9,  86.7]
+     angle(nonlinear end, linear end): median  74.6 deg [p10  44.7, p90  87.6]   angle(nonlinear end, unstable subspace at that phase): median  51.6 [ 30.3,  74.0]
+     null references for the subspace angle: isotropic, exact median  63.0 deg (k = 2 of 8);   phase-shifted: median  52.9 [ 29.9,  76.6]
+
+== esc_E_snap_param: 4 energies x 128 seeds ==
+  E=0.2260 (real pair, |mu| = 1.482, arg/pi = [0.]): 128 trajectories; elapsed between crossings median 1.6 periods
+     angle(d_0.1, d_1) nonlinear: median  59.3 deg [p10  20.4, p90  83.4]   linear prediction: median  71.7 [ 35.0,  86.2]
+     angle(nonlinear end, linear end): median  75.8 deg [p10  40.7, p90  87.9]   angle(nonlinear end, unstable subspace at that phase): median  62.6 [ 40.0,  82.9]
+     null references for the subspace angle: isotropic, exact median  75.0 deg (k = 1 of 8);   phase-shifted: median  66.1 [ 37.7,  86.1]
+  E=0.2374 (2 unstable, |mu| = 1.800, arg/pi = [0. 0.]): 128 trajectories; elapsed between crossings median 1.4 periods
+     angle(d_0.1, d_1) nonlinear: median  59.5 deg [p10  19.8, p90  85.2]   linear prediction: median  73.9 [ 44.8,  86.9]
+     angle(nonlinear end, linear end): median  77.9 deg [p10  50.2, p90  88.1]   angle(nonlinear end, unstable subspace at that phase): median  52.3 [ 35.0,  73.5]
+     null references for the subspace angle: isotropic, exact median  63.0 deg (k = 2 of 8);   phase-shifted: median  53.4 [ 33.4,  76.4]
+  E=0.2494 (real pair, |mu| = 1.769, arg/pi = [0.]): 128 trajectories; elapsed between crossings median 1.2 periods
+     angle(d_0.1, d_1) nonlinear: median  69.6 deg [p10  32.5, p90  86.9]   linear prediction: median  72.6 [ 44.9,  86.4]
+     angle(nonlinear end, linear end): median  73.9 deg [p10  47.2, p90  88.4]   angle(nonlinear end, unstable subspace at that phase): median  66.8 [ 38.0,  87.1]
+     null references for the subspace angle: isotropic, exact median  75.0 deg (k = 1 of 8);   phase-shifted: median  67.4 [ 40.9,  83.6]
+  E=0.2620 (real pair, |mu| = 1.377, arg/pi = [0.]): 128 trajectories; elapsed between crossings median 1.5 periods
+     angle(d_0.1, d_1) nonlinear: median  69.9 deg [p10  21.4, p90  85.6]   linear prediction: median  72.0 [ 46.7,  85.7]
+     angle(nonlinear end, linear end): median  73.9 deg [p10  41.7, p90  86.8]   angle(nonlinear end, unstable subspace at that phase): median  69.2 [ 42.0,  85.3]
+     null references for the subspace angle: isotropic, exact median  75.0 deg (k = 1 of 8);   phase-shifted: median  68.5 [ 41.4,  87.1]
+
+reading: 'nonlinear end vs linear end' small => the runaway follows the linear mode's direction (rotating if the mode is a quadruplet, which the
+linear angle itself shows); large => the nonlinear state has left the unstable subspace by the time |w| = 1 (the diagonal ghost has taken over).
+null references (added 28 Oct 2026): the isotropic median is exact (cos^2 ~ Beta(k/2, (8-k)/2)) but assumes the Euclidean metric;
+the phase-shifted null puts the same end state against the subspace at a wrong phase and assumes nothing.  rows[:, 5] = null angle.
+# END rh12_direction status=OK wall=2714s
