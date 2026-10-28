@@ -23,7 +23,7 @@ Usage (Spyder, from the repo root; ym/hdym_full_derive.py run once):
     !"{sys.executable}" -B -u islands\\code\\island_full.py --E 0.3 --eps 1e-8 --tag island_full_E0.3_eps1e-8 --resume >> islands\\results\\island_full_E0.3_eps1e-8.txt 2>&1
     !"{sys.executable}" -B -u islands\\code\\island_full.py --E 0.3 --eps 1e-8 --delta-od 0 --tag island_full_E0.3_eps1e-8_od0 --resume >> islands\\results\\island_full_E0.3_eps1e-8_od0.txt 2>&1
 Cost: 8 shells x 200 + 200 sea = 1800 trajectories, tmax 5000, ~1 s each single-threaded: ~10-20 min on 24 threads
-per run.  Added 2026-10-22 (rabbit-hole session); runs of 23 Oct (results/island_full_E0.3_eps1e-8.*, _od0.*): with
+per run (estimate; the committed runs took 2999 s and 632 s, DONE lines of the two logs).  Added 2026-10-22 (rabbit-hole session); runs of 23 Oct (results/island_full_E0.3_eps1e-8.*, _od0.*): with
 the off-diagonal seed every core shell r = 1e-6 .. 1e-4 escapes, 200 of 200, median t_esc 1340-1360 (ln(1e8)/0.0125
 ~ 1500), the diagonal ghost the escaping sector in 91-96 % of cells and block 23 in the rest; with --delta-od 0 the
 island is intact, 0 of 200 in the four core shells, halo and sea as in hole 10.  Not a refuge (islands/README.md,

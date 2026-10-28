@@ -1,5 +1,5 @@
 """channel_offdiag_monodromy.py -- B002: the off-diagonal ghost inside a channel, monodromy over one
-transverse period at fixed depth, typed.  Open item (iv)'s proper tool (WORKORDER_bridge_2026-10-18_v2.md).
+transverse period at fixed depth, typed.  Open item (iv)'s proper tool (WORKORDER_bridge_2026-10-18_v2.md, not in the repo).
 
 Background (the channel model, not an exact orbit): the deep coordinate is frozen at x = D, px = 0; the two
 transverse coordinates oscillate at the channel's frequency D with action J each,

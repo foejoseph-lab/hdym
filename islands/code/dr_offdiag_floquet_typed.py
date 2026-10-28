@@ -2,7 +2,7 @@
 every unstable multiplier.
 
 Same system, orbit and monodromy as dr_offdiag_floquet.py (imported from it, so there is one rhs);
-this file adds what the bridge needs (WORKORDER_bridge_2026-10-18_v2.md, B001):
+this file adds what the bridge needs (WORKORDER_bridge_2026-10-18_v2.md, not in the repo; B001):
 
   * a type column per block.  For the largest ghost multiplier off the unit circle:
       REAL+   mu real, mu > 1          parametric (period-1 tongue, multipliers leave the circle at +1)

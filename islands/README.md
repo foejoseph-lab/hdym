@@ -12,16 +12,20 @@ HI ∈ [−0.96096564804637046, −0.96088055206183126], non-resonant to order 4
 τ ∈ [−3.0474820853652777 × 10⁵, −1.2280792906437143 × 10⁵] — all by a certificate checked in exact rational arithmetic
 (`results/cert16_check_output.txt`, `results/cert16_twist_output.txt`, both ending `PROVED: unique periodic orbit in X at
 E = 1/2`). So the island exists, modulo Moser's twist theorem, which remains an import. The certified box contains
-x₀ ∈ [3.14640122769836, 3.14640122769838], p_x0 ∈ [0.00179319341881, 0.00179319341882] (Krawczyk enclosure, width
-2 × 10⁻¹¹, exactly one periodic orbit in it), agreeing with the published DR data to every published digit; the
+x₀ ∈ [3.14640122769836, 3.14640122769838], p_x0 ∈ [0.00179319341881, 0.00179319341882] (the Krawczyk image K, rounded
+outward; the box X itself has width 2 × 10⁻¹¹ in x₀ and p_x0, exactly one periodic orbit in it), agreeing with the
+published DR data (x₀ = 3.14640122769753, p_x0 = 0.0017931934191, `code/dr_orbit_ghost.py`) to about 10⁻¹² absolute (12 significant digits in x₀, 9 in p_x0), not beyond (stated as "to
+every published digit" until 28 Oct 2026); the
 certified period is the full period (lemma RET: p_y(T) ∈ [0.9999983922, 0.9999983923] > 0, not the reflected half-period
-return), and T is the 9th crossing of the global section {y = 0, p_y > 0}, so the twist's return map is the local
-Poincaré map of the orbit, as Moser's theorem needs.
+return), and T is the 9th crossing of the global section {y = 0, p_y > 0} (float, `code/dr_orbit_ghost.py`; not checked
+by the certificate), so the twist's return map is the local Poincaré map of the orbit, as Moser's theorem needs.
 
 **The diagonal ghost on it.** Floquet-unstable at E = ½ (proved: real multiplier off the circle; ghost trace
-∈ [5.3469864, 5.3471379]) and, by float scan, for all E ≳ 0.315 plus narrow tongues below (0.09, 0.16–0.19, 0.24–0.26);
-Floquet-stable between tongues. In the full 12-d Lee–Wick system (`code/hdym_island.py`) with a ghost seed
-ε = 10⁻¹⁰ the island is a non-escaping hole at E = 0.3 (no escape within tmax, 5000 by default) and a fast smooth
+∈ [5.3469864, 5.3471379]) and, by float scan, for all E ≳ 0.315 plus narrow tongues below (0.09, 0.16–0.19, 0.24–0.26;
+the "diag-ghost rate" column of `results/esc_E.txt` also shows thin tongues at E = 0.0531 (rate 0.0010) and 0.1239
+(rate 0.0037)); Floquet-stable between tongues. In the full 12-d Lee–Wick system (`code/hdym_island.py`) with a ghost seed
+ε = 10⁻¹⁰ the island is a non-escaping hole at E = 0.3 (no escape within tmax, 5000 at E = 0.3 by the default
+min(5000, 40/(0.027 E^2.24)), `code/hdym_island.py`) and a fast smooth
 plateau at E = 1 (inside the unstable region), with a sticky halo that escapes slower than the sea; at the paper's
 ε = 0.01 the ghost's back-reaction (|w| = √(2εE) = 0.077 at E = 0.3, 0.1 at ½, 0.14 at 1, against an island
 half-width ~2 × 10⁻⁴ in x at E = ½, scaled by (2E)^{1/4} elsewhere) erases the island. The crossover is at
@@ -29,8 +33,8 @@ half-width ~2 × 10⁻⁴ in x at E = ½, scaled by (2E)^{1/4} elsewhere) erases
 out by the back-reaction, not by chaos), erased at 10⁻⁶, ε_c ≈ (half-width)²/2E ≈ 5 × 10⁻⁸ at E = 0.3
 (`results/island_E0.3_eps1e-{9,8,7,6}.log`, 22 Oct; `rabbit_holes/ym/notes/RH10_eps_crossover.md`). The same
 hole / plateau / erasure pattern holds in the exact 2-dof planar subsystem (`--planar` runs); this does not mean the
-3-dof island is sealed — in 3-dof it leaks by Arnold diffusion (2.7 % at r = 2 × 10⁻⁴), and the z-direction Floquet
-trace −1.53 (float) is not certified.
+3-dof island is sealed — in 3-dof it leaks by Arnold diffusion (2.7 % at r = 2 × 10⁻⁴; no committed log), and the
+z-direction Floquet trace −1.53 (float, `code/dr_orbit_ghost.py`; its output is not committed) is not certified.
 
 **The off-diagonal ghost on it: not a refuge.** The six off-diagonal components (`ym/rung1_system.pkl`, c_j = 1)
 on the DR orbit are Floquet-unstable over about half of E ∈ [0.05, 1] (13 intervals), including E ∈ [0.281, 0.494];
@@ -49,9 +53,11 @@ signature). Krein quadruplets occur in block 12 only, E ∈ [0.0761, 0.0773], [0
 reversed, so the block monodromy is M = N² with N = S̃Φ_{T/2} real symplectic, and a real negative multiplier of M off
 the circle forces a quadruplet in N — a single pair cannot fold at −1 (`code/dr_offdiag_halfperiod.py`; the derivation
 and its literature in `rabbit_holes/ym/notes/RH7_selection_rule.md`, `RH7_literature.md`). Measured signatures
-(`results/krein_b005.txt`, 400 energies): of eleven energies where the two block-12 pairs coincide in M, six are true
-meetings in N and five are fake degeneracies (N has λ and −λ: E = 0.054, 0.056, 0.094, 0.199, 0.283, 0.798); the six are
-the edges of the three Krein bands, at every one the pairs carry opposite Krein sign (ψ₁⁺ = −ψ₂⁺ to 0.03–0.09 π) and meet
+(`results/krein_b005.txt`, 400 energies): of eleven energies where the two block-12 pairs coincide in M, five are true
+meetings in N (E = 0.0756, 0.0779, 0.1508, 0.3443, 0.4975) and six are fake degeneracies (N has λ and −λ: E = 0.054,
+0.056, 0.094, 0.199, 0.283, 0.798) (stated as "six true, five fake" until 28 Oct 2026: miscount; the log's "meetings"
+block); the six edges of the three Krein bands are the log's "transitions" entries marked COLLISION (E = 0.07613,
+0.07787, 0.15190, 0.16252, 0.34693, 0.49745), and at every one the pairs carry opposite Krein sign (ψ₁⁺ = −ψ₂⁺ to 0.03–0.09 π) and meet
 at N ≈ ±i; every parametric event is one pair's own fold at N = ±1. The frozen-channel background (x = D, y, z
 transverse oscillators; `code/channel_offdiag_monodromy.py`) is Floquet-stable in every block within its validity
 (ε = 4π²J/D³ ≤ 0.1, 188 of 576 cases); its one apparent weak Krein cell (D = 3.89, J = 0.0315, |μ| = 1.002) is the gauge
@@ -61,7 +67,8 @@ mode of the strong Krein band grows e^{1.4–1.7} at each bounce and shrinks e^{
 (`rabbit_holes/ym/notes/RH3_segments.md`).
 
 *Scope and checks of the Floquet scans.* `dr_offdiag_floquet.py`: DOP853 rtol 10⁻¹², orbit closure ~3 × 10⁻¹³, det M = 1 to
-10⁻¹⁰, multipliers in (μ, 1/μ) pairs, and with c_j = 0 the block reproduces the scalar Hill equations of the paper's
+6 × 10⁻¹⁰ (stated as 10⁻¹⁰ until 28 Oct 2026; worst row E = 0.75 of `results/dr_offdiag_floquet.txt`), multipliers in
+(μ, 1/μ) pairs to 1.8 × 10⁻⁹, and with c_j = 0 the block reproduces the scalar Hill equations of the paper's
 off-diagonal section. B001 (typed): 400 log-spaced energies in [0.05, 1]; 60 Krein cells, 137 parametric; every unstable
 eigenvector satisfies the linearised Gauss law to 5 × 10⁻¹¹; the pure-YM off-diagonal block is stable at every E (so the
 E = 0.3 block-23 instability is the ghost's); closure 4 × 10⁻¹³, det M − 1 ≤ 10⁻⁹, pairing 10⁻⁹, c_j = 0 Hill reduction
@@ -70,7 +77,8 @@ E ≈ 0.07 to 0.49 and always exits through the parabola, blocks 13 and 23 throu
 D ∈ [0.5, 6] (24 log points), J ∈ [0.005, 0.5] (6), ψ ∈ {0, π/2}, c_j ∈ {1, 0}; the depth changes by ε = 4π²J/D³ over a
 period, cells with ε > 0.1 marked outside the model, the c_j = 0 Hill check holding to O(ε) (9 × 10⁻⁶ at ε = 3 × 10⁻³); the
 one in-model Krein cell had rate 0.001; every strong instability lies outside the model and most of it violates Gauss.
-B005: MᵀΩM = Ω to 10⁻⁸–10⁻¹¹ in all three blocks, N² = M to 9 × 10⁻¹¹, NᵀΩN = Ω to 6 × 10⁻⁹; the "pass-through at
+B005: MᵀΩM = Ω to 10⁻⁸–10⁻¹¹ in all three blocks at E = 0.3 and to 9.8 × 10⁻⁸ worst over the block-12 scan
+(`results/krein_b005.txt`, "checks over the scan"), N² = M to 9 × 10⁻¹¹, NᵀΩN = Ω to 6 × 10⁻⁹; the "pass-through at
 E ≈ 0.76" discussed on 19 Oct is the fake degeneracy at 0.798, where nothing meets.
 
 **Nonlinear escape from the orbit** (`code/offdiag_escape.py`, kernel `ym/csrc/hdym_full_escape.c`: the full nonlinear
@@ -82,15 +90,22 @@ rate, so block 12's Krein band at 0.35–0.49 (rate ≤ 0.032) never leads an es
 ghost is stable the off-diagonal instabilities take over at their own linear rates — E = 0.153–0.158 (block 12 Krein,
 median 2276 vs 1460–2900), 0.227–0.246 (block 12 parametric, 914 vs 575–1150), 0.28–0.31 (block 23 parametric) — and in
 each the off-diagonal mode grows first and the diagonal ghost, pumped nonlinearly, overtakes and does the escaping.
-Where nothing is linearly unstable (E ≈ 0.113–0.149, 0.195–0.22, 0.272) nothing escapes by 3000 at this seed. Model and kernel checks: A'''' coefficient −I, diagonal reduction, linearisation = `rung1_system.pkl`'s K to 10⁻¹⁵, Gauss
+Where nothing is linearly unstable nothing escapes by 3000 at this seed:
+∀ E ∈ G_esc ∩ ([0.113, 0.149] ∪ [0.195, 0.221] ∪ {0.27221}) ∖ {0.12394}: rate_diag(E) = 0 ∧ escaped(E) = 0/64 [grid]
+(G_esc: the 100 energies of `results/esc_E.txt`; columns "diag-ghost rate", to its printed 4 decimals, and "escaped"). The excluded row E = 0.12394 is a
+thin diagonal tongue (rate_diag 0.0037, 32/64 escape with median t_esc 2622 near tmax 3000, so the half is censoring,
+not a probability); the range 0.113–0.149 was stated without this exception until 28 Oct 2026. Model and kernel checks: A'''' coefficient −I, diagonal reduction, linearisation = `rung1_system.pkl`'s K to 10⁻¹⁵, Gauss
 law and Ostrogradsky energy conserved to 10⁻¹⁸, generated C = sympy to 10⁻¹⁵; the integrator agrees with scipy DOP853 to
-6 × 10⁻⁹ over two periods. Smoke run (19 Oct, 6 energies × 8 seeds at 10⁻⁶, tmax 1500): at E = 1 the diagonal ghost
+6 × 10⁻⁹ over two periods (logged: 5.9 × 10⁻¹⁰–2.3 × 10⁻⁹ in every `results/esc_*.txt` at δ = 10⁻⁴; at δ = 10⁻² this
+CHECK and the escape-time CHECK fail, `esc_E_delta1e-2_b12.txt`). Smoke run (19 Oct, 6 energies × 8 seeds at 10⁻⁶,
+tmax 1500; no committed log): at E = 1 the diagonal ghost
 (Floquet rate 0.233) escapes at t ≈ 96 against ln(R/δ)/rate = 99; at E = 0.30 block 23's parametric pair drives the escape at
 t ≈ 950 (linear 1100–1840); E = 0.05, 0.09 no escape by 1500. The
 orient maps (seed-direction sphere at fixed E, 128²): at E = 0.412 structureless (median 183, 96 % of cells escape
 through the diagonal ghost); at E = 0.30 (block 23's parametric tongue, 100 % escape, median 631, p10–p90 525–886) and
 E = 0.156 (block 12's Krein band, 88.7 %, median 1952, 1527–2606) the maps carry the mechanism as geometry
-(`code/offdiag_escape_nodal.py`; its `*_nodal.png` figures are not committed): a seed grows along an unstable Floquet mode with amplitude |w·s|, so
+(`code/offdiag_escape_nodal.py`; its `*_nodal.png` figures and its printed correlations are not committed, and the
+lag-1 correlations and the quadruplet multiplier below have no committed log): a seed grows along an unstable Floquet mode with amplitude |w·s|, so
 delayed escape sits on the nodal set of the unstable subspace — a great circle for a real pair (multiplier 1.552; corr(log t_esc,
 log |proj|) = −0.44; lag-1 correlation of the map 0.28/0.20), two antipodal points for a quadruplet (−1.272 ± 0.181i;
 corr −0.11, lag-1 0.09: the loiter dominates the texture, as in the paper's Figure 3). At escape the diagonal ghost is the largest sector in 93 % (E = 0.30) and 76 % (E = 0.156) of cells:
@@ -128,8 +143,8 @@ code/
   offdiag_escape_nodal.py      overlays the linear prediction (nodal set of the unstable Floquet subspace) on an
                                orient map                                                                    (21 Oct)
   cap_dr_orbit.py              UNTRUSTED certificate generator (mpmath intervals, Lohner/Taylor)
-  cert_lemmas.py               TRUSTED lemma layer: pure Python Fractions, one function per lemma (387 lines)
-  cert_check.py                TRUSTED driver: parses the certificate, calls the lemmas, prints verdicts (208 lines)
+  cert_lemmas.py               TRUSTED lemma layer: pure Python Fractions, one function per lemma (401 lines; 387 until 28 Oct 2026)
+  cert_check.py                TRUSTED driver: parses the certificate, calls the lemmas, prints verdicts (214 lines; 208 until 28 Oct 2026)
   cert_twist.py                TRUSTED layer for the twist: VAR2/VAR3, FRAME2, TWIST (351 lines)
   test_checker.py              regression tests of the checker (seconds)
   twist_symbolic.py            exact sympy formula for the Birkhoff twist + float evaluation
@@ -143,13 +158,15 @@ results/
                                property of the certificate the twist layer reads unchanged)
   cert.json                    p = 24 certificate (generator default), md5 b2dc3efca31bd6b848048b34cc8527bc; no
                                checker output committed
-  twist_sym.log
+  twist_sym.log                stdout of twist_symbolic.py (float twist tau = -2.140067e5)
   dr_offdiag_floquet.txt       12 Oct, cloud, python 3.13
   dr_offdiag_floquet_typed.txt 19 Oct, python 3.12.5 numpy 2.2.6 sympy 1.13.1, 20 cores; a cloud run agrees row for row
   channel_offdiag_monodromy.txt 19 Oct; cloud run agrees in every in-model cell
   dr_offdiag_halfperiod.txt, dr_offdiag_krein.{txt,npy}, offdiag_krein_b12.png   B005 on N, 19 Oct
   krein_b005.txt               21 Oct, cloud, 514 s
   hdym_full_derive.txt         the model's checks
+  (every esc_* log prints "diagonal ghost not seeded" on line 3, a fixed string; the run parameters line
+                               gives the actual delta_diag, 1e-4 except esc_E_delta1e-2_b12)
   esc_E.{txt,npz}              section E, 100 x 64, 20 Oct, 24 threads, 16893 s (see NOTE_esc_E_kernel_2026-10-20.md)
   esc_orient_0412.*            128^2 at E = 0.412, 32975 s (same kernel as esc_E)
   esc_orient_0156.*, esc_orient_030.*   128^2 at E = 0.156 (19987 s) and 0.30 (38688 s), 21 Oct, fixed kernel, one
@@ -160,7 +177,8 @@ results/
   esc_orient_030_n64.*         64^2 at E = 0.30 with chk, 13948 s                       (rabbit hole 12, superseded by snap)
   esc_E_cross.*                section E with crossing times, 20 x 64, 3162 s           (rabbit hole 4)
   esc_E_lowE_long.*            20 energies in [0.05, 0.13] x 64, tmax 12000, 22 Oct, 6559 s   (rabbit hole 4)
-  esc_E_delta1e-2_b12.*        48 energies in [0.045, 0.2] x 64, block-12 seed 1e-2 only, 7963 s   (rabbit hole 8)
+  esc_E_delta1e-2_b12.*        48 energies in [0.045, 0.2] x 64, block-12 seed 1e-2 only, 7963 s   (rabbit hole 8;
+                               two kernel CHECKs FAIL at this seed, log ends SOME CHECK FAILED)
   esc_E_snap_krein.*, esc_E_snap_param.*   4 x 128 in each block-12 band with state snapshots, 297 s / 822 s   (hole 12)
   island_E0.3_eps1e-{6,7,8,9}.{log,json}   hdym_island.py, 22 Oct                        (rabbit hole 10)
   island_full_E0.3_eps1e-8.{txt,npz}, _od0.{txt,npz}   island_full.py, 23 Oct             (rabbit hole 9)
@@ -169,7 +187,9 @@ results/
 
 Not committed: the `hdym_island.py` logs at E = 1 and at E = 0.3 with ε = 10⁻¹⁰ and 0.01 (two planar), the outputs of
 `scan.py` / `interior.py`, the figures of the 19 Oct Broucke-diagram brief, and the logs of the 10 Oct review's
-corrected step (which passed all 1000 + 1000 steps of chains P and B).
+corrected step (which passed all 1000 + 1000 steps of chains P and B), the 19 Oct smoke run of `offdiag_escape.py`,
+the output of `dr_orbit_ghost.py` (and its `dr_ghost_floquet.npy`, written to the working directory) and of
+`offdiag_escape_nodal.py` (its printed correlations), and the 3-dof Arnold-diffusion run behind the 2.7 %.
 
 ## Reproduce the proof
 
@@ -177,7 +197,7 @@ corrected step (which passed all 1000 + 1000 steps of chains P and B).
 python3 code/test_checker.py                                                                       # seconds
 python3 code/cap_dr_orbit.py 16 1000 1e-11 results/cert16.json                                     # ~5 min; untrusted
 python3 code/cert_check.py results/cert16.json --ghost --E 1/2 --verbose > results/cert16_check_output.txt     # ~18–35 min
-python3 code/cert_check.py results/cert16.json --ghost --twist code/twist_formula.json --E 1/2 --verbose > results/cert16_twist_output.txt   # ~48 min
+python3 code/cert_check.py results/cert16.json --ghost --twist code/twist_formula.json --E 1/2 --verbose > results/cert16_twist_output.txt   # ~57 min (362 s + 3046 s in the log; stated ~48 until 28 Oct 2026)
 ```
 
 The checker verifies, step by step, with outward-rounded dyadic rationals: a Picard rough enclosure per step (PIC) and
@@ -187,7 +207,8 @@ Neumann-series inverse (NEU), set inclusion in the Lohner frame (step), the accu
 (T, SYMP); for the twist, VAR2/VAR3, FRAME2, TWIST, plus the area-preservation identities (det L ∋ 1, the zetabar
 coefficient ∋ 0, Re(conj λ c₁) ∋ 0) as a guard against a wrong formula. Lemma names are the function names. The
 generator may be wrong in any way; a bad certificate fails to check. Trusted: the checker (`cert_lemmas.py`,
-`cert_check.py`, `cert_twist.py`), Python integer arithmetic and `math.isqrt`, and for the twist the formula
+`cert_check.py`, `cert_twist.py`), Python integer arithmetic, `fractions.Fraction`, `math.isqrt` and `math.factorial`, the `json` parser and
+`float.fromhex` (parsing hex strings to exact dyadics), and for the twist the formula
 `code/twist_formula.json`, hence its generator `twist_symbolic2.py` and sympy (regenerated byte-identical on 11 Oct).
 The sign of τ and the resonance checks are decided on exact Fractions; printed endpoints are outward-rounded.
 Regenerating `cert16.json` on 10 Oct gave the same file (same md5). Design target: Lean — each lemma is an elementary

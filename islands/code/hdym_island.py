@@ -38,7 +38,7 @@ and plateau at E = 1 with eps = 1e-10 as predicted; at eps = 0.01 the island is 
 crossover is |w| = sqrt(2 eps E) ~ island half-width: intact to eps = 1e-8, leaking at 1e-7 (core
 escape 21-25 % with core FTLE ~ 0: back-reaction, not chaos), erased at 1e-6, eps_c ~ 5e-8 at
 E = 0.3 (results/island_E0.3_eps1e-{6,7,8,9}.log, 22 Oct).  The same pattern holds in the exact
-2-dof subsystem (--planar); the 3-dof island is not sealed (Arnold diffusion, 2.7 % at r = 2e-4), and
+2-dof subsystem (--planar); the 3-dof island is not sealed (Arnold diffusion, 2.7 % at r = 2e-4; no committed log), and
 with the off-diagonal components in play it is not a refuge at all (island_full.py, 23 Oct).
 
 Usage
