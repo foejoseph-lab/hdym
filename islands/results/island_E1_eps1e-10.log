@@ -1,0 +1,23 @@
+C pair kernel compiled with gcc, with OpenMP, -ffp-contract=off
+island_E1_eps1e-10_c0_N200: DR copy 0: q*=[3.74172273 0.         0.        ], P*=[0.00253596 1.41421129 0.        ], E check=1.000000; ghost amplitude sqrt(2 eps E)=1.41e-05; tmax=1481; FTLE checkpoints t=[26.1, 130.6, 522.3]
+  island half-width (2-dof, E=1/2) ~ 2e-4 in x; scaled ~ 2.4e-04
+         r=1e-06  n= 200  escaped 1.000  t_esc med     76.0 [p10    58.6, p90    108.1] log10 spread  0.27   FTLE@26.1098   0.0018  @522.281   0.0495
+      (1s)
+         r=1e-05  n= 200  escaped 1.000  t_esc med     77.4 [p10    58.7, p90    105.8] log10 spread  0.26   FTLE@26.1098   0.0015  @522.281      nan
+      (2s)
+         r=5e-05  n= 200  escaped 1.000  t_esc med     76.2 [p10    60.3, p90    113.6] log10 spread  0.28   FTLE@26.1098   0.0020  @522.281   0.0556
+      (2s)
+         r=1e-04  n= 200  escaped 1.000  t_esc med     74.7 [p10    59.0, p90    105.8] log10 spread  0.25   FTLE@26.1098   0.0016  @522.281      nan
+      (2s)
+         r=2e-04  n= 200  escaped 1.000  t_esc med     75.7 [p10    58.9, p90    111.6] log10 spread  0.28   FTLE@26.1098   0.0027  @522.281   0.0568
+      (3s)
+         r=5e-04  n= 200  escaped 1.000  t_esc med     76.2 [p10    58.6, p90    105.1] log10 spread  0.25   FTLE@26.1098   0.0044  @522.281      nan
+      (3s)
+         r=1e-03  n= 200  escaped 1.000  t_esc med     74.9 [p10    58.9, p90    109.9] log10 spread  0.27   FTLE@26.1098   0.0072  @522.281      nan
+      (3s)
+         r=1e-02  n= 200  escaped 1.000  t_esc med     84.9 [p10    60.6, p90    156.3] log10 spread  0.41   FTLE@26.1098   0.0814  @522.281      nan
+      (4s)
+     sea control  n= 200  escaped 1.000  t_esc med    136.1 [p10   101.7, p90    181.4] log10 spread  0.25   FTLE@26.1098   0.4150  @522.281      nan
+wrote results_island\island_E1_eps1e-10_c0_N200.json
+
+Reading guide: island => FTLE ~ 0 and (tongue) short smooth t_esc / (off-tongue) unescaped;  halo => FTLE between island and sea, widest t_esc spread;  sea => FTLE ~ lambda_YM ~ 0.38 E^1/4 and the paper's t_esc distribution.
