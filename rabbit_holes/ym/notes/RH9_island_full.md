@@ -53,7 +53,46 @@ Together with hole 10 this closes the island question for this background on bot
 back-reaction erases it above ε ≈ 5 × 10⁻⁸, and below that the off-diagonal sector does. Not measured: whether an
 off-diagonal seed small enough (the integrator's own truncation, ~10⁻¹⁰, is the floor the control sits at) or a
 different energy (E = 1, where the diagonal ghost is itself unstable, is the paper's other island energy) changes the
-time scale; the mechanism would not change.
+time scale; the mechanism would not change. (29 Oct 2026: E = 1 measured, next section; the small-seed question stays
+open.)
+
+## A second seed, and E = 1 (28–29 Oct 2026)
+
+**Seed 8 at E = 0.3, ε = 10⁻⁸** (`islands/results/island_full_E0.3_eps1e-8_s8.{txt,npz}`; same command as seed 7 with
+`--seed 8`, 4281 s on 6 threads). It reproduces seed 7: every core shell r = 10⁻⁶ … 2 × 10⁻⁴ escapes 200 of 200, median
+t_esc 1356–1369 (seed 7: 1340–1369), the diagonal ghost the escaping sector in 181–189 of 200 cells (seed 7: 182–191),
+block 23 in the rest (one cell block 12); halo 196–200 of 200; sea 200/200, median 511 (seed 7: 499). The packet does
+not depend on the sample.
+
+**E = 1, ε = 10⁻¹⁰, off-diagonal seed 10⁻⁸** (`islands/results/island_full_E1_eps1e-10.{txt,npz}`, seed 7, 3625 s):
+
+- Every shell escapes 200 of 200, median t_esc 76–86 in the island (r = 10⁻⁶ … 10⁻²), against 137 in the sea. The
+  diagonal ghost is the escaping sector in every cell. \|w\| reaches 1 at a median 61–65; a block norm reaches 1 in only
+  15–26 of 200 cells per shell, after \|w\| (median 70–84).
+- So at E = 1 the off-diagonal sector plays no part: the diagonal ghost's own Floquet instability on the orbit empties
+  the island, faster than the sea. The scale fits a linear estimate: from √(2εE) = 1.41 × 10⁻⁵ at the smoke run's rate
+  0.233 (islands README; no committed log), ln(1/1.41 × 10⁻⁵)/0.233 ≈ 48 to \|w\| = 1, against 61–65 measured [est].
+- No `--delta-od 0` control was run at E = 1. With every escape diagonal it would be expected to match [est]; it is
+  cheap if wanted.
+- **The 12-d run agrees, and corrects the islands README.** The README described the 12-d `hdym_island.py` run at
+  E = 1, ε = 10⁻¹⁰ as a fast plateau "with a sticky halo that escapes slower than the sea", from a log that was not
+  committed. Rerun 29 Oct (`islands/results/island_E1_eps1e-10.log`, `results_island/island_E1_eps1e-10_c0_N200.json`,
+  `--N 200 --backend c`): every shell escapes 200 of 200, median t_esc 74.7–77.4 for r ≤ 10⁻³ and 84.9 at r = 10⁻²,
+  against 136.1 in the sea; core FTLE at t = 26.1 is 0.0015–0.0027 against the sea's 0.4150. That matches the
+  nine-component run to about 5 % (76–86 against 137).
+- **Two statements, separated.** (a) The halo is sticky in the base flow's sense [grid]: the r = 10⁻² shell has an FTLE
+  between island and sea (0.0814 at t = 26.1, against 0.0015–0.0027 and 0.4150) and the widest spread of escape times
+  (log10 spread 0.41 against 0.25–0.28; p90 156). (b) Its ghost escape is not slower than the sea's at E = 1 [grid]:
+  median 84.9 against 136.1, in both codes. The old sentence joined (a) to a version of (b) the log does not show.
+- **A reading, the author's to keep or cut [est].** Stickiness near an island is usually attributed to cantori, the
+  remnants of broken KAM tori that slow transport across the island boundary (literature from memory, to verify:
+  Aubry–Mather; MacKay, Meiss & Percival 1984; Karney 1983; Chirikov & Shepelyansky 1984). Time held near the island
+  then lengthens or shortens the ghost's escape depending on what the ghost does near the orbit. At E = 1 the orbit is
+  in a diagonal-ghost tongue (Floquet rate 0.233, smoke run, no committed log) against a sea rate of 0.088
+  (`ym/notes/NOTE_rung1.md`), so a sticky halo escapes faster than the sea. At E = 0.3, off the tongue, where the core
+  is a non-escaping hole, the same kind of halo escapes slower than the sea (control `_od0`: 5–78 % of the halo shells
+  against 100 % of the sea). Not tested here: a residence-time distribution in pure Yang–Mills, whose power-law tail
+  would be the direct cantorus signature.
 
 ## For the paper
 

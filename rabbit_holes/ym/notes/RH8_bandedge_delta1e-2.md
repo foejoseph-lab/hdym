@@ -46,4 +46,36 @@ property of the linearised orbit, and the nonlinear escape at ε = 0.01 is smoot
 DR orbit at δ = 10⁻², the escape-by-3000 fraction crosses 50 % at E ≈ 0.12 — a finite-time statement (the 12000 run
 says the low-E side is a slow Poisson tail, not a stable regime).
 
-Hole closed. (The δ-crossover scan, 10⁻⁴ → 10⁻² in half-decades at two energies, would pin the ~10⁻³; one hour.)
+Hole closed. (The δ-crossover scan, 10⁻⁴ → 10⁻² in half-decades at two energies, would pin the ~10⁻³; one hour. Done
+28–29 Oct 2026: next section.)
+
+## The δ-crossover scan (28–29 Oct 2026)
+
+`islands/results/esc_dscan_<δ>_b12.{txt,npz}`, δ = 10⁻⁴, 3.1623 × 10⁻⁴, 10⁻³, 3.1623 × 10⁻³: section E at two
+energies, the Floquet-stable rows 34 and 46 of `esc_E_delta1e-2_b12` (E = 0.13239 in the gap 0.117–0.150 and
+E = 0.19375 in 0.194–0.200), 64 cells each, block-12 seed only, diagonal ghost not seeded, tmax 3000, 6 threads. The
+same `--seed 1` draws the same 64 directions at every δ, scaled to δ, so the rows differ only in δ. The δ = 10⁻² row is
+the 22 Oct run's.
+
+| δ | E = 0.13239: escaped | \|w\| ≥ 1 | E = 0.19375: escaped | \|w\| ≥ 1 |
+|---|---|---|---|---|
+| 10⁻⁴ | 0/64 | 0/64 | 0/64 | 0/64 |
+| 3.2 × 10⁻⁴ | 0/64 | 0/64 | 0/64 | 0/64 |
+| 10⁻³ | 2/64 (3 %) | 21/64 | 14/64 (22 %) | 21/64 |
+| 3.2 × 10⁻³ | 24/64 (38 %) | 57/64 | 41/64 (64 %) | 52/64 |
+| 10⁻² | 46/64 (72 %) | 64/64 | 57/64 (89 %) | 64/64 |
+
+- **The crossover is pinned: escape by t = 3000 starts between δ = 3.2 × 10⁻⁴ and 10⁻³ at both energies** [grid]. Half
+  the cells escape at δ ≈ 5 × 10⁻³ (E = 0.132) and ≈ 2 × 10⁻³ (E = 0.194) [est, log-linear between grid points]. The
+  "~10⁻³" above is the onset, and "Floquet-stable means safe" holds on these 128 cells for δ ≤ 3.2 × 10⁻⁴.
+- \|w\| = 1 is necessary [grid]: no cell escapes without the diagonal ghost reaching 1 first (0 of 128 at each δ), and
+  26 (δ = 10⁻³) and 44 (3.2 × 10⁻³) cells reach it and do not escape by 3000. Below the onset the transient still
+  pumps: \|w\| reaches 0.1 in 56–66 % of cells at δ = 10⁻⁴ and 84–86 % at 3.2 × 10⁻⁴ (median t 1495–1753 and 531–713),
+  a gain of 10³ or more without instability.
+- The median time to \|w\| = 1 falls from 340–355 (δ = 10⁻³) to 118–169 (3.2 × 10⁻³) and 73–82 (10⁻²).
+- Checks: the integrator, energy, Gauss, determinism and no-failure CHECKs pass at every δ. The single-trajectory
+  escape-time CHECK at E = 0.549 passes at 10⁻⁴ (8.1 × 10⁻⁴) and 10⁻³ (8.2 × 10⁻⁵) and fails at 3.2 × 10⁻⁴
+  (1.2 × 10⁻¹) and 3.2 × 10⁻³ (1.7 × 10⁻¹); the logs at those two δ end SOME CHECK FAILED. Not monotone in δ, so it is
+  the sensitivity of one chaotic escape time, as at 10⁻² above; the fractions do not depend on it [est].
+
+The physics reading of the onset is the author's.
