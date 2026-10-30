@@ -1,0 +1,52 @@
+# START cantori_residence section=shells N=20000 chunk=2000 tmax=30000 h=0.01 ra=0.0002 rb=0.0008 rho_out=[0.0015, 0.003, 0.01, 0.03, 0.1] shells=[0.0002, 0.0005, 0.001, 0.003, 0.01] wander=3.5 seed=1 workers=22 resume=True  python 3.12.5 numpy 2.2.6
+geometry: section x = 0, vx < 0; fixed point of P^2 c = (0.781328800089, 0.481317450222); |P^2(c) - c| = 2.6e-14; M = [[2.700963, 4.668776], [-2.888559, -4.622808]], det M = 0.999998982, tr M / 2 = -0.960923, rotation number 0.455360; S (det 1) = [[10.434959, 13.228614], [13.228614, 16.866021]], aspect 27.3
+CHECK fixed point (DOP853) and area preservation: PASS
+CHECK the fixed point under the Yoshida stepper at h = 0.01: max rho of its section points over 20 periods 5.3e-07 (tol 1e-5, a twentieth of the island edge; the O(h^4) shift of the orbit), |dE| 3.7e-13: PASS
+  chunk    2     124s  (136s)
+  chunk    7     125s  (137s)
+  chunk    6     125s  (137s)
+  chunk    8     125s  (137s)
+  chunk    0     126s  (138s)
+  chunk    5     126s  (138s)
+  chunk    9     126s  (138s)
+  chunk    3     127s  (139s)
+  chunk    4     128s  (140s)
+  chunk    1     128s  (140s)
+# 10 chunks, 20000 starts; wandered (max(|x|,|y|) > 3.5) 0; max |dE|/E 3.3e-10
+# Euclidean disc r = 0.0002 about c: 4000 starts; counts with exit time > t (never = no exit by tmax = 30000)
+  rho_out         30       50      100      200      300      500     1000     2000     3000     5000    10000    20000    30000    never
+   1.5e-03     4000     2962     2880     1918     1603     1550     1545     1545     1545     1545     1545     1544     1543     1543
+   3.0e-03     4000     3397     3093     2182     1732     1570     1545     1545     1545     1545     1545     1544     1543     1543
+   1.0e-02     4000     3747     3269     2358     1816     1597     1545     1545     1545     1545     1545     1544     1543     1543
+   3.0e-02     4000     3987     3622     2870     2180     1717     1553     1545     1545     1545     1545     1544     1543     1543
+   1.0e-01     4000     4000     3766     3133     2319     1746     1555     1545     1545     1545     1545     1544     1543     1543
+# Euclidean disc r = 0.0005 about c: 4000 starts; counts with exit time > t (never = no exit by tmax = 30000)
+  rho_out         30       50      100      200      300      500     1000     2000     3000     5000    10000    20000    30000    never
+   1.5e-03     2429     1256     1186      802      629      595      592      592      592      592      592      592      592      592
+   3.0e-03     3623     1654     1421      951      699      613      593      592      592      592      592      592      592      592
+   1.0e-02     4000     2047     1616     1063      769      622      593      592      592      592      592      592      592      592
+   3.0e-02     4000     2617     2198     1450     1002      701      597      592      592      592      592      592      592      592
+   1.0e-01     4000     3425     2395     1634     1096      725      597      592      592      592      592      592      592      592
+# Euclidean disc r = 0.001 about c: 4000 starts; counts with exit time > t (never = no exit by tmax = 30000)
+  rho_out         30       50      100      200      300      500     1000     2000     3000     5000    10000    20000    30000    never
+   1.5e-03     1260      640      593      424      323      305      300      300      300      300      300      300      300      300
+   3.0e-03     2137      838      707      495      367      316      300      300      300      300      300      300      300      300
+   1.0e-02     3597     1077      814      539      408      326      302      300      300      300      300      300      300      300
+   3.0e-02     4000     1470     1204      733      522      367      304      300      300      300      300      300      300      300
+   1.0e-01     4000     2162     1350      846      563      385      305      300      300      300      300      300      300      300
+# Euclidean disc r = 0.003 about c: 4000 starts; counts with exit time > t (never = no exit by tmax = 30000)
+  rho_out         30       50      100      200      300      500     1000     2000     3000     5000    10000    20000    30000    never
+   1.5e-03      524      220      182      104       74       63       58       58       58       58       58       58       58       58
+   3.0e-03     1045      307      250      137       92       64       58       58       58       58       58       58       58       58
+   1.0e-02     1949      407      295      166      103       67       58       58       58       58       58       58       58       58
+   3.0e-02     2848      610      484      280      178       97       60       58       58       58       58       58       58       58
+   1.0e-01     3393     1059      579      331      200      104       60       58       58       58       58       58       58       58
+# Euclidean disc r = 0.01 about c: 4000 starts; counts with exit time > t (never = no exit by tmax = 30000)
+  rho_out         30       50      100      200      300      500     1000     2000     3000     5000    10000    20000    30000    never
+   1.5e-03       80       29       13        4        2        2        2        2        2        2        2        2        2        2
+   3.0e-03      296       51       25        7        2        2        2        2        2        2        2        2        2        2
+   1.0e-02      606       78       39       12        4        2        2        2        2        2        2        2        2        2
+   3.0e-02     1014      146       99       39       12        4        2        2        2        2        2        2        2        2
+   1.0e-01     1428      338      137       55       15        5        2        2        2        2        2        2        2        2
+CHECK h/2 rerun of chunk 0 (2000 starts, to t = 30000): exit counts per bin agree within 3 sigma binomial + 2 (chaotic orbits differ one by one, ensembles must not), worst 0.14 of tol (rho_out 1.0e-01, t > 500: 287 vs 297): PASS
+# END cantori_residence section=shells status=OK wall=300s

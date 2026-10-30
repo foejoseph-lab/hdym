@@ -1,0 +1,130 @@
+# START cantori_residence section=survive N=200000 chunk=2000 tmax=300000 h=0.01 ra=0.0002 rb=0.0008 rho_out=[0.0015, 0.003, 0.01, 0.03, 0.1] shells=[0.0002, 0.0005, 0.001, 0.003, 0.01] wander=3.5 seed=1 workers=22 resume=True  python 3.12.5 numpy 2.2.6
+geometry: section x = 0, vx < 0; fixed point of P^2 c = (0.781328800089, 0.481317450222); |P^2(c) - c| = 2.6e-14; M = [[2.700963, 4.668776], [-2.888559, -4.622808]], det M = 0.999998982, tr M / 2 = -0.960923, rotation number 0.455360; S (det 1) = [[10.434959, 13.228614], [13.228614, 16.866021]], aspect 27.3
+CHECK fixed point (DOP853) and area preservation: PASS
+CHECK the fixed point under the Yoshida stepper at h = 0.01: max rho of its section points over 20 periods 5.3e-07 (tol 1e-5, a twentieth of the island edge; the O(h^4) shift of the orbit), |dE| 3.7e-13: PASS
+  chunk   21    1526s  (1536s)
+  chunk    0    1527s  (1537s)
+  chunk   17    1530s  (1540s)
+  chunk    4    1533s  (1543s)
+  chunk   14    1533s  (1543s)
+  chunk    2    1534s  (1544s)
+  chunk   15    1535s  (1545s)
+  chunk    7    1536s  (1546s)
+  chunk   12    1540s  (1550s)
+  chunk   16    1540s  (1551s)
+  chunk    8    1542s  (1552s)
+  chunk    3    1543s  (1553s)
+  chunk   18    1543s  (1553s)
+  chunk    9    1546s  (1556s)
+  chunk   19    1546s  (1556s)
+  chunk   11    1547s  (1557s)
+  chunk   13    1547s  (1557s)
+  chunk    1    1551s  (1561s)
+  chunk   10    1554s  (1564s)
+  chunk   20    1557s  (1567s)
+  chunk    6    1560s  (1570s)
+  chunk    5    1562s  (1572s)
+  chunk   25    1508s  (3051s)
+  chunk   22    1515s  (3051s)
+  chunk   23    1518s  (3055s)
+  chunk   29    1519s  (3065s)
+  chunk   26    1523s  (3066s)
+  chunk   32    1516s  (3068s)
+  chunk   27    1525s  (3068s)
+  chunk   24    1529s  (3068s)
+  chunk   30    1519s  (3069s)
+  chunk   37    1514s  (3071s)
+  chunk   28    1527s  (3072s)
+  chunk   31    1523s  (3074s)
+  chunk   35    1525s  (3081s)
+  chunk   34    1532s  (3085s)
+  chunk   40    1522s  (3086s)
+  chunk   36    1532s  (3088s)
+  chunk   33    1537s  (3089s)
+  chunk   38    1537s  (3094s)
+  chunk   42    1528s  (3097s)
+  chunk   39    1538s  (3099s)
+  chunk   43    1529s  (3101s)
+  chunk   41    1536s  (3104s)
+  chunk   46    1504s  (4559s)
+  chunk   48    1499s  (4565s)
+  chunk   45    1514s  (4565s)
+  chunk   52    1498s  (4567s)
+  chunk   44    1517s  (4568s)
+  chunk   49    1501s  (4569s)
+  chunk   47    1505s  (4570s)
+  chunk   51    1508s  (4577s)
+  chunk   58    1491s  (4577s)
+  chunk   50    1514s  (4582s)
+  chunk   54    1510s  (4583s)
+  chunk   55    1513s  (4587s)
+  chunk   53    1517s  (4588s)
+  chunk   59    1512s  (4600s)
+  chunk   60    1515s  (4605s)
+  chunk   56    1524s  (4605s)
+  chunk   61    1513s  (4607s)
+  chunk   57    1524s  (4609s)
+  chunk   62    1518s  (4615s)
+  chunk   63    1522s  (4621s)
+  chunk   65    1522s  (4625s)
+  chunk   64    1532s  (4633s)
+  chunk   68    1517s  (6082s)
+  chunk   71    1514s  (6083s)
+  chunk   66    1525s  (6084s)
+  chunk   74    1512s  (6089s)
+  chunk   69    1523s  (6090s)
+  chunk   70    1524s  (6092s)
+  chunk   75    1511s  (6093s)
+  chunk   67    1531s  (6096s)
+  chunk   72    1530s  (6100s)
+  chunk   73    1524s  (6101s)
+  chunk   77    1523s  (6111s)
+  chunk   76    1529s  (6112s)
+  chunk   78    1525s  (6113s)
+  chunk   81    1517s  (6122s)
+  chunk   83    1522s  (6131s)
+  chunk   79    1531s  (6131s)
+  chunk   80    1534s  (6139s)
+  chunk   82    1538s  (6145s)
+  chunk   86    1524s  (6149s)
+  chunk   85    1532s  (6153s)
+  chunk   84    1539s  (6154s)
+  chunk   87    1529s  (6162s)
+  chunk   97    1207s  (7308s)
+  chunk   99    1211s  (7323s)
+  chunk   89    1337s  (7420s)
+  chunk   96    1328s  (7428s)
+  chunk   90    1347s  (7431s)
+  chunk   95    1344s  (7439s)
+  chunk   88    1357s  (7439s)
+  chunk   92    1354s  (7444s)
+  chunk   91    1355s  (7444s)
+  chunk   94    1352s  (7445s)
+  chunk   93    1360s  (7452s)
+  chunk   98    1350s  (7461s)
+# 100 chunks, 200000 starts; wandered (max(|x|,|y|) > 3.5) 0; max |dE|/E 5.3e-08
+# annulus rho in [0.0002, 0.0008]: 200000 starts; counts with exit time > t (never = no exit by tmax = 300000)
+  rho_out         30       50      100      200      300      500     1000     2000     3000     5000    10000    20000    30000    50000   100000   200000   300000    never
+   1.5e-03   184319   131544    96457    55094    37145    29661    28367    28332    28321    28295    28266    28244    28231    28212    28190    28169    28164    28164
+   3.0e-03   200000   164904   129030    76589    47655    32215    28427    28336    28323    28296    28266    28244    28231    28212    28190    28169    28164    28164
+   1.0e-02   200000   185188   155398    90317    54962    34087    28482    28337    28324    28296    28266    28244    28231    28212    28190    28169    28164    28164
+   3.0e-02   200000   195196   179149   122399    78599    44099    29194    28344    28325    28298    28266    28244    28231    28212    28190    28169    28164    28164
+   1.0e-01   200000   200000   190430   138024    87731    47030    29381    28344    28325    28299    28266    28244    28231    28212    28190    28169    28164    28164
+# tail fits (exiting starts only; window: 300 >= count >= 10)
+  rho_out 1.5e-03: n_exit 171836, window t = 761 .. 172175 (226.3x); power: beta = 0.438, rms 0.185;  exponential: rate = 2.073e-05, rms 0.294
+           local log-log slopes (t: -dlnS/dlnt): 16:0.13 30:0.52 69:1.29 157:2.33 358:3.61 820:0.46 1874:0.27 4284:0.37 9794:0.34 22390:0.57 51189:1.19
+           exits per decade: [1000, 10000): 101, [10000, 100000): 76, [100000, 300000): 26; an exponential at the fitted rate would leave 1.8e+02 past t = 1000 (observed 203); plateau (no exit by tmax) 28164
+  rho_out 3.0e-03: n_exit 171836, window t = 947 .. 172175 (181.8x); power: beta = 0.462, rms 0.174;  exponential: rate = 2.074e-05, rms 0.296
+           local log-log slopes (t: -dlnS/dlnt): 31:0.26 71:0.97 161:1.98 367:3.95 838:1.16 1909:0.30 4351:0.37 9916:0.34 22599:0.57 51507:1.19
+           exits per decade: [1000, 10000): 161, [10000, 100000): 76, [100000, 300000): 26; an exponential at the fitted rate would leave 1.8e+02 past t = 1000 (observed 263); plateau (no exit by tmax) 28164
+  rho_out 1.0e-02: n_exit 171836, window t = 1025 .. 172206 (168.1x); power: beta = 0.468, rms 0.173;  exponential: rate = 2.074e-05, rms 0.296
+           local log-log slopes (t: -dlnS/dlnt): 31:0.17 71:0.73 161:1.90 367:3.94 838:1.58 1909:0.30 4351:0.37 9916:0.34 22600:0.57 51510:1.19
+           exits per decade: [1000, 10000): 216, [10000, 100000): 76, [100000, 300000): 26; an exponential at the fitted rate would leave 1.8e+02 past t = 1000 (observed 318); plateau (no exit by tmax) 28164
+  rho_out 3.0e-02: n_exit 171836, window t = 1335 .. 172222 (129.0x); power: beta = 0.498, rms 0.166;  exponential: rate = 2.075e-05, rms 0.298
+           local log-log slopes (t: -dlnS/dlnt): 47:0.14 102:0.81 225:1.93 493:4.07 1084:1.84 2381:0.31 5231:0.37 11491:0.32 25243:0.61 55451:1.22
+           exits per decade: [1000, 10000): 928, [10000, 100000): 76, [100000, 300000): 26; an exponential at the fitted rate would leave 1.8e+02 past t = 1000 (observed 1030); plateau (no exit by tmax) 28164
+  rho_out 1.0e-01: n_exit 171836, window t = 1382 .. 172314 (124.7x); power: beta = 0.502, rms 0.166;  exponential: rate = 2.075e-05, rms 0.298
+           local log-log slopes (t: -dlnS/dlnt): 62:0.19 133:1.09 285:2.44 609:4.41 1303:1.01 2788:0.36 5966:0.34 12765:0.36 27315:0.64 58448:1.28
+           exits per decade: [1000, 10000): 1115, [10000, 100000): 76, [100000, 300000): 26; an exponential at the fitted rate would leave 1.8e+02 past t = 1000 (observed 1217); plateau (no exit by tmax) 28164
+CHECK h/2 rerun of chunk 0 (2000 starts, to t = 30000): exit counts per bin agree within 3 sigma binomial + 2 (chaotic orbits differ one by one, ensembles must not), worst 0.18 of tol (rho_out 1.0e-01, t > 300: 863 vs 880): PASS
+# END cantori_residence section=survive status=OK wall=7623s

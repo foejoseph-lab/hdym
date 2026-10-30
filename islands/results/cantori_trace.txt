@@ -1,0 +1,17 @@
+# START cantori_residence section=trace N=200000 chunk=2000 tmax=300000 h=0.01 ra=0.0002 rb=0.0008 rho_out=[0.0015, 0.003, 0.01, 0.03, 0.1] shells=[0.0002, 0.0005, 0.001, 0.003, 0.01] wander=3.5 seed=1 workers=22 resume=False  python 3.12.5 numpy 2.2.6
+geometry: section x = 0, vx < 0; fixed point of P^2 c = (0.781328800089, 0.481317450222); |P^2(c) - c| = 2.6e-14; M = [[2.700963, 4.668776], [-2.888559, -4.622808]], det M = 0.999998982, tr M / 2 = -0.960923, rotation number 0.455360; S (det 1) = [[10.434959, 13.228614], [13.228614, 16.866021]], aspect 27.3
+CHECK fixed point (DOP853) and area preservation: PASS
+CHECK the fixed point under the Yoshida stepper at h = 0.01: max rho of its section points over 20 periods 5.3e-07 (tol 1e-5, a twentieth of the island edge; the O(h^4) shift of the orbit), |dE| 3.7e-13: PASS
+  start 95449: exit 267617, 17236 crossings, rho percentiles 10/50/90 = 3.07e-04/3.90e-04/6.51e-04
+  start 70392: exit 265025, 17069 crossings, rho percentiles 10/50/90 = 3.06e-04/3.85e-04/6.36e-04
+  start 131433: exit 231580, 14915 crossings, rho percentiles 10/50/90 = 3.06e-04/3.88e-04/6.43e-04
+  start 189130: exit 227372, 14644 crossings, rho percentiles 10/50/90 = 3.07e-04/3.90e-04/6.51e-04
+  start 20660: exit 219035, 14107 crossings, rho percentiles 10/50/90 = 3.06e-04/3.86e-04/6.38e-04
+  start 73999: exit 188665, 12151 crossings, rho percentiles 10/50/90 = 3.06e-04/3.86e-04/6.37e-04
+  start 17564: exit 187593, 12082 crossings, rho percentiles 10/50/90 = 3.07e-04/3.90e-04/6.51e-04
+  start 164404: exit 182609, 11761 crossings, rho percentiles 10/50/90 = 3.06e-04/3.86e-04/6.38e-04
+  start 112726: exit 176818, 11388 crossings, rho percentiles 10/50/90 = 3.06e-04/3.85e-04/6.37e-04
+  start 35515: exit 172314, 11098 crossings, rho percentiles 10/50/90 = 3.06e-04/3.90e-04/6.51e-04
+  start 52035: exit 168897, 10878 crossings, rho percentiles 10/50/90 = 3.06e-04/3.86e-04/6.41e-04
+  start 47175: exit 163821, 10551 crossings, rho percentiles 10/50/90 = 3.06e-04/3.86e-04/6.39e-04
+# END cantori_residence section=trace status=OK wall=601s
