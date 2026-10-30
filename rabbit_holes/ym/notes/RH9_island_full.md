@@ -76,7 +76,7 @@ not depend on the sample.
   cheap if wanted.
 - **The 12-d run agrees, and corrects the islands README.** The README described the 12-d `hdym_island.py` run at
   E = 1, ε = 10⁻¹⁰ as a fast plateau "with a sticky halo that escapes slower than the sea", from a log that was not
-  committed. Rerun 29 Oct (`islands/results/island_E1_eps1e-10.log`, `results_island/island_E1_eps1e-10_c0_N200.json`,
+  committed. Rerun 29 Oct (`islands/results/island_E1_eps1e-10.log`, `islands/results/island_E1_eps1e-10_c0_N200.json`,
   `--N 200 --backend c`): every shell escapes 200 of 200, median t_esc 74.7–77.4 for r ≤ 10⁻³ and 84.9 at r = 10⁻²,
   against 136.1 in the sea; core FTLE at t = 26.1 is 0.0015–0.0027 against the sea's 0.4150. That matches the
   nine-component run to about 5 % (76–86 against 137).
@@ -84,6 +84,8 @@ not depend on the sample.
   between island and sea (0.0814 at t = 26.1, against 0.0015–0.0027 and 0.4150) and the widest spread of escape times
   (log10 spread 0.41 against 0.25–0.28; p90 156). (b) Its ghost escape is not slower than the sea's at E = 1 [grid]:
   median 84.9 against 136.1, in both codes. The old sentence joined (a) to a version of (b) the log does not show.
+  (29 Oct, from the direct test below: the r = 10⁻² shell's intermediate FTLE is proximity, a stay of about 10 periods,
+  not trapping; the sticky layer proper is much closer to the island.)
 - **A reading, the author's to keep or cut [est].** Stickiness near an island is usually attributed to cantori, the
   remnants of broken KAM tori that slow transport across the island boundary (literature from memory, to verify:
   Aubry–Mather; MacKay, Meiss & Percival 1984; Karney 1983; Chirikov & Shepelyansky 1984). Time held near the island
@@ -91,8 +93,47 @@ not depend on the sample.
   in a diagonal-ghost tongue (Floquet rate 0.233, smoke run, no committed log) against a sea rate of 0.088
   (`ym/notes/NOTE_rung1.md`), so a sticky halo escapes faster than the sea. At E = 0.3, off the tongue, where the core
   is a non-escaping hole, the same kind of halo escapes slower than the sea (control `_od0`: 5–78 % of the halo shells
-  against 100 % of the sea). Not tested here: a residence-time distribution in pure Yang–Mills, whose power-law tail
-  would be the direct cantorus signature.
+  against 100 % of the sea). Tested directly 29 Oct: next section.
+
+## Cantori: the direct test (29 Oct 2026)
+
+`islands/code/cantori_residence.py`, logs `islands/results/cantori_{edge,survive,shells,trace}.txt`, figures
+`islands/results/cantori_survivors.png`, `cantori_tail.png` (`islands/code/plot_cantori.py`). Ghost-free planar
+Yang–Mills at E = 1/2 (scale-free, so every E), section x = 0, vx < 0, where the DR orbit's period map P² has its fixed
+point c = (0.781328800089, 0.481317450222) with rotation number 0.455360 (near 5/11). Distance from the island is the
+area-normalised radius ρ of the linearised map's invariant ellipse (aspect 27). The criterion for a positive or negative
+result was written into the script's docstring before the production run. All CHECKs pass (fixed point, area
+preservation, the fixed point under the stepper, energy ≤ 5.3 × 10⁻⁸, the h/2 rerun within 0.18 of its tolerance).
+
+- **The regular region is not round.** The radial scan finds intact curves to ρ = 2.15 × 10⁻⁴ and escapes from
+  3.16 × 10⁻⁴ at 5 of 8 angles; the 28,164 starts (14.1 %) that never leave by t = 300,000 fill a region with three
+  corners reaching ρ ≈ 6.5 × 10⁻⁴ (`cantori_survivors.png`, last panel).
+- **200,000 chaotic-layer starts** (ρ₀ ∈ [2, 8] × 10⁻⁴, uniform in area), first exit past ρ_out = 1.5 × 10⁻³:
+  - The bulk leaves exponentially: rate 0.0090 per unit time from t = 300 to 500, i.e. within about 30 periods.
+    That exponential predicts 17 exiting starts left at t = 1,000 and 0.002 at t = 2,000. Observed: 203 and 168.
+  - The rest leave on a long tail: exits per decade 101 in [10³, 10⁴), 76 in [10⁴, 10⁵), 26 in [10⁵, 3 × 10⁵).
+    The local log-log slope of the survival is 0.27–0.37 from t ≈ 2 × 10³ to 2 × 10⁴ and 0.57 around 2–5 × 10⁴
+    [grid]. It steepens near tmax, where counting only the starts that exit by tmax cuts the curve off.
+  - The tail is 1.2 × 10⁻³ of the exiting starts, and it is the same at every ρ_out from 1.5 × 10⁻³ to 10⁻¹ (76 and 26
+    in the last two decades at each): once a long-lived orbit leaves the layer it goes straight to the sea.
+- **Where the long-lived orbits live.** The 12 longest (exits at t = 1.6–2.7 × 10⁵, about 5,300–8,600 periods) all have
+  ρ percentiles 10/50/90 % = 3.06/3.85–3.90/6.36–6.51 × 10⁻⁴: one thin layer, the same for every one. The longest's
+  17,236 section points trace the outer boundary of the regular region, corners included (`cantori_tail.png`, right).
+  At t = 3,000 and 30,000 the surviving starts sit on that boundary (`cantori_survivors.png`).
+- **The proximity control** (`cantori_shells.txt`, Euclidean discs in (y, vy), 4,000 starts each, to t = 30,000): from
+  the r = 10⁻² disc, 3,998 of 4,000 leave ρ = 0.1 by t = 500 and 2 never do (regular). Starts that far out stay about
+  10–15 periods and show no tail.
+
+**Result, by the stated criterion: positive [grid].** Exits continue for more than two decades past the bulk, at
+a roughly constant log-log slope, far above the bulk's exponential, from orbits confined to a thin layer hugging the
+outermost KAM boundary. That is the standard stickiness signature of an island boundary, which the literature attributes
+to cantori and the island-around-island hierarchy (from memory, to verify: MacKay, Meiss & Percival 1984; Karney 1983;
+Chirikov & Shepelyansky 1984; Meiss 1992 review). Not separated here: cantori from satellite-island trapping (the
+regular region's corners suggest a resonance chain, unresolved); the exponent (censored, and of a conditional survival,
+so not directly the literature's recurrence exponent); 3 dof, where Arnold diffusion competes; and the ghost.
+**Consequence for the halo statements above:** at r = 10⁻² the E = 1 halo is proximity. The cantori-type layer lies at
+ρ ≈ 3–7 × 10⁻⁴, inside the shells `hdym_island.py` calls halo, and holds of order 10⁻³ of the chaotic starts near the
+edge. The physics reading is the author's.
 
 ## For the paper
 

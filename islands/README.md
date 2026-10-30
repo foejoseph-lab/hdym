@@ -26,8 +26,10 @@ the "diag-ghost rate" column of `results/esc_E.txt` also shows thin tongues at E
 (rate 0.0037)); Floquet-stable between tongues. In the full 12-d Lee–Wick system (`code/hdym_island.py`) with a ghost seed
 ε = 10⁻¹⁰ the island is a non-escaping hole at E = 0.3 (no escape within tmax, 5000 at E = 0.3 by the default
 min(5000, 40/(0.027 E^2.24)), `code/hdym_island.py`) and a fast smooth
-plateau at E = 1 (inside the unstable region), with a sticky halo (r = 10⁻²: FTLE between island and sea, the widest spread of escape times) whose ghost escape is
-nevertheless faster than the sea's, median 84.9 against 136.1 (`results/island_E1_eps1e-10.log`, rerun 29 Oct 2026;
+plateau at E = 1 (inside the unstable region), with a halo (r = 10⁻²: FTLE between island and sea, the widest spread of escape times) whose ghost escape is
+nevertheless faster than the sea's, median 84.9 against 136.1; that halo is proximity, not trapping, and the island's
+genuinely sticky layer (cantori-type, an algebraic exit-time tail) is much thinner, just outside its last KAM curve
+(`code/cantori_residence.py`, 29 Oct 2026) (`results/island_E1_eps1e-10.log`, rerun 29 Oct 2026;
 stated as "a sticky halo that escapes slower than the sea" until then, from a log that was not committed; the
 nine-component run `results/island_full_E1_eps1e-10.txt` agrees; RH9, last section, has a reading); at the paper's
 ε = 0.01 the ghost's back-reaction (|w| = √(2εE) = 0.077 at E = 0.3, 0.1 at ½, 0.14 at 1, against an island
@@ -185,8 +187,12 @@ results/
                                two kernel CHECKs FAIL at this seed, log ends SOME CHECK FAILED)
   esc_E_snap_krein.*, esc_E_snap_param.*   4 x 128 in each block-12 band with state snapshots, 297 s / 822 s   (hole 12)
   island_E0.3_eps1e-{6,7,8,9}.{log,json}   hdym_island.py, 22 Oct                        (rabbit hole 10)
-  island_E1_eps1e-10.log       hdym_island.py --E 1.0 --eps 1e-10 --N 200 --backend c, 29 Oct; its json was written to
-                               results_island/island_E1_eps1e-10_c0_N200.json at the repository root
+  island_E1_eps1e-10.log, island_E1_eps1e-10_c0_N200.json   hdym_island.py --E 1.0 --eps 1e-10 --N 200 --backend c,
+                               29 Oct (the json was written to results_island/ at the repository root, the script's
+                               old default, and moved here; the default is now islands/results)
+  cantori_{edge,survive,shells,trace}.{txt,npz}, cantori_survive/, cantori_shells/ (per-chunk npz)
+                               cantori_residence.py, 29 Oct, 22 workers; survive 7623 s (rabbit hole 9, last section)
+  cantori_survivors.png, cantori_tail.png   plot_cantori.py from the npz above
   island_full_E0.3_eps1e-8.{txt,npz}, _od0.{txt,npz}   island_full.py, 23 Oct             (rabbit hole 9)
   island_full_E0.3_eps1e-8_s8.*, island_full_E1_eps1e-10.*   island_full.py, 28–29 Oct, 6 threads, 4281 s / 3625 s
                                (rabbit hole 9: second seed; E = 1)

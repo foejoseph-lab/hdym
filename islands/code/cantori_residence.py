@@ -53,9 +53,10 @@ Usage (Spyder, from the repo root):
     !"{sys.executable}" -B -u islands\\code\\cantori_residence.py --section survive --N 200000 --tmax 300000 --workers 22 --resume >> islands\\results\\cantori_survive.txt
     !"{sys.executable}" -B -u islands\\code\\cantori_residence.py --section shells --N 20000 --tmax 30000 --workers 22 --resume >> islands\\results\\cantori_shells.txt
     !"{sys.executable}" -B -u islands\\code\\cantori_residence.py --section trace --trace-k 12 > islands\\results\\cantori_trace.txt
-Cost (estimates from smoke runs here: 2,000 starts to t = 20,000 in 77 s per chunk, the plateau of ~14 % regular
-starts dominating): survive at the defaults ~1.5-2 h on 22 workers plus ~5 min for the h/2 check; shells, edge and
-trace a few minutes each.  Added 2026-10-29.
+Cost: the 29 Oct production run (chunk 2000, 100 chunks, 22 workers) took 7623 s, ~1500 s per chunk: a chunk's cost
+is set by the number of steps to tmax, not by its size, so since 29 Oct the default chunk is N / workers (one round).
+Shells, edge and trace take minutes.  Note: the edge scan is radial, and the regular region is not round (three
+corners out to rho ~ 6.5e-4; plot_cantori.py), so "edge" there means "first loss along these 8 angles".  Added 2026-10-29.
 """
 import argparse, glob, os, sys, time
 import numpy as np
@@ -267,7 +268,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--section', choices=['edge', 'survive', 'shells', 'trace'], required=True)
     ap.add_argument('--N', type=int, default=200000)
-    ap.add_argument('--chunk', type=int, default=2000)
+    ap.add_argument('--chunk', type=int, default=0, help='starts per chunk; 0 = N / workers (one chunk per worker)')
     ap.add_argument('--tmax', type=float, default=300000.0)
     ap.add_argument('--tmax-edge', type=float, default=30000.0)
     ap.add_argument('--tmax-check', type=float, default=30000.0, help='the h/2 check runs chunk 0 to min(tmax, this)')
@@ -287,6 +288,8 @@ def main():
     ap.add_argument('--results', default=os.path.join(HERE, '..', 'results'))
     a = ap.parse_args()
     a.rho_out = sorted(a.rho_out)
+    if a.chunk <= 0:
+        a.chunk = int(np.ceil(a.N / a.workers))
     T0 = time.time()
     print(f'# START cantori_residence section={a.section} N={a.N} chunk={a.chunk} tmax={a.tmax:g} h={a.h} '
           f'ra={a.ra:g} rb={a.rb:g} rho_out={a.rho_out} shells={a.shells} wander={a.wander} seed={a.seed} '

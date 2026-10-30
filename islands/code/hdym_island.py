@@ -168,7 +168,8 @@ def main():
     ap.add_argument('--omega-dt-max', type=float, default=0.25)
     ap.add_argument('--backend', choices=['c', 'cupy'], default='c')
     ap.add_argument('--seed', type=int, default=7)
-    ap.add_argument('--out', default='results_island')
+    ap.add_argument('--out', default=os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'results'),
+                    help="json folder (default islands/results; until 29 Oct 2026 './results_island' in the current folder)")
     ap.add_argument('--tag', default=None)
     ap.add_argument('--planar', action='store_true',
                     help='restrict everything to the exact invariant 2-dof subsystem z = p_z = w_z = W_z = 0 '
