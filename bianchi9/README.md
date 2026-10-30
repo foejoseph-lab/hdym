@@ -33,6 +33,7 @@ Scripts and generated inputs (`bianchi9_system.pkl`, `bianchi9_rhs.py`, `bianchi
 | `bianchi9_kasner.py`, `bianchi9_kasner_check.py`, `bianchi9_kasner_transfer.py`, `bianchi9_onset_frozen.py` (5) | `kasner_onset.npz/.png`, `kasner_pi.log`, `onset_frozen.npz`; writes `kasner_linear.pkl` |
 | `bianchi9_seed.py` [`--theta`, `--seed-pol p|m`] (6) | `seed.log`, `seed.npz`, `seed_growth.png`, `seed_th{3.1416,2.9,2.6,2.3,2.0}_{p,m}.npz` |
 | `bianchi9_six.py` (7) | `six.log` |
+| `bianchi9_ls.py` [`--H0M`, `--eps`] (Lehners & Stelle 1909.01169 Fig. 1 data at chosen H₀/M; on-branch run and seeded run; added 30 Oct 2026, results pending) | `ls_rerun.log`, `ls_rerun.npz` |
 
 ## Derivation (`bianchi9_derive.py`, 5 Oct)
 
