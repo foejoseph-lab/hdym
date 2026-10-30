@@ -133,7 +133,7 @@ regular region's corners suggest a resonance chain, unresolved); the exponent (c
 so not directly the literature's recurrence exponent); 3 dof, where Arnold diffusion competes; and the ghost.
 **Consequence for the halo statements above:** at r = 10⁻² the E = 1 halo is proximity. The cantori-type layer lies at
 ρ ≈ 3–7 × 10⁻⁴, inside the shells `hdym_island.py` calls halo, and holds of order 10⁻³ of the chaotic starts near the
-edge. The physics reading is the author's.
+edge. The physics reading is the author's. Background (tori, cantori, dimension, the ghost): `islands/notes/NOTE_tori.md`.
 
 ## For the paper
 

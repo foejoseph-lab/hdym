@@ -13,6 +13,7 @@ notation": [cert] certified by a checker in this repository, [exact] a symbolic 
 | The Dahlqvist–Russberg orbit at E = 1/2 exists in the certified box, is elliptic with nonzero twist, and its period is the full period (lemma RET); with Moser's twist theorem (an import) the regular island exists | [cert] | `islands/README.md`; untrusted generator `islands/code/cap_dr_orbit.py`; trusted checker `islands/code/cert_lemmas.py`, `cert_check.py`, `cert_twist.py`; formula `islands/code/twist_formula.json` (generator `twist_symbolic2.py`); outputs `islands/results/cert16_*` |
 | The diagonal ghost on that orbit is Floquet-unstable at E = 1/2 (real multiplier off the circle; ghost trace in [5.3469864, 5.3471379]) | [cert] | `islands/README.md`; same checker, `--ghost` |
 | Reviews of the trusted layer | — | `islands/notes/REVIEW_cert_lemmas_2026-10-11.md`, `REVIEW_cert_twist_2026-10-11.md` |
+| Invariant tori, cantori, the role of dimension and of a negative-energy ghost: background and expectations, with what was measured (the planar DR island's edge is sticky) | [est] background; [grid] for the measurement | `islands/notes/NOTE_tori.md`; `islands/code/cantori_residence.py`; `rabbit_holes/ym/notes/RH9_island_full.md` |
 | Certified pair escape times (ball arithmetic: a floating-point centre and a proven radius) and the certified fractions of the uncertainty-exponent sweep | [cert] | `ym/hdym_ball.py`; `ym/README.md`, "Certified pair escape times"; `ym/notes/REVIEW_hdym_ball_2026-10-11.md` |
 
 ## Symbolic derivations
