@@ -47,6 +47,8 @@ Section, figure and table names refer to `paper/main.tex`.
 | `hdym_rung1_lyap.py` | CPU Lyapunov spectra of the off-diagonal blocks (reads `rung1_system.pkl` from the working directory) | Off-diagonal sector |
 | `hdym_rung1_gpu.py` | kernel for the off-diagonal ghost exponents: `--cj`, growth-location split, (D, J) landscape | Off-diagonal sector, tab:offdiag |
 | `hdym_spectrum_xy.py` | spectrum of the xy Hessian entry at E = 1 | Off-diagonal sector |
+| `hdym_jeans_sea.py` | vector ghost and the three c_j = 0 blocks on shared trajectories, growth booked by channel depth, sea-only vs full spectrum of the drive (29 Oct; `notes/NOTE_jeans_sea.md`) | not in the paper |
+| `hdym_random_oscillator.py` | eq:spectral re-evaluated with a fresh per-entry spectrum: the diagonal ghost (ratio against the paper's 2/7) and the c_j = 0 blocks (29 Oct; `notes/NOTE_jeans_sea.md`) | Spectral formula; Off-diagonal sector |
 | `hdym_escape_map.py` | escape-time landscape on 2-d sections of initial conditions | fig:maps (a, b) |
 | `hdym_uncertainty.py` | uncertainty exponent α of the escape landscape | fig:maps (c) |
 | `hdym_precision.py`, `hdym_diffpair.py`, `hdym_ball.py` | the roundoff study (below): mantissa-precision sweep; pair integration in "difference numbers"; certified pair escape times in ball arithmetic (rigour status in the docstring of `hdym_ball.py`); `hdym_precision.py` is also imported by `islands/code/hdym_island.py` | The escape-time landscape |
@@ -114,6 +116,7 @@ output to the working directory.
 |---|---|
 | `NOTE_2d.md` | the two-field model: derivation, checks, and the test of the ghost law at n = 1 (1–12 Oct) |
 | `NOTE_rung1.md` | the off-diagonal linearisation, the neutrality result, the off-diagonal ghost exponents (1–12 Oct) |
+| `NOTE_jeans_sea.md` | where the ghost grows (sea vs channels); the sea-time idea refuted; eq:spectral rechecked on the diagonal ghost and applied to the c_j = 0 blocks with the measured spectrum (29 Oct) |
 | `NOTE_precision_tier.md` | the precision scheme behind `hdym_ball.py`, why its lost pairs are arithmetic, and the Arb tier that would recover them (13–14 Oct; nothing built) |
 | `REVIEW_hdym_ball_2026-10-11.md` (+ `_sweep_small.txt`) | record of the independent review of `hdym_ball.py`; all findings acted on (below) |
 
@@ -138,6 +141,8 @@ output to the working directory.
 | `results_rung1/` | off-diagonal GPU runs: summary `rung1_offdiag.csv`, per-trajectory exponents (c_j = 1 and 0), `history_*.npy` |
 | `rung1_lyap_E*.npy`, `rung1_ym_E*.npy` | off-diagonal CPU Lyapunov spectra (ghost blocks, YM blocks) |
 | `spec_xy_E1.npz` | xy-entry spectrum at E = 1 |
+| `jeans_sea.txt` | `hdym_jeans_sea.py`, 528 trajectories, 22 workers, 5125 s (29 Oct, the author's machine); per-worker npz not committed |
+| `random_oscillator.txt`, `random_oscillator.npz` | `hdym_random_oscillator.py --workers 2` (48 trajectories, 594 s, Claude's side; log regenerated from the npz after a column fix) |
 | `drift_census_2026-10-13_{cloud,win}.txt` | the drift census (above) |
 | `results_precision/` | the roundoff study (below): the extended-precision difference-pair run at E = 0.3, ε = 0.01; `2026-10-03/` the precision study of that day (`results/`, `figures/`; its `ball_sweep.npz` predates the rigour fixes); `2026-10-10/` the certified ball sweep with the rigorous step remainder; `2026-10-12/` the production sweep with the post-review kernel (`ball_sweep.npz`, `.png`, log `ball_sweep.txt`, `selftest.txt`) |
 
